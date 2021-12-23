@@ -21,6 +21,7 @@ SOFTWARE.
 # Remove command logic originally from: https://github.com/mikeshardmind/SinbadCogs/tree/v3/messagebox
 # Speed test logic from https://github.com/PhasecoreX/PCXCogs/tree/master/netspeed
 
+import random
 from random import choice
 import asyncio
 import concurrent
