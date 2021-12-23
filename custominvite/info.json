@@ -1,0 +1,15 @@
+{
+	"author": [
+		"Predä", "kennnyshiwa", "Kuro"
+	],
+	"description": "Creates a custom invite embed to display the bot invite and support server that also comes with buttons.",
+	"install_msg": "Thanks for installing, have fun.",
+	"short": "Creates a custom invite embed to display the bot invite and support server that also comes with buttons.",
+	"tags": [
+		"bots",
+        "invite",
+        "custom",
+        "custominvite"
+	],
+	"type": "COG"
+}
