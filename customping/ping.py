@@ -99,8 +99,9 @@ class CustomPing(commands.Cog):
             "https://i1.wp.com/drunkenanimeblog.com/wp-content/uploads/2017/11/shakunetsu-no-takkyuu-musume-scorching-ping-pong-girls.gif?fit=540%2C303&ssl=1&resize=350%2C200https://media1.tenor.com/images/2b27c6e7747d319f76fd98d2a226ab33/tenor.gif?itemid=15479836",
         )
         ping_gifs_picker = random.choice(ping_gifs)
+
         e = discord.Embed(title="Pinging..")
-        e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + "ms", "crmsh"))
+        e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "crmsh"))
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
         try:
@@ -109,7 +110,7 @@ class CustomPing(commands.Cog):
             return
 
         botPing = round(self.bot.latency * 1000, 2)
-        e.add_field(name="Discord WS:", value=chat.box(f"{botPing}" + "ms", "crmsh"))
+        e.add_field(name="Discord WS:", value=chat.box(f"{botPing}" + " ms", "crmsh"))
         await asyncio.sleep(0.25)
 
         averagePing = (botPing + totalPing) / 2
@@ -145,7 +146,7 @@ class CustomPing(commands.Cog):
             host_latency = round(result["ping"], 2)
 
         e.title = "Pong!"
-        e.add_field(name="Host:", value=chat.box(f"{host_latency}" + "ms", "crmsh"))
+        e.add_field(name="Host:", value=chat.box(f"{host_latency}" + " ms", "crmsh"))
         await asyncio.sleep(0.25)
         try:
             await message.edit(embed=e)
@@ -158,16 +159,29 @@ class CustomPing(commands.Cog):
         now = datetime.datetime.utcnow().timestamp()
         receival_ping = round((now - ctx.message.created_at.timestamp()) * 1000, 2)
 
-        e = discord.Embed(
-            title="Pinging..",
-            description=f"Receival Latency: {receival_ping}ms",
-        )
+        e = discord.Embed(title="Pinging..")
+        e.add_field(name="Receival:", value=chat.box(f"{receival_ping}" + " ms", "crmsh"))
 
         send_start = time.monotonic()
         message = await ctx.send(embed=e)
         send_end = time.monotonic()
         send_ping = round((send_end - send_start) * 1000, 2)
-        e.description += f"\nSend Latency: {send_ping}ms"
+        ping_gifs = (
+            "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
+            "https://4.bp.blogspot.com/-8XanbCQDxfg/WnJTaUeifYI/AAAAAAABEUo/5yv_KUlLV9cmJsuI8jeFRrGSXbtQMclngCKgBGAs/s1600/Omake%2BGif%2BAnime%2B-%2BShokugeki%2Bno%2BSoma%2BS2%2B-%2BOAD%2B1%2B%255BDVD%255D%2B-%2BMegumi%2Bvs%2BIsshiki.gif",
+            "https://remyfool.files.wordpress.com/2016/11/agari-rally.gif?w=924",
+            "https://i.imgur.com/LkdjWE6.gif",
+            "https://i.gifer.com/6TaL.gif",
+            "https://i.kym-cdn.com/photos/images/original/000/753/601/bc8.gif",
+            "https://c.tenor.com/On7v3wlDxNUAAAAd/ping-pong-anime.gif",
+            "https://imgur.com/1cnscjV.gif",
+            "https://images.squarespace-cdn.com/content/v1/5b23e822f79392038cbd486c/1589129513917-X6QBWRXBHLCSFXT9INR2/b17c1b31e185d12aeca55b576c1ecaef.gif",
+            "https://i1.wp.com/drunkenanimeblog.com/wp-content/uploads/2017/11/shakunetsu-no-takkyuu-musume-scorching-ping-pong-girls.gif?fit=540%2C303&ssl=1&resize=350%2C200https://media1.tenor.com/images/2b27c6e7747d319f76fd98d2a226ab33/tenor.gif?itemid=15479836",
+        )
+        ping_gifs_picker = random.choice(ping_gifs)
+
+        e.add_field(name="Send:", value=chat.box(f"{send_ping}" + " ms", "crmsh"))
+        e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
 
         edit_start = time.monotonic()
@@ -177,7 +191,7 @@ class CustomPing(commands.Cog):
             return
         edit_end = time.monotonic()
         edit_ping = round((edit_end - edit_start) * 1000, 2)
-        e.description += f"\nEdit Latency: {edit_ping}ms"
+        e.add_field(name="Edit:", value=chat.box(f"{edit_ping}" + " ms", "crmsh"))
 
         average_ping = (receival_ping + send_ping + edit_ping) / 3
         if average_ping >= 1000:
@@ -204,7 +218,7 @@ class CustomPing(commands.Cog):
         for shard_id, shard in self.bot.shards.items():
             latency = round(shard.latency * 1000, 2)
             latencies.append(latency)
-            description.append(f"#{shard_id}: {latency}ms")
+            description.append(chat.box(f"Shard {shard_id}: {latency}" + " ms", "crmsh"))
         average_ping = sum(latencies) / len(latencies)
         if average_ping >= 1000:
             color = discord.Colour.red()
@@ -212,8 +226,22 @@ class CustomPing(commands.Cog):
             color = discord.Colour.orange()
         else:
             color = discord.Colour.green()
+        ping_gifs = (
+            "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
+            "https://4.bp.blogspot.com/-8XanbCQDxfg/WnJTaUeifYI/AAAAAAABEUo/5yv_KUlLV9cmJsuI8jeFRrGSXbtQMclngCKgBGAs/s1600/Omake%2BGif%2BAnime%2B-%2BShokugeki%2Bno%2BSoma%2BS2%2B-%2BOAD%2B1%2B%255BDVD%255D%2B-%2BMegumi%2Bvs%2BIsshiki.gif",
+            "https://remyfool.files.wordpress.com/2016/11/agari-rally.gif?w=924",
+            "https://i.imgur.com/LkdjWE6.gif",
+            "https://i.gifer.com/6TaL.gif",
+            "https://i.kym-cdn.com/photos/images/original/000/753/601/bc8.gif",
+            "https://c.tenor.com/On7v3wlDxNUAAAAd/ping-pong-anime.gif",
+            "https://imgur.com/1cnscjV.gif",
+            "https://images.squarespace-cdn.com/content/v1/5b23e822f79392038cbd486c/1589129513917-X6QBWRXBHLCSFXT9INR2/b17c1b31e185d12aeca55b576c1ecaef.gif",
+            "https://i1.wp.com/drunkenanimeblog.com/wp-content/uploads/2017/11/shakunetsu-no-takkyuu-musume-scorching-ping-pong-girls.gif?fit=540%2C303&ssl=1&resize=350%2C200https://media1.tenor.com/images/2b27c6e7747d319f76fd98d2a226ab33/tenor.gif?itemid=15479836",
+        )
+        ping_gifs_picker = random.choice(ping_gifs)
         e = discord.Embed(color=color, title="Shard Pings", description="\n".join(description))
-        e.set_footer(text=f"Average: {round(average_ping, 2)}ms")
+        e.set_image(url=ping_gifs_picker)
+        e.set_footer(text=f"Average: {round(average_ping, 2)} ms")
         await ctx.send(embed=e)
 
     @commands.is_owner()
