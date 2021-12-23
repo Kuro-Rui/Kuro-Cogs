@@ -40,7 +40,7 @@ class CustomInvite(commands.Cog):
     @checks.is_owner()
     @commands.group()
     async def invitesettings(self, ctx):
-        """Settings for embedinvite cog."""
+        """Settings for CustomInvite cog."""
         pass
 
     @invitesettings.command()
