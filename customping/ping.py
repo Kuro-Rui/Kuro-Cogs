@@ -94,7 +94,6 @@ class CustomPing(commands.Cog):
 
         botPing = round(self.bot.latency * 1000, 2)
         e.add_field(name="Discord WS:", value=chat.box(f"{botPing}" + "ms", "crmsh"))
-        e.description = e.description + f"\nDiscord WebSocket Latency: {botPing}ms"
         await asyncio.sleep(0.25)
 
         averagePing = (botPing + totalPing) / 2
