@@ -37,7 +37,6 @@ class KikiTools(commands.Cog):
         }
         self.config.register_global(**default_global)
         self.session = aiohttp.ClientSession()
-        self.deezerclient = Deezer()
         setattr(
             bot._connection,
             "parse_interaction_create",
@@ -48,7 +47,6 @@ class KikiTools(commands.Cog):
     def cog_unload(self):
         del self.bot._connection.parsers["INTERACTION_CREATE"]
         self.bot.loop.create_task(self.session.close())
-        self.bot.loop.create_task(self.deezerclient.http.close())
 
     def format_help_for_context(self, ctx):
         pre_processed = super().format_help_for_context(ctx)
