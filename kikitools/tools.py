@@ -37,12 +37,6 @@ class KikiTools(commands.Cog):
         }
         self.config.register_global(**default_global)
         self.session = aiohttp.ClientSession()
-        setattr(
-            bot._connection,
-            "parse_interaction_create",
-            self.parse_interaction_create,
-        )
-        bot._connection.parsers["INTERACTION_CREATE"] = self.parse_interaction_create
 
     def cog_unload(self):
         del self.bot._connection.parsers["INTERACTION_CREATE"]
