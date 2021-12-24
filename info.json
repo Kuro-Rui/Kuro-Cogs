@@ -3,7 +3,7 @@
     "install_msg": "Thanks for installing my repo!\nPlease note that this repo is unsupported so no support will be provided!\nUse `[p]cog list Kuro-Cogs` to see all my cogs.",
     "name": "Kuro-Cogs",
     "short": "Some (dumb) cogs made/customized by Kuro.",
-    "description": "Some (dumb) cogs made/customized by Kuro for customizing purposes, like CustomInvite.",
+    "description": "Some (dumb) cogs made/customized by Kuro for customizing purposes like CustomInvite, CustomPing.",
     "tags": [
       "custom",
       "customized",
