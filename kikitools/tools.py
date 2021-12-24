@@ -88,15 +88,6 @@ class KikiTools(commands.Cog):
         await message.add_reaction("<:LalaOk:922835155712884777>")
         await message.add_reaction("<:KikiNo:922835155226345563>")
 
-    @commands.command()
-    @commands.guild_only()
-    async def membercount(self, ctx):
-        """
-        Get the current amount of members in the server.
-        """
-        count = len(ctx.guild.members)
-        await ctx.send(f"There are **{count}** members in this server.")
-
     @commands.command(aliases=["someone", "pickuser", "randommember", "picksomeone"])
     @commands.guild_only()
     async def randomuser(self, ctx):
