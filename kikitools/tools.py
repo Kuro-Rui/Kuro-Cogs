@@ -88,7 +88,7 @@ class KikiTools(commands.Cog):
         await message.add_reaction("<:LalaOk:922835155712884777>")
         await message.add_reaction("<:KikiNo:922835155226345563>")
 
-    @commands.command(aliases=["someone", "pickuser", "randommember", "picksomeone"])
+    @commands.command(aliases=["pickuser", "randommember", "picksomeone"])
     @commands.guild_only()
     async def randomuser(self, ctx):
         """
