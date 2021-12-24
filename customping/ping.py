@@ -78,7 +78,7 @@ class CustomPing(commands.Cog):
             self.bot.add_command(old_ping)
 
     @commands.bot_has_permissions(embed_links=True)
-    @commands.cooldown(2, 5, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.group(invoke_without_command=True)
     async def ping(self, ctx):
         """View bot latency."""
