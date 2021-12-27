@@ -230,14 +230,16 @@ class KikiTools(commands.Cog):
     async def vote(self, ctx):
         """Vote for me!"""
         c = await self.bot.get_embed_colour(await ctx.embed_color())
-        t = "Vote for Me!"
+        t = "Please Vote for Me!"
         f = "Thanks for your support!"
         i = ctx.bot.user.avatar_url_as(static_format="png")
+        
+        dot = <a:Dot:914352680627994634>
         
         topgg_link = "https://top.gg/bot/886547720985264178"
 
         e = discord.Embed(title = t, colour = c)
-        e.add_field(name="Links:", value=f"[`Top.gg`]({topgg_link})")
+        e.add_field(name="Links:", value=f"{dot}[`Top.gg`]({topgg_link})")
         e.set_thumbnail(url=i)
         e.set_footer(text=f)
 
@@ -247,7 +249,7 @@ class KikiTools(commands.Cog):
                     style=ButtonStyle.link,
                     label="Top.gg",
                     emoji=discord.PartialEmoji(name="topgg", animated=False, id="918280202398875758"),
-                    url="https://top.gg/bot/886547720985264178"
+                    url=topgg_link
                 )
             )
         ]
