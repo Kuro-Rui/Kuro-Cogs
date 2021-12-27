@@ -235,7 +235,7 @@ class KikiTools(commands.Cog):
         f = "Thanks for your support!"
         i = ctx.bot.user.avatar_url_as(static_format="png")
         
-        dot = <a:Dot:914352680627994634>
+        dot = "<a:Dot:914352680627994634>"
 
         topgg_link = "https://top.gg/bot/886547720985264178"
         # No links for dbl & discords because I haven't submitted the bot there yet.
