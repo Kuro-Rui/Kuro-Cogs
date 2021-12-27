@@ -238,12 +238,13 @@ class KikiTools(commands.Cog):
         dot = "<a:Dot:914352680627994634>"
 
         topgg_link = "https://top.gg/bot/886547720985264178"
+        milrato_link = "https://milrato-botlist.eu/bot/886547720985264178/vote"
         # No links for dbl & discords because I haven't submitted the bot there yet.
         dbl_link = ""
         discords_link = ""
 
         e = discord.Embed(title = t, description=d, colour = c)
-        e.add_field(name="Links:", value=f"{dot}[`Top.gg`]({topgg_link})")
+        e.add_field(name="Links:", value=f"{dot}[`Top.gg`]({topgg_link})\n{dot}[`milrato-botlist.eu`]({milrato_link})")
         e.set_thumbnail(url=i)
         e.set_footer(text=f)
 
@@ -254,6 +255,12 @@ class KikiTools(commands.Cog):
                     label="Top.gg",
                     emoji=discord.PartialEmoji(name="topgg", animated=False, id="918280202398875758"),
                     url=topgg_link
+                ),
+                Button(
+                    style=ButtonStyle.link,
+                    label="milrato-botlist.eu",
+                    emoji=discord.PartialEmoji(name="OLD_Milrato", animated=False, id="840259659163893820"),
+                    url=milrato_link
                 )
             )
         ]
