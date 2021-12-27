@@ -231,16 +231,16 @@ class KikiTools(commands.Cog):
         """Vote for me!"""
         c = await self.bot.get_embed_colour(await ctx.embed_color())
         t = "Please Vote for Me!"
-        d = "You can vote for me by clicking the links below:"
+        d = "You can vote for me by clicking on the links below:"
         f = "Thanks for your support!"
         i = ctx.bot.user.avatar_url_as(static_format="png")
         
         dot = "<a:Dot:914352680627994634>"
 
         topgg_link = "https://top.gg/bot/886547720985264178/vote"
+        dbl_link = "https://discordbotlist.com/bots/kiki/upvote"
         milrato_link = "https://milrato-botlist.eu/bot/886547720985264178/vote"
         # No links for dbl & discords because I haven't submitted the bot there yet.
-        dbl_link = ""
         discords_link = ""
 
         e = discord.Embed(title = t, description=d, colour = c)
@@ -255,6 +255,12 @@ class KikiTools(commands.Cog):
                     label="Top.gg",
                     emoji=discord.PartialEmoji(name="topgg", animated=False, id="918280202398875758"),
                     url=topgg_link
+                ),
+                Button(
+                    style=ButtonStyle.link,
+                    label="discordbotlist.com",
+                    emoji=discord.PartialEmoji(name="dbl", animated=False, id="757235965629825084"),
+                    url=dbl_link
                 ),
                 Button(
                     style=ButtonStyle.link,
