@@ -223,7 +223,7 @@ class KikiTools(commands.Cog):
     # The only thing I made by myself lol.
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-    async def vote(self, ctx, channel: discord.TextChannel):
+    async def vote(self, ctx):
         """Vote for me!"""
         c = 11070202
         t = "Vote for Me!"
