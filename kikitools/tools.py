@@ -233,7 +233,7 @@ class KikiTools(commands.Cog):
         topgg_link = "https://top.gg/bot/886547720985264178"
 
         e = discord.Embed(title = t, colour = c)
-        e.add_field(name="Links:", value=[`Top.gg`]({topgg_link}))
+        e.add_field(name="Links:", value=f"[`Top.gg`]({topgg_link})")
         e.set_thumbnail(url=i)
         e.set_footer(text=f)
         
