@@ -240,7 +240,7 @@ class KikiTools(commands.Cog):
         topgg_link = "https://top.gg/bot/886547720985264178/vote"
         dbl_link = "https://discordbotlist.com/bots/kiki/upvote"
         milrato_link = "https://milrato-botlist.eu/bot/886547720985264178/vote"
-        # No links for dbl & discords because I haven't submitted the bot there yet.
+        # No links for https://discords.com because I haven't submitted the bot there yet.
         discords_link = ""
 
         e = discord.Embed(title = t, description=d, colour = c)
