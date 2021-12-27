@@ -219,3 +219,22 @@ class KikiTools(commands.Cog):
             await ctx.send("All repos are currently being used!")
             return
         await ctx.send(f"Unused: \n" + box(repos, lang="py"))
+
+    # The only thing I made by myself lol.
+    @commands.command()
+    @commands.bot_has_permissions(embed_links=True)
+    async def vote(self, ctx):
+        """Vote for me!"""
+        c = await self.bot.get_embed_colour(message.channel)
+        t = "Vote for Me!"
+        f = "Thanks for your support!"
+        i = await self.config.current_avatar()
+        
+        topgg_link = "https://top.gg/bot/886547720985264178"
+
+        e = discord.Embed(title = t, colour = c)
+        e.add_field(name="Links:", value=[`Top.gg`]({topgg_link}))
+        e.set_thumbnail(url=i)
+        e.set_footer(text=f)
+        
+        await ctx.send(embed=e)
