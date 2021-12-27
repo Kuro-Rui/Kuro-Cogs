@@ -223,9 +223,9 @@ class KikiTools(commands.Cog):
     # The only thing I made by myself lol.
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-    async def vote(self, ctx):
+    async def vote(self, ctx, message: discord.Message):
         """Vote for me!"""
-        c = await self.bot.get_embed_colour(self.bot.get_channel(await self.config.current_channel()))
+        c = await self.bot.get_embed_colour(message.channel)
         t = "Vote for Me!"
         f = "Thanks for your support!"
         i = await self.config.current_avatar()
