@@ -228,7 +228,7 @@ class KikiTools(commands.Cog):
         c = await self.bot.get_embed_colour(await ctx.embed_color())
         t = "Vote for Me!"
         f = "Thanks for your support!"
-        i = await self.config.current_avatar()
+        i = ctx.bot.user.avatar_url_as(static_format="png")
         
         topgg_link = "https://top.gg/bot/886547720985264178"
 
