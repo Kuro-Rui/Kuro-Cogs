@@ -218,7 +218,7 @@ class CustomPing(commands.Cog):
         for shard_id, shard in self.bot.shards.items():
             latency = round(shard.latency * 1000, 2)
             latencies.append(latency)
-            description.append(chat.box(f"Shard {shard_id}+1: {latency}" + " ms", "crmsh"))
+            description.append(chat.box("Shard" + f"{shard_id}" + 1 + f": {latency}" + " ms", "crmsh"))
         average_ping = sum(latencies) / len(latencies)
         if average_ping >= 1000:
             color = discord.Colour.red()
