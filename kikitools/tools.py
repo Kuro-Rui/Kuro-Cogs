@@ -223,9 +223,9 @@ class KikiTools(commands.Cog):
     # The only thing I made by myself lol.
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-    async def vote(ctx):
+    async def vote(self, ctx):
         """Vote for me!"""
-        c = 11070202
+        c = await ctx.embed_color()
         t = "Vote for Me!"
         f = "Thanks for your support!"
         i = await self.config.current_avatar()
