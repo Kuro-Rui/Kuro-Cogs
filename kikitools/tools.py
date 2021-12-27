@@ -244,7 +244,7 @@ class KikiTools(commands.Cog):
         discords_link = ""
 
         e = discord.Embed(title = t, description=d, colour = c)
-        e.add_field(name="Links:", value=f"{dot}[`Top.gg`]({topgg_link})\n{dot}[`milrato-botlist.eu`]({milrato_link})")
+        e.add_field(name="Links:", value=f"{dot}[`Top.gg`]({topgg_link})\n{dot}[`Discord Bot List`]({dbl_link})\n{dot}[`milrato-botlist.eu`]({milrato_link})")
         e.set_thumbnail(url=i)
         e.set_footer(text=f)
 
