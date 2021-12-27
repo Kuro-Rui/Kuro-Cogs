@@ -10,12 +10,16 @@ from copy import copy
 
 import aiohttp
 import discord
+import dislash
+from dislash.interactions import ActionRow, Button, ButtonStyle
+
 import redbot
 from redbot.cogs.downloader.converters import InstalledCog
 from redbot.core import Config, commands
 from redbot.core.utils import AsyncIter
 from redbot.core.utils.chat_formatting import box, humanize_list, pagify
 from redbot.core.utils.menus import DEFAULT_CONTROLS, menu
+
 from zalgo_text import zalgo
 
 SUPPORT_SERVER = "https://discord.gg/Zef3pD8Yt5"
@@ -236,5 +240,16 @@ class KikiTools(commands.Cog):
         e.add_field(name="Links:", value=f"[`Top.gg`]({topgg_link})")
         e.set_thumbnail(url=i)
         e.set_footer(text=f)
+
+        vote_button = [
+            ActionRow(
+                Button(
+                    style=ButtonStyle.link,
+                    label="Top.gg",
+                    emoji=discord.PartialEmoji(name="topgg", animated=False, id="918280202398875758"),
+                    url="https://top.gg/bot/886547720985264178"
+                )
+            )
+        ]
         
-        await ctx.send(embed=e)
+        await ctx.send(embed=e, components=vote_button)
