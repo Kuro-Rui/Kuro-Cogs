@@ -15,12 +15,18 @@
 </p>
 
 ## Installation
-
+<!-- So you can copy and paste it one by one :D -->
 ```md
-- [p]load downloader
-- [p]repo add Kuro-Cogs https://github.com/Kuro-Rui/Kuro-Cogs
-- [p]cog install Kuro-Cogs <cog_name>
-- [p]load <installed_cog>
+[p]load downloader
+```
+```md
+[p]repo add Kuro-Cogs https://github.com/Kuro-Rui/Kuro-Cogs
+```
+```md
+[p]cog install Kuro-Cogs <cog_name>
+```
+```md
+[p]load <installed_cog>
 ```
 ***Note**: `[p] is your prefix!`
 
