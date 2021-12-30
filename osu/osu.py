@@ -47,7 +47,7 @@ class Osu(BaseCog):
             ranks = "**▸ Ranks:** " + f"{SSH}" + "`" + osu[0]["count_rank_ssh"] + "`" + f"{SS}" + "`" + osu[0]["count_rank_ss"] + "`" + f"{SH}" + "`" + osu[0]["count_rank_sh"] + "`" + f"{S}" + "`" + osu[0]["count_rank_s"] + "`" + f"{A}" + "`" + osu[0]["count_rank_a"] + "`" + "\n"
             score = "**▸ Total Score:** " + osu[0]["total_score"] + " (Ranked: " + osu[0]["ranked_score"] + ")"
 
-            desc = f"{joined}{rank}{level}{pp}{acc}{ranks}{playcount}{score}"
+            desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{ranks}{score}"
 
             # Build Embed
             embed = discord.Embed()
