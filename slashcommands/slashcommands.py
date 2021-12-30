@@ -6,7 +6,7 @@ import random
 
 import discord
 from discord.ext import tasks
-from discord.ui import View
+from discord_ui import View
 import dislash
 from dislash import *
 from dislash.interactions import ActionRow, Button, ButtonStyle
