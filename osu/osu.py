@@ -39,9 +39,9 @@ class Osu(BaseCog):
             A = "<:RankA:926177386737848321>"
 
             joined = "**▸ Joined at:** " + osu[0]["join_date"][:10] + "\n"
-            rank = "**▸ Rank:** #" + osu[0]["pp_rank"] + "(" + osu[0]["country"] + " #" + osu[0]["pp_country_rank"] + ")\n"
+            rank = "**▸ Rank:** #" + osu[0]["pp_rank"] + " (" + osu[0]["country"] + " #" + osu[0]["pp_country_rank"] + ")\n"
             level = "**▸ Level:** " + osu[0]["level"][:5] + "\n"
-            score = "**▸ Total Score:** " + osu[0]["total_score"] + " (Ranked: " + osu[0]["total_score"] + ")\n"
+            score = "**▸ Total Score:** " + osu[0]["total_score"] + " (Ranked: " + osu[0]["ranked_score"] + ")\n"
             pp = "**▸ PP:** " + osu[0]["pp_raw"] + "\n"
             acc = "**▸ Accuracy:** " + osu[0]["accuracy"][:6] + "%\n"
             ranks = "**▸ Ranks:** " + f"{SSH}" + "`" + osu[0]["count_rank_ssh"] + "`" + f"{SS}" + "`" + osu[0]["count_rank_ss"] + "`" + f"{SH}" + "`" + osu[0]["count_rank_sh"] + "`" + f"{S}" + "`" + osu[0]["count_rank_s"] + "`" + f"{A}" + "`" + osu[0]["count_rank_a"] + "`" + "\n"
