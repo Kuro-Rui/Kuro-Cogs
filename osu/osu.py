@@ -9,7 +9,8 @@ BaseCog = getattr(commands, "Cog", object)
 class Osu(BaseCog):
     """Show stuff using osu!"""
 
-    def __init__(self):
+    def __init__(self, bot):
+        self.bot = bot
         self.config = Config.get_conf(self, identifier=842364413)
         default_global = {"apikey": ""}
         self.config.register_global(**default_global)
