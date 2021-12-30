@@ -79,50 +79,51 @@ class SlashCommands(commands. Cog):
         await inter.reply(embed=e, components=vote_button)
 
     @commands.Cog.listener()
-        async def on_slash_command_error(self, inter, error):
-            guild = self.bot.get_guild(825535079719501824)
-            channel = guild.get_channel(908718864790077532)
-            await channel. send(
-                f"Traceback:\n{__import__('traceback').format_exc()}\n{error}"
+    async def on_slash_command_error(self, inter, error):
+        guild = self.bot.get_guild(825535079719501824)
+        channel = guild.get_channel(908718864790077532)
+        await channel. send(
+            f"Traceback:\n{__import__('traceback').format_exc()}\n{error}"
+        )
+        view = View()
+        view.add_item(
+            discord.ui.Button(
+                label="ʚ﹕The Cloud House﹕ɞ",
+                url="https://discord.gg/Zef3pD8Yt5",
+                emoji=discord.PartialEmoji(name="SleepingZzZ", animated=True, id="915569880160436264"),
             )
-            view = View()
-            view.add_item(
-                discord.ui.Button(
-                    label="ʚ﹕The Cloud House﹕ɞ",
-                    url="https://discord.gg/Zef3pD8Yt5",
-                    emoji=discord.PartialEmoji(name="SleepingZzZ", animated=True, id="915569880160436264"),
-                )
-            )
-            bot_name = "Kiki✨"
+        )
+        bot_name = "Kiki✨"
+            
+        if isinstance(error, commands.MissingPermissions):
+            await inter. send("You can't use this command.", hidden=True, view=View())
 
-            if isinstance(error, commands.MissingPermissions):
-                await inter. send("You can't use this command.", hidden=True, view=View())
-
-            elif isinstance(error, commands.NoPrivateMessage):
-                try:
-                    await inter. send(
-                        "You can't use this command in DMs.",
-                        hidden=True,
-                        view=View(),
-                    )
-                except discord.HTTPException:
-                    pass
-
-            elif isinstance(error, commands.BotMissingPermissions):
-                await inter.send(
-                    f"Sorry, {bot_name} doesn't have permissions to execute this command.",
+        elif isinstance(error, commands.NoPrivateMessage):
+            try:
+                await inter. send(
+                    "You can't use this command in DMs.",
                     hidden=True,
                     view=View(),
                 )
-            elif isinstance(error, commands.CommandInvokeError):
-                await inter.send(
-                    f"Sorry, {bot_name} doesn't have permissions to execute this command.",
-                    hidden=True,
-                    view=View(),
-                )
-
-            else:
+            except discord.HTTPException:
                 pass
+
+        elif isinstance(error, commands.BotMissingPermissions):
+            await inter.send(
+                f"Sorry, {bot_name} doesn't have permissions to execute this command.",
+                hidden=True,
+                view=View(),
+            )
+
+        elif isinstance(error, commands.CommandInvokeError):
+            await inter.send(
+                f"Sorry, {bot_name} doesn't have permissions to execute this command.",
+                hidden=True,
+                view=View(),
+            )
+
+        else:
+            pass
 
 
 def setup(bot):
