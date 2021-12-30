@@ -1,0 +1,9 @@
+{
+    "author" : ["Jintaku", "Kuro"],
+    "bot_version": [3,0,0],
+    "install_msg" : "Installed osu! CLICK THE CIRCLES!?..",
+    "short" : "Display user information from osu!",
+    "description" : "Displays user information about osu! users in a simple embed",
+    "tags" : ["osu!", "information"],
+    "hidden" : false
+  }
