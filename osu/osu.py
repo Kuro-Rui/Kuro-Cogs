@@ -39,6 +39,7 @@ class Osu(BaseCog):
             S = "<:RankS:926177374196875284>"
             A = "<:RankA:926177386737848321>"
 
+            # Format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
             joined = "**▸ Joined at:** " + osu[0]["join_date"][:10] + "\n"
             rank = "**▸ Rank:** #" + osu[0]["pp_rank"] + " (" + osu[0]["country"] + " #" + osu[0]["pp_country_rank"] + ")\n"
             level = "**▸ Level:** " + osu[0]["level"][:5] + "\n"
