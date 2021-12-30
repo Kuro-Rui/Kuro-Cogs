@@ -25,10 +25,6 @@ log = logging.getLogger("red.slash.commands")
 class SlashCommands(commands. Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.change_presence. start()
-
-    def cog_unload(self):
-        self.change_presence. cancel()
 
     bot_name = "Kiki✨"
 
