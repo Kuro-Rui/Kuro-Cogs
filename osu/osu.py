@@ -43,8 +43,8 @@ class Osu(BaseCog):
             level = "**▸ Level:** " + osu[0]["level"][:5] + "\n"
             pp = "**▸ PP:** " + osu[0]["pp_raw"] + "\n"
             acc = "**▸ Accuracy:** " + osu[0]["accuracy"][:6] + "%\n"
-            ranks = "**▸ Ranks:** " + f"{SSH}" + "`" + osu[0]["count_rank_ssh"] + "`" + f"{SS}" + "`" + osu[0]["count_rank_ss"] + "`" + f"{SH}" + "`" + osu[0]["count_rank_sh"] + "`" + f"{S}" + "`" + osu[0]["count_rank_s"] + "`" + f"{A}" + "`" + osu[0]["count_rank_a"] + "`" + "\n"
             playcount = "**▸ Playcount:** " + osu[0]["playcount"] + " (" + osu[0]["total_seconds_played"] + " s)" + "\n"
+            ranks = "**▸ Ranks:** " + f"{SSH}" + "`" + osu[0]["count_rank_ssh"] + "`" + f"{SS}" + "`" + osu[0]["count_rank_ss"] + "`" + f"{SH}" + "`" + osu[0]["count_rank_sh"] + "`" + f"{S}" + "`" + osu[0]["count_rank_s"] + "`" + f"{A}" + "`" + osu[0]["count_rank_a"] + "`" + "\n"
             score = "**▸ Total Score:** " + osu[0]["total_score"] + " (Ranked: " + osu[0]["ranked_score"] + ")"
 
             desc = f"{joined}{rank}{level}{pp}{acc}{ranks}{playcount}{score}"
