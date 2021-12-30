@@ -6,7 +6,6 @@ import random
 
 import discord
 from discord.ext import tasks
-from discord_ui import View
 import dislash
 from dislash import *
 from dislash.interactions import ActionRow, Button, ButtonStyle
@@ -85,45 +84,6 @@ class SlashCommands(commands. Cog):
         await channel. send(
             f"Traceback:\n{__import__('traceback').format_exc()}\n{error}"
         )
-        view = View()
-        view.add_item(
-            discord.ui.Button(
-                label="ʚ﹕The Cloud House﹕ɞ",
-                url="https://discord.gg/Zef3pD8Yt5",
-                emoji=discord.PartialEmoji(name="SleepingZzZ", animated=True, id="915569880160436264"),
-            )
-        )
-        bot_name = "Kiki✨"
-            
-        if isinstance(error, commands.MissingPermissions):
-            await inter. send("You can't use this command.", hidden=True, view=View())
-
-        elif isinstance(error, commands.NoPrivateMessage):
-            try:
-                await inter. send(
-                    "You can't use this command in DMs.",
-                    hidden=True,
-                    view=View(),
-                )
-            except discord.HTTPException:
-                pass
-
-        elif isinstance(error, commands.BotMissingPermissions):
-            await inter.send(
-                f"Sorry, {bot_name} doesn't have permissions to execute this command.",
-                hidden=True,
-                view=View(),
-            )
-
-        elif isinstance(error, commands.CommandInvokeError):
-            await inter.send(
-                f"Sorry, {bot_name} doesn't have permissions to execute this command.",
-                hidden=True,
-                view=View(),
-            )
-
-        else:
-            pass
 
 
 def setup(bot):
