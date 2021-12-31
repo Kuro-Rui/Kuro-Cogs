@@ -54,7 +54,6 @@ class Osu(BaseCog):
             colour = await self.bot.get_embed_colour(await ctx.embed_color())
 
             embed = discord.Embed(description=f"{desc}", colour=colour)
-            embed.description = f"{desc}"
             embed.set_author(
                 icon_url="https://icon-library.com/images/osu-icon/osu-icon-16.jpg",
                 url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
