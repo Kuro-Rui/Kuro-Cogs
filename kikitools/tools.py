@@ -344,7 +344,7 @@ class KikiTools(commands.Cog):
         e.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
         e.add_field(name=f"{cog} Cogs & Their Creators", value=f"*Use `%findcog <command>` to find out who is author of certain command.*\n\n{c1}", inline=False)
         e.add_field(name="‎", value=f"{c2}", inline=False)
-        e.add_field(name="‎", value=f"{c3}\n\n", inline=False)
+        e.add_field(name="‎", value=f"{c3}\n‎", inline=False)
         e.set_thumbnail(url=i)
         e.set_footer(text=f, icon_url=i)
         await ctx.send(embed=e)
