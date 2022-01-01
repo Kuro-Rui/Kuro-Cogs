@@ -17,7 +17,7 @@ class Osu(BaseCog):
 
     @commands.command()
     async def osu(self, ctx, *, username):
-        """Shows an osu! user!"""
+        """Shows an osu! User Stats!"""
 
         apikey = await self.config.apikey()
 
@@ -57,10 +57,42 @@ class Osu(BaseCog):
             embed.set_author(
                 icon_url="https://icon-library.com/images/osu-icon/osu-icon-16.jpg",
                 url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
-                name="osu! Standard Profile for " + osu[0]["username"]
+                name="osu!Standard Profile for {}".format(osu[0]["username"])
             )
             embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
             embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("No results.")
+
+    @commands.command(aliases=["osuimg"])
+    async def osuimage(self, ctx, *, username):
+        """Shows an osu! User Stats with Image!"""
+
+        apikey = await self.config.apikey()
+
+        if apikey is None or apikey == "":
+            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+            return
+
+        # Queries api to get osu profile
+        headers = {"content-type": "application/json", "user-key": apikey}
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
+                osu = await response.json()
+
+        if osu:
+            i = "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
+            t = "{}'s osu!Standard Stats: ".format(osu[0]["username"]) + "https://osu.ppy.sh/users/{}".format(osu[0]["user_id"])
+            ft = "Powered by api.martinebot.com"
+            fi = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
+            c = await self.bot.get_embed_colour(await ctx.embed_color())
+
+            # Build Embed
+            embed = discord.Embed(title=t, colour=c)
+            embed.set_image(url=i)
+            embed.set_footer(text=ft, icon_url=fi)
             await ctx.send(embed=embed)
         else:
             await ctx.send("No results.")
