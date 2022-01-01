@@ -335,12 +335,17 @@ class KikiTools(commands.Cog):
         c3 = f"{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}\n{phen}\n{preda}\n{sauri}\n{kowlin}"
         c4 = f"{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
 
-        f1 = f"{c1}\n{c2}\n{c3}\n{c4}"
-
         e = discord.Embed(title = t, description=d, colour = c)
-        e.add_field(name=f"{red} Red - Discord Bot", value=f"{bot_name} is an instance of [Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot), created by [Twentysix](https://github.com/Twentysix26) and improved by [many](https://github.com/Cog-Creators).\n[Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot) is maintained by an [awesome community].")
-        e.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.")
-        e.add_field(name=f"{cog} Cogs & Their Creators", value=f"*Use `%findcog <command>` to find out who is author of certain command.*\n\n{f1}")
+        e.add_field(
+            name=f"{red} Red - Discord Bot",
+            value=f"{bot_name} is an instance of [Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot), created by [Twentysix](https://github.com/Twentysix26) and improved by [many](https://github.com/Cog-Creators).\n[Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot) is maintained by an [awesome community].",
+            inline=False
+        )
+        e.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
+        e.add_field(name=f"{cog} Cogs & Their Creators", value=f"*Use `%findcog <command>` to find out who is author of certain command.*\n{c1}", inline=False)
+        e.add_field(name="\n", value=f"{c2}", inline=False)
+        e.add_field(name="\n", value=f"{c3}", inline=False)
+        e.add_field(name="\n", value=f"{c4}", inline=False)
         e.set_thumbnail(url=i)
         e.set_footer(text=f, icon_url=i)
         await ctx.send(embed=e)
