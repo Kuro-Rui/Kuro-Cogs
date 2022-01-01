@@ -335,10 +335,12 @@ class KikiTools(commands.Cog):
         c2 = f"{redjumpman}\n{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}"
         c3 = f"{pcx}\n{phen}\n{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
 
+        red_server = "https://discord.gg/red"
+
         e = discord.Embed(title = t, description=d, colour = c)
         e.add_field(
             name=f"{red} Red - Discord Bot",
-            value=f"{bot_name} is an instance of [Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot), created by [Twentysix](https://github.com/Twentysix26) and improved by [many](https://github.com/Cog-Creators).\n[Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot) is maintained by an [awesome community].",
+            value=f"{bot_name} is an instance of [Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot), created by [Twentysix](https://github.com/Twentysix26) and improved by [many](https://github.com/Cog-Creators).\n[Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot) is maintained by an [awesome community]({red_server}).",
             inline=False
         )
         e.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
