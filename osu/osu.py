@@ -84,13 +84,14 @@ class Osu(BaseCog):
 
         if osu:
             i = "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
-            t = "{}'s osu!Standard Stats: ".format(osu[0]["username"]) + "https://osu.ppy.sh/users/{}".format(osu[0]["user_id"])
+            tt = "{}'s osu!Standard Stats: ".format(osu[0]["username"])
+            tu = "https://osu.ppy.sh/users/{}".format(osu[0]["user_id"])
             ft = "Powered by api.martinebot.com"
             fi = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
             c = await self.bot.get_embed_colour(await ctx.embed_color())
 
             # Build Embed
-            embed = discord.Embed(title=t, colour=c)
+            embed = discord.Embed(title=tt, url=tu, colour=c)
             embed.set_image(url=i)
             embed.set_footer(text=ft, icon_url=fi)
             await ctx.send(embed=embed)
