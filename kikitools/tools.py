@@ -331,8 +331,8 @@ class KikiTools(commands.Cog):
         twentysix = "[**x26-Cogs**](https://github.com/Twentysix26/x26-Cogs): Twentysix (Twentysix#5252)"
         yami = "[**YamiCogs**](https://github.com/yamikaitou/YamiCogs): YamiKaitou#8975"
 
-        c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}\n{jack}\n{jintaku}\n{redjumpman}"
-        c2 = f"{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}"
+        c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}\n{jack}\n{jintaku}"
+        c2 = f"{redjumpman}\n{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}"
         c3 = f"{phen}\n{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
 
         e = discord.Embed(title = t, description=d, colour = c)
