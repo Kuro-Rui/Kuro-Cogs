@@ -278,6 +278,7 @@ class KikiTools(commands.Cog):
     async def credits(self, ctx):
         """Credits for everyone that makes this bot possible."""
         bot_name = "Kiki\✨"
+        bot_name_without_backslash = "Kiki✨"
         owner = "K᲼u᲼r᲼o᲼#2740"
         since = "12ᵗʰ September 2021"
 
@@ -285,7 +286,7 @@ class KikiTools(commands.Cog):
         d = f"Credits for all people and services that helps {bot_name} exist."
         c = await self.bot.get_embed_colour(await ctx.embed_color())
         i = "https://cdn.discordapp.com/attachments/908719687397953606/921065568365322280/kiki_round.png"
-        f = f"{bot_name} exists since {since}."
+        f = f"{bot_name_without_backslash} exists since {since}."
 
         red = "<:Red:917079459641831474>"
         kiki = "<:Kiki:920617449127309322>"
@@ -330,10 +331,9 @@ class KikiTools(commands.Cog):
         twentysix = "[**x26-Cogs**](https://github.com/Twentysix26/x26-Cogs): Twentysix (Twentysix#5252)"
         yami = "[**YamiCogs**](https://github.com/yamikaitou/YamiCogs): YamiKaitou#8975"
 
-        c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}"
-        c2 = f"{jack}\n{jintaku}\n{redjumpman}\n{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}"
-        c3 = f"{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}\n{phen}\n{preda}\n{sauri}\n{kowlin}"
-        c4 = f"{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
+        c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}\n{jack}\n{jintaku}\n{redjumpman}"
+        c2 = f"{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}\n{phen}"
+        c3 = f"{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
 
         e = discord.Embed(title = t, description=d, colour = c)
         e.add_field(
@@ -345,7 +345,6 @@ class KikiTools(commands.Cog):
         e.add_field(name=f"{cog} Cogs & Their Creators", value=f"*Use `%findcog <command>` to find out who is author of certain command.*\n{c1}", inline=False)
         e.add_field(name="‎", value=f"{c2}", inline=False)
         e.add_field(name="‎", value=f"{c3}", inline=False)
-        e.add_field(name="‎", value=f"{c4}", inline=False)
         e.set_thumbnail(url=i)
         e.set_footer(text=f, icon_url=i)
         await ctx.send(embed=e)
