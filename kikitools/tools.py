@@ -332,8 +332,8 @@ class KikiTools(commands.Cog):
         yami = "[**YamiCogs**](https://github.com/yamikaitou/YamiCogs): YamiKaitou#8975"
 
         c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}\n{jack}\n{jintaku}\n{redjumpman}"
-        c2 = f"{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}\n{phen}"
-        c3 = f"{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
+        c2 = f"{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}\n{pcx}"
+        c3 = f"{phen}\n{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
 
         e = discord.Embed(title = t, description=d, colour = c)
         e.add_field(
