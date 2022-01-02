@@ -49,10 +49,11 @@ class Osu(BaseCog):
             playcount = "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
             playtime = "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
             ranks = f"**▸ Ranks:** {SSH}" + "`{}`".format(osu[0]["count_rank_ssh"]) + f"{SS}" + "`{}`".format(osu[0]["count_rank_ss"]) + f"{SH}" + "`{}`".format(osu[0]["count_rank_sh"]) + f"{S}" + "`{}`".format(osu[0]["count_rank_s"]) + f"{A}" + "`{}`\n".format(osu[0]["count_rank_a"])
-            score = "**▸ Total Score:** {} (Ranked: {})".format(humanize_number(osu[0]["total_score"]), humanize_number(osu[0]["ranked_score"]))
+            rscore = "**▸ Ranked Score:** {}\n".format(humanize_number(osu[0]["ranked_score"]))
+            tscore = "**▸ Total Score:** {} ".format(humanize_number(osu[0]["total_score"]))
 
             # Build Embed
-            desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{playtime}{ranks}{score}"
+            desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{playtime}{ranks}{rscore}{tscore}"
             colour = await self.bot.get_embed_colour(await ctx.embed_color())
 
             embed = discord.Embed(description=f"{desc}", colour=colour)
