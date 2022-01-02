@@ -303,7 +303,7 @@ class KikiTools(commands.Cog):
         )
         embed.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
         used_repos = {c.repo_name for c in await repo_cog.installed_cogs()}
-        cogs_credits = "*Use `{}findcog <command>` to find out who is author of certain command.*".format(ctx.clean_prefix) + "\n".join(
+        cogs_credits = "*Use `{}findcog <command>` to find out who is author of certain command.*\n".format(ctx.clean_prefix) + "\n".join(
             sorted(
                 (
                     f"[**{repo.url.split('/')[4]}**]({repo.url}): {', '.join(repo.author) or repo.url.split('/')[3]}"
@@ -322,4 +322,5 @@ class KikiTools(commands.Cog):
         cogs_credits.pop(0)
         for page in cogs_credits:
             embed.add_field(name="\N{Zero Width Space}", value=page, inline=False)
+        embed.add_field(name="\N{Zero Width Space}", inline=False)
         await ctx.send(embed=embed)
