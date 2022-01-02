@@ -2,6 +2,7 @@ import discord
 from redbot.core import commands, Config, checks
 import aiohttp
 from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
+from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
 BaseCog = getattr(commands, "Cog", object)
 
@@ -40,17 +41,18 @@ class Osu(BaseCog):
             A = "<:RankA:926177386737848321>"
 
             # Format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
-            joined = "**▸ Joined at:** " + osu[0]["join_date"][:10] + "\n"
-            rank = "**▸ Rank:** #" + osu[0]["pp_rank"] + " (" + osu[0]["country"] + " #" + osu[0]["pp_country_rank"] + ")\n"
-            level = "**▸ Level:** " + osu[0]["level"][:5] + "\n"
-            pp = "**▸ PP:** " + osu[0]["pp_raw"] + "\n"
-            acc = "**▸ Accuracy:** " + osu[0]["accuracy"][:6] + "%\n"
-            playcount = "**▸ Playcount:** " + osu[0]["playcount"] + " (" + osu[0]["total_seconds_played"] + " s)" + "\n"
-            ranks = "**▸ Ranks:** " + f"{SSH}" + "`" + osu[0]["count_rank_ssh"] + "`" + f"{SS}" + "`" + osu[0]["count_rank_ss"] + "`" + f"{SH}" + "`" + osu[0]["count_rank_sh"] + "`" + f"{S}" + "`" + osu[0]["count_rank_s"] + "`" + f"{A}" + "`" + osu[0]["count_rank_a"] + "`" + "\n"
-            score = "**▸ Total Score:** " + osu[0]["total_score"] + " (Ranked: " + osu[0]["ranked_score"] + ")"
+            joined = "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
+            rank = "**▸ Rank:** # {}".format(osu[0]["pp_rank"]) + " (:flag_{}: ".format(osu[0]["country".lower()]) + "# {})\n".format(osu[0]["pp_country_rank"])
+            level = "**▸ Level:** {}\n".format(osu[0]["level"][:5])
+            pp = "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
+            acc = "**▸ Accuracy:** {} %".format(osu[0]["accuracy"][:6])
+            playcount = "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
+            playtime = "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
+            ranks = f"**▸ Ranks:** {SSH}" + "`{}`".format(osu[0]["count_rank_ssh"]) + f"{SS}" + "`{}`".format(osu[0]["count_rank_ss"]) + f"{SH}" + "`{}`".format(osu[0]["count_rank_sh"]) + f"{S}" + "`{}`".format(osu[0]["count_rank_s"]) + f"{A}" + "`{}`\n".format(osu[0]["count_rank_a"])
+            score = "**▸ Total Score:** {} (Ranked: {})".format(humanize_number(osu[0]["total_score"]), humanize_number(osu[0]["ranked_score"]))
 
             # Build Embed
-            desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{ranks}{score}"
+            desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{playtime}{ranks}{score}"
             colour = await self.bot.get_embed_colour(await ctx.embed_color())
 
             embed = discord.Embed(description=f"{desc}", colour=colour)
