@@ -322,5 +322,5 @@ class KikiTools(commands.Cog):
         cogs_credits.pop(0)
         for page in cogs_credits:
             embed.add_field(name="\N{Zero Width Space}", value=page, inline=False)
-        embed.add_field(name="\N{Zero Width Space}", inline=False)
+        embed.add_field(name="\N{Zero Width Space}", value="\N{Zero Width Space}", inline=False)
         await ctx.send(embed=embed)
