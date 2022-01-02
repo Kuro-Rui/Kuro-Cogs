@@ -73,20 +73,19 @@ class Osu(BaseCog):
     @commands.bot_has_permissions(embed_links=True)
     async def osuimage(ctx, username:str):
         """Shows an osu! User Stats with Image!""" # Thanks epic, thanks preda <3
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={username}") as resp:
-                    if resp.status in (200,201):
-                        f = discord.File(fp=BytesIO(await resp.read()), filename=f"osu.png")
-                        embed = discord.Embed(title=f"{username}'s Osu Stats", colour=await ctx.embed_colour())
-                        embed.set_image(url="attachment://osu.png")
-                        embed.set_footer(text="Powered by martinebot.com API")
-                        await ctx.send(file=f,embed=embed)
-                        f.close()
-                    elif resp.status in (404,410,422):
-                        await ctx.send((await resp.json())['message'])
-                    else:
-                        await ctx.send("API is currently down, please try again later.")
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={username}") as resp:
+                if resp.status in (200,201):
+                    f = discord.File(fp=BytesIO(await resp.read()), filename=f"osu.png")
+                    embed = discord.Embed(title=f"{username}'s Osu Stats", colour=await ctx.embed_colour())
+                    embed.set_image(url="attachment://osu.png")
+                    embed.set_footer(text="Powered by martinebot.com API")
+                    await ctx.send(file=f,embed=embed)
+                    f.close()
+                elif resp.status in (404,410,422):
+                    await ctx.send((await resp.json())['message'])
+                else:
+                    await ctx.send("API is currently down, please try again later.")
 
     @commands.command()
     @checks.is_owner()
