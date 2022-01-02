@@ -17,6 +17,7 @@ import redbot
 from redbot.cogs.downloader.converters import InstalledCog
 from redbot.core import Config, commands
 from redbot.core.utils import AsyncIter
+from redbot.core.utils import chat_formatting as chat
 from redbot.core.utils.chat_formatting import box, humanize_list, pagify
 from redbot.core.utils.menus import DEFAULT_CONTROLS, menu
 
