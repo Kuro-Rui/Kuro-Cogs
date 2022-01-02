@@ -273,12 +273,14 @@ class KikiTools(commands.Cog):
         await ctx.send(embed=e, components=vote_button)
 
     # Formatting stolen from Fixator10 :D
-    @commands.command()
+    @commands.command(cls=commands.commands._AlwaysAvailableCommand, aliases=["creds"])
     @commands.bot_has_permissions(embed_links=True)
     async def credits(self, ctx):
         """Credits for everyone that makes this bot possible."""
+        app = await self.bot.application_info()
+        repo_cog = self.bot.get_cog("Downloader")
         bot_name = "Kiki\✨"
-        bot_name_without_backslash = "Kiki✨"
+        bot_name_no_backslash = "Kiki✨"
         owner = "K᲼u᲼r᲼o᲼#2740"
         since = "12ᵗʰ September 2021"
 
@@ -286,67 +288,39 @@ class KikiTools(commands.Cog):
         d = f"Credits for all people and services that helps {bot_name} exist."
         c = await self.bot.get_embed_colour(await ctx.embed_color())
         i = "https://cdn.discordapp.com/attachments/908719687397953606/921065568365322280/kiki_round.png"
-        f = f"{bot_name_without_backslash} exists since {since}."
+        f = "{} exists since".format(self.bot.user.name)
 
         red = "<:Red:917079459641831474>"
         kiki = "<:Kiki:920617449127309322>"
         cog = "<:Cog:925401264395796481>"
 
-        aikaterna = "[**aikaterna-cogs**](https://github.com/aikaterna/aikaterna-cogs): aikaterna (aikaterna#1393)"
-        dualmoon = "[**Cogs.v3**](https://github.com/dualmoon/Cogs.v3): luna"
-        cray = "[**cray-cogs**](https://github.com/i-am-zaidali/cray-cogs): crayyy_zee"
-        dav = "[**Dav-Cogs**](https://github.com/Dav-Git/Dav-Cogs): Dav"
-        fixator10 = "[**Fixator10-Cogs**](https://github.com/fixator10/Fixator10-Cogs): Fixator10"
-        flame = "[**FlameCogs**](https://github.com/Flame442/FlameCogs): Flame442 (Flame#2941)"
-        flapjack = "[**FlapJack-Cogs**](https://github.com/flapjax/FlapJack-Cogs): FlapJack"
-        flare = "[**Flare-Cogs**](https://github.com/flaree/Flare-Cogs): flare (flare#0001)"
-        zephyrkul = "[**FluffyCogs**](https://github.com/zephyrkul/FluffyCogs): Zephyrkul (Zephyrkul#1089)"
-        bobloy = "[**Fox-V3**](https://github.com/bobloy/Fox-V3): Bobloy"
-        jack = "[**JackCogs**](https://github.com/jack1142/JackCogs): jack1142 (Jackenmen#6607)"
-        jintaku = "[**Jintaku-Cogs-V3**](https://github.com/Jintaku/Jintaku-Cogs-V3): Jintaku, Wyn"
-        redjumpman = "[**Jumper-Plugins**](https://github.com/Redjumpman/Jumper-Plugins): Redjumpman (Redjumpman#1337)"
-        kable = "[**Kable-Kogs**](https://github.com/kablekompany/Kable-Kogs): KableKompany (KableKompany#0001)"
-        alec = "[**kaogurai/cogs**](https://github.com/kaogurai/cogs): alec"
-        kennnyshiwa = "[**kennnyshiwa-cogs**](https://github.com/kennnyshiwa/kennnyshiwa-cogs): Kennnyshiwa, Beryju, Preda"
-        kreusada = "[**Kreusada-Cogs**](https://github.com/kreusada/Kreusada-Cogs): Kreusada"
-        laggron = "[**Laggrons-Dumb-Cogs**](https://github.com/retke/Laggrons-Dumb-Cogs): El Laggron"
-        lastfm = "[**lastfm-red**](https://github.com/flaree/lastfm-red): flare(flare#0001), joinem (MisoBot), Fixator10, alec"
-        max = "[**maxcogs**](https://github.com/ltzmax/maxcogs): MAX"
-        npc = "[**npc-cogs**](https://github.com/npc203/npc-cogs): epic guy#0715"
-        ob13 = "[**OB13-Cogs**](https://github.com/Obi-Wan3/OB13-Cogs): Obi-Wan3"
-        ow0x = "[**owo-cogs**](https://github.com/ow0x/owo-cogs): ow0x (<@306810730055729152>)"
-        palmtree5 = "[**palmtree5-cogs**](https://github.com/palmtree5/palmtree5-cogs): palmtree5"
-        pcx = "[**PCXCogs**](https://github.com/PhasecoreX/PCXCogs): PhasecoreX (PhasecoreX#0635)"
-        phen = "[**phen-cogs**](https://github.com/phenom4n4n/phen-cogs): PhenoM4n4n"
-        preda = "[**predacogs**](https://github.com/PredaaA/predacogs): Predä"
-        sauri = "[**SauriCogs**](https://github.com/elijabesu/SauriCogs): saurichable"
-        kowlin = "[**Sentinel**](https://github.com/Kowlin/Sentinel): Kowlin#2536"
-        sharky = "[**Sharky**](https://github.com/SharkyTheKing/Sharky): Sharky The King"
-        tmerc = "[**tmerc-cogs**](https://github.com/tmercswims/tmerc-cogs): tmerc"
-        tobo = "[**Tobo-Cogs**](https://github.com/Tobotimus/Tobo-Cogs): Tobotimus"
-        neuro = "[**Toxic-Cogs**](https://github.com/NeuroAssassin/Toxic-Cogs): Neuro Assassin"
-        trusty = "[**Trusty-cogs**](https://github.com/TrustyJAID/Trusty-cogs): TrustyJAID"
-        vexed = "[**Vex-Cogs**](https://github.com/Vexed01/Vex-Cogs): Vexed (Vexed#9000)"
-        wyn = "[**Wyn-RedV3Cogs**](https://github.com/TheWyn/Wyn-RedV3Cogs): Wyn"
-        twentysix = "[**x26-Cogs**](https://github.com/Twentysix26/x26-Cogs): Twentysix (Twentysix#5252)"
-        yami = "[**YamiCogs**](https://github.com/yamikaitou/YamiCogs): YamiKaitou#8975"
-
-        c1 = f"{aikaterna}\n{dualmoon}\n{cray}\n{dav}\n{fixator10}\n{flame}\n{flapjack}\n{flare}\n{zephyrkul}\n{bobloy}\n{jack}\n{jintaku}"
-        c2 = f"{redjumpman}\n{kable}\n{alec}\n{kennnyshiwa}\n{kreusada}\n{laggron}\n{lastfm}\n{max}\n{npc}\n{ob13}\n{ow0x}\n{palmtree5}"
-        c3 = f"{pcx}\n{phen}\n{preda}\n{sauri}\n{kowlin}\n{sharky}\n{tmerc}\n{tobo}\n{neuro}\n{trusty}\n{vexed}\n{wyn}\n{twentysix}\n{yami}"
-
-        red_server = "https://discord.gg/red"
-
-        e = discord.Embed(title = t, description=d, colour = c)
-        e.add_field(
+        embed = discord.Embed(title=t, description=d, timestamp=self.bot.user.created_at, color=c)
+        embed.set_footer(text=f, icon_url=i)
+        embed.set_thumbnail(url=i)
+        embed.add_field(
             name=f"{red} Red - Discord Bot",
             value=f"{bot_name} is an instance of [Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot), created by [Twentysix](https://github.com/Twentysix26) and improved by [many](https://github.com/Cog-Creators).\n[Red - Discord Bot](https://github.com/Cog-Creators/Red-DiscordBot) is maintained by an [awesome community]({red_server}).",
             inline=False
         )
-        e.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
-        e.add_field(name=f"{cog} Cogs & Their Creators", value=f"*Use `k?findcog <command>` to find out who is author of certain command.*\n\n{c1}", inline=False)
-        e.add_field(name="‎", value=f"{c2}", inline=False)
-        e.add_field(name="‎", value=f"{c3}\n‎", inline=False)
-        e.set_thumbnail(url=i)
-        e.set_footer(text=f, icon_url=i)
-        await ctx.send(embed=e)
+        embed.add_field(name=f"{kiki} Hosting", value=f"This instance is maintained by {owner}.", inline=False)
+        used_repos = {c.repo_name for c in await repo_cog.installed_cogs()}
+        cogs_credits = "*Use `{}findcog <command>` to find out who is author of certain command.*".format(ctx.clean_prefix) + "\n".join(
+            sorted(
+                (
+                    f"[**{repo.url.split('/')[4]}**]({repo.url}): {', '.join(repo.author) or repo.url.split('/')[3]}"
+                    for repo in repo_cog._repo_manager.repos
+                    if repo.url.startswith("http") and repo.name in used_repos
+                ),
+                key=lambda k: k.title(),
+            )
+        )
+        cogs_credits = list(chat.pagify(cogs_credits, page_length=1024))
+        embed.add_field(
+            name=_("Third-party modules (Cogs) and their creators"),
+            value=cogs_credits[0],
+            inline=False,
+        )
+        cogs_credits.pop(0)
+        for page in cogs_credits:
+            embed.add_field(name="\N{Zero Width Space}", value=page, inline=False)
+        await ctx.send(embed=embed)
