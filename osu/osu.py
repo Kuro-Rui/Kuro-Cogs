@@ -42,10 +42,10 @@ class Osu(BaseCog):
 
             # Format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
             joined = "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
-            rank = "**▸ Rank:** # {}".format(osu[0]["pp_rank"]) + " (:flag_{}: ".format(osu[0]["country".lower()]) + "# {})\n".format(osu[0]["pp_country_rank"])
+            rank = "**▸ Rank:** #{}".format(humanize_number(osu[0]["pp_rank"])) + " (:flag_{}: ".format(osu[0]["country"]).lower() + "#{})\n".format(humanize_number(osu[0]["pp_country_rank"]))
             level = "**▸ Level:** {}\n".format(osu[0]["level"][:5])
             pp = "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
-            acc = "**▸ Accuracy:** {} %".format(osu[0]["accuracy"][:6])
+            acc = "**▸ Accuracy:** {} %\n".format(osu[0]["accuracy"][:6])
             playcount = "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
             playtime = "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
             ranks = f"**▸ Ranks:** {SSH}" + "`{}`".format(osu[0]["count_rank_ssh"]) + f"{SS}" + "`{}`".format(osu[0]["count_rank_ss"]) + f"{SH}" + "`{}`".format(osu[0]["count_rank_sh"]) + f"{S}" + "`{}`".format(osu[0]["count_rank_s"]) + f"{A}" + "`{}`\n".format(osu[0]["count_rank_a"])
