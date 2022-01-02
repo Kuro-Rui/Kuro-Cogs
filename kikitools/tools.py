@@ -277,12 +277,10 @@ class KikiTools(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     async def credits(self, ctx):
         """Credits for everyone that makes this bot possible."""
-        app = await self.bot.application_info()
         repo_cog = self.bot.get_cog("Downloader")
+        red_server = "https://discord.gg/red"
         bot_name = "Kiki\✨"
-        bot_name_no_backslash = "Kiki✨"
         owner = "K᲼u᲼r᲼o᲼#2740"
-        since = "12ᵗʰ September 2021"
 
         t = f"{bot_name}'s Credits"
         d = f"Credits for all people and services that helps {bot_name} exist."
@@ -316,7 +314,7 @@ class KikiTools(commands.Cog):
         )
         cogs_credits = list(chat.pagify(cogs_credits, page_length=1024))
         embed.add_field(
-            name=_("Third-party modules (Cogs) and their creators"),
+            name=f"{cog} Cogs & Their Creators",
             value=cogs_credits[0],
             inline=False,
         )
