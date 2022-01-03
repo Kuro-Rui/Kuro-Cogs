@@ -37,3 +37,8 @@
 |  CustomPing  | Creates a custom ping embed to display latency statistics (+ GIFs).      |      PhenoM4n4n & Kuro       |
 |  KikiTools   | Some tools for Kiki✨ that I hope useful.                                |             Kuro             |
 |     Osu      | Show osu!user Stats (Standard Mode) with details/image!                  |        Jintaku & Kuro        |
+
+## WIP Cogs
+|     Name     |                   Description                     | Author |
+|:------------:|---------------------------------------------------|:------:|
+|  CustomInfo  | Personalize info command with an embed & buttons. |  Kuro  |
