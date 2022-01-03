@@ -41,4 +41,3 @@
 ## WIP Cogs
 |     Name     |                   Description                     | Author |
 |:------------:|---------------------------------------------------|:------:|
-|  CustomInfo  | Personalize info command with an embed & buttons. |  Kuro  |
