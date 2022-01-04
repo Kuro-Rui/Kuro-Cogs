@@ -8,6 +8,7 @@ from zalgo_text import zalgo
 
 # from .ssc_phrases import SORBET_SHARK_COOKIE_PHRASES
 
+# I stole this from https://github.com/kaogurai/cogs/blob/master/kaotools/kaotools.py#L445-L476
 class FunText(commands.Cog):
     """
     Generate a fun text from your given text :D
