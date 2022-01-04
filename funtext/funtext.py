@@ -3,6 +3,7 @@ import discord
 import redbot
 from redbot.core import Config, commands
 
+import urllib
 from zalgo_text import zalgo
 
 # from .ssc_phrases import SORBET_SHARK_COOKIE_PHRASES
@@ -16,6 +17,21 @@ class FunText(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(aliases=["uwuify", "owo", "owoify"])
+    async def uwu(self, ctx: commands.Context, *, text: str):
+        """
+        Uwuifies a sentence.
+        """
+        encoded = urllib.parse.quote(text)
+        async with self.session.get(
+            f"https://owo.l7y.workers.dev/?text={encoded}"
+        ) as req:
+            if req.status == 200:
+                data = await req.text()
+                await ctx.send(data[:1000])
+            else:
+                await ctx.send("S-S-Sowwy, s-sometwhing went w-wwong... (°ロ°)")
     
     @commands.command()
     async def vowelify(self, ctx: commands.Context, *, text: str):
