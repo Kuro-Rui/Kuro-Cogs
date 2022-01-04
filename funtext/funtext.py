@@ -5,7 +5,7 @@ from redbot.core import Config, commands
 
 from zalgo_text import zalgo
 
-from .ssc_phrases import SORBET_SHARK_COOKIE_PHRASES
+# from .ssc_phrases import SORBET_SHARK_COOKIE_PHRASES
 
 class FunText(commands.Cog):
     """
@@ -38,39 +38,39 @@ class FunText(commands.Cog):
         t = zalgo.zalgo().zalgofy(text)
         await ctx.send(t[:2000])
 
-    @commands.command(aliases=["sorbetshark"])
-    async def sorbetsharkcookie(self, ctx: commands.Context, *, text: str):
-        """
-        Turns a text into Sorbet Shark Cookie's language.
-        """
-        lower_text = text.lower()
+    # @commands.command(aliases=["sorbetshark"])
+    # async def sorbetsharkcookie(self, ctx: commands.Context, *, text: str):
+        # """
+        # Turns a text into Sorbet Shark Cookie's language.
+        # """
+        # lower_text = text.lower()
 
-        # Need to space each word so It doesn't get confusing :D
-        text.replace("a", "OoO ")
-        text.replace("b", "ooO ")
-        text.replace("c", "Ooo ")
-        text.replace("d", "O-o ")
-        text.replace("e", "OU ")
-        text.replace("f", "OOo ")
-        text.replace("g", "oOo ")
-        text.replace("h", "O-O ")
-        text.replace("i", "o-o-o ")
-        text.replace("j", "O--O ")
-        text.replace("k", "oOuú ")
-        text.replace("l", "OoŒ ")
-        text.replace("m", "oÖ ")
-        text.replace("n", "OuUo ")
-        text.replace("o", "uuooOo ")
-        text.replace("p", "UuoOo ")
-        text.replace("q", "UuoOo ")
-        text.replace("r", "OuUuO ")
-        text.replace("s", "oOuuU ")
-        text.replace("t", "UuOo ")
-        text.replace("u", "UuOo ")
-        text.replace("v", "oouuuo ")
-        text.replace("w", "OuOo ")
-        text.replace("x", "OooOuu ")
-        text.replace("y", "uuooouu ")
-        text.replace("z", "ouuuouuu ")
+        # # Need to space each word so It doesn't get confusing :D
+        # text.replace("a", "OoO ")
+        # text.replace("b", "ooO ")
+        # text.replace("c", "Ooo ")
+        # text.replace("d", "O-o ")
+        # text.replace("e", "OU ")
+        # text.replace("f", "OOo ")
+        # text.replace("g", "oOo ")
+        # text.replace("h", "O-O ")
+        # text.replace("i", "o-o-o ")
+        # text.replace("j", "O--O ")
+        # text.replace("k", "oOuú ")
+        # text.replace("l", "OoŒ ")
+        # text.replace("m", "oÖ ")
+        # text.replace("n", "OuUo ")
+        # text.replace("o", "uuooOo ")
+        # text.replace("p", "UuoOo ")
+        # text.replace("q", "UuoOo ")
+        # text.replace("r", "OuUuO ")
+        # text.replace("s", "oOuuU ")
+        # text.replace("t", "UuOo ")
+        # text.replace("u", "UuOo ")
+        # text.replace("v", "oouuuo ")
+        # text.replace("w", "OuOo ")
+        # text.replace("x", "OooOuu ")
+        # text.replace("y", "uuooouu ")
+        # text.replace("z", "ouuuouuu ")
 
-        await ctx.send(text.replace(f"{lower_text}", SORBET_SHARK_COOKIE_PHRASES))
+        # await ctx.send(text.replace(f"{lower_text}", SORBET_SHARK_COOKIE_PHRASES))
