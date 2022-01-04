@@ -166,11 +166,7 @@ class KikiTools(commands.Cog):
         random.setstate(state)
         dongs = sorted(penises.items(), key=lambda x: x[1])
 
-        if "K᲼u᲼r᲼o᲼#2740" or "<@732425670856147075>" or "<@!732425670856147075>" in users :
-            for user, dong in dongs:
-                msg += "**{}'s size:**\n8==============================D\n".format(user.display_name)
-        else:
-            for user, dong in dongs:
+        for user, dong in dongs:
                 msg += "**{}'s size:**\n{}\n".format(user.display_name, dong)
 
         for page in pagify(msg):
