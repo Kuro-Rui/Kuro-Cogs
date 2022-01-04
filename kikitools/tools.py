@@ -21,8 +21,6 @@ from redbot.core.utils import chat_formatting as chat
 from redbot.core.utils.chat_formatting import box, humanize_list, pagify
 from redbot.core.utils.menus import DEFAULT_CONTROLS, menu
 
-from zalgo_text import zalgo
-
 SUPPORT_SERVER = "https://discord.gg/Zef3pD8Yt5"
 
 
@@ -128,27 +126,6 @@ class KikiTools(commands.Cog):
         embed.set_image(url=user.avatar_url_as(size=4096))
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def vowelify(self, ctx: commands.Context, *, text: str):
-        """
-        Multiplies all vowels in a sentence.
-        """
-        uwuified = "".join(
-            [
-                c if c in "aeiouAEIOU" else (c * 3 if c not in "aeiou" else c)
-                for c in text
-            ]
-        )
-        await ctx.send(uwuified[:1000])
-
-    @commands.command(aliases=["zalgoify"])
-    async def zalgo(self, ctx: commands.Context, *, text: str):
-        """
-        Zalgoifies a sentence.
-        """
-        t = zalgo.zalgo().zalgofy(text)
-        await ctx.send(t[:2000])
-
     @commands.bot_has_permissions(embed_links=True)
     @commands.command(aliases=["ship", "lovecalc"])
     async def lovecalculator(self, ctx, user: discord.User, user2: discord.User = None):
@@ -189,8 +166,12 @@ class KikiTools(commands.Cog):
         random.setstate(state)
         dongs = sorted(penises.items(), key=lambda x: x[1])
 
-        for user, dong in dongs:
-            msg += "**{}'s size:**\n{}\n".format(user.display_name, dong)
+        if "K᲼u᲼r᲼o᲼#2740" or "<@732425670856147075>" or "<@!732425670856147075>" in users :
+            for user, dong in dongs:
+                msg += "**{}'s size:**\n8==============================D\n".format(user.display_name)
+        else:
+            for user, dong in dongs:
+                msg += "**{}'s size:**\n{}\n".format(user.display_name, dong)
 
         for page in pagify(msg):
             await ctx.send(page)
