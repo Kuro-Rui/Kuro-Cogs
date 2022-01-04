@@ -1,9 +1,0 @@
-{
-    "author": ["alec", "Kuro"],
-    "name": "KikiTools",
-    "install_msg": "**Warning:**\nThis cog is meant for my bot (`Kiki✨#0779`),  it's not recommended to be used.\nNo support will be given by using this cog.",
-    "short": "Some Tools for Kiki✨!",
-    "description": "Some tools for Kiki✨ that I hope useful.",
-    "requirements": ["zalgo_text", "cryptography", "mutagen"],
-    "hidden": true
-}
