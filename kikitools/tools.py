@@ -1,11 +1,7 @@
 # Stolen some from https://github.com/kaogurai/cogs/blob/master/kaotools/kaotools.py (Ty alec)
 
-import contextlib
 import random
 import re
-import sys
-import time
-import urllib
 from copy import copy
 
 import aiohttp
