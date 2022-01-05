@@ -1,6 +1,9 @@
 import discord
 from redbot.core import commands, Config, checks
+
+from io import BytesIO
 import aiohttp
+
 from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
@@ -68,9 +71,10 @@ class Osu(BaseCog):
         else:
             await ctx.send("No results.")
 
-    @commands.command(aliases=["osuimg"])
-    async def osuimage(self, ctx, *, username):
-        """Shows an osu! User Stats with Image!"""
+    @commands.command()
+    @commands.bot_has_permissions(embed_links=True)
+    async def osuimage(self, ctx, username:str):
+        """Shows an osu! User Stats with Image!""" # Thanks epic, thanks Preda <3
 
         apikey = await self.config.apikey()
 
@@ -81,25 +85,23 @@ class Osu(BaseCog):
         # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
-                osu = await response.json()
-
-        if osu:
-            i = "https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={}".format(osu[0]["username"])
-            tt = "{}'s osu!Standard Stats: ".format(osu[0]["username"])
-            tu = "https://osu.ppy.sh/users/{}".format(osu[0]["user_id"])
-            ft = "Powered by api.martinebot.com"
-            fi = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
-            c = await self.bot.get_embed_colour(await ctx.embed_color())
-
-            # Build Embed
-            embed = discord.Embed(title=tt, url=tu, colour=c)
-            embed.set_image(url=i)
-            embed.set_footer(text=ft, icon_url=fi)
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send("No results.")
+        async with ctx.typing():
+            async with aiohttp.ClientSession() as s:
+                async with s.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
+                    osu = await response.json()
+                async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={username}") as resp:
+                    if resp.status in (200,201):
+                        embed = discord.Embed(title=f"{username}'s osu! Standard Stats:", url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
+                        file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu!profile.png")
+                        embed.set_image(url="attachment://osu!profile.png")
+                        osu_icon = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
+                        embed.set_footer(text="Powered by api.martinebot.com", icon_url=osu_icon)
+                        await ctx.send(file=file,embed=embed)
+                        file.close()
+                    elif resp.status in (404,410,422):
+                        await ctx.send((await resp.json())['message'])
+                    else:
+                        await ctx.send("API is currently down, please try again later.")
 
     @commands.command()
     @checks.is_owner()
