@@ -35,7 +35,7 @@
 |:------------:|--------------------------------------------------------------------------|:----------------------------:|
 | CustomInvite | Personalize invite command with an embed, buttons, and multiple options. | Predä, kennnyshiwa, and Kuro |
 |  CustomPing  | Creates a custom ping embed to display latency statistics (+ GIFs).      |      PhenoM4n4n & Kuro       |
-|  KikiTools   | Some tools for Kiki✨ that I hope useful.                                |             Kuro             |
+|   FunText    | Generate a fun text from your given text :D                              |         alec & Kuro          |
 |     Osu      | Show osu!user Stats (Standard Mode) with details/image!                  |        Jintaku & Kuro        |
 
 ## WIP Cogs
