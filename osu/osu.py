@@ -43,7 +43,7 @@ class Osu(BaseCog):
             S = "<:RankS:926177374196875284>"
             A = "<:RankA:926177386737848321>"
 
-            # Format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
+            # Some format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
             joined = "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
             rank = "**▸ Rank:** #{}".format(humanize_number(osu[0]["pp_rank"])) + " (:flag_{}: ".format(osu[0]["country"]).lower() + "#{})\n".format(humanize_number(osu[0]["pp_country_rank"]))
             level = "**▸ Level:** {}\n".format(osu[0]["level"][:5])
@@ -69,7 +69,7 @@ class Osu(BaseCog):
             embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
             await ctx.send(embed=embed)
         else:
-            await ctx.send("No results.")
+            await ctx.send("No results found for this player.")
 
     @commands.command(aliases=["osuimg"])
     @commands.bot_has_permissions(embed_links=True)
@@ -89,6 +89,7 @@ class Osu(BaseCog):
             async with aiohttp.ClientSession() as s:
                 async with s.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
                     osu = await response.json()
+            if osu:
                 async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={username}") as resp:
                     if resp.status in (200,201):
                         embed = discord.Embed(title=f"{username}'s osu! Standard Stats:", url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
@@ -102,6 +103,8 @@ class Osu(BaseCog):
                         await ctx.send((await resp.json())['message'])
                     else:
                         await ctx.send("API is currently down, please try again later.")
+            else:
+                await ctx.send("No results found for this player.")
 
     @commands.command()
     @checks.is_owner()
