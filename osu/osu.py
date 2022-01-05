@@ -71,7 +71,7 @@ class Osu(BaseCog):
         else:
             await ctx.send("No results.")
 
-    @commands.command()
+    @commands.command(aliases=["osuimg"])
     @commands.bot_has_permissions(embed_links=True)
     async def osuimage(self, ctx, username:str):
         """Shows an osu! User Stats with Image!""" # Thanks epic, thanks Preda <3
@@ -92,11 +92,11 @@ class Osu(BaseCog):
                 async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={username}") as resp:
                     if resp.status in (200,201):
                         embed = discord.Embed(title=f"{username}'s osu! Standard Stats:", url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
-                        file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu!profile.png")
-                        embed.set_image(url="attachment://osu!profile.png")
+                        file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_profile.png")
+                        embed.set_image(url="attachment://osu_profile.png")
                         osu_icon = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
                         embed.set_footer(text="Powered by api.martinebot.com", icon_url=osu_icon)
-                        await ctx.send(file=file,embed=embed)
+                        await ctx.send(embed=embed, file=file)
                         file.close()
                     elif resp.status in (404,410,422):
                         await ctx.send((await resp.json())['message'])
