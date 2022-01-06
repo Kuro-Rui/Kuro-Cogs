@@ -249,7 +249,6 @@ class Osu(BaseCog):
             async with aiohttp.ClientSession() as s:
                 async with s.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
                     osu = await response.json()
-            if osu:
                 async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={username}") as resp:
                     if resp.status in (200,201):
                         embed = discord.Embed(title=f"{username}'s osu! Standard Stats:", url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
@@ -263,8 +262,6 @@ class Osu(BaseCog):
                         await ctx.send((await resp.json())['message'])
                     else:
                         await ctx.send("API is currently down, please try again later.")
-            else:
-                await ctx.send("No results found for this player.")
 
     @commands.command()
     @checks.is_owner()
