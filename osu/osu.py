@@ -116,8 +116,8 @@ class Osu(BaseCog):
                 embed = discord.Embed(description=f"{desc}", colour=colour)
                 embed.set_author(
                     icon_url="https://lemmmy.pw/osusig/img/taiko.png",
-                    url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
-                    name="osu! Taiko Profile for {}/taiko".format(osu[0]["username"])
+                    url="https://osu.ppy.sh/u/{}/taiko".format(osu[0]["user_id"]),
+                    name="osu! Taiko Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
                 embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
@@ -222,8 +222,8 @@ class Osu(BaseCog):
                 embed = discord.Embed(description=f"{desc}", colour=colour)
                 embed.set_author(
                     icon_url="https://icon-library.com/images/osu-icon/osu-icon-15.jpg",
-                    url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
-                    name="osu! Mania Profile for {}/mania".format(osu[0]["username"])
+                    url="https://osu.ppy.sh/u/{}/mania".format(osu[0]["user_id"]),
+                    name="osu! Mania Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
                 embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
