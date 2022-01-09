@@ -251,7 +251,7 @@ class Osu(BaseCog):
                     osu = await response.json()
                 async with s.get(f"https://api.martinebot.com/v1/imagesgen/osuprofile?&player_username={username}") as resp:
                     if resp.status in (200,201):
-                        embed = discord.Embed(title=f"{username}'s osu! Standard Stats:", url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
+                        embed = discord.Embed(title="{}'s osu! Standard Stats:".format(osu[0]["username"]), url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
                         file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_profile.png")
                         embed.set_image(url="attachment://osu_profile.png")
                         osu_icon = "https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png"
