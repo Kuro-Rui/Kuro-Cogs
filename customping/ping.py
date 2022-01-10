@@ -83,7 +83,6 @@ class CustomPing(commands.Cog):
     async def ping(self, ctx):
         """View bot latency."""
         start = time.monotonic()
-        message = await ctx.send("Pinging...")
         end = time.monotonic()
         totalPing = round((end - start) * 1000, 2)
         ping_gifs = (
@@ -103,6 +102,7 @@ class CustomPing(commands.Cog):
         e = discord.Embed(title="Pinging..")
         e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "crmsh"))
         e.set_image(url=ping_gifs_picker)
+        message = await ctx.send(embed=e)
         await asyncio.sleep(0.25)
         try:
             await message.edit(content=None, embed=e)
