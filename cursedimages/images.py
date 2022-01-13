@@ -1,4 +1,4 @@
-foods = {
+food_images = (
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890354429982/FB_IMG_1642069608972.jpg",
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890648027146/FB_IMG_1642069671756.jpg",
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890874535956/FB_IMG_1642069728999.jpg",
@@ -49,9 +49,9 @@ foods = {
     "https://i.imgur.com/XTx4O1v.jpg",
     "https://i.chzbgr.com/full/9626594048/h80246D16/hamburger",
     "https://pbs.twimg.com/media/EPZNpKKU0AAhvbI.jpg"
-}
+)
 
-food_emojis = {
+food_emojis = (
     "🍕",
     "🍔",
     "🍟",
@@ -73,4 +73,4 @@ food_emojis = {
     "🍝",
     "🍮",
     "🍤"
-}
+)
