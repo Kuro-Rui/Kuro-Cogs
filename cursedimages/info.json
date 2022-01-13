@@ -1,0 +1,10 @@
+{
+    "name": "CursedImages",
+	"author": ["Kuro"],
+	"install_msg": "⚠️**TW⚠️ : __CURSED IMAGES__**\nIf you're sensitive with this kind of things **PLEASE** uninstall this cog.",
+	"description": "Generates a random cursed image from different categories.",
+	"short": "Generates a random cursed image.",
+	"tags": ["cursed"],
+    "end_user_data_statement": "This cog does not store any End User Data.",
+    "hidden": true
+}
