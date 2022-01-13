@@ -26,5 +26,5 @@ class CursedImages(commands.Cog):
                     e = discord.Embed(title=t, description=d, color=await ctx.embed_color())
                     fn = "cursed_food.png"
                     f = discord.File(fp=BytesIO(await resp.read()), filename=f"SPOILER_{fn}")
-                    e.set_image(url=f"attachment://SPOILER_cursed_food.png")
+                    e.set_image(url=f"attachment://SPOILER_{fn}")
                     await ctx.send(embed=e, file=f)
