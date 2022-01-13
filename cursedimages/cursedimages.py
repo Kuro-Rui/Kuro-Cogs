@@ -24,7 +24,8 @@ class CursedImages(commands.Cog):
                     t = "Here's Cursed Food Image... {}".format(random.choice(food_emojis))
                     d = "⚠️**TW⚠️ : CURSED FOOD IMAGES**"
                     e = discord.Embed(title=t, description=d, color=await ctx.embed_color())
-                    f = discord.File(fp=BytesIO(await resp.read()), filename="cursed_food.png")
-                    e.set_image(url="SPOILER_attachment://cursed_food.png")
-                    await ctx.send(embed=e, file=f)
+                    f = discord.File(fp=BytesIO(await resp.read()), filename=f"SPOILER_cursed_food.png")
+                    spoiler = await f.to_file()
+                    e.set_image(url="attachment://SPOILER_cursed_food.png")
+                    await ctx.send(embed=e, file=spoiler)
                     f.close()
