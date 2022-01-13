@@ -25,7 +25,7 @@ class CursedImages(commands.Cog):
                     d = "⚠️**TW⚠️ : CURSED FOOD IMAGES**"
                     e = discord.Embed(title=t, description=d, color=await ctx.embed_color())
                     fn = "cursed_food.png"
-                    f = ctx.message.attachments[0]
+                    f = ctx.message.attachments
                     f.filename = f"SPOILER_{fn}"
                     spoiler = await f.to_file()
                     await ctx.send(embed=e, file=spoiler)
