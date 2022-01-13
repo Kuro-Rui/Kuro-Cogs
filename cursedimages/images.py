@@ -1,4 +1,4 @@
-FOODS = {
+foods = {
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890354429982/FB_IMG_1642069608972.jpg",
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890648027146/FB_IMG_1642069671756.jpg",
     "https://cdn.discordapp.com/attachments/748180110548664330/931132890874535956/FB_IMG_1642069728999.jpg",
@@ -51,7 +51,7 @@ FOODS = {
     "https://pbs.twimg.com/media/EPZNpKKU0AAhvbI.jpg"
 }
 
-FOOD_EMOJIS = {
+food_emojis = {
     "🍕",
     "🍔",
     "🍟",
