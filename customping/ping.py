@@ -96,7 +96,7 @@ class CustomPing(commands.Cog):
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
         try:
-            await message.edit(None, embed=e)
+            await message.edit("", embed=e)
         except discord.NotFound:
             return
 
@@ -157,7 +157,6 @@ class CustomPing(commands.Cog):
         message = await ctx.send(embed=e)
         send_end = time.monotonic()
         send_ping = round((send_end - send_start) * 1000, 2)
-
         e.add_field(name="Send:", value=chat.box(f"{send_ping}" + " ms", "py"))
         ping_gifs = (
             "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
