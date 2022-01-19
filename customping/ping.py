@@ -83,10 +83,10 @@ class CustomPing(commands.Cog):
     async def ping(self, ctx):
         """View bot latency."""
         start = time.monotonic()
-        message = await ctx.send("Pinging...")
         end = time.monotonic()
-        totalPing = round((end - start) * 1000, 2)
         e = discord.Embed(title="Pinging...")
+        message = await ctx.send(embed=e)
+        totalPing = round((end - start) * 1000, 2)
         e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "py"))
         ping_gifs = (
             "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
@@ -104,7 +104,7 @@ class CustomPing(commands.Cog):
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
         try:
-            await message.edit(content=None, embed=e)
+            await message.edit(embed=e)
         except discord.NotFound:
             return
 
@@ -139,7 +139,7 @@ class CustomPing(commands.Cog):
             await loop.run_in_executor(executor, s.get_best_server)
         except Exception as exc:
             log.exception("An exception occured while fetching host latency.", exc_info=exc)
-            host_latency = "`Failed`"
+            host_latency = "Failed"
         else:
             result = s.results.dict()
             host_latency = round(result["ping"], 2)
