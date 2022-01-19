@@ -55,7 +55,7 @@ class CustomPing(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(
             self,
-            identifier=214125632752514123461,
+            identifier=325236743863625234572,
             force_registration=True,
         )
         default_global = {"host_latency": True}
