@@ -85,7 +85,7 @@ class CustomPing(commands.Cog):
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
         try:
-            await message.edit(embed=e)
+            await message.edit(None, embed=e)
         except discord.NotFound:
             return
 
@@ -193,7 +193,7 @@ class CustomPing(commands.Cog):
             color = discord.Colour.orange()
         else:
             color = discord.Colour.green()
-        
+
         e = discord.Embed(color=color, title="Shard Pings", description="\n".join(description))
         e.set_image(url=ping_gifs_picker)
         e.set_footer(text=f"Average: {round(average_ping, 2)} ms")
