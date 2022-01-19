@@ -43,7 +43,7 @@ from redbot.core.utils.chat_formatting import (
 )
 
 old_ping = None
-log = logging.getLogger("red.phenom4n4n.customping")
+log = logging.getLogger("red.kuro.customping")
 
 
 class CustomPing(commands.Cog):
@@ -55,7 +55,7 @@ class CustomPing(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(
             self,
-            identifier=325236743863625234572,
+            identifier=214125632752514123461,
             force_registration=True,
         )
         default_global = {"host_latency": True}
