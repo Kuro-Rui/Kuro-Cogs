@@ -86,6 +86,8 @@ class CustomPing(commands.Cog):
         message = await ctx.send("Pinging...")
         end = time.monotonic()
         totalPing = round((end - start) * 1000, 2)
+        e = discord.Embed(title="Pinging...")
+        e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "py"))
         ping_gifs = (
             "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
             "https://4.bp.blogspot.com/-8XanbCQDxfg/WnJTaUeifYI/AAAAAAABEUo/5yv_KUlLV9cmJsuI8jeFRrGSXbtQMclngCKgBGAs/s1600/Omake%2BGif%2BAnime%2B-%2BShokugeki%2Bno%2BSoma%2BS2%2B-%2BOAD%2B1%2B%255BDVD%255D%2B-%2BMegumi%2Bvs%2BIsshiki.gif",
@@ -99,9 +101,6 @@ class CustomPing(commands.Cog):
             "https://i1.wp.com/drunkenanimeblog.com/wp-content/uploads/2017/11/shakunetsu-no-takkyuu-musume-scorching-ping-pong-girls.gif?fit=540%2C303&ssl=1&resize=350%2C200https://media1.tenor.com/images/2b27c6e7747d319f76fd98d2a226ab33/tenor.gif?itemid=15479836",
         )
         ping_gifs_picker = random.choice(ping_gifs)
-
-        e = discord.Embed(title="Pinging..")
-        e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "crmsh"))
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
         try:
@@ -110,7 +109,7 @@ class CustomPing(commands.Cog):
             return
 
         botPing = round(self.bot.latency * 1000, 2)
-        e.add_field(name="Discord WS:", value=chat.box(f"{botPing}" + " ms", "crmsh"))
+        e.add_field(name="Discord WS:", value=chat.box(f"{botPing}" + " ms", "py"))
         await asyncio.sleep(0.25)
 
         averagePing = (botPing + totalPing) / 2
@@ -122,7 +121,7 @@ class CustomPing(commands.Cog):
             color = discord.Colour.green()
 
         if not self.settings["host_latency"]:
-            e.title = "Pong!"
+            e.title = "Pong! 🏓"
 
         e.color = color
         try:
@@ -146,7 +145,7 @@ class CustomPing(commands.Cog):
             host_latency = round(result["ping"], 2)
 
         e.title = "Pong!"
-        e.add_field(name="Host:", value=chat.box(f"{host_latency}" + " ms", "crmsh"))
+        e.add_field(name="Host:", value=chat.box(f"{host_latency}" + " ms", "py"))
         await asyncio.sleep(0.25)
         try:
             await message.edit(embed=e)
@@ -159,8 +158,8 @@ class CustomPing(commands.Cog):
         now = datetime.datetime.utcnow().timestamp()
         receival_ping = round((now - ctx.message.created_at.timestamp()) * 1000, 2)
 
-        e = discord.Embed(title="Pinging..")
-        e.add_field(name="Receival:", value=chat.box(f"{receival_ping}" + " ms", "crmsh"))
+        e = discord.Embed(title="Pinging...")
+        e.add_field(name="Receival:", value=chat.box(f"{receival_ping}" + " ms", "py"))
 
         send_start = time.monotonic()
         message = await ctx.send(embed=e)
@@ -180,7 +179,7 @@ class CustomPing(commands.Cog):
         )
         ping_gifs_picker = random.choice(ping_gifs)
 
-        e.add_field(name="Send:", value=chat.box(f"{send_ping}" + " ms", "crmsh"))
+        e.add_field(name="Send:", value=chat.box(f"{send_ping}" + " ms", "py"))
         e.set_image(url=ping_gifs_picker)
         await asyncio.sleep(0.25)
 
@@ -191,7 +190,7 @@ class CustomPing(commands.Cog):
             return
         edit_end = time.monotonic()
         edit_ping = round((edit_end - edit_start) * 1000, 2)
-        e.add_field(name="Edit:", value=chat.box(f"{edit_ping}" + " ms", "crmsh"))
+        e.add_field(name="Edit:", value=chat.box(f"{edit_ping}" + " ms", "py"))
 
         average_ping = (receival_ping + send_ping + edit_ping) / 3
         if average_ping >= 1000:
@@ -202,7 +201,7 @@ class CustomPing(commands.Cog):
             color = discord.Colour.green()
 
         e.color = color
-        e.title = "Pong!"
+        e.title = "Pong! 🏓"
 
         await asyncio.sleep(0.25)
         try:
@@ -218,8 +217,7 @@ class CustomPing(commands.Cog):
         for shard_id, shard in self.bot.shards.items():
             latency = round(shard.latency * 1000, 2)
             latencies.append(latency)
-            shard_ids = shard_id + 1
-            description.append(chat.box(f"Shard {shard_ids}: {latency}" + " ms", "crmsh"))
+            description.append(chat.box(f"Shard {shard_id+1}: {latency}" + " ms", "py"))
         average_ping = sum(latencies) / len(latencies)
         if average_ping >= 1000:
             color = discord.Colour.red()
