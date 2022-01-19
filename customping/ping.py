@@ -86,6 +86,13 @@ class CustomPing(commands.Cog):
         end = time.monotonic()
         e = discord.Embed(title="Pinging...")
         message = await ctx.send(embed=e)
+        e.title = "Pinging..."
+        await asyncio.sleep(0.25)
+        try:
+            await message.edit(embed=e)
+        except discord.NotFound:
+            return
+        
         totalPing = round((end - start) * 1000, 2)
         e.add_field(name="Overall:", value=chat.box(f"{totalPing}" + " ms", "py"))
         ping_gifs = (
@@ -144,7 +151,7 @@ class CustomPing(commands.Cog):
             result = s.results.dict()
             host_latency = round(result["ping"], 2)
 
-        e.title = "Pong!"
+        e.title = "Pong! 🏓"
         e.add_field(name="Host:", value=chat.box(f"{host_latency}" + " ms", "py"))
         await asyncio.sleep(0.25)
         try:
