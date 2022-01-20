@@ -1,9 +1,9 @@
 {
-    "author" : ["Jintaku", "Kuro"],
-    "bot_version": [3,0,0],
-    "install_msg" : "Thanks for installing `Osu` cog! CLICK THE CIRCLES, TO THE BEAT!..",
+    "author" : ["Kuro"],
+    "bot_version": [3.0.0],
+    "install_msg" : "Thanks for installing `Osu` cog! CLICK THE CIRCLES, TO THE BEAT!",
     "short" : "Display user information from osu!",
-    "description" : "Displays user information about osu! users in a simple embed",
-    "tags" : ["osu!", "information"],
+    "description" : "Displays detailed user information about osu! users in an embed.",
+    "tags" : ["osu!"],
     "hidden" : false
   }
