@@ -5,7 +5,8 @@
     "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
     "install_msg": "Have fun, this cog isn't extensively tested, so if you find any bugs, please report them to me in the cog server",
     "author": [
-        "epic guy"
+        "epic guy",
+        "Kuro"
     ],
     "required_cogs": {},
     "requirements": [],
