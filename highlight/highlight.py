@@ -108,7 +108,7 @@ class Highlight(commands.Cog):
         logger.info("Migration complete.")
 
     @commands.Cog.listener()
-    async def on_message(self, message: discord.Message):
+    async def on_message(self, ctx: commands.Context, message: discord.Message):
         if isinstance(message.channel, discord.abc.PrivateChannel):
             return
         if await self.bot.cog_disabled_in_guild(self, message.guild):
