@@ -107,7 +107,7 @@ class Phun(commands.Cog):
 
     @commands.command()
     async def space(self, ctx: commands.Context, *, msg: str) -> None:
-        """Add n spaces between each letter. Ex: `[p]space 2 thicc`."""
+        """Add n spaces between each letter. Ex: \"[p]space 2 thicc\"."""
         if msg.split(" ", 1)[0].isdigit():
             spaces = int(msg.split(" ", 1)[0]) * " "
             msg = msg.split(" ", 1)[1].strip()
