@@ -1,7 +1,7 @@
 {
     "author" : ["Kuro"],
-    "bot_version": [3.0.0],
-    "install_msg" : "Thanks for installing `Osu` cog! CLICK THE CIRCLES, TO THE BEAT!",
+    "min_bot_version": "3.0.0",
+    "install_msg" : "Thanks for installing `Osu` cog! CLICK THE CIRCLES, TO THE BEAT!\nHow to set osu! API key:\n1. Go to https://osu.ppy.sh/p/api and login.\n2.Set App Name as your bot's name & App URL as https://osu.ppy.sh/api/v1/ or whatsoever.\n3.Copy the API Key and set it with `[p]osukey <API_Key>`.",
     "short" : "Display user information from osu!",
     "description" : "Displays detailed user information about osu! users in an embed.",
     "tags" : ["osu!"],
