@@ -192,7 +192,7 @@ class Highlight(commands.Cog):
                     context = "**Context omitted due to message size limits.\n**"
                 embed = discord.Embed(
                     title="Context:",
-                    colour=await self.bot.get_embed_colour(),
+                    colour=11070202,
                     timestamp=message.created_at,
                     description="{}".format(context),
                 )
