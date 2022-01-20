@@ -2,9 +2,12 @@
 	"author": [
 		"Predä", "kennnyshiwa", "Kuro"
 	],
-	"description": "Creates a custom invite embed to display the bot invite and support server that also comes with buttons.",
+	"description": "Creates a custom invite embed to display the bot invite and support server that also comes with buttons.\n***NOTE:** This cog uses `dislash.py` for buttons and may interfere with Phen's `SlashTags`, so just remove it if you want.",
 	"install_msg": "Thanks for installing, have fun.",
 	"short": "Creates a custom invite embed to display the bot invite and support server that also comes with buttons.",
+	"requirements": [
+        "dislash.py"
+	],
 	"tags": [
 		"bots",
         "invite",
