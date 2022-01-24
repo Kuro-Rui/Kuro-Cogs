@@ -234,7 +234,7 @@ class Osu(BaseCog):
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username):
-        """Shows an osu!standard User Stats with Image!""" # Thanks epic, thanks Preda <3
+        """Shows an osu!standard User Card with Image!""" # Thanks epic, thanks Preda <3
 
         apikey = await self.config.apikey()
 
