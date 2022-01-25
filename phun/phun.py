@@ -125,7 +125,7 @@ class Phun(commands.Cog):
         self, ctx: commands.Context, message: Optional[discord.Message]
     ) -> None:
         """
-        React 🅾🇴🇫 to a message.
+        React :regional_indicator_o: 🅾 :regional_indicator_f: to a message.
         `[message]` Can be a message ID from the current channel, a jump URL,
         or a channel_id-message_id from shift + copying ID on the message.
         """
@@ -136,7 +136,7 @@ class Phun(commands.Cog):
         if not message.channel.permissions_for(ctx.me).add_reactions:
             return await ctx.send("I require add_reactions permission in that channel.")
         with contextlib.suppress(discord.HTTPException):
-            for emoji in ("🅾", "🇴", "🇫"):
+            for emoji in ("🇴", "🅾", "🇫"):
                 await message.add_reaction(emoji)
         if ctx.channel.permissions_for(ctx.me).manage_messages:
             with contextlib.suppress(discord.NotFound):
