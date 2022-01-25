@@ -1,6 +1,7 @@
 import contextlib
 import re
 from typing import Optional, Union
+import random
 
 import discord
 from redbot.core import commands
@@ -233,3 +234,33 @@ class Phun(commands.Cog):
                 await ctx.message.delete()
         else:
             await ctx.tick()
+
+    @commands.command(aliases=["peepee", "dingdong"])
+    async def pp(self, ctx, *users: discord.Member):
+        """
+        Get user's peepee size!
+        """
+        if not users:
+            users = {ctx.author}
+
+        lengths = {}
+        state = random.getstate()
+        bot_owner = int(str(ctx.bot.owner_ids).strip("{}"))
+
+        for user in users:
+            random.seed(str(user.id))
+
+            if ctx.bot.user.id == user.id or user.id == bot_owner:
+                length = 30
+            else:
+                length = random.randint(0, 30)
+
+            lengths[user] = "8{}D".format("=" * length)
+
+        random.setstate(state)
+        lengths = sorted(lengths.items(), key=lambda x: x[1])
+
+        msg = "".join("**{}'s size:**\n{}\n".format(user.display_name, length) for user, length in lengths)
+
+        for page in pagify(msg):
+            await ctx.send(page)
