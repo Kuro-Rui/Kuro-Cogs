@@ -414,14 +414,14 @@ class MsgSource(menus.ListPageSource):
         self.template_emb: discord.Embed = template_emb
         super().__init__(**kwargs)
 
-    async def format_page(self, menu, msg):
+    async def format_page(self, menu, msg, ctx):
         emb = self.template_emb.copy() 
         #        emb.title = f"Message Contents"
         emb.description = msg.content
         emb.set_author(name=f"{msg.author} ({msg.author.id})", icon_url=msg.author.avatar_url)
         emb.add_field(name="Sent:", value=f"<t:{msg.created_at}:R>")
         emb.add_field(name="Deleted:", value=f"<t:{msg.deleted_at}:R>")
-        emb.set_footer(text=f"#{msg.channel} (Page {menu.current_page+1}/{self._max_pages})")
+        emb.set_footer(text=f"#{msg.channel}  •  Sniped by {ctx.author}\nPage {menu.current_page+1}/{self._max_pages}")
         emb.timestamp = datetime.datetime.now(datetime.timezone.utc)
 
         return emb
