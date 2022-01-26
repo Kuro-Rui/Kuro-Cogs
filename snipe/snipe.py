@@ -414,7 +414,7 @@ class MsgSource(menus.ListPageSource):
         self.template_emb: discord.Embed = template_emb
         super().__init__(**kwargs)
 
-    async def format_page(self, menu, msg, ctx):
+    async def format_page(self, menu, msg):
         emb = self.template_emb.copy() 
         #        emb.title = f"Message Contents"
         emb.description = msg.content
