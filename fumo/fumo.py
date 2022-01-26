@@ -19,5 +19,5 @@ class Fumo(commands.Cog):
                     fumo = await r.json()
 
                     e = discord.Embed(title="Here's a Fumo Image!", color=await ctx.embed_color())
-                    e.set_image(url=fumo[0]["URL"])
+                    e.set_image(url=fumo["URL"])
                     await ctx.send(embed=e)
