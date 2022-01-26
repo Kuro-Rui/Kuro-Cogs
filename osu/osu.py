@@ -232,6 +232,7 @@ class Osu(BaseCog):
                 await ctx.send("No results found for this player.")
 
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username):
         """Shows an osu!standard User Card with Image!""" # Thanks epic, thanks Preda <3
