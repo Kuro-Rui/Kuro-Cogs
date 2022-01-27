@@ -36,7 +36,7 @@ from redbot.core.utils import AsyncIter, chat_formatting as chat
 old_ping = None
 log = logging.getLogger("red.kuro.customping")
 
-class CustomPing(commands.Cog):
+class BotPing(commands.Cog):
     """A more information rich ping message."""
 
     __version__ = "1.0.0"
@@ -258,6 +258,6 @@ async def setup(bot):
     if old_ping:
         bot.remove_command(old_ping.name)
 
-    cog = CustomPing(bot)
+    cog = BotPing(bot)
     await cog.initialize()
     bot.add_cog(cog)
