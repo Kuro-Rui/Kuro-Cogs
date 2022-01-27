@@ -39,7 +39,7 @@
 |     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
 |   FunText    | Generates a fun text from your given text :D             |         alec & Kuro          |
 |  Highlight   | <details><summary>Highlight certain words to be notified of if said in a certain channel.</summary> Fork from https://github.com/flaree/flare-cogs/tree/master/highlight</details>    |    flare(flare#0001) & Kuro     |
-|     Osu      | <details><summary>Show osu!user Stats (Standard Mode) with details/image!</summary>Fork from https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>            |         Jintaku & Kuro          |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Fork from https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>            |         Jintaku & Kuro          |
 |     Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>          |        TrustyJAID & Kuro        |
 |    Snipe     | <details><summary>Snipe a channel's last deleted message for fun and profit.</summary>Fork from https://github.com/npc203/npc-cogs/tree/main/snipe</details>                                           |          npc203 & Kuro          |
 |   Spotify    | <details><summary>Control Spotify via OAuth through the bot on Discord.</summary>Fork from https://github.com/kaogurai/trusty/tree/master/spotify</details>                                             |     TrustyJAID, alec & Kuro     |
