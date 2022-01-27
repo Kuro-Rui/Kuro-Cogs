@@ -1,17 +1,14 @@
 import discord
-
-import dislash
-from dislash.interactions import ActionRow, Button, ButtonStyle
-
-from redbot.core import commands, checks, Config
+from redbot.core import Config, checks, commands
 
 old_invite = None
 
 
-class CustomInvite(commands.Cog):
-    """Personalize invite command with an embed and multiple options."""
-
-    __author__ = "kennnyshiwa, Kuro"
+class BotInvite(commands.Cog):
+    """
+    Invite cog with an embed, multiple options, and buttons
+    without using any extra libraries.
+    """
 
     async def red_delete_data_for_user(self, **kwargs):
         """ Nothing to delete """
@@ -21,9 +18,10 @@ class CustomInvite(commands.Cog):
         self.bot = bot
         default = {
             "support": False,
-            "support_serv": None,
+            "support_server": None,
             "description": "Thanks for choosing to invite {name} to your server!",
-            "setpermissions": "",
+            "permissions": "",
+            "applications_commands" : False
         }
         self.config = Config.get_conf(self, 376564057517457408, force_registration=True)
         self.config.register_global(**default)
@@ -38,9 +36,9 @@ class CustomInvite(commands.Cog):
             self.bot.add_command(old_invite)
 
     @checks.is_owner()
-    @commands.group()
+    @commands.group(aliases=["inviteset", "invset"])
     async def invitesettings(self, ctx):
-        """Settings for CustomInvite cog."""
+        """Settings for BotInvite cog."""
         pass
 
     @invitesettings.command()
@@ -75,29 +73,45 @@ class CustomInvite(commands.Cog):
             await ctx.send("Support Field set to `False`.")
 
     @invitesettings.command()
-    async def supportserv(self, ctx, supportserver):
+    async def server(self, ctx, support_server):
         """
         Set a support server.
         Enter the invite link to your server.
         """
-        await self.config.support_serv.set(supportserver)
+        await self.config.support_server.set(support_server)
         await ctx.send("Support Server set.")
 
     @invitesettings.command()
-    async def setpermissions(self, ctx, *, text: int = ""):
+    async def setpermissions(self, ctx, *, value: int = ""):
         """Set the default permissions value for your bot.
         Get the permissions value from https://discordapi.com/permissions.html
         If left blank, resets permissions value to none
         Enter ``None`` to disable the permissions value
         """
-        if text == "":
+        if value == "":
             await self.config.setpermissions.clear()
             return await ctx.send("Permissions Value reset.")
-        elif text == "None":
+        elif value == "None":
             await self.config.setpermission.set("")
             return await ctx.send("Permissions Value disabled.")
-        await self.config.setpermissions.set(text)
+        await self.config.setpermissions.set(value)
         await ctx.send("Permissions set.")
+
+    @invitesettings.command()
+    async def commandscope(self, ctx, value: bool = None):
+        """
+        ***Add the `applications.commands` scope to your invite URL.***
+        
+        This allows the usage of slash commands on the servers that invited your bot with that scope.
+
+        Note that previous servers that invited the bot without the scope cannot have slash commands, they will have to invite the bot a second time.
+        """
+        if value:
+            await self.config.applications_commands.set(True)
+            await ctx.send("The `applications.commands` scope set to `True` and added to invite URL.")
+        else:
+            await self.config.applications_commands.set(False)
+            await ctx.send("The `applications.commands` scope set to `False` and removed from invite URL.")
 
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
@@ -106,9 +120,10 @@ class CustomInvite(commands.Cog):
         Send personalized invite for the bot.
         """
         permissions = await self.config.setpermissions()
-        support_serv = await self.config.support_serv()
+        server = await self.config.support_server()
         support = await self.config.support()
-        if support_serv is None and support is True:
+        applications_commands = await self.config.applications_commands()
+        if server is None and support is True:
             return await ctx.send("Bot Owner needs to set a Support Server!")
         embed = discord.Embed(
             title="Thanks for inviting {name}!".replace("{name}", self.bot.user.name),
@@ -119,41 +134,29 @@ class CustomInvite(commands.Cog):
             name=ctx.bot.user.name, icon_url=ctx.bot.user.avatar_url_as(static_format="png")
         )
         embed.set_thumbnail(url=ctx.bot.user.avatar_url_as(static_format="png"))
-        embed.add_field(
-            name="Bot Invite:",
-            value="https://discord.com/oauth2/authorize?client_id={}&scope=bot&permissions={}%20applications.commands".format(
-                self.bot.user.id, permissions
-            ),
-        )
-        if support:
-            embed.add_field(name="Support Server:", value="[Click Here!]({})".format(support_serv))
-        embed.set_footer(
-            text="{}".format(
-                ctx.bot.user.display_name
-            ),
-            icon_url="https://cdn.discord.com/icons/133049272517001216/83b39ff510bb7c3f5aeb51270af09ad3.webp",
-        )
-        invite_button = [
-            ActionRow(
-                Button(
-                    style=ButtonStyle.link,
-                    label="Invite Me!",
-                    url="https://discord.com/oauth2/authorize?client_id={}&scope=bot&permissions={}%20applications.commands".format(
-                        self.bot.user.id, permissions
-                        )
-                    ),
-                Button(
-                    style=ButtonStyle.link,
-                    label="Support Server",
-                    url="{}".format(support_serv)
-                )
+        if applications_commands:
+            embed.add_field(
+                name="Bot Invite:",
+                value="https://discord.com/oauth2/authorize?client_id={}&scope=bot&permissions={}%20applications.commands".format(
+                    self.bot.user.id, permissions
+                ),
             )
-        ]
-        await ctx.send(embed=embed, components=invite_button)
+        else:
+            embed.add_field(
+                name="Bot Invite:",
+                value="https://discord.com/oauth2/authorize?client_id={}&scope=bot&permissions={}".format(
+                    self.bot.user.id, permissions
+                ),
+            )
+        if support:
+            embed.add_field(name="Support Server:", value=f"[Click Here!]({server})", inline=True)
+        embed.set_footer(text="{}".format(ctx.bot.user.display_name))
+        
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
-    invite = CustomInvite(bot)
+    invite = BotInvite(bot)
     global old_invite
     old_invite = bot.get_command("invite")
     if old_invite:
