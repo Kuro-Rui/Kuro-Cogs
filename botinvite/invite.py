@@ -137,7 +137,7 @@ class BotInvite(commands.Cog):
         if applications_commands:
             embed.add_field(
                 name="Bot Invite:",
-                value="https://discord.com/oauth2/authorize?client_id={}&scope=bot&permissions={}%20applications.commands".format(
+                value="https://discord.com/oauth2/authorize?client_id={}&scope=bot+applications.commands&permissions={}".format(
                     self.bot.user.id, permissions
                 ),
             )
