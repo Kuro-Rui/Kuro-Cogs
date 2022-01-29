@@ -57,8 +57,9 @@ class Fumo(commands.Cog):
     async def video(self, ctx):
         """Generates a random Fumo video."""
         async with ctx.typing():
-            e = discord.Embed(title="Here's a Random Fumo Video! 🎏", color=await ctx.embed_color())
-            f = discord.File(choice(FUMO["videos"]), filename="fumo.mp4")
+            c = "**Here's a Random Fumo Video!** 🎏"
+            e = discord.Embed(title=c, color=await ctx.embed_color())
+            f = discord.File(fp=choice(FUMO["videos"]), filename="fumo.mp4")
             e.set_image(url="attachment://fumo.mp4")
             e.set_footer(text="Source: github.com/Kuro-Rui/Kuro-Cogs/blob/main/fumo/fumo.py", icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless")
             await ctx.send(embed=e, file=f)
