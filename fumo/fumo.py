@@ -118,8 +118,8 @@ FUMO = {
         "https://cdn.discordapp.com/attachments/834742953275555850/936023850376888320/IMG_20220126_103931.jpg",
         "https://media.discordapp.net/attachments/844262973043114044/844264446020943932/tumblr_p0ptn0TNGp1wvw3f7o1_500.jpg"
     ],
-    "videos" : [
-        "https://telegra.ph/file/f2235dde2263d69cb5e22.mp4",
-        "https://telegra.ph/file/d414452895ef211ecb8d7.mp4"
-    ]
+    # "videos" : [
+    #     "https://telegra.ph/file/f2235dde2263d69cb5e22.mp4",
+    #     "https://telegra.ph/file/d414452895ef211ecb8d7.mp4"
+    # ]
 }
