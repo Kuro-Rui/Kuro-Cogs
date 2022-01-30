@@ -114,7 +114,7 @@ class Suggestion(commands.Cog):
         up_emoji, down_emoji = await self._get_emojis(ctx)
         embed.add_field(
             name = "Vote :",
-            value = f"{up_emoji} : Up\n{down_emoji} : Down"
+            value = f"{up_emoji} : Up, {down_emoji} : Down"
         )
         msg = await channel.send(embed=embed)
         await msg.add_reaction(up_emoji)
@@ -133,7 +133,7 @@ class Suggestion(commands.Cog):
             await ctx.tick()
         try:
             await ctx.author.send(
-                content="Your suggestion has been sent for approval!", embed=embed
+                content=f"Your suggestion has been sent for approval!\n{msg.jump_url}", embed=embed
             )
         except discord.Forbidden:
             pass
