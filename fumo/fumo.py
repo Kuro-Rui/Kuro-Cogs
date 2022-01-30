@@ -104,6 +104,7 @@ FUMO = {
         "https://telegra.ph/file/a5ee37bf4344376fe556c.gif",
         "https://telegra.ph/file/745e384c0350660cd90b6.gif",
         "https://telegra.ph/file/3b07c012328596d11adb4.gif",
+        "https://c.tenor.com/log5bfZnPRAAAAAC/fumo-reimu.gif",
         "https://c.tenor.com/Jjx4zWT4mjAAAAAC/reimu-fumo.gif",
         "https://c.tenor.com/3G4a3uf7H28AAAAd/yuumi-kiss.gif",
         "https://c.tenor.com/RhkpD-7VXcMAAAAd/touhou-fumo.gif",
@@ -113,7 +114,10 @@ FUMO = {
         "https://c.tenor.com/wuTstMILarIAAAAC/touhou-fumo.gif",
         "https://c.tenor.com/LWjpbNXnROAAAAAd/fumo-fumofumo.gif",
         "https://c.tenor.com/z0gjYuuVNJgAAAAd/reisen-touhou.gif",
+        "https://c.tenor.com/bEGPFX60ULEAAAAd/reimu-fumo-touhou.gif",
+        "https://c.tenor.com/ZxRJ0mBd5SYAAAAd/cirno-bounce-cirno.gif",
         "https://c.tenor.com/e2qNXLfFaDkAAAAd/touhou-touhou-fumo.gif",
+        "https://c.tenor.com/fu6rGFRID1gAAAAC/fumo-touhou-fumo-plush.gif",
         "https://c.tenor.com/zETOl6JNRk0AAAAC/touhou-fumo-fumo-touhou.gif",
         "https://c.tenor.com/5iY6DCQf8r8AAAAC/patchouli-knowledge-patchy.gif",
         "https://c.tenor.com/pPp3eOE-vS8AAAAC/patchouli-patchouli-knowledge.gif"

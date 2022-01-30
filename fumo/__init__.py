@@ -23,9 +23,9 @@ class Fumo(commands.Cog):
         """Generates Fumo Image."""
         pass
 
-    @fumo.command()
+    @fumo.command(aliases=["images", "random"])
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def random(self, ctx):
+    async def image(self, ctx):
         """Generates a random Fumo image."""
         e = discord.Embed(title="Here's a Random Fumo Image! 🎏", color=await ctx.embed_color())
         e.set_image(url=choice(FUMO["list"]))
