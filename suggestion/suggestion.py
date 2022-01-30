@@ -102,7 +102,7 @@ class Suggestion(commands.Cog):
 
         embed = discord.Embed(title=title, color=await ctx.embed_colour(), description=suggestion)
         embed.set_author(
-            name = f"By: {ctx.author.name}#{ctx.author.discriminator}",
+            name = f"{ctx.author.name}#{ctx.author.discriminator}",
             icon_url = ctx.author.avatar_url,
         )
         embed.set_footer(
