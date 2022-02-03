@@ -37,7 +37,7 @@ class Polls(commands.Cog):
         **Use `""` in every argument that is more than a word.**
 
         **Examples:** 
-        • `[p]poll "Is this a poll?" Yes No
+        • `[p]poll "Is this a poll?" Yes Maybe No`
         • `[p]poll "How are you?" Good "Not feeling well"`
         """
         # Totally not copying Dyno (jk I lied)
@@ -156,7 +156,7 @@ class Polls(commands.Cog):
             await message.add_reaction(ten)
 
         msg = await ctx.send(embed=discord.Embed(description="✅ Poll created.", color=7844437))
-        await sleep(3)
+        await sleep(5)
         try:
             await msg.delete()
         except discord.NotFound:
