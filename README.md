@@ -1,8 +1,5 @@
 <h1 align="center">Kuro-Cogs</h1>
 <p align="center">
-  <a href="https://discord.com/oauth2/authorize?client_id=886547720985264178&scope=bot&permissions=2251673160%20applications.commands">
-    <img src="https://img.shields.io/badge/Invite%20Kiki✨-Invite-a2cbeb?style=flat&logo=discord&link=https://discord.com/oauth2/authorize?client_id=886547720985264178&scope=bot&permissions=2251673160%20applications.commands&labelColor=f0a8b4" alt="Invite Kiki✨">
-  </a>
   <a href="https://discord.gg/Zef3pD8Yt5">
     <img src="https://img.shields.io/badge/ʚ﹕The%20Cloud%20House﹕ɞ-Join-a2cbeb?style=flat&logo=discord&link=https://discord.gg/Zef3pD8Yt5&labelColor=f0a8b4" alt="ʚ﹕The Cloud House﹕ɞ">
   </a>
