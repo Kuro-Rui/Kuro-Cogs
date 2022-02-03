@@ -1,7 +1,7 @@
 {
     "name": "Polls",
     "author": ["Kuro"],
-    "install_msg": "Thank you for installing `Polls`.\n`[p] poll` uses embed to make a poll, so users will be unable to run the command if the bot doesn't have embed permissions.",
+    "install_msg": "Thank you for installing `Polls`.\n`[p]poll` uses embed to make a poll, so users will be unable to run the command if the bot doesn't have embed permissions.",
     "description": "Create a poll with up to 5 options.",
     "short": "Create a Poll.",
     "tags": ["poll", "polls"],

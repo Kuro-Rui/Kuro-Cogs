@@ -15,7 +15,7 @@ class Polls(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(add_reactions=True, embed_links=True, use_external_emojis=True)
-    async def poll(self, ctx, *, question: str, option_1: str, option_2: str, option_3: str = None, option_4: str = None, option_5: str = None):
+    async def poll(self, ctx, question: str, option_1: str, option_2: str, option_3: str = None, option_4: str = None, option_5: str = None):
         """
         Create a poll with up to 5 options.
         You need atleast 1 message and 2 options.
