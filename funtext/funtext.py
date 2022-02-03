@@ -1,6 +1,7 @@
+import aiohttp
+
 import discord
 
-import redbot
 from redbot.core import Config, commands
 
 import urllib
@@ -18,6 +19,7 @@ class FunText(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     @commands.command(aliases=["uwuify", "owo", "owoify"])
     async def uwu(self, ctx: commands.Context, *, text: str):
