@@ -13,7 +13,7 @@ class Polls(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(usage="<question> <option_1> <option_2> [option_3] ... [option_10]")
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(add_reactions=True, embed_links=True, use_external_emojis=True)
     async def poll(
