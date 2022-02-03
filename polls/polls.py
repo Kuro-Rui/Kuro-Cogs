@@ -63,7 +63,8 @@ class Polls(commands.Cog):
             await message.add_reaction(four)
             await message.add_reaction(five)
 
-        msg = await ctx.send("✅ Poll created.")
+
+        msg = await ctx.send(embed=discord.Embed(description="✅ Poll created.", color=7844437))
         await sleep(3)
         try:
             await msg.delete()
