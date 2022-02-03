@@ -39,24 +39,29 @@ class Polls(commands.Cog):
         e.timestamp = datetime.datetime.now(datetime.timezone.utc)
 
         message = await ctx.send(embed=e)
+        one = "\N{DIGIT ONE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
+        two = "\N{DIGIT TWO}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
+        three = "\N{DIGIT THREE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
+        four = "\N{DIGIT FOUR}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
+        five = "\N{DIGIT FIVE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
         if option_3 is None:
-            await message.add_reaction(":one:")
-            await message.add_reaction(":two:")
+            await message.add_reaction(one)
+            await message.add_reaction(two)
         elif option_4 is None:
-            await message.add_reaction(":one:")
-            await message.add_reaction(":two:")
-            await message.add_reaction(":three:")
+            await message.add_reaction(one)
+            await message.add_reaction(two)
+            await message.add_reaction(three)
         elif option_5 is None:
-            await message.add_reaction(":one:")
-            await message.add_reaction(":two:")
-            await message.add_reaction(":three:")
-            await message.add_reaction(":four:")
+            await message.add_reaction(one)
+            await message.add_reaction(two)
+            await message.add_reaction(three)
+            await message.add_reaction(four)
         else:
-            await message.add_reaction(":one:")
-            await message.add_reaction(":two:")
-            await message.add_reaction(":three:")
-            await message.add_reaction(":four:")
-            await message.add_reaction(":five:")
+            await message.add_reaction(one)
+            await message.add_reaction(two)
+            await message.add_reaction(three)
+            await message.add_reaction(four)
+            await message.add_reaction(five)
 
         msg = await ctx.send("✅ Poll created.")
         await sleep(3)
