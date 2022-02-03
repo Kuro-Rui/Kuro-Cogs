@@ -34,6 +34,11 @@ class Polls(commands.Cog):
         """
         Create a poll with up to 10 options.
         You need atleast 1 message and 2 options.
+        **Use `""` in every argument that is more than a word.**
+
+        **Examples:** 
+        • `[p]poll "Is this a poll?" Yes No
+        • `[p]poll "How are you?" Good "Not feeling well"`
         """
         # Totally not copying Dyno (jk I lied)
 
@@ -52,15 +57,15 @@ class Polls(commands.Cog):
         nine = "\N{DIGIT NINE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
         ten = "\N{KEYCAP TEN}"
 
-        d1 = f"{one} : {option_1}\n{two} : {option_2}"
-        d2 = f"{d1}\n{three} : {option_3}"
-        d3 = f"{d2}\n{four} : {option_4}"
-        d4 = f"{d3}\n{five} : {option_5}"
-        d5 = f"{d4}\n{six} : {option_6}"
-        d6 = f"{d5}\n{seven} : {option_7}"
-        d7 = f"{d6}\n{eight} : {option_8}"
-        d8 = f"{d7}\n{nine} : {option_9}"
-        d9 = f"{d8}\n{ten} : {option_10}"
+        d1 = f"{one} : {option_1}\n\n{two} : {option_2}"
+        d2 = f"{d1}\n\n{three} : {option_3}"
+        d3 = f"{d2}\n\n{four} : {option_4}"
+        d4 = f"{d3}\n\n{five} : {option_5}"
+        d5 = f"{d4}\n\n{six} : {option_6}"
+        d6 = f"{d5}\n\n{seven} : {option_7}"
+        d7 = f"{d6}\n\n{eight} : {option_8}"
+        d8 = f"{d7}\n\n{nine} : {option_9}"
+        d9 = f"{d8}\n\n{ten} : {option_10}"
         
         if option_3 is None:
             d = d1
