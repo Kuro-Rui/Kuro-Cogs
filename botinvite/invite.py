@@ -226,9 +226,6 @@ class BotInvite(commands.Cog):
         if len(footer) > 100:
             return await ctx.send("The footer's length cannot be over 100 characters long.")
         await self.config.footer.set(footer)
-        settings = await self.config.all()
-        if settings.get("stats") is True:
-            await self.config.stats.set(False)
         await ctx.send("The footer has been set.")
 
     @invite_settings.command(name="stats")
@@ -241,9 +238,6 @@ class BotInvite(commands.Cog):
         toggled = "enabled" if toggle else "disabled"
         await ctx.send(f"Stats are now {toggled} for the invite footer.")
         await self.config.stats.set(toggle)
-        settings = await self.config.all()
-        if settings.get("footer") is not None:
-            await self.config.footer.set(None)
 
     @invite_settings.command(name="public")
     async def invite_send_in_channel(self, ctx: commands.Context, toggle: bool):
