@@ -1,0 +1,18 @@
+{
+    "name": "Invite",
+    "short": "Send an Invite with buttons.",
+    "description": "Send an Invite with buttons & without external libraries.",
+    "end_user_data_statement": "This cog does not store end user data.",
+    "install_msg": "Thanks for installing `BotInvite`!\n\nTake a look at `[p]invite set` for setting commands.",
+    "author": [
+        "Jojo#7791",
+        "Kuro"
+    ],
+    "required_cogs": {},
+    "requirements": ["emoji"],
+    "tags": ["Utility"],
+    "min_bot_version": "3.4.6",
+    "hidden": false,
+    "disabled": false,
+    "type": "COG"
+}
