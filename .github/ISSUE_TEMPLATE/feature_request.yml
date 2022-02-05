@@ -1,0 +1,31 @@
+name: Feature Request
+description: Submit a feature request for one of the cogs.
+labels: [enhancement]
+assignees: "Kuro-Rui"
+body:
+  - type: dropdown
+    id: cog
+    attributes:
+      label: Cog
+      description: Which cog are you proposing a feature request for?
+      options:
+        - BotPing
+        - CursedImages
+        - Fumo
+        - FunText
+        - Highlight
+        - Osu
+        - Phun
+        - Polls
+        - Snipe
+        - Spotify
+        - Suggestion
+    validations:
+      required: true
+  - type: input
+    id: details
+    attributes:
+      label: Details
+      description: "Describe your request:"
+    validations:
+      required: true

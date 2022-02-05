@@ -1,0 +1,53 @@
+name: Bug Report
+description: Submit an issue for one of the cogs.
+labels: [bug]
+assignees: "Kuro-Rui"
+body:
+  - type: dropdown
+    id: cog
+    attributes:
+      label: Cog
+      description: In which cog was the bug occured in?
+      options:
+        - BotPing
+        - CursedImages
+        - Fumo
+        - FunText
+        - Highlight
+        - Osu
+        - Phun
+        - Polls
+        - Snipe
+        - Spotify
+        - Suggestion
+    validations:
+      required: true
+  - type: input
+    id: details
+    attributes:
+      label: Details
+      description: Please provide details about the bug. What happened and what did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: discord_user_info
+    attributes:
+      label: Discord User Information
+      description: "What is your Discord Username? (User#1234)"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Traceback Details (If Applicable)
+      description: Just copy and paste any traceback details and it will automatically formatted into code.
+      render: py
+    validations: 
+      required: false
+  - type: input
+    id: repro
+    attributes:
+      label: Reproduction
+      description: How can I reproduce this issue? If this isn't reproducible, just leave this field blank.
+    validations:
+      required: false
