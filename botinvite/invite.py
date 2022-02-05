@@ -108,6 +108,7 @@ class BotInvite(commands.Cog):
             )
             content = f"**{title}**\n{message}\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
         else:
+            message = None
             content = f"**{title}**\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
 
         kwargs: Dict[str, Any] = {
