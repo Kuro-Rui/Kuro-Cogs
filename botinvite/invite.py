@@ -220,6 +220,9 @@ class Invite(commands.Cog):
         if len(footer) > 100:
             return await ctx.send("The footer's length cannot be over 100 characters long.")
         await self.config.footer.set(footer)
+        settings = await self.config.all()
+        if settings.get("stats") is True:
+            await self.config.stats.set(False)
         await ctx.send("The footer has been set.")
 
     @invite_settings.command(name="stats")
