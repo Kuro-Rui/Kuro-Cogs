@@ -54,7 +54,7 @@ class BotInvite(commands.Cog):
     def __init__(self, bot: Red):
         self.bot = bot
         self._invite_command: Optional[commands.Command] = self.bot.remove_command("invite")
-        self.config = Config.get_conf(self, 544974305445019651, True)
+        self.config = Config.get_conf(self, 548974305445019651, True)
         self.config.register_global(**_config_structure)
         self._supported_images: Tuple[str, ...] = ("jpg", "jpeg", "png", "gif")
 
