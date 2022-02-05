@@ -90,10 +90,8 @@ class BotInvite(commands.Cog):
         title = settings.get("title", _config_structure["title"]).replace(
             "{bot_name}", ctx.me.name
         )
-        message = settings.get("custom_message", _config_structure["custom_message"]).replace(
-            "{bot_name}", ctx.me.name
-        )
         url = await self._invite_url()
+        invite_msg = f"**Bot Invite:** <{url}>"
         time = datetime.datetime.now(tz=datetime.timezone.utc)
         timestamp = f"<t:{int(time.timestamp())}>"
         stats = f"I'm on {humanize_number(len(ctx.bot.guilds))} servers serving {humanize_number(len(self.bot.users))} members!"
@@ -104,9 +102,16 @@ class BotInvite(commands.Cog):
 
         support = settings.get("support_server")
         support_msg = f"\n**Support Server:** <{support}>" if support is not None else ""
+        if settings.get("custom_message") is not None:
+            message = settings.get("custom_message", _config_structure["custom_message"]).replace(
+                "{bot_name}", ctx.me.name
+            )
+            content = f"**{title}**\n{message}\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
+        else:
+            content = f"**{title}**\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
 
         kwargs: Dict[str, Any] = {
-            "content": f"**{title}**\n{message}\n<{url}>\n{support_msg}\n\n{footer} • {timestamp}"
+            "content": content
         }
         support_server_emoji, invite_emoji = [
             Emoji.from_data(settings.get(x)) for x in ["support_server_emoji", "invite_emoji"]
