@@ -131,7 +131,7 @@ class BotInvite(commands.Cog):
             if curl := settings.get("custom_url"):
                 embed.set_thumbnail(url=curl)
             if footer:
-                embed.set_footer(text=stats)
+                embed.set_footer(text=footer)
             kwargs = {"embed": embed}
         kwargs["channel"] = channel
         kwargs["url"] = url
