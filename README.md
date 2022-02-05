@@ -17,10 +17,10 @@
 [p]load downloader
 ```
 ```md
-[p]repo add Kuro-Cogs https://github.com/Kuro-Rui/Kuro-Cogs
+[p]repo add kuro-cogs https://github.com/Kuro-Rui/Kuro-Cogs
 ```
 ```md
-[p]cog install Kuro-Cogs <cog_name>
+[p]cog install kuro-cogs <cog_name>
 ```
 ```md
 [p]load <installed_cog>
