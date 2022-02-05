@@ -16,7 +16,7 @@ from redbot.core.utils.chat_formatting import humanize_list, humanize_number
 
 from .url_button import *
 
-log = logging.getLogger("red.JojoCogs.advanced_invite")
+log = logging.getLogger("red.Kuro-Cogs.invite")
 
 
 class NoneStrict(NoneConverter):
@@ -35,7 +35,7 @@ _config_structure: Final[Dict[str, Any]] = {
     "title": "Invite {bot_name}",
     "support_server": None,
     "footer": None,
-    "stats": True,
+    "stats": False,
     "extra_link": False,
     "support_server_emoji": {},
     "invite_emoji": {},
@@ -232,7 +232,7 @@ class BotInvite(commands.Cog):
     async def invite_stats(self, ctx: commands.Context, *, toggle: bool):
         """Set wether to use stats or message for the invite footer
         **Arguments**
-            - `toggle` The footer for the invite command.
+            - `toggle` Whether the invite footer use stats or set message.
         """
 
         toggled = "enabled" if toggle else "disabled"

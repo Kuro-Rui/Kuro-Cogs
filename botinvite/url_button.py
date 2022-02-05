@@ -10,7 +10,7 @@ import discord
 from emoji.unicode_codes import UNICODE_EMOJI_ENGLISH
 from redbot.core import commands
 
-log = logging.getLogger("red.jojocogs.advancedinvite.utils")
+log = logging.getLogger("red.Kuro-Cogs.botinvite.url_button")
 
 __all__ = [
     "create_doc",
