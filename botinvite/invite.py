@@ -42,7 +42,7 @@ _config_structure: Final[Dict[str, Any]] = {
 }
 
 
-class Invite(commands.Cog):
+class BotInvite(commands.Cog):
     """
     An Invite for [botname]
     To configure the invite command, check out `[p]invite set`.
