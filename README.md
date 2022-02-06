@@ -35,7 +35,6 @@
 | CursedImages | Just a cringe cog that returns some random cursed image. |             Kuro             |
 |     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
 |   FunText    | Generates a fun text from your given text :D             |         alec & Kuro          |
-|  Highlight   | <details><summary>Highlight certain words to be notified of if said in a certain channel.</summary> Fork from https://github.com/flaree/flare-cogs/tree/master/highlight</details>               |    flare(flare#0001) & Kuro     |
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Fork from https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>                       |         Jintaku & Kuro          |
 |     Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>                     |        TrustyJAID & Kuro        |
 |    Polls     | Create a poll with a question and up to 10 options!      |             Kuro             |
