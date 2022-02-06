@@ -62,6 +62,8 @@ class FunText(commands.Cog):
         """
         # ⚠️WARNING⚠️: Way too unefficient 😃
         text = text.lower()
+        text = text.replace("o", "ooOo ")
+        text = text.replace("u", "uUuu ")
         text = text.replace("a", "OoO ")
         text = text.replace("b", "ooO ")
         text = text.replace("c", "Ooo ")
