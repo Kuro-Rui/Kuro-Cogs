@@ -16,26 +16,70 @@ class Osu(BaseCog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=842364413)
-        default_global = {"apikey": ""}
-        self.config.register_global(**default_global)
+        self.config.register_global(apikey=None)
+        self.config.register_user(username=None)
+
+    @commands.group()
+    async def osuset(self, ctx):
+        """Settings for osu!"""
+        pass
+
+    @osuset.command(aliases=["key"])
+    @checks.is_owner()
+    async def apikey(self, ctx, api_key: str = None):
+        """Set osu! API key"""
+        if api_key is None:
+            await self.config.apikey.set(None)
+            await ctx.send("The API key has been removed.")
+        else:
+            await self.config.apikey.set(api_key)
+            await ctx.send("The API key has been set.")
+
+    @osuset.command()
+    async def username(self, ctx, *, username: str = None):
+        """Set your osu! username."""
+
+        if username is None:
+            await self.config.username.set(None)
+            await ctx.send("Your username has been removed.")
+        else:
+            await self.config.username.set(username)
+            await ctx.send("Your username has been set.")
 
     @commands.command(aliases=["osu", "std"])
-    async def standard(self, ctx, *, username):
+    async def standard(self, ctx, *, username: str = None):
         """Shows an osu!standard User Stats!"""
 
         apikey = await self.config.apikey()
 
-        if apikey is None or apikey == "":
-            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
             return
 
-        # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
+
+        if username is None:
+            username = await self.config.username()
+            if username is None:
+                prefixes = await self.bot.get_prefix(ctx.message.channel)
+                if f"<@!{self.bot.user.id}> " in prefixes:
+                    prefixes.remove(f"<@!{self.bot.user.id}> ")
+                sorted_prefixes = sorted(prefixes, key=len)
+                p = sorted_prefixes[0]
+                command = self.bot.get_command("std").name
+                error = (
+                    f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username in this command: `{p}{command} <username>`"
+                )
+                await ctx.send(error)
+                return
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
                     osu = await response.json()
+                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -67,28 +111,46 @@ class Osu(BaseCog):
                     name="osu! Standard Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
-                embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
-                await ctx.send(embed=embed)
+                embed.set_thumbnail(url="attachment://osu_avatar.png")
+                await ctx.send(embed=embed, file=file)
+                file.close()
             else:
                 await ctx.send("No results found for this player.")
 
     @commands.command()
-    async def taiko(self, ctx, *, username):
+    async def taiko(self, ctx, *, username: str = None):
         """Shows an osu!taiko User Stats!"""
 
         apikey = await self.config.apikey()
 
-        if apikey is None or apikey == "":
-            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
             return
 
-        # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
+
+        if username is None:
+            username = await self.config.username()
+            if username is None:
+                prefixes = await self.bot.get_prefix(ctx.message.channel)
+                if f"<@!{self.bot.user.id}> " in prefixes:
+                    prefixes.remove(f"<@!{self.bot.user.id}> ")
+                sorted_prefixes = sorted(prefixes, key=len)
+                p = sorted_prefixes[0]
+                command = self.bot.get_command("taiko").name
+                error = (
+                    f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username in this command: `{p}{command} <username>`"
+                )
+                await ctx.send(error)
+                return
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=1", headers=headers) as response:
                     osu = await response.json()
+                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -120,28 +182,46 @@ class Osu(BaseCog):
                     name="osu! Taiko Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
-                embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
-                await ctx.send(embed=embed)
+                embed.set_thumbnail(url="attachment://osu_avatar.png")
+                await ctx.send(embed=embed, file=file)
+                file.close()
             else:
                 await ctx.send("No results found for this player.")
 
     @commands.command(aliases=["ctb", "catch"])
-    async def catchthebeat(self, ctx, *, username):
+    async def catchthebeat(self, ctx, *, username: str = None):
         """Shows an osu!catch User Stats!"""
 
         apikey = await self.config.apikey()
 
-        if apikey is None or apikey == "":
-            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
             return
 
-        # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
+
+        if username is None:
+            username = await self.config.username()
+            if username is None:
+                prefixes = await self.bot.get_prefix(ctx.message.channel)
+                if f"<@!{self.bot.user.id}> " in prefixes:
+                    prefixes.remove(f"<@!{self.bot.user.id}> ")
+                sorted_prefixes = sorted(prefixes, key=len)
+                p = sorted_prefixes[0]
+                command = self.bot.get_command("ctb").name
+                error = (
+                    f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username in this command: `{p}{command} <username>`"
+                )
+                await ctx.send(error)
+                return
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=2", headers=headers) as response:
                     osu = await response.json()
+                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -173,28 +253,46 @@ class Osu(BaseCog):
                     name="osu! Catch The Beat Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
-                embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
-                await ctx.send(embed=embed)
+                embed.set_thumbnail(url="attachment://osu_avatar.png")
+                await ctx.send(embed=embed, file=file)
+                file.close()
             else:
                 await ctx.send("No results found for this player.")
 
     @commands.command()
-    async def mania(self, ctx, *, username):
+    async def mania(self, ctx, *, username: str = None):
         """Shows an osu!mania User Stats!"""
 
         apikey = await self.config.apikey()
 
-        if apikey is None or apikey == "":
-            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
             return
 
-        # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
+
+        if username is None:
+            username = await self.config.username()
+            if username is None:
+                prefixes = await self.bot.get_prefix(ctx.message.channel)
+                if f"<@!{self.bot.user.id}> " in prefixes:
+                    prefixes.remove(f"<@!{self.bot.user.id}> ")
+                sorted_prefixes = sorted(prefixes, key=len)
+                p = sorted_prefixes[0]
+                command = self.bot.get_command("mania").name
+                error = (
+                    f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username in this command: `{p}{command} <username>`"
+                )
+                await ctx.send(error)
+                return
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=3", headers=headers) as response:
                     osu = await response.json()
+                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -226,25 +324,41 @@ class Osu(BaseCog):
                     name="osu! Mania Profile for {}".format(osu[0]["username"])
                 )
                 embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
-                embed.set_thumbnail(url="https://a.ppy.sh/{}".format(osu[0]["user_id"]))
-                await ctx.send(embed=embed)
+                embed.set_thumbnail(url="attachment://osu_avatar.png")
+                await ctx.send(embed=embed, file=file)
+                file.close()
             else:
                 await ctx.send("No results found for this player.")
 
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
-    async def osucard(self, ctx, *, username):
-        """Shows an osu!standard User Card with Image!""" # Thanks epic, thanks Preda <3
+    async def osucard(self, ctx, *, username: str = None):
+        """Shows an osu!standard User Card with Image!""" # Thanks epic guy, thanks Preda <3
 
         apikey = await self.config.apikey()
 
-        if apikey is None or apikey == "":
-            await ctx.send("You need to set an API key to use the osu! API, please use [p]osukey")
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
             return
 
-        # Queries api to get osu profile
         headers = {"content-type": "application/json", "user-key": apikey}
+
+        if username is None:
+            username = await self.config.username()
+            if username is None:
+                prefixes = await self.bot.get_prefix(ctx.message.channel)
+                if f"<@!{self.bot.user.id}> " in prefixes:
+                    prefixes.remove(f"<@!{self.bot.user.id}> ")
+                sorted_prefixes = sorted(prefixes, key=len)
+                p = sorted_prefixes[0]
+                command = self.bot.get_command("std").name
+                error = (
+                    f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username in this command: `{p}{command} <username>`"
+                )
+                await ctx.send(error)
+                return
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -263,15 +377,3 @@ class Osu(BaseCog):
                         await ctx.send((await resp.json())['message'])
                     else:
                         await ctx.send("API is currently down, please try again later.")
-
-    @commands.command()
-    @checks.is_owner()
-    async def osukey(self, ctx, key):
-        """Set osu! API key"""
-
-        # Load config
-        config_boards = await self.config.apikey()
-
-        # Set new config
-        await self.config.apikey.set(key)
-        await ctx.send("The API key has been added.")
