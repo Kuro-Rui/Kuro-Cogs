@@ -91,11 +91,13 @@ class BotInvite(commands.Cog):
         )
         url = await self._invite_url()
         invite_msg = f"**Bot Invite:** <{url}>"
-        bot_name = ctx.me.name
-        guild_count = humanize_number(len(ctx.bot.guilds))
-        user_count = humanize_number(len(self.bot.users))
-        raw_footer = settings.get("footer")
-        footer = f"{raw_footer}"
+        footer = settings.get("footer").replace(
+            "{bot_name}", ctx.me.name
+        ).replace(
+            "{guild_count}", humanize_number(len(ctx.bot.guilds))
+        ).replace(
+            "{user_count}", humanize_number(len(self.bot.users))
+        )
         time = datetime.datetime.now(tz=datetime.timezone.utc)
         timestamp = f"<t:{int(time.timestamp())}>"
 
