@@ -55,7 +55,7 @@ class Osu(BaseCog):
                         osu = await response.json()
                 if osu:
                     await self.config.username.set(username)
-                    await ctx.send("Your username has been set.")
+                    await ctx.send(f"Your username has been set to `{username}`.")
                 else:
                     await ctx.send(f"I can't find any player with the name `{username}`.")
 
