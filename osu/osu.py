@@ -30,9 +30,11 @@ class Osu(BaseCog):
         """Set osu! API key"""
         if api_key is None:
             await self.config.apikey.set(None)
+            await ctx.tick()
             await ctx.send("The API key has been removed.")
         else:
             await self.config.apikey.set(api_key)
+            await ctx.tick()
             await ctx.send("The API key has been set.")
 
     @osuset.command(aliases=["name"])
@@ -48,6 +50,7 @@ class Osu(BaseCog):
         else:
             if username is None:
                 await self.config.username.set(None)
+                await ctx.tick()
                 await ctx.send("Your username has been removed.")
             else:
                 async with aiohttp.ClientSession() as session:
@@ -55,6 +58,7 @@ class Osu(BaseCog):
                         osu = await response.json()
                 if osu:
                     await self.config.username.set(username)
+                    await ctx.tick()
                     await ctx.send(f"Your username has been set to `{username}`.")
                 else:
                     await ctx.send(f"I can't find any player with the name `{username}`.")
