@@ -94,7 +94,8 @@ class BotInvite(commands.Cog):
         bot_name = ctx.me.name
         guild_count = humanize_number(len(ctx.bot.guilds))
         user_count = humanize_number(len(self.bot.users))
-        footer = settings.get(f"footer")
+        raw_footer = settings.get("footer")
+        footer = f"{raw_footer}"
         time = datetime.datetime.now(tz=datetime.timezone.utc)
         timestamp = f"<t:{int(time.timestamp())}>"
 
