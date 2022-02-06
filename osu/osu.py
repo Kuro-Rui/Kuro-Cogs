@@ -35,28 +35,40 @@ class Osu(BaseCog):
             await self.config.apikey.set(api_key)
             await ctx.send("The API key has been set.")
 
-    @osuset.command()
+    @osuset.command(aliases=["name"])
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
 
-        if username is None:
-            await self.config.username.set(None)
-            await ctx.send("Your username has been removed.")
+        apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
+
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
+            return
         else:
-            await self.config.username.set(username)
-            await ctx.send("Your username has been set.")
+            if username is None:
+                await self.config.username.set(None)
+                await ctx.send("Your username has been removed.")
+            else:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
+                        osu = await response.json()
+                if osu:
+                    await self.config.username.set(username)
+                    await ctx.send("Your username has been set.")
+                else:
+                    await ctx.send(f"I can't find any player with the name `{username}`.")
 
     @commands.command(aliases=["osu", "std"])
     async def standard(self, ctx, *, username: str = None):
         """Shows an osu!standard User Stats!"""
 
         apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
 
         if apikey is None:
             await ctx.send("The API Key hasn't been set yet!")
             return
-
-        headers = {"content-type": "application/json", "user-key": apikey}
 
         if username is None:
             username = await self.config.username()
@@ -122,12 +134,11 @@ class Osu(BaseCog):
         """Shows an osu!taiko User Stats!"""
 
         apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
 
         if apikey is None:
             await ctx.send("The API Key hasn't been set yet!")
             return
-
-        headers = {"content-type": "application/json", "user-key": apikey}
 
         if username is None:
             username = await self.config.username()
@@ -193,12 +204,11 @@ class Osu(BaseCog):
         """Shows an osu!catch User Stats!"""
 
         apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
 
         if apikey is None:
             await ctx.send("The API Key hasn't been set yet!")
             return
-
-        headers = {"content-type": "application/json", "user-key": apikey}
 
         if username is None:
             username = await self.config.username()
@@ -264,12 +274,11 @@ class Osu(BaseCog):
         """Shows an osu!mania User Stats!"""
 
         apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
 
         if apikey is None:
             await ctx.send("The API Key hasn't been set yet!")
             return
-
-        headers = {"content-type": "application/json", "user-key": apikey}
 
         if username is None:
             username = await self.config.username()
@@ -337,12 +346,11 @@ class Osu(BaseCog):
         """Shows an osu!standard User Card!""" # Thanks epic guy, thanks Preda <3
 
         apikey = await self.config.apikey()
+        headers = {"content-type": "application/json", "user-key": apikey}
 
         if apikey is None:
             await ctx.send("The API Key hasn't been set yet!")
             return
-
-        headers = {"content-type": "application/json", "user-key": apikey}
 
         if username is None:
             username = await self.config.username()
