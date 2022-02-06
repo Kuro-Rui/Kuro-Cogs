@@ -7,8 +7,6 @@ from redbot.core import Config, commands
 import urllib
 from zalgo_text import zalgo
 
-# from .ssc_phrases import SORBET_SHARK_COOKIE_PHRASES
-
 # I stole this from https://github.com/kaogurai/cogs/blob/master/kaotools/kaotools.py#L445-L476
 class FunText(commands.Cog):
     """
@@ -57,39 +55,38 @@ class FunText(commands.Cog):
         t = zalgo.zalgo().zalgofy(text)
         await ctx.send(t[:2000])
 
-    # @commands.command(aliases=["sorbetshark"])
-    # async def sorbetsharkcookie(self, ctx: commands.Context, *, text: str):
-        # """
-        # Turns a text into Sorbet Shark Cookie's language.
-        # """
-        # lower_text = text.lower()
+    @commands.command(aliases=["sorbetshark"])
+    async def sorbetsharkcookie(self, ctx: commands.Context, *, text: str):
+        """
+        Turns a text into Sorbet Shark Cookie's language.
+        """
+        # ⚠️WARNING⚠️: Way too unefficient 😃
+        text = text.lower()
+        text = text.replace("a", "OoO ")
+        text = text.replace("b", "ooO ")
+        text = text.replace("c", "Ooo ")
+        text = text.replace("d", "O-o ")
+        text = text.replace("e", "OU ")
+        text = text.replace("f", "OOo ")
+        text = text.replace("g", "oOo ")
+        text = text.replace("h", "O-O ")
+        text = text.replace("i", "o-o-o ")
+        text = text.replace("j", "O--O ")
+        text = text.replace("k", "oOuú ")
+        text = text.replace("l", "OoŒ ")
+        text = text.replace("m", "oÖ ")
+        text = text.replace("n", "OuUo ")
+        text = text.replace("o", "uuooOo ")
+        text = text.replace("p", "UuoOo ")
+        text = text.replace("q", "UuoOo ")
+        text = text.replace("r", "OuUuO ")
+        text = text.replace("s", "oOuuU ")
+        text = text.replace("t", "UuOo ")
+        text = text.replace("u", "UuOo ")
+        text = text.replace("v", "oouuuo ")
+        text = text.replace("w", "OuOo ")
+        text = text.replace("x", "OooOuu ")
+        text = text.replace("y", "uuooouu ")
+        text = text.replace("z", "ouuuouuu ")
 
-        # # Need to space each word so It doesn't get confusing :D
-        # text.replace("a", "OoO ")
-        # text.replace("b", "ooO ")
-        # text.replace("c", "Ooo ")
-        # text.replace("d", "O-o ")
-        # text.replace("e", "OU ")
-        # text.replace("f", "OOo ")
-        # text.replace("g", "oOo ")
-        # text.replace("h", "O-O ")
-        # text.replace("i", "o-o-o ")
-        # text.replace("j", "O--O ")
-        # text.replace("k", "oOuú ")
-        # text.replace("l", "OoŒ ")
-        # text.replace("m", "oÖ ")
-        # text.replace("n", "OuUo ")
-        # text.replace("o", "uuooOo ")
-        # text.replace("p", "UuoOo ")
-        # text.replace("q", "UuoOo ")
-        # text.replace("r", "OuUuO ")
-        # text.replace("s", "oOuuU ")
-        # text.replace("t", "UuOo ")
-        # text.replace("u", "UuOo ")
-        # text.replace("v", "oouuuo ")
-        # text.replace("w", "OuOo ")
-        # text.replace("x", "OooOuu ")
-        # text.replace("y", "uuooouu ")
-        # text.replace("z", "ouuuouuu ")
-
-        # await ctx.send(text.replace(f"{lower_text}", SORBET_SHARK_COOKIE_PHRASES))
+        await ctx.send(text)
