@@ -46,7 +46,6 @@
 - [**PhenoM4n4n**](https://github.com/phenom4n4n) for the base of [BotPing](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/botping) cog & inspired me to edit cogs look like Noumenon's.
 - [**Jojo**](https://github.com/Just-Jojo) for the base of [BotInvite](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/botinvite) cog which I also PRed some of it.
 - [**alec**](https://github.com/aleclol) for the base of [FunText](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/funtext) & [Spotify](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/spotify) cog.
-- [**flare**](https://github.com/flaree) for the base of [Highlight](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/highlight) cog.
 - [**Jintaku**](https://github.com/Jintaku) for the base of [Osu](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog which I changed the most now.
 - [**TrustyJAID**](https://github.com/TrustyJAID) for the base of [Phun](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/phun) & [Spotify](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog.
 - [**npc203**](https://github.com/npc203) **(a.k.a. epic guy)** for the base of [Snipe](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog.
