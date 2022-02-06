@@ -940,7 +940,7 @@ class Highlight(commands.Cog):
         """Set the colour for the highlight embed."""
 
         if colour is None:
-            await self.config.colour.set(0xFF0000)
+            await self.config.colour.set(discord.Color.red().value)
             await ctx.send("The color has been reset.")
         else:
             await self.config.colour.set(colour.value)
