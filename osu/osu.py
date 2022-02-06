@@ -38,7 +38,7 @@ class Osu(BaseCog):
             async with aiohttp.ClientSession() as session:
                     async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
                         osu = await response.json()
-            if error not in osu:
+            if response.status is 200:
                 await self.config.apikey.set(api_key)
                 await ctx.tick()
                 await ctx.send("The API key has been set.")
@@ -352,7 +352,7 @@ class Osu(BaseCog):
                 await ctx.send("No results found for this player.")
 
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(60, 60, commands.BucketType.default)
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username: str = None):
         """Shows an osu!standard User Card!""" # Thanks epic guy, thanks Preda <3
