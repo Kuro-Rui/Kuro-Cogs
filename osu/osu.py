@@ -334,7 +334,7 @@ class Osu(BaseCog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username: str = None):
-        """Shows an osu!standard User Card with Image!""" # Thanks epic guy, thanks Preda <3
+        """Shows an osu!standard User Card!""" # Thanks epic guy, thanks Preda <3
 
         apikey = await self.config.apikey()
 
@@ -352,7 +352,7 @@ class Osu(BaseCog):
                     prefixes.remove(f"<@!{self.bot.user.id}> ")
                 sorted_prefixes = sorted(prefixes, key=len)
                 p = sorted_prefixes[0]
-                command = self.bot.get_command("std").name
+                command = self.bot.get_command("osucard").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
                     f"You can also provide a username in this command: `{p}{command} <username>`"
