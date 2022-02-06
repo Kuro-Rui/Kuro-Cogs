@@ -29,7 +29,7 @@ class Highlight(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=1398467138476, force_registration=True)
         self.config.register_global(
-            migrated=False, min_len=5, max_highlights=10, default_cooldown=60, colour=0xFF0000
+            migrated=False, min_len=5, max_highlights=10, default_cooldown=60, colour=discord.Color.red().value
         )
         self.config.register_member(blacklist=[], whitelist=[], cooldown=60)
         default_channel = {"highlight": {}}
@@ -936,7 +936,7 @@ class Highlight(commands.Cog):
         self.cooldown = cooldown
 
     @highlightset.command(aliases=["color"])
-    async def colour(self, ctx, colour: discord.Colour = None):
+    async def colour(self, ctx, *, colour: discord.Colour = None):
         """Set the colour for the highlight embed."""
 
         if colour is None:
