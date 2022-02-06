@@ -33,9 +33,16 @@ class Osu(BaseCog):
             await ctx.tick()
             await ctx.send("The API key has been removed.")
         else:
-            await self.config.apikey.set(api_key)
-            await ctx.tick()
-            await ctx.send("The API key has been set.")
+            headers = {"content-type": "application/json", "user-key": api_key}
+            async with aiohttp.ClientSession() as session:
+                    async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
+                        osu = await response.json()
+            if osu:
+                await self.config.apikey.set(api_key)
+                await ctx.tick()
+                await ctx.send("The API key has been set.")
+            else:
+                await ctx.send("That API key doesn't seem to be valid.")
 
     @osuset.command(aliases=["name"])
     async def username(self, ctx, *, username: str = None):
