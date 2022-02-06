@@ -40,7 +40,7 @@ class Osu(BaseCog):
                         osu = await response.json()
             if response.status is 200:
                 await self.config.apikey.set(api_key)
-                await ctx.tick()
+                await ctx.message.delete() # Delete the message for safety
                 await ctx.send("The API key has been set.")
             else:
                 await ctx.send(osu["error"])
