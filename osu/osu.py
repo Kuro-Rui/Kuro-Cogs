@@ -37,7 +37,7 @@ class Osu(BaseCog):
             async with aiohttp.ClientSession() as session:
                     async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
                         osu = await response.json()
-            if osu[0]["error"] is None:
+            if osu["error"]:
                 await self.config.apikey.set(api_key)
                 await ctx.tick()
                 await ctx.send("The API key has been set.")
