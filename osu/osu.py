@@ -36,8 +36,8 @@ class Osu(BaseCog):
             headers = {"content-type": "application/json", "user-key": api_key}
             error = "Please provide a valid API key."
             async with aiohttp.ClientSession() as session:
-                    async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
-                        osu = await response.json()
+                async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
+                    osu = await response.json()
             if response.status is 200:
                 await self.config.apikey.set(api_key)
                 await ctx.message.delete() # Delete the message for safety
