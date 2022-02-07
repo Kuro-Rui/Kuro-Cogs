@@ -46,6 +46,8 @@ class Osu(BaseCog):
                 await ctx.send(osu["error"])
 
     @osuset.command(aliases=["name"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
 
@@ -72,6 +74,8 @@ class Osu(BaseCog):
                     await ctx.send(f"I can't find any player with the name `{username}`.")
 
     @commands.command(aliases=["osu", "std"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
     async def standard(self, ctx, *, username: str = None):
         """Shows an osu!standard User Stats!"""
 
@@ -98,12 +102,11 @@ class Osu(BaseCog):
                 await ctx.send(error)
                 return
 
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
-                    osu = await response.json()
-                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
-                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
+                osu = await response.json()
+            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -142,6 +145,8 @@ class Osu(BaseCog):
                 await ctx.send("No results found for this player.")
 
     @commands.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
     async def taiko(self, ctx, *, username: str = None):
         """Shows an osu!taiko User Stats!"""
 
@@ -168,12 +173,11 @@ class Osu(BaseCog):
                 await ctx.send(error)
                 return
 
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=1", headers=headers) as response:
-                    osu = await response.json()
-                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
-                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=1", headers=headers) as response:
+                osu = await response.json()
+            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -211,8 +215,10 @@ class Osu(BaseCog):
             else:
                 await ctx.send("No results found for this player.")
 
-    @commands.command(aliases=["ctb", "catch"])
-    async def catchthebeat(self, ctx, *, username: str = None):
+    @commands.command(aliases=["ctb", "catchthebeat"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
+    async def catch(self, ctx, *, username: str = None):
         """Shows an osu!catch User Stats!"""
 
         apikey = await self.config.apikey()
@@ -238,12 +244,11 @@ class Osu(BaseCog):
                 await ctx.send(error)
                 return
 
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=2", headers=headers) as response:
-                    osu = await response.json()
-                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
-                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=2", headers=headers) as response:
+                osu = await response.json()
+            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
@@ -282,6 +287,8 @@ class Osu(BaseCog):
                 await ctx.send("No results found for this player.")
 
     @commands.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    @commands.bot_has_permissions(embed_links=True)
     async def mania(self, ctx, *, username: str = None):
         """Shows an osu!mania User Stats!"""
 
@@ -308,12 +315,11 @@ class Osu(BaseCog):
                 await ctx.send(error)
                 return
 
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as session:
-                async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=3", headers=headers) as response:
-                    osu = await response.json()
-                async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
-                    file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=3", headers=headers) as response:
+                osu = await response.json()
+            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
             if osu:
                 SSH = "<:RankSSH:926177230357405736>"
