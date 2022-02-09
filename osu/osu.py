@@ -118,16 +118,24 @@ class Osu(commands.Cog):
 
                 # Some format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
                 desc = (
-                    "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
-                    "**▸ Rank:** #{} (:flag_{}: #{})\n".format(humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]))
-                    "**▸ Level:** {}\n".format(osu[0]["level"][:5])
-                    "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
-                    "**▸ Accuracy:** {} %\n".format(osu[0]["accuracy"][:6])
-                    "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
-                    "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
-                    "**▸ Ranks:** {}`{}`{}`{}`{}`{}`{}`{}`{}`{}`\n".format(SSH, osu[0]["count_rank_ssh"], SS, osu[0]["count_rank_ss"], SH, osu[0]["count_rank_sh"], S, osu[0]["count_rank_s"], A, osu[0]["count_rank_a"])
-                    "**▸ Ranked Score:** {}\n".format(humanize_number(osu[0]["ranked_score"]))
-                    "**▸ Total Score:** {}".format(humanize_number(osu[0]["total_score"]))
+                "**▸ Joined at:** {}\n"
+                "**▸ Rank:** #{} (:flag_{}: #{})\n"
+                "**▸ Level:** {}\n"
+                "**▸ PP:** {}\n"
+                "**▸ Accuracy:** {} %\n"
+                "**▸ Playcount:** {}\n"
+                "**▸ Playtime:** {}\n"
+                "**▸ Ranks:** {}`{}`{}`{}`{}`{}`{}`{}`{}`{}`\n"
+                "**▸ Ranked Score:** {}\n"
+                "**▸ Total Score:** {}"
+                ).format(
+                    osu[0]["join_date"][:10], 
+                    humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]), 
+                    osu[0]["level"][:5], osu[0]["pp_raw"], osu[0]["accuracy"][:6],
+                    humanize_number(osu[0]["playcount"]), humanize_timedelta(seconds=osu[0]["total_seconds_played"]),
+                    ssh, osu[0]["count_rank_ssh"], ss, osu[0]["count_rank_ss"], 
+                    sh, osu[0]["count_rank_sh"], s, osu[0]["count_rank_s"], a, osu[0]["count_rank_a"],
+                    humanize_number(osu[0]["ranked_score"]), humanize_number(osu[0]["total_score"])
                 )
                 embed = discord.Embed(description=desc, color=await ctx.embed_color())
                 embed.set_author(
