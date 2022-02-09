@@ -1,15 +1,10 @@
 import aiohttp
 from io import BytesIO
+from typing import Optional
 
 import discord
 from redbot.core import commands, Config, checks
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
-
-ssh = "<:RankSSH:926177230357405736>"
-ss = "<:RankSS:926177315757645844>"
-sh = "<:RankSH:926177357834895370>"
-s = "<:RankS:926177374196875284>"
-a = "<:RankA:926177386737848321>"
 
 
 class Osu(commands.Cog):
@@ -18,7 +13,7 @@ class Osu(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=842364413)
-        self.config.register_global(apikey=None)
+        self.config.register_global(apikey=None, ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None)
         self.config.register_user(username=None)
 
     @commands.group()
@@ -30,8 +25,8 @@ class Osu(commands.Cog):
     @checks.is_owner()
     async def apikey(self, ctx, api_key: str = None):
         """Set osu! API key"""
-        if api_key is None:
-            await self.config.apikey.set(None)
+        if not api_key:
+            await self.config.apikey.clear()
             await ctx.tick()
             await ctx.send("The API key has been removed.")
         else:
@@ -47,20 +42,18 @@ class Osu(commands.Cog):
                 await ctx.send(osu["error"])
 
     @osuset.command(aliases=["name"])
-    @commands.cooldown(1, 3, commands.BucketType.user)
-    @commands.bot_has_permissions(embed_links=True)
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
 
         apikey = await self.config.apikey()
         headers = {"content-type": "application/json", "user-key": apikey}
 
-        if apikey is None:
+        if apikey == None:
             await ctx.send("The API Key hasn't been set yet!")
             return
         else:
-            if username is None:
-                await self.config.username.set(None)
+            if username == None:
+                await self.config.user(ctx.author.id).username.clear()
                 await ctx.tick()
                 await ctx.send("Your username has been removed.")
             else:
@@ -68,11 +61,87 @@ class Osu(commands.Cog):
                     async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
                         osu = await response.json()
                 if osu:
-                    await self.config.username.set(username)
+                    await self.config.user(ctx.author.id).username.set(username)
                     await ctx.tick()
                     await ctx.send(f"Your username has been set to `{username}`.")
                 else:
                     await ctx.send(f"I can't find any player with the name `{username}`.")
+    
+    @osuset.command()
+    @checks.is_owner()
+    async def emoji(self, ctx):
+        """Set custom emoji for ranks."""
+        pass
+
+    @emoji.command()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def ssh(self, ctx, ssh_emoji: Optional[discord.Emoji]):
+        """Set custom emoji for SSH rank."""
+        if not ssh_emoji:
+            await self.config.ssh_emoji.clear()
+        else:
+            try:
+                await ctx.message.add_reaction(ssh_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+            await self.config.ssh_emoji.set(ssh_emoji.id)
+        await ctx.tick()
+
+    @emoji.command()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def ss(self, ctx, ss_emoji: Optional[discord.Emoji]):
+        """Set custom emoji for SS rank."""
+        if not ss_emoji:
+            await self.config.ss_emoji.clear()
+        else:
+            try:
+                await ctx.message.add_reaction(ss_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+            await self.config.ss_emoji.set(ss_emoji.id)
+        await ctx.tick()
+
+    @emoji.command()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def sh(self, ctx, sh_emoji: Optional[discord.Emoji]):
+        """Set custom emoji for SH rank."""
+        if not sh_emoji:
+            await self.config.sh_emoji.clear()
+        else:
+            try:
+                await ctx.message.add_reaction(sh_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+            await self.config.sh_emoji.set(sh_emoji.id)
+        await ctx.tick()
+
+    @emoji.command()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def s(self, ctx, s_emoji: Optional[discord.Emoji]):
+        """Set custom emoji for SSH rank."""
+        if not s_emoji:
+            await self.config.s_emoji.clear()
+        else:
+            try:
+                await ctx.message.add_reaction(s_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+            await self.config.s_emoji.set(s_emoji.id)
+        await ctx.tick()
+
+    @emoji.command()
+    
+    async def a(self, ctx, a_emoji: Optional[discord.Emoji]):
+        """Set custom emoji for A rank."""
+        if not a_emoji:
+            await self.config.a_emoji.clear()
+        else:
+            try:
+                await ctx.message.add_reaction(a_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+            await self.config.a_emoji.set(a_emoji.id)
+        await ctx.tick()
 
     @commands.command(aliases=["osu", "std"])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -81,7 +150,7 @@ class Osu(commands.Cog):
         """Shows an osu!standard User Stats!"""
 
         if username == None:
-            username = await self.config.username()
+            username = await self.config.user(ctx.author.id).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -105,7 +174,7 @@ class Osu(commands.Cog):
         """Shows an osu!taiko User Stats!"""
 
         if username == None:
-            username = await self.config.username()
+            username = await self.config.user(ctx.author.id).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -129,7 +198,7 @@ class Osu(commands.Cog):
         """Shows an osu!catch User Stats!"""
 
         if username == None:
-            username = await self.config.username()
+            username = await self.config.user(ctx.author.id).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -153,7 +222,7 @@ class Osu(commands.Cog):
         """Shows an osu!mania User Stats!"""
 
         if username == None:
-            username = await self.config.username()
+            username = await self.config.user(ctx.author.id).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -184,7 +253,7 @@ class Osu(commands.Cog):
             return
 
         if username is None:
-            username = await self.config.username()
+            username = await self.config.user(ctx.author.id).username()
             if username is None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -248,6 +317,7 @@ class Osu(commands.Cog):
                 file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
 
         if osu:
+            ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji = await self.rank_emojis(ctx)
             # Inspired by owo#0498 (Thanks Stevy 😹)
             description = (
                 "**▸ Joined at:** {}\n"
@@ -265,8 +335,8 @@ class Osu(commands.Cog):
                 humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]), 
                 osu[0]["level"][:5], osu[0]["pp_raw"], osu[0]["accuracy"][:6],
                 humanize_number(osu[0]["playcount"]), humanize_timedelta(seconds=osu[0]["total_seconds_played"]),
-                ssh, osu[0]["count_rank_ssh"], ss, osu[0]["count_rank_ss"], 
-                sh, osu[0]["count_rank_sh"], s, osu[0]["count_rank_s"], a, osu[0]["count_rank_a"],
+                ssh_emoji, osu[0]["count_rank_ssh"], ss_emoji, osu[0]["count_rank_ss"], 
+                sh_emoji, osu[0]["count_rank_sh"], s_emoji, osu[0]["count_rank_s"], a_emoji, osu[0]["count_rank_a"],
                 humanize_number(osu[0]["ranked_score"]), humanize_number(osu[0]["total_score"])
             )
 
@@ -283,3 +353,20 @@ class Osu(commands.Cog):
         else:
             await ctx.send("No results found for this player.")
 
+    async def rank_emojis(self, ctx):
+        ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
+        if not ssh_emoji:
+            ssh_emoji = "**SSH** "
+        ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
+        if not ss_emoji:
+            ss_emoji = "**SS** "
+        sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
+        if not sh_emoji:
+            sh_emoji = "**SH** "
+        s_emoji = self.bot.get_emoji(await self.config.s_emoji())
+        if not s_emoji:
+            s_emoji = "**S** "
+        a_emoji = self.bot.get_emoji(await self.config.a_emoji())
+        if not a_emoji:
+            a_emoji = "**A** "
+        return ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji

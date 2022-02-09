@@ -35,7 +35,7 @@
 | CursedImages | Just a cringe cog that returns some random cursed image. |             Kuro             |
 |     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
 |   FunText    | Generates a fun text from your given text :D             |         alec & Kuro          |
-|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Fork from https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>                       |         Jintaku & Kuro          |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>                       |             Kuro             |
 |     Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>                     |        TrustyJAID & Kuro        |
 |    Polls     | Create a poll with a question and up to 10 options!      |             Kuro             |
 |    Snipe     | <details><summary>Snipe a channel's last deleted message for fun and profit.</summary>Fork from https://github.com/npc203/npc-cogs/tree/main/snipe</details>                                                      |          npc203 & Kuro          |
@@ -46,7 +46,7 @@
 - [**PhenoM4n4n**](https://github.com/phenom4n4n) for the base of [BotPing](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/botping) cog & inspired me to edit cogs look like Noumenon's.
 - [**Jojo**](https://github.com/Just-Jojo) for the base of [BotInvite](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/botinvite) cog which I also PRed some of it.
 - [**alec**](https://github.com/aleclol) for the base of [FunText](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/funtext) & [Spotify](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/spotify) cog.
-- [**Jintaku**](https://github.com/Jintaku) for the base of [Osu](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog which I changed the most now.
+- [**Jintaku**](https://github.com/Jintaku) for the base of [Osu](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog which I have rewrited now.
 - [**TrustyJAID**](https://github.com/TrustyJAID) for the base of [Phun](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/phun) & [Spotify](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog.
 - [**npc203**](https://github.com/npc203) **(a.k.a. epic guy)** for the base of [Snipe](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog.
 - [**saurichable**](https://github.com/elijabesu) for the base of [Suggestion](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/) cog.
