@@ -67,7 +67,7 @@ class Osu(commands.Cog):
                 else:
                     await ctx.send(f"I can't find any player with the name `{username}`.")
     
-    @osuset.command()
+    @osuset.group()
     @checks.is_owner()
     async def emoji(self, ctx):
         """Set custom emoji for ranks."""
