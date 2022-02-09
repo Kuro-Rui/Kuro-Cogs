@@ -378,17 +378,17 @@ class Osu(commands.Cog):
     async def rank_emojis(self, ctx):
         ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
         if not ssh_emoji:
-            ssh_emoji = "**SSH**"
+            ssh_emoji = "**SSH** "
         ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
         if not ss_emoji:
-            ss_emoji = "**SS**"
+            ss_emoji = "**SS** "
         sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
         if not sh_emoji:
-            sh_emoji = "**SH**"
+            sh_emoji = "**SH** "
         s_emoji = self.bot.get_emoji(await self.config.s_emoji())
         if not s_emoji:
-            s_emoji = "**S**"
+            s_emoji = "**S** "
         a_emoji = self.bot.get_emoji(await self.config.a_emoji())
         if not a_emoji:
-            a_emoji = "**A**"
+            a_emoji = "**A** "
         return ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji
