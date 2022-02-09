@@ -74,6 +74,7 @@ class Osu(commands.Cog):
         pass
 
     @emoji.command()
+    @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def ssh(self, ctx, ssh_emoji: Optional[discord.Emoji]):
         """Set custom emoji for SSH rank."""
@@ -88,6 +89,7 @@ class Osu(commands.Cog):
         await ctx.tick()
 
     @emoji.command()
+    @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def ss(self, ctx, ss_emoji: Optional[discord.Emoji]):
         """Set custom emoji for SS rank."""
@@ -102,6 +104,7 @@ class Osu(commands.Cog):
         await ctx.tick()
 
     @emoji.command()
+    @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def sh(self, ctx, sh_emoji: Optional[discord.Emoji]):
         """Set custom emoji for SH rank."""
@@ -116,6 +119,7 @@ class Osu(commands.Cog):
         await ctx.tick()
 
     @emoji.command()
+    @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def s(self, ctx, s_emoji: Optional[discord.Emoji]):
         """Set custom emoji for SSH rank."""
@@ -130,7 +134,8 @@ class Osu(commands.Cog):
         await ctx.tick()
 
     @emoji.command()
-    
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def a(self, ctx, a_emoji: Optional[discord.Emoji]):
         """Set custom emoji for A rank."""
         if not a_emoji:
