@@ -1,16 +1,18 @@
+import aiohttp
+from io import BytesIO
+
 import discord
 from redbot.core import commands, Config, checks
-
-from io import BytesIO
-import aiohttp
-
-from redbot.core.utils.menus import menu, commands, DEFAULT_CONTROLS
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
-BaseCog = getattr(commands, "Cog", object)
+ssh = "<:RankSSH:926177230357405736>"
+ss = "<:RankSS:926177315757645844>"
+sh = "<:RankSH:926177357834895370>"
+s = "<:RankS:926177374196875284>"
+a = "<:RankA:926177386737848321>"
 
 
-class Osu(BaseCog):
+class Osu(commands.Cog):
     """Show osu! user stats with osu! API"""
 
     def __init__(self, bot):
@@ -34,7 +36,6 @@ class Osu(BaseCog):
             await ctx.send("The API key has been removed.")
         else:
             headers = {"content-type": "application/json", "user-key": api_key}
-            error = "Please provide a valid API key."
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
                     osu = await response.json()
@@ -116,22 +117,19 @@ class Osu(BaseCog):
                 A = "<:RankA:926177386737848321>"
 
                 # Some format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
-                joined = "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
-                rank = "**▸ Rank:** #{}".format(humanize_number(osu[0]["pp_rank"])) + " (:flag_{}: ".format(osu[0]["country"]).lower() + "#{})\n".format(humanize_number(osu[0]["pp_country_rank"]))
-                level = "**▸ Level:** {}\n".format(osu[0]["level"][:5])
-                pp = "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
-                acc = "**▸ Accuracy:** {} %\n".format(osu[0]["accuracy"][:6])
-                playcount = "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
-                playtime = "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
-                ranks = f"**▸ Ranks:** {SSH}" + "`{}`".format(osu[0]["count_rank_ssh"]) + f"{SS}" + "`{}`".format(osu[0]["count_rank_ss"]) + f"{SH}" + "`{}`".format(osu[0]["count_rank_sh"]) + f"{S}" + "`{}`".format(osu[0]["count_rank_s"]) + f"{A}" + "`{}`\n".format(osu[0]["count_rank_a"])
-                rscore = "**▸ Ranked Score:** {}\n".format(humanize_number(osu[0]["ranked_score"]))
-                tscore = "**▸ Total Score:** {} ".format(humanize_number(osu[0]["total_score"]))
-
-                # Build Embed
-                desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{playtime}{ranks}{rscore}{tscore}"
-                colour = await self.bot.get_embed_colour(await ctx.embed_color())
-
-                embed = discord.Embed(description=f"{desc}", colour=colour)
+                desc = (
+                    "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
+                    "**▸ Rank:** #{} (:flag_{}: #{})\n".format(humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]))
+                    "**▸ Level:** {}\n".format(osu[0]["level"][:5])
+                    "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
+                    "**▸ Accuracy:** {} %\n".format(osu[0]["accuracy"][:6])
+                    "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
+                    "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
+                    "**▸ Ranks:** {}`{}`{}`{}`{}`{}`{}`{}`{}`{}`\n".format(SSH, osu[0]["count_rank_ssh"], SS, osu[0]["count_rank_ss"], SH, osu[0]["count_rank_sh"], S, osu[0]["count_rank_s"], A, osu[0]["count_rank_a"])
+                    "**▸ Ranked Score:** {}\n".format(humanize_number(osu[0]["ranked_score"]))
+                    "**▸ Total Score:** {}".format(humanize_number(osu[0]["total_score"]))
+                )
+                embed = discord.Embed(description=desc, color=await ctx.embed_color())
                 embed.set_author(
                     icon_url="https://icon-library.com/images/osu-icon/osu-icon-16.jpg",
                     url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
@@ -221,22 +219,15 @@ class Osu(BaseCog):
     async def catch(self, ctx, *, username: str = None):
         """Shows an osu!catch User Stats!"""
 
-        apikey = await self.config.apikey()
-        headers = {"content-type": "application/json", "user-key": apikey}
-
-        if apikey is None:
-            await ctx.send("The API Key hasn't been set yet!")
-            return
-
-        if username is None:
+        if username == None:
             username = await self.config.username()
-            if username is None:
+            if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
                     prefixes.remove(f"<@!{self.bot.user.id}> ")
                 sorted_prefixes = sorted(prefixes, key=len)
                 p = sorted_prefixes[0]
-                command = self.bot.get_command("ctb").name
+                command = self.bot.get_command("std").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
                     f"You can also provide a username in this command: `{p}{command} <username>`"
@@ -244,47 +235,7 @@ class Osu(BaseCog):
                 await ctx.send(error)
                 return
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m=2", headers=headers) as response:
-                osu = await response.json()
-            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
-                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
-
-            if osu:
-                SSH = "<:RankSSH:926177230357405736>"
-                SS = "<:RankSS:926177315757645844>"
-                SH = "<:RankSH:926177357834895370>"
-                S = "<:RankS:926177374196875284>"
-                A = "<:RankA:926177386737848321>"
-
-                # Some format stolen from owo#0498's ">osu" command. (Thanks Stevy 😹)
-                joined = "**▸ Joined at:** {}\n".format(osu[0]["join_date"][:10])
-                rank = "**▸ Rank:** #{}".format(humanize_number(osu[0]["pp_rank"])) + " (:flag_{}: ".format(osu[0]["country"]).lower() + "#{})\n".format(humanize_number(osu[0]["pp_country_rank"]))
-                level = "**▸ Level:** {}\n".format(osu[0]["level"][:5])
-                pp = "**▸ PP:** {}\n".format(osu[0]["pp_raw"])
-                acc = "**▸ Accuracy:** {} %\n".format(osu[0]["accuracy"][:6])
-                playcount = "**▸ Playcount:** {}\n".format(humanize_number(osu[0]["playcount"]))
-                playtime = "**▸ Playtime:** {}\n".format(humanize_timedelta(seconds=osu[0]["total_seconds_played"]))
-                ranks = f"**▸ Ranks:** {SSH}" + "`{}`".format(osu[0]["count_rank_ssh"]) + f"{SS}" + "`{}`".format(osu[0]["count_rank_ss"]) + f"{SH}" + "`{}`".format(osu[0]["count_rank_sh"]) + f"{S}" + "`{}`".format(osu[0]["count_rank_s"]) + f"{A}" + "`{}`\n".format(osu[0]["count_rank_a"])
-                rscore = "**▸ Ranked Score:** {}\n".format(humanize_number(osu[0]["ranked_score"]))
-                tscore = "**▸ Total Score:** {} ".format(humanize_number(osu[0]["total_score"]))
-
-                # Build Embed
-                desc = f"{joined}{rank}{level}{pp}{acc}{playcount}{playtime}{ranks}{rscore}{tscore}"
-                colour = await self.bot.get_embed_colour(await ctx.embed_color())
-
-                embed = discord.Embed(description=f"{desc}", colour=colour)
-                embed.set_author(
-                    icon_url="https://www.seekpng.com/png/full/194-1941038_osu-ctb-back-white-icon-png.png",
-                    url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
-                    name="osu! Catch The Beat Profile for {}".format(osu[0]["username"])
-                )
-                embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
-                embed.set_thumbnail(url="attachment://osu_avatar.png")
-                await ctx.send(embed=embed, file=file)
-                file.close()
-            else:
-                await ctx.send("No results found for this player.")
+        await self.send_user_info(ctx, 2, username)
 
     @commands.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -403,3 +354,69 @@ class Osu(BaseCog):
                         await ctx.send((await resp.json())['message'])
                     else:
                         await ctx.send("API is currently down, please try again later.")
+
+    async def send_user_info(self, ctx, m: int, username: str = None):
+        
+        apikey = await self.config.apikey()
+
+        if apikey is None:
+            await ctx.send("The API Key hasn't been set yet!")
+            return
+
+        if m == 0:
+            mode = "Standard"
+            icon = "https://icon-library.com/images/osu-icon/osu-icon-16.jpg"
+        elif m == 1:
+            mode = "Taiko"
+            icon = "https://lemmmy.pw/osusig/img/taiko.png"
+        elif m == 2:
+            mode = "Catch"
+            icon = "https://www.seekpng.com/png/full/194-1941038_osu-ctb-back-white-icon-png.png"
+        else:
+            mode = "Mania"
+            icon = "https://icon-library.com/images/osu-icon/osu-icon-15.jpg"
+
+        headers = {"content-type": "application/json", "user-key": apikey}
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}&m={m}", headers=headers) as response:
+                osu = await response.json()
+            async with session.get("https://a.ppy.sh/{}".format(osu[0]["user_id"])) as resp:
+                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_avatar.png")
+
+        if osu:
+            # Inspired by owo#0498 (Thanks Stevy 😹)
+            description = (
+                "**▸ Joined at:** {}\n"
+                "**▸ Rank:** #{} (:flag_{}: #{})\n"
+                "**▸ Level:** {}\n"
+                "**▸ PP:** {}\n"
+                "**▸ Accuracy:** {} %\n"
+                "**▸ Playcount:** {}\n"
+                "**▸ Playtime:** {}\n"
+                "**▸ Ranks:** {}`{}`{}`{}`{}`{}`{}`{}`{}`{}`\n"
+                "**▸ Ranked Score:** {}\n"
+                "**▸ Total Score:** {}"
+            ).format(
+                osu[0]["join_date"][:10], 
+                humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]), 
+                osu[0]["level"][:5], osu[0]["pp_raw"], osu[0]["accuracy"][:6],
+                humanize_number(osu[0]["playcount"]), humanize_timedelta(seconds=osu[0]["total_seconds_played"]),
+                ssh, osu[0]["count_rank_ssh"], ss, osu[0]["count_rank_ss"], 
+                sh, osu[0]["count_rank_sh"], s, osu[0]["count_rank_s"], a, osu[0]["count_rank_a"],
+                humanize_number(osu[0]["ranked_score"]), humanize_number(osu[0]["total_score"])
+            )
+
+            embed = discord.Embed(description=description, color=await ctx.embed_color())
+            embed.set_author(
+                icon_url=icon,
+                url="https://osu.ppy.sh/u/{}".format(osu[0]["user_id"]),
+                name="osu! {} Profile for {}".format(mode, osu[0]["username"])
+            )
+            embed.set_footer(text="Powered by osu!", icon_url="https://upload.wikimedia.org/wikipedia/commons/4/41/Osu_new_logo.png")
+            embed.set_thumbnail(url="attachment://osu_avatar.png")
+            await ctx.send(embed=embed, file=file)
+            file.close()
+        else:
+            await ctx.send("No results found for this player.")
+
