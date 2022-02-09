@@ -53,7 +53,7 @@ class Osu(commands.Cog):
             return
         else:
             if username == None:
-                await self.config.user(ctx.author.id).username.clear()
+                await self.config.user(ctx.author).username.clear()
                 await ctx.tick()
                 await ctx.send("Your username has been removed.")
             else:
@@ -61,7 +61,7 @@ class Osu(commands.Cog):
                     async with session.post(f"https://osu.ppy.sh/api/get_user?k={apikey}&u={username}", headers=headers) as response:
                         osu = await response.json()
                 if osu:
-                    await self.config.user(ctx.author.id).username.set(username)
+                    await self.config.user(ctx.author).username.set(username)
                     await ctx.tick()
                     await ctx.send(f"Your username has been set to `{username}`.")
                 else:
@@ -150,7 +150,7 @@ class Osu(commands.Cog):
         """Shows an osu!standard User Stats!"""
 
         if username == None:
-            username = await self.config.user(ctx.author.id).username()
+            username = await self.config.user(ctx.author).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -174,7 +174,7 @@ class Osu(commands.Cog):
         """Shows an osu!taiko User Stats!"""
 
         if username == None:
-            username = await self.config.user(ctx.author.id).username()
+            username = await self.config.user(ctx.author).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -198,7 +198,7 @@ class Osu(commands.Cog):
         """Shows an osu!catch User Stats!"""
 
         if username == None:
-            username = await self.config.user(ctx.author.id).username()
+            username = await self.config.user(ctx.author).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -222,7 +222,7 @@ class Osu(commands.Cog):
         """Shows an osu!mania User Stats!"""
 
         if username == None:
-            username = await self.config.user(ctx.author.id).username()
+            username = await self.config.user(ctx.author).username()
             if username == None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
@@ -253,7 +253,7 @@ class Osu(commands.Cog):
             return
 
         if username is None:
-            username = await self.config.user(ctx.author.id).username()
+            username = await self.config.user(ctx.author).username()
             if username is None:
                 prefixes = await self.bot.get_prefix(ctx.message.channel)
                 if f"<@!{self.bot.user.id}> " in prefixes:
