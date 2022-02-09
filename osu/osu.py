@@ -80,6 +80,7 @@ class Osu(commands.Cog):
         """Set custom emoji for SSH rank."""
         if not ssh_emoji:
             await self.config.ssh_emoji.clear()
+            await ctx.send("Custom emoji for SSH Rank removed.")
         else:
             try:
                 await ctx.message.add_reaction(ssh_emoji)
@@ -95,6 +96,7 @@ class Osu(commands.Cog):
         """Set custom emoji for SS rank."""
         if not ss_emoji:
             await self.config.ss_emoji.clear()
+            await ctx.send("Custom emoji for SS Rank removed.")
         else:
             try:
                 await ctx.message.add_reaction(ss_emoji)
@@ -110,6 +112,7 @@ class Osu(commands.Cog):
         """Set custom emoji for SH rank."""
         if not sh_emoji:
             await self.config.sh_emoji.clear()
+            await ctx.send("Custom emoji for SH Rank removed.")
         else:
             try:
                 await ctx.message.add_reaction(sh_emoji)
@@ -122,9 +125,10 @@ class Osu(commands.Cog):
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def s(self, ctx, s_emoji: Optional[discord.Emoji]):
-        """Set custom emoji for SSH rank."""
+        """Set custom emoji for S rank."""
         if not s_emoji:
             await self.config.s_emoji.clear()
+            await ctx.send("Custom emoji for S Rank removed.")
         else:
             try:
                 await ctx.message.add_reaction(s_emoji)
@@ -140,6 +144,7 @@ class Osu(commands.Cog):
         """Set custom emoji for A rank."""
         if not a_emoji:
             await self.config.a_emoji.clear()
+            await ctx.send("Custom emoji for A Rank removed.")
         else:
             try:
                 await ctx.message.add_reaction(a_emoji)
@@ -147,6 +152,18 @@ class Osu(commands.Cog):
                 return await ctx.send("Uh oh, I cannot use that emoji.")
             await self.config.a_emoji.set(a_emoji.id)
         await ctx.tick()
+
+    @emoji.command()
+    @checks.is_owner()
+    async def clear(self, ctx):
+        """Clear all set custom emojis for ranks."""
+        await self.config.ssh_emoji.clear()
+        await self.config.ss_emoji.clear()
+        await self.config.sh_emoji.clear()
+        await self.config.s_emoji.clear()
+        await self.config.a_emoji.clear()
+        await ctx.tick()
+        await ctx.send("All custom emojis for ranks has been cleared.")
 
     @commands.command(aliases=["osu", "std"])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -361,17 +378,17 @@ class Osu(commands.Cog):
     async def rank_emojis(self, ctx):
         ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
         if not ssh_emoji:
-            ssh_emoji = "**SSH** "
+            ssh_emoji = "**SSH**"
         ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
         if not ss_emoji:
-            ss_emoji = "**SS** "
+            ss_emoji = "**SS**"
         sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
         if not sh_emoji:
-            sh_emoji = "**SH** "
+            sh_emoji = "**SH**"
         s_emoji = self.bot.get_emoji(await self.config.s_emoji())
         if not s_emoji:
-            s_emoji = "**S** "
+            s_emoji = "**S**"
         a_emoji = self.bot.get_emoji(await self.config.a_emoji())
         if not a_emoji:
-            a_emoji = "**A** "
+            a_emoji = "**A**"
         return ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji
