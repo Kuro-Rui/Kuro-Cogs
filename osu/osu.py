@@ -327,7 +327,7 @@ class Osu(commands.Cog):
                 "**▸ Accuracy:** {} %\n"
                 "**▸ Playcount:** {}\n"
                 "**▸ Playtime:** {}\n"
-                "**▸ Ranks:** {}`{}`{}`{}`{}`{}`{}`{}`{}`{}`\n"
+                "**▸ Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
                 "**▸ Ranked Score:** {}\n"
                 "**▸ Total Score:** {}"
             ).format(
