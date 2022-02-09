@@ -39,7 +39,7 @@ class Osu(commands.Cog):
             async with aiohttp.ClientSession() as session:
                 async with session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u=peppy", headers=headers) as response:
                     osu = await response.json()
-            if response.status is 200:
+            if response.status == 200:
                 await self.config.apikey.set(api_key)
                 await ctx.message.delete() # Delete the message for safety
                 await ctx.send("The API key has been set.")
