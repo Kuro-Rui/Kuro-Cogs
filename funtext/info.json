@@ -5,5 +5,7 @@
     "short": "Generate a fun text from your given text :D",
     "description": "Generate a fun text from your given text :D",
     "requirements": ["zalgo_text"],
-    "hidden": false
+    "hidden": false,
+    "type": "COG",
+    "end_user_data_statement": "This cog does not store end user data."
 }

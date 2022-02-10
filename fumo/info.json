@@ -7,5 +7,6 @@
     "tags": ["image", "fumo", "touhou"],
     "hidden": false,
     "disabled": false,
-    "type": "COG"
+    "type": "COG",
+    "end_user_data_statement": "This cog does not store end user data."
 }
