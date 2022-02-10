@@ -69,14 +69,14 @@ class ReactLog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.User):
         log_channel = await self.config.guild(user.guild).channel()
         log = self.bot.get_channel(log_channel)
         message = reaction.message
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
-            if message.author.bot == False:
+            if user.bot == False:
                 embed = discord.Embed(color=discord.Color.green())
                 embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
                 embed.description = (
@@ -90,14 +90,14 @@ class ReactLog(commands.Cog):
                 await log.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
+    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
         log_channel = await self.config.guild(user.guild).channel()
         log = self.bot.get_channel(log_channel)
         message = reaction.message
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
-            if message.author.bot == False:
+            if user.bot == False:
                 embed = discord.Embed(color=discord.Color.red())
                 embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
                 embed.description = (
