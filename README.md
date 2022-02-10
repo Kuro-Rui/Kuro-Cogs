@@ -38,6 +38,7 @@
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>                       |             Kuro             |
 |     Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>                     |        TrustyJAID & Kuro        |
 |    Polls     | Create a poll with a question and up to 10 options!      |             Kuro             |
+|   ReactLog   | Log reactions when reactions were added/removed!         |             Kuro             |
 |    Snipe     | <details><summary>Snipe a channel's last deleted message for fun and profit.</summary>Fork from https://github.com/npc203/npc-cogs/tree/main/snipe</details>                                                      |          npc203 & Kuro          |
 |   Spotify    | <details><summary>Control Spotify via OAuth through the bot on Discord.</summary>Fork from https://github.com/kaogurai/trusty/tree/master/spotify</details>                                                        |     TrustyJAID, alec & Kuro     |
 |  Suggestion  | <details><summary>A simple suggestion box for your server!</summary>Fork from https://github.com/elijabesu/SauriCogs/tree/master/suggestion</details>                                                              |       saurichable & Kuro        |
