@@ -69,7 +69,7 @@ class ReactLog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member, emoji: discord.Emoji = discord.Reaction.emoji):
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member, emoji: discord.Emoji = discord.Reaction.emoji.id):
         log_channel = await self.config.guild(user.guild).channel()
         log = self.bot.get_channel(log_channel)
         message = reaction.message
