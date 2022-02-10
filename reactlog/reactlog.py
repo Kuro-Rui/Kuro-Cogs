@@ -76,17 +76,18 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
-            embed = discord.Embed(color=discord.Color.green())
-            embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-            embed.description = (
-                f"**Channel:** {channel.mention}\n"
-                f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
-                f"**Message:** [Jump to Message ►]({message.jump_url})"
-            )
-            embed.set_thumbnail(url=emoji.url_as(format="png"))
-            embed.set_footer(text=f"Reaction Added | #{channel.name}")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await log.send(embed=embed)
+            if not message.author.bot:
+                embed = discord.Embed(color=discord.Color.green())
+                embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                embed.description = (
+                    f"**Channel:** {channel.mention}\n"
+                    f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
+                    f"**Message:** [Jump to Message ►]({message.jump_url})"
+                )
+                embed.set_thumbnail(url=emoji.url_as(format="png"))
+                embed.set_footer(text=f"Reaction Added | #{channel.name}")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await log.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
@@ -96,14 +97,15 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
-            embed = discord.Embed(color=discord.Color.red())
-            embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-            embed.description = (
-                f"**Channel:** {channel.mention}\n"
-                f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
-                f"**Message:** [Jump to Message ►]({reaction.message.jump_url})"
-            )
-            embed.set_thumbnail(url=emoji.url_as(format="png"))
-            embed.set_footer(text=f"Reaction Removed | #{channel.name}")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await log.send(embed=embed)
+            if not message.author.bot:
+                embed = discord.Embed(color=discord.Color.red())
+                embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                embed.description = (
+                    f"**Channel:** {channel.mention}\n"
+                    f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
+                    f"**Message:** [Jump to Message ►]({reaction.message.jump_url})"
+                )
+                embed.set_thumbnail(url=emoji.url_as(format="png"))
+                embed.set_footer(text=f"Reaction Removed | #{channel.name}")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await log.send(embed=embed)
