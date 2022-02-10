@@ -174,11 +174,7 @@ class Osu(commands.Cog):
         if username == None:
             username = await self.config.user(ctx.author).username()
             if username == None:
-                prefixes = await self.bot.get_prefix(ctx.message.channel)
-                if f"<@!{self.bot.user.id}> " in prefixes:
-                    prefixes.remove(f"<@!{self.bot.user.id}> ")
-                sorted_prefixes = sorted(prefixes, key=len)
-                p = sorted_prefixes[0]
+                p = ctx.clean_prefix
                 command = self.bot.get_command("std").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
@@ -198,11 +194,7 @@ class Osu(commands.Cog):
         if username == None:
             username = await self.config.user(ctx.author).username()
             if username == None:
-                prefixes = await self.bot.get_prefix(ctx.message.channel)
-                if f"<@!{self.bot.user.id}> " in prefixes:
-                    prefixes.remove(f"<@!{self.bot.user.id}> ")
-                sorted_prefixes = sorted(prefixes, key=len)
-                p = sorted_prefixes[0]
+                p = ctx.clean_prefix
                 command = self.bot.get_command("std").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
@@ -222,11 +214,7 @@ class Osu(commands.Cog):
         if username == None:
             username = await self.config.user(ctx.author).username()
             if username == None:
-                prefixes = await self.bot.get_prefix(ctx.message.channel)
-                if f"<@!{self.bot.user.id}> " in prefixes:
-                    prefixes.remove(f"<@!{self.bot.user.id}> ")
-                sorted_prefixes = sorted(prefixes, key=len)
-                p = sorted_prefixes[0]
+                p = ctx.clean_prefix
                 command = self.bot.get_command("std").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
@@ -246,11 +234,7 @@ class Osu(commands.Cog):
         if username == None:
             username = await self.config.user(ctx.author).username()
             if username == None:
-                prefixes = await self.bot.get_prefix(ctx.message.channel)
-                if f"<@!{self.bot.user.id}> " in prefixes:
-                    prefixes.remove(f"<@!{self.bot.user.id}> ")
-                sorted_prefixes = sorted(prefixes, key=len)
-                p = sorted_prefixes[0]
+                p = ctx.clean_prefix
                 command = self.bot.get_command("std").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
@@ -277,11 +261,7 @@ class Osu(commands.Cog):
         if username is None:
             username = await self.config.user(ctx.author).username()
             if username is None:
-                prefixes = await self.bot.get_prefix(ctx.message.channel)
-                if f"<@!{self.bot.user.id}> " in prefixes:
-                    prefixes.remove(f"<@!{self.bot.user.id}> ")
-                sorted_prefixes = sorted(prefixes, key=len)
-                p = sorted_prefixes[0]
+                p = ctx.clean_prefix
                 command = self.bot.get_command("osucard").name
                 error = (
                     f"Your username hasn't been set yet. You can set it with `{p}osuset username <username>`\n"
