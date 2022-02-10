@@ -84,7 +84,7 @@ class ReactLog(commands.Cog):
                     f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
                     f"**Message:** [Jump to Message ►]({message.jump_url})"
                 )
-                embed.set_thumbnail(url=emoji.url_as(format="png"))
+                embed.set_thumbnail(url=emoji.url)
                 embed.set_footer(text=f"Reaction Added | #{channel.name}")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await log.send(embed=embed)
@@ -105,7 +105,7 @@ class ReactLog(commands.Cog):
                     f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
                     f"**Message:** [Jump to Message ►]({reaction.message.jump_url})"
                 )
-                embed.set_thumbnail(url=emoji.url_as(format="png"))
+                embed.set_thumbnail(url=emoji.url)
                 embed.set_footer(text=f"Reaction Removed | #{channel.name}")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await log.send(embed=embed)
