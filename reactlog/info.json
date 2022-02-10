@@ -1,0 +1,9 @@
+{
+    "author": ["Kuro"],
+    "description": "Log when reactions were added/removed! Inspired by Sx Bot#8364.",
+    "install_msg": "Thanks for installing `ReactLog`! You can get started with `[p]reactlog`",
+    "short": "Log added/removed reactions!",
+    "tags": ["log", "react", "reaction", "reactlog", "reactionlog"],
+    "type": "COG",
+    "end_user_data_statement": "This cog does not persistently store data or metadata about users."
+}
