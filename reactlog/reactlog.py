@@ -69,11 +69,12 @@ class ReactLog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member, emoji: discord.Emoji = discord.Reaction):
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
         log_channel = await self.config.guild(user.guild).channel()
         log = self.bot.get_channel(log_channel)
         message = reaction.message
         channel = message.channel
+        emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
             embed = discord.Embed(color=discord.Color.green())
             embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
@@ -99,7 +100,7 @@ class ReactLog(commands.Cog):
             embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
             embed.description = (
                 f"**Channel:** {channel.mention}\n"
-                f"**Emoji:** {emoji.name} (ID: {emoji})\n"
+                f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
                 f"**Message:** [Jump to Message ►]({reaction.message.jump_url})"
             )
             embed.set_thumbnail(url=emoji.url_as(format="png"))
