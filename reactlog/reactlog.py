@@ -76,7 +76,7 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
-            if not message.author.bot:
+            if not message.author.bot == False:
                 embed = discord.Embed(color=discord.Color.green())
                 embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
                 embed.description = (
@@ -97,7 +97,7 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
-            if not message.author.bot:
+            if message.author.bot == False:
                 embed = discord.Embed(color=discord.Color.red())
                 embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
                 embed.description = (
