@@ -62,7 +62,7 @@ class ReactLog(commands.Cog):
         reaction_add_status = await self.config.guild(ctx.guild).reaction_add()
         reaction_remove_status = await self.config.guild(ctx.guild).reaction_remove()
         embed = discord.Embed(title="Reactions Log Settings", color=await ctx.embed_color())
-        embed.add_field(name="Channel", value=channel.mention, inline=True)
+        embed.add_field(name="Channel", value=f"<#{channel}>", inline=True)
         embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
         embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
         await ctx.send(embed=embed)
