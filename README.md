@@ -1,21 +1,22 @@
 <h1 align="center">Kuro-Cogs</h1>
 
-<p align="center">
+<div align="center">
   <a href="https://github.com/Cog-Creators/Red-DiscordBot">
     <img src="https://img.shields.io/badge/Red--DiscordBot-v3-cb533f?style=for-the-badge&logo=github&link=https://github.com/Cog-Creators/Red-DiscordBot" alt="Red's GitHub Repo">
   </a>
   <a href="https://discord.gg/red">
     <img src="https://img.shields.io/badge/Red%20--%20Discord%20Bot-Join-cb533f?style=for-the-badge&logo=discord&link=https://discord.gg/red" alt="Red - Discord Bot">
   </a>
+  <br>
   <a href="https://discord.gg/GET4DVk">
     <img src="https://img.shields.io/badge/Red%20--%20Cog%20Support-Join-cb533f?style=for-the-badge&logo=discord&link=https://discord.gg/GET4DVk" alt="Red - Cog Support">
   </a>
   <a href="https://discord.com/channels/240154543684321280/240212783503900673">
     <img src="https://img.shields.io/badge/%23support__othercogs-Go%20To%20Channel-cb533f?style=for-the-badge&logo=discord&link=https://discord.com/channels/240154543684321280/240212783503900673" alt="#support_othercogs">
   </a>
-</p>
+</div>
 
-<img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" width=1010 height=404 alt="Kuro-Cogs">
+<img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" width=1010 alt="Kuro-Cogs">
 
 ## Installation
 <!-- So you can copy and paste it one by one :D -->
