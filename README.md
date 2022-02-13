@@ -1,6 +1,10 @@
 <h1 align="center">Kuro-Cogs</h1>
 
 <div align="center">
+  <a href="https://results.pre-commit.ci/latest/github/Kuro-Rui/Kuro-Cogs/main">
+    <img src="https://results.pre-commit.ci/badge/github/Kuro-Rui/Kuro-Cogs/main.svg" height=27 alt="pre-commit.ci status">
+  </a>
+  <br>
   <a href="https://github.com/Cog-Creators/Red-DiscordBot">
     <img src="https://img.shields.io/badge/Red--DiscordBot-v3-cb533f?style=for-the-badge&logo=github&link=https://github.com/Cog-Creators/Red-DiscordBot" alt="Red's GitHub Repo">
   </a>
