@@ -59,10 +59,14 @@ class ReactLog(commands.Cog):
     async def showsettings(self, ctx):
         """Show the current settings."""
         channel = await self.config.guild(ctx.guild).channel()
+        if channel:
+            channel_mention = f"<#{channel}>"
+        else:
+            channel_mention = "Not Set"
         reaction_add_status = await self.config.guild(ctx.guild).reaction_add()
         reaction_remove_status = await self.config.guild(ctx.guild).reaction_remove()
         embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
-        embed.add_field(name="Channel", value=f"<#{channel}>", inline=True)
+        embed.add_field(name="Channel", value=channel_mention, inline=True)
         embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
         embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
         embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
