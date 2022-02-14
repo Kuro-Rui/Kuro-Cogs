@@ -1,0 +1,11 @@
+{
+    "title": "CounterCog",
+    "author": ["Kuro"],
+    "description": "Have you ever wondered, how many commands/cogs does your bot have? Well this cog can help with that!",
+    "disabled": false,
+    "end_user_data_statement": "This cog does not store any end user data.",
+    "hidden": true,
+    "short": "A cog that shows how many commands/cogs the bot has.",
+    "tags": ["cogs", "commands", "count"],
+    "type": "COG"
+}
