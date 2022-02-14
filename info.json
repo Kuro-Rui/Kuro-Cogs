@@ -1,13 +1,8 @@
 {
     "author": ["Kuro"],
-    "install_msg": "Thanks for installing my repo!\nFor Support, You can visit ʚ﹕The Cloud House﹕ɞ (https://discord.gg/Zef3pD8Yt5) :D\nUse `[p]cog list Kuro-Cogs` to see all my cogs.",
-    "name": "Kuro-Cogs",
+    "install_msg": "Thanks for installing my repo!\nFor Support, You can visit <#240212783503900673> in **Red - Cog Support** (https://discord.gg/GET4DVk) :D\nUse `[p]cog list kuro-cogs` to see available cogs.",
+    "name": "kuro-cogs",
     "short": "Some (dumb) cogs made/customized by Kuro.",
     "description": "Some (dumb) cogs made/customized by Kuro.",
-    "tags": [
-      "custom",
-      "customized",
-      "tools",
-      "osu"
-    ]
-  }
+    "tags": ["custom", "customized", "fun", "kuro", "tools", "utility"]
+}
