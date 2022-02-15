@@ -135,7 +135,7 @@ class BotInvite(commands.Cog):
             if curl := settings.get("custom_url"):
                 embed.set_thumbnail(url=curl)
             if req:
-                embed.add_field(name="__Requirement__", value=req, inline=False)
+                embed.add_field(name="__Requirement__:", value=req, inline=False)
             if footer:
                 embed.set_footer(text=footer)
             kwargs = {"embed": embed}
@@ -232,7 +232,7 @@ class BotInvite(commands.Cog):
             requirement = _config_structure["req"]
         set_reset = "reset" if reset else "set"
 
-        await ctx.send(f"The title has been {set_reset}")
+        await ctx.send(f"The requirement has been {set_reset}")
         await self.config.req.set(requirement)
 
     @invite_settings.command(name="footer")
