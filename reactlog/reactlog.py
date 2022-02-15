@@ -78,7 +78,7 @@ class ReactLog(commands.Cog):
         log = self.bot.get_channel(log_channel)
         message = reaction.message
         channel = message.channel
-        emoji = reaction.emoji
+        emoji: discord.Emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
             if user.bot == False:
                 embed = discord.Embed(color=discord.Color.green())
@@ -99,7 +99,7 @@ class ReactLog(commands.Cog):
         log = self.bot.get_channel(log_channel)
         message = reaction.message
         channel = message.channel
-        emoji = reaction.emoji
+        emoji: discord.Emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
             if user.bot == False:
                 embed = discord.Embed(color=discord.Color.red())
