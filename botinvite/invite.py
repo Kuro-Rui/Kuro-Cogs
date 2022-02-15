@@ -223,7 +223,6 @@ class BotInvite(commands.Cog):
     async def invite_req(self, ctx: commands.Context, *, requirement: NoneStrict):
         """Set description of the server requirement to invite your bot.
         Type `None` to reset it.
-        You can use `{bot_name}` to display [botname] in the title.
         **Arguments**
             - `requirement` The server req for inviting bot. Type `None` to reset it.
         """
