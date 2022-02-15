@@ -14,7 +14,7 @@ from redbot.core.bot import Red
 from redbot.core.core_commands import CoreLogic
 from redbot.core.utils.chat_formatting import humanize_list, humanize_number
 
-from .url_button import *
+from .utils import *
 
 log = logging.getLogger("red.Kuro-Cogs.invite")
 
@@ -34,6 +34,7 @@ _config_structure: Final[Dict[str, Any]] = {
     "embeds": True,
     "title": "Invite {bot_name}",
     "support_server": None,
+    "req": None,
     "footer": None,
     "extra_link": False,
     "support_server_emoji": {},
@@ -103,6 +104,8 @@ class BotInvite(commands.Cog):
 
         support = settings.get("support_server")
         support_msg = f"\n**Support Server:** <{support}>" if support is not None else ""
+
+        req = settings.get("req")
         if settings.get("custom_message") is not None:
             message = settings.get("custom_message", _config_structure["custom_message"]).replace(
                 "{bot_name}", ctx.me.name
@@ -110,7 +113,7 @@ class BotInvite(commands.Cog):
             content = f"**{title}**\n{message}\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
         else:
             message = None
-            content = f"**{title}**\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
+            content = f"**{title}**\n{invite_msg}\n{support_msg}\n{req}\n\n{footer} • {timestamp}"
 
         kwargs: Dict[str, Any] = {
             "content": content
@@ -124,13 +127,15 @@ class BotInvite(commands.Cog):
                 color = await ctx.embed_color(),
                 timestamp = time,
             )
-            if message is not None:
+            if message:
                 embed.description = message
             embed.add_field(name="Bot Invite:", value=f"[Click Here!]({url})", inline=True)
-            if support is not None:
+            if support:
                 embed.add_field(name="Support Server:", value=f"[Click Here!]({support})", inline=True)
             if curl := settings.get("custom_url"):
                 embed.set_thumbnail(url=curl)
+            if req:
+                embed.add_field(name="__Requirement__", value=req, inline=False)
             if footer:
                 embed.set_footer(text=footer)
             kwargs = {"embed": embed}
@@ -213,6 +218,23 @@ class BotInvite(commands.Cog):
 
         await ctx.send(f"The title has been {set_reset}")
         await self.config.title.set(title)
+
+    @invite_settings.command(name="req")
+    async def invite_req(self, ctx: commands.Context, *, requirement: NoneStrict):
+        """Set description of the server requirement to invite your bot.
+        Type `None` to reset it.
+        You can use `{bot_name}` to display [botname] in the title.
+        **Arguments**
+            - `requirement` The server req for inviting bot. Type `None` to reset it.
+        """
+        reset = False
+        if requirement is None:
+            reset = True
+            requirement = _config_structure["req"]
+        set_reset = "reset" if reset else "set"
+
+        await ctx.send(f"The title has been {set_reset}")
+        await self.config.req.set(requirement)
 
     @invite_settings.command(name="footer")
     async def invite_footer(self, ctx: commands.Context, *, footer: NoneConverter):
