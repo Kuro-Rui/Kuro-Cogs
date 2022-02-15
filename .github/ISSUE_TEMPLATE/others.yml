@@ -1,0 +1,19 @@
+name: Others
+description: Submit an issue for one of the cogs.
+labels: [others]
+assignees: "Kuro-Rui"
+body:
+  - type: input
+    id: discord_user_info
+    attributes:
+      label: Discord User Information
+      description: "What is your Discord Username? (User#1234)"
+    validations:
+      required: true
+  - type: input
+    id: details
+    attributes:
+      label: Details
+      description: Please provide details about what did you ask for.
+    validations:
+      required: true

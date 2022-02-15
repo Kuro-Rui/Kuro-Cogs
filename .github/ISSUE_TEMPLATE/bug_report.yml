@@ -1,5 +1,5 @@
 name: Bug Report
-description: Submit an issue for one of the cogs.
+description: Submit a bug report for one of the cogs.
 labels: [bug]
 assignees: "Kuro-Rui"
 body:
@@ -9,14 +9,16 @@ body:
       label: Cog
       description: In which cog was the bug occured in?
       options:
+        - BotInvite
         - BotPing
+        - CounterCog
         - CursedImages
         - Fumo
         - FunText
-        - Highlight
         - Osu
         - Phun
         - Polls
+        - ReactLog
         - Snipe
         - Spotify
         - Suggestion
