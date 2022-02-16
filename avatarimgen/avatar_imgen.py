@@ -12,6 +12,7 @@ class AvatarImgen(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["ads"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def ad(self, ctx, user: discord.User = None):
         """Make an advertisement!"""
 
@@ -32,6 +33,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def clown(self, ctx, user: discord.User): # You don't want to be a clown, do you?
         """This person is a clown, Star."""
 
@@ -49,6 +51,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def drip(self, ctx, user: discord.User = None):
         """Pretend to wear a rich jacket!"""
 
@@ -69,6 +72,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def gun(self, ctx, user: discord.User = None):
         """Add a gun overlay to your avatar!"""
 
@@ -89,6 +93,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command(aliases=["jokesoverhead"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def jokeoverhead(self, ctx, user: discord.User): # You understand jokes, don't you?
         """This person doesn't get jokes at all!"""
 
@@ -109,6 +114,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def mnm(self, ctx, user: discord.User = None):
         """Make anyone turns into a shape of M&M!"""
 
@@ -129,6 +135,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command(aliases=["wall"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def uncover(self, ctx, user: discord.User = None):
         """So this person was hiding behind the wall all the time?"""
 
@@ -149,6 +156,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def wanted(self, ctx, user: discord.User = None):
         """Make a wanted poster!"""
 
@@ -169,6 +177,7 @@ class AvatarImgen(commands.Cog):
                     file.close()
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def whowouldwin(self, ctx, user_1: discord.User, user_2: discord.User = None):
         """Who would win?"""
 
@@ -178,13 +187,16 @@ class AvatarImgen(commands.Cog):
         avatar_1 = user_1.avatar_url_as(format="png")
         avatar_2 = user_2.avatar_url_as(format="png")
 
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/whowouldwin?image1={avatar_1}&image2={avatar_2}") as r:
-                    embed = discord.Embed(title="Who Would Win?", color=await ctx.embed_color())
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"whowouldwin.png")
-                    embed.set_image(url="attachment://whowouldwin.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+        if user_1 == user_2:
+            await ctx.send("Of course you would tie against yourself.")
+        else:
+            async with ctx.typing():
+                async with aiohttp.ClientSession() as s:
+                    async with s.get(f"https://api.popcat.xyz/whowouldwin?image1={avatar_1}&image2={avatar_2}") as r:
+                        embed = discord.Embed(title="Who Would Win?", color=await ctx.embed_color())
+                        file = discord.File(fp=BytesIO(await r.read()), filename=f"whowouldwin.png")
+                        embed.set_image(url="attachment://whowouldwin.png")
+                        pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                        embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                        await ctx.send(embed=embed, file=file)
+                        file.close()
