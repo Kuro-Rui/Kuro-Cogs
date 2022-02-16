@@ -97,9 +97,6 @@ class AvatarImgen(commands.Cog):
     async def jokeoverhead(self, ctx, user: discord.User): # You understand jokes, don't you?
         """This person doesn't get jokes at all!"""
 
-        if not user: 
-            user = ctx.author
-
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
 
