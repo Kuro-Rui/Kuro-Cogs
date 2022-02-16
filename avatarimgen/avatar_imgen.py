@@ -18,7 +18,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -35,7 +35,7 @@ class AvatarImgen(commands.Cog):
     async def clown(self, ctx, user: discord.User): # You don't want to be a clown, do you?
         """This person is a clown, Star."""
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -55,7 +55,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -75,7 +75,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -95,7 +95,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -115,7 +115,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -135,7 +135,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -155,7 +155,7 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="PNG")
+        avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
@@ -175,8 +175,8 @@ class AvatarImgen(commands.Cog):
         if not user_2:
             user_2 = ctx.author
 
-        avatar_1 = user_1.avatar_url_as(format="PNG")
-        avatar_2 = user_2.avatar_url_as(format="PNG")
+        avatar_1 = user_1.avatar_url_as(format="png")
+        avatar_2 = user_2.avatar_url_as(format="png")
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
