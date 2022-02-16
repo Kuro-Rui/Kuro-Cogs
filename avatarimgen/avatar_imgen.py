@@ -100,7 +100,8 @@ class AvatarImgen(commands.Cog):
         if not user: 
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        # The API isn't accepting "?size=1024" part that's attached to avatar URLs
+        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
 
         async with ctx.typing():
             async with aiohttp.ClientSession() as s:
