@@ -36,7 +36,7 @@ class FakeMod(commands.Cog):
         guild = ctx.guild
         if channel:
             if channel.permissions_for(guild.me).send_messages == True:
-                await self.config.guild(ctx.guild).channel.set(channel)
+                await self.config.guild(ctx.guild).channel.set(channel.id)
                 await ctx.send(f"Fake mod events will be sent to {channel.mention}.")
             else:
                 await ctx.send("Please grant me permission to send message in that channel first.")
@@ -45,7 +45,7 @@ class FakeMod(commands.Cog):
             await ctx.send("Fake mod log deactivated.")
 
     @fakemodlogset.command()
-    async def emoji(self, ctx, action: str, emoji: str = None):
+    async def emoji(self, ctx, action: str = None, emoji: str = None):
         """Set an emoji for a fake mod action."""
 
         guild = ctx.guild
@@ -125,7 +125,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't worn yourself.")
         else:
-            fake_modlog = await self.config.guild(ctx.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).worn_emoji()
@@ -145,7 +145,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't myut yourself.")
         else:
-            fake_modlog = await self.config.guild(ctx.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).myut_emoji()
@@ -165,7 +165,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't kik yourself.")
         else:
-            fake_modlog = await self.config.guild(ctx.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).kik_emoji()
@@ -185,7 +185,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't ben yourself.")
         else:
-            fake_modlog = await self.config.guild(ctx.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).ben_emoji()
