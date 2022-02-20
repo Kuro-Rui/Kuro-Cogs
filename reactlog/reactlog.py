@@ -81,24 +81,27 @@ class ReactLog(commands.Cog):
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
             if user.bot == False:
-                embed = discord.Embed(color=discord.Color.green())
-                embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-                try:
-                    embed.description = (
-                        f"**Channel:** {channel.mention}\n"
-                        f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
-                        f"**Message:** [Jump to Message ►]({message.jump_url})"
-                    )
-                    embed.set_thumbnail(url=emoji.url)
-                except: # Handle Original Emoji
-                    embed.description = (
-                        f"**Channel:** {channel.mention}\n"
-                        f"**Emoji:** {emoji}\n"
-                        f"**Message:** [Jump to Message ►]({message.jump_url})"
-                    )
-                embed.set_footer(text=f"Reaction Added | #{channel.name}")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await log.send(embed=embed)
+                if reaction.count == 1:
+                    embed = discord.Embed(color=discord.Color.green())
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                    try:
+                        embed.description = (
+                            f"**Channel:** {channel.mention}\n"
+                            f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
+                            f"**Message:** [Jump to Message ►]({message.jump_url})"
+                        )
+                        embed.set_thumbnail(url=emoji.url)
+                    except: # Handle Original Emoji
+                        embed.description = (
+                            f"**Channel:** {channel.mention}\n"
+                            f"**Emoji:** {emoji}\n"
+                            f"**Message:** [Jump to Message ►]({message.jump_url})"
+                        )
+                    embed.set_footer(text=f"Reaction Added | #{channel.name}")
+                    embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                    await log.send(embed=embed)
+                else:
+                    return
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.User):
@@ -109,21 +112,24 @@ class ReactLog(commands.Cog):
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
             if user.bot == False:
-                embed = discord.Embed(color=discord.Color.red())
-                embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-                try:
-                    embed.description = (
-                        f"**Channel:** {channel.mention}\n"
-                        f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
-                        f"**Message:** [Jump to Message ►]({message.jump_url})"
-                    )
-                    embed.set_thumbnail(url=emoji.url)
-                except: # Handle Original Emoji
-                    embed.description = (
-                        f"**Channel:** {channel.mention}\n"
-                        f"**Emoji:** {emoji}\n"
-                        f"**Message:** [Jump to Message ►]({message.jump_url})"
-                    )
-                embed.set_footer(text=f"Reaction Removed | #{channel.name}")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await log.send(embed=embed)
+                if reaction.count == 1:
+                    embed = discord.Embed(color=discord.Color.red())
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                    try:
+                        embed.description = (
+                            f"**Channel:** {channel.mention}\n"
+                            f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
+                            f"**Message:** [Jump to Message ►]({message.jump_url})"
+                        )
+                        embed.set_thumbnail(url=emoji.url)
+                    except: # Handle Original Emoji
+                        embed.description = (
+                            f"**Channel:** {channel.mention}\n"
+                            f"**Emoji:** {emoji}\n"
+                            f"**Message:** [Jump to Message ►]({message.jump_url})"
+                        )
+                    embed.set_footer(text=f"Reaction Removed | #{channel.name}")
+                    embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                    await log.send(embed=embed)
+                else:
+                    return
