@@ -30,7 +30,7 @@ class ImgBB(commands.Cog):
         await ctx.send(embed=embed)
 
     @imgbb.command()
-    async def upload(self, ctx, url_or_attachment: str = None):
+    async def upload(self, ctx, url_or_attachment: str = None, *, name: str = None):
         """
         Upload an image to imgbb!
         You can provide an url/attachment
@@ -48,8 +48,11 @@ class ImgBB(commands.Cog):
                 url_or_attachment = ctx.message.attachments[0].url
             else:
                 return await ctx.send_help()
-
-        params = {"image": url_or_attachment, "key": api_key}
+        
+        if name:
+            params = {"image": url_or_attachment, "name": name, "key": api_key}
+        else:
+            params = {"image": url_or_attachment, "key": api_key}
 
         async with ctx.typing():
             async with self.session.post("https://api.imgbb.com/1/upload", params=params) as response:
@@ -58,7 +61,6 @@ class ImgBB(commands.Cog):
                     url = ibb["data"]["url"]
                     embed = discord.Embed(title="Here's Your Link!", color=await ctx.embed_color())
                     embed.description = url
-                    embed.add_field(name="Deletion URL", value=ibb[0]["delete_url"])
                     embed.set_image(url=url)
                     embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                     await ctx.send(embed=embed)
