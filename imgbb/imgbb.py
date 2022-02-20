@@ -58,7 +58,7 @@ class ImgBB(commands.Cog):
                     url = ibb["data"]["url"]
                     embed = discord.Embed(title="Here's Your Link!", color=await ctx.embed_color())
                     embed.description = url
-                    embed.add_field(name="Deletion URL", value=ibb["delete_url"])
+                    embed.add_field(name="Deletion URL", value=ibb[0]["delete_url"])
                     embed.set_image(url=url)
                     embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                     await ctx.send(embed=embed)
