@@ -30,7 +30,7 @@ class ImgBB(commands.Cog):
         await ctx.send(embed=embed)
 
     @imgbb.command()
-    async def upload(self, ctx, url_or_attachment: str = None, *, name: str = None):
+    async def upload(self, ctx, url_or_attachment: str = None, name: str = None):
         """
         Upload an image to imgbb!
         You can provide an url/attachment
