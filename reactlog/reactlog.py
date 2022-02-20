@@ -112,7 +112,7 @@ class ReactLog(commands.Cog):
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
             if user.bot == False:
-                if reaction.count == 1:
+                if reaction.count == 0:
                     embed = discord.Embed(color=discord.Color.red())
                     embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
                     try:
