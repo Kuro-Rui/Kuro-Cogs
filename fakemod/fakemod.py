@@ -125,7 +125,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't worn yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).worn_emoji()
@@ -145,7 +145,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't myut yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).myut_emoji()
@@ -165,7 +165,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't kik yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).kik_emoji()
@@ -185,7 +185,7 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't ben yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(user.guild).channel()
+            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).ben_emoji()
