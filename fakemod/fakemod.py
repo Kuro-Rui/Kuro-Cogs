@@ -36,7 +36,7 @@ class FakeMod(commands.Cog):
         guild = ctx.guild
         if channel:
             if channel.permissions_for(guild.me).send_messages == True:
-                await self.config.guild(ctx.guild).channel.set(channel.id)
+                await self.config.guild(ctx.guild).channel.set(channel)
                 await ctx.send(f"Fake mod events will be sent to {channel.mention}.")
             else:
                 await ctx.send("Please grant me permission to send message in that channel first.")

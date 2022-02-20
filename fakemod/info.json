@@ -4,7 +4,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `FakeMod`!\n Get started with `[p]fakemodset`",
+    "install_msg": "Thanks for installing `FakeMod`!\nGet started with `[p]fakemodset`",
     "name": "FakeMod",
     "short": "Fake moderation commands.",
     "tags": ["ben", "fake", "fakemod", "kik", "myut", "worn"],
