@@ -43,6 +43,7 @@
 |  BotInvite   | <details><summary>Send an invite with buttons without external libraries.</summary>Fork from https://github.com/Just-Jojo/JojoCogs/tree/master/advancedinvite</details> |           Jojo & Kuro           |
 |   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Fork from https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details>              |        PhenoM4n4n & Kuro        |
 | CursedImages | Just a cringe cog that returns some random cursed image. |             Kuro             |
+|   FakeMod    | Fake moderation commands made for fun!                   |             Kuro             |
 |     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
 |   FunText    | Generates a fun text from your given text :D             |         alec & Kuro          |
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>                       |             Kuro             |
