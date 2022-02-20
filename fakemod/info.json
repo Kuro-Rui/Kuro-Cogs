@@ -1,7 +1,7 @@
 {
     "author": ["Kuro"],
     "description": "Fake moderation commands for fun!",
-    "disabled": false,
+    "disabled": true,
     "end_user_data_statement": "This cog does not store end user data.",
     "hidden": false,
     "install_msg": "Thanks for installing `FakeMod`!\nGet started with `[p]fakemodset`",
