@@ -54,6 +54,10 @@ class ImgBB(commands.Cog):
             else:
                 return await ctx.send_help()
 
+        if name is not None and url_or_attachment is None:
+            if "http://" or "https://" in name:
+                url_or_attachment = name
+
         async with ctx.typing():
             async with self.session.post("https://api.imgbb.com/1/upload", params=params) as response:
                 ibb = await response.json()
