@@ -46,11 +46,14 @@ class ImgBB(commands.Cog):
         if name:
             params = {"name": name, "image": url_or_attachment, "key": api_key}
         else:
-            params = {"image": url_or_attachment, "key": api_key}
             if ctx.message.attachments:
                 if "https://" or "http://" not in name:
                     name = url_or_attachment
-
+                    image = ctx.message.attachments[0].url
+                    params = {"name": name, "image": image, "key": api_key}
+            else:
+                params = {"image": url_or_attachment, "key": api_key}
+            
         if not url_or_attachment:
             if ctx.message.attachments:
                 url_or_attachment = ctx.message.attachments[0].url
@@ -67,4 +70,6 @@ class ImgBB(commands.Cog):
                     embed.set_image(url=url)
                     embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                     await ctx.send(embed=embed)
+                else:
+                    await ctx.send("There's an error with the API")
                     
