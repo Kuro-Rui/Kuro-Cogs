@@ -59,7 +59,7 @@ class ImgBB(commands.Cog):
                     name = url_or_attachment
                     params = {"name": name, "image": image, "key": api_key}
                 else:
-                    return await ctx.send("Please only provide one of attachment/url.")
+                    params = {"image": image, "key": api_key}
             else:
                 params = {"image": image, "key": api_key}
 
