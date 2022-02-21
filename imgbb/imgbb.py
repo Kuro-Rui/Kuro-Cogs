@@ -55,9 +55,11 @@ class ImgBB(commands.Cog):
             params = {"name": name, "image": image, "key": api_key}
         else:
             if ctx.message.attachments:
-                if "https://" or "http://" not in name:
+                if "https://" or "http://" not in url_or_attachment:
                     name = url_or_attachment
                     params = {"name": name, "image": image, "key": api_key}
+                else:
+                    return await ctx.send("Please only provide one of attachment/url.")
             else:
                 params = {"image": image, "key": api_key}
 
