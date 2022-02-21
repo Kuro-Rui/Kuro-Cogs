@@ -46,13 +46,13 @@ class ImgBB(commands.Cog):
         if name:
             params = {"name": name, "image": url_or_attachment, "key": api_key}
         else:
+            image = ctx.message.attachments[0].url
             if ctx.message.attachments:
                 if "https://" or "http://" not in name:
                     name = url_or_attachment
-                    image = ctx.message.attachments[0].url
                     params = {"name": name, "image": image, "key": api_key}
             else:
-                params = {"image": url_or_attachment, "key": api_key}
+                params = {"image": image, "key": api_key}
             
         if not url_or_attachment:
             if ctx.message.attachments:
