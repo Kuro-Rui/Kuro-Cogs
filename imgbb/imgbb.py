@@ -30,7 +30,7 @@ class ImgBB(commands.Cog):
         await ctx.send(embed=embed)
 
     @imgbb.command()
-    async def upload(self, ctx, name: str = None, url_or_attachment: str = None):
+    async def upload(self, ctx, url_or_attachment: str = None, name: str = None):
         """
         Upload an image to imgbb!
         You can provide an url/attachment
@@ -47,11 +47,12 @@ class ImgBB(commands.Cog):
             params = {"name": name, "image": url_or_attachment, "key": api_key}
         else:
             params = {"image": url_or_attachment, "key": api_key}
+            if ctx.message.attachments:
+                if "https://" or "http://" not in name:
+                    name = url_or_attachment
 
         if not url_or_attachment:
-            if "https://" or "http://" in name:
-                url_or_attachment = name
-            elif ctx.message.attachments:
+            if ctx.message.attachments:
                 url_or_attachment = ctx.message.attachments[0].url
             else:
                 return await ctx.send_help()
