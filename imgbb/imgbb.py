@@ -43,22 +43,23 @@ class ImgBB(commands.Cog):
                 )
             )
 
-        if name:
-            params = {"name": name, "image": url_or_attachment, "key": api_key}
-        else:
+        if ctx.message.attachments:
             image = ctx.message.attachments[0].url
+        else:
+            image = url_or_attachment
+
+        if not image:
+            return await ctx.send_help()
+        
+        if name:
+            params = {"name": name, "image": image, "key": api_key}
+        else:
             if ctx.message.attachments:
                 if "https://" or "http://" not in name:
                     name = url_or_attachment
                     params = {"name": name, "image": image, "key": api_key}
             else:
                 params = {"image": image, "key": api_key}
-            
-        if not url_or_attachment:
-            if ctx.message.attachments:
-                url_or_attachment = ctx.message.attachments[0].url
-            else:
-                return await ctx.send_help()
 
         async with ctx.typing():
             async with self.session.post("https://api.imgbb.com/1/upload", params=params) as response:
