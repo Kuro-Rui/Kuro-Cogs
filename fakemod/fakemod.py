@@ -57,11 +57,11 @@ class FakeMod(commands.Cog):
         ben_emoji = await self.config.guild(guild).ben_emoji()
 
         current_settings = (
-            "Current Settings:\n"
-            "`Worn` : {}\n"
-            "`Myut` : {}\n"
-            "`Kik`  : {}\n"
-            "`Ben`  : {}\n"
+            "**__Current Settings__:**\n"
+            "`Worn :` {}\n"
+            "`Myut :` {}\n"
+            "`Kik  :` {}\n"
+            "`Ben  :` {}\n"
         ).format(worn_emoji, myut_emoji, kik_emoji, ben_emoji)
 
         if action is None:
