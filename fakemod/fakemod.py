@@ -1,9 +1,10 @@
+import asyncio
 import datetime
 from typing import Union
 
 import discord
 from redbot.core import Config, commands
-from redbot.core.utils.chat_formatting import box
+from redbot.core.utils.predicates import MessagePredicate
 
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
 class FakeMod(commands.Cog):
@@ -22,6 +23,7 @@ class FakeMod(commands.Cog):
         )
 
     @commands.guild_only()
+    @commands.admin_or_permissions(manage_guild=True)
     @commands.group()
     async def fakemodlogset(self, ctx):
         """Manage fake modlog settings."""
@@ -33,9 +35,8 @@ class FakeMod(commands.Cog):
         Set a channel as the fake modlog. 
         Omit [channel] to disable the fake modlog.
         """
-        guild = ctx.guild
         if channel:
-            if channel.permissions_for(guild.me).send_messages == True:
+            if ctx.channel.permissions_for(channel.guild.me).send_messages == True:
                 await self.config.guild(ctx.guild).channel.set(channel.id)
                 await ctx.send(f"Fake mod events will be sent to {channel.mention}.")
             else:
@@ -49,7 +50,6 @@ class FakeMod(commands.Cog):
         """Set an emoji for a fake mod action."""
 
         guild = ctx.guild
-        action = action.lower()
 
         worn_emoji = await self.config.guild(guild).worn_emoji()
         myut_emoji = await self.config.guild(guild).myut_emoji()
@@ -67,6 +67,8 @@ class FakeMod(commands.Cog):
         if action is None:
             await ctx.send_help()
             await ctx.send(current_settings)
+        else:
+            action = action.lower()
 
         casetype = ["worn", "myut", "kik", "ben"]
         if action not in casetype:
@@ -117,6 +119,22 @@ class FakeMod(commands.Cog):
                 await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
                 await ctx.send("The emoji has been reset.")
 
+    @fakemodlogset.command()
+    async def resetcases(self, ctx):
+        """Reset all fake modlog cases in this server."""
+        await ctx.send("Would you like to reset all fake modlog cases in this server? (yes/no)")
+        try:
+            pred = MessagePredicate.yes_or_no(ctx, user=ctx.author)
+            await ctx.bot.wait_for("message", check=pred, timeout=30)
+        except asyncio.TimeoutError:
+            await ctx.send("You took too long to respond.")
+            return
+        if pred.result:
+            await self.config.guild(ctx.guild).case_id.set(1)
+            await ctx.send("Cases have been reset.")
+        else:
+            await ctx.send("No changes have been made.")
+
     @commands.command()
     async def worn(self, ctx, user: Union[discord.User, discord.Member], reason: str = None):
         """Worn the user for the specified reason."""
@@ -125,14 +143,15 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't worn yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
+            await ctx.tick()
+            channel = await self.config.guild(ctx.guild).channel()
+            fake_modlog = self.bot.get_channel(channel)
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).worn_emoji()
-            reason = reason if reason else "N/A"
-            embed = discord.Embed(title=f"Case #{case_id} | Worn {emoji}", color=0x000000)
+            reason = reason if reason else "Not provided."
+            embed = discord.Embed(title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}")
             embed.set_author(name=f"{user} ({user.id})")
-            embed.description = f"**Reason:** {reason}"
             embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await fake_modlog.send(embed=embed)
@@ -145,14 +164,15 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't myut yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
+            await ctx.send(f"{user} has been myuted in this server.")
+            channel = await self.config.guild(ctx.guild).channel()
+            fake_modlog = self.bot.get_channel(channel)
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).myut_emoji()
-            reason = reason if reason else "N/A"
-            embed = discord.Embed(title=f"Case #{case_id} | Myut {emoji}", color=0x000000)
+            reason = reason if reason else "Not provided."
+            embed = discord.Embed(title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}")
             embed.set_author(name=f"{user} ({user.id})")
-            embed.description = f"**Reason:** {reason}"
             embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await fake_modlog.send(embed=embed)
@@ -165,14 +185,15 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't kik yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
+            await ctx.send(f"**{user}** has been kikked from the server.")
+            channel = await self.config.guild(ctx.guild).channel()
+            fake_modlog = self.bot.get_channel(channel)
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).kik_emoji()
-            reason = reason if reason else "N/A"
-            embed = discord.Embed(title=f"Case #{case_id} | Kik {emoji}", color=0x000000)
+            reason = reason if reason else "Not provided."
+            embed = discord.Embed(title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}")
             embed.set_author(name=f"{user} ({user.id})")
-            embed.description = f"**Reason:** {reason}"
             embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await fake_modlog.send(embed=embed)
@@ -185,14 +206,15 @@ class FakeMod(commands.Cog):
         elif user == ctx.author:
             await ctx.send("You can't ben yourself.")
         else:
-            fake_modlog: discord.TextChannel = await self.config.guild(ctx.guild).channel()
+            await ctx.send(f"**{user}** has been benned from the server.")
+            channel = await self.config.guild(ctx.guild).channel()
+            fake_modlog = self.bot.get_channel(channel)
             case_id: int = await self.config.guild(ctx.guild).case_id()
             await self.config.guild(ctx.guild).case_id.set(case_id + 1)
             emoji = await self.config.guild(ctx.guild).ben_emoji()
-            reason = reason if reason else "N/A"
-            embed = discord.Embed(title=f"Case #{case_id} | Ben {emoji}", color=0x000000)
+            reason = reason if reason else "Not provided."
+            embed = discord.Embed(title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}")
             embed.set_author(name=f"{user} ({user.id})")
-            embed.description = f"**Reason:** {reason}"
             embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await fake_modlog.send(embed=embed)
