@@ -69,55 +69,54 @@ class FakeMod(commands.Cog):
             await ctx.send(current_settings)
         else:
             action = action.lower()
-
-        casetype = ["worn", "myut", "kik", "ben"]
-        if action not in casetype:
-            await ctx.send(
-                "I can't find that action. You can choose either `worn`, `myut`, `kik`, and `ben`."
-            )
-        else:
-            if action == "worn" and emoji != None:
-                try:
-                    await ctx.message.add_reaction(emoji)
-                    await self.config.guild(guild).worn_emoji.set(emoji)
-                    await ctx.send("Emoji for `worn` has been set.")
-                except:
-                    await ctx.send("I can't use that emoji.")
-            elif action == "worn" and emoji == None:
-                await self.config.guild(guild).worn_emoji.set(
-                    "\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}"
+            casetype = ["worn", "myut", "kik", "ben"]
+            if action not in casetype:
+                await ctx.send(
+                    "I can't find that action. You can choose either `worn`, `myut`, `kik`, and `ben`."
                 )
-                await ctx.send("The emoji has been reset.")
-            elif action == "myut" and emoji != None:
-                try:
-                    await ctx.message.add_reaction(emoji)
-                    await self.config.guild(guild).myut_emoji.set(emoji)
-                    await ctx.send("Emoji for `myut` has been set.")
-                except:
-                    await ctx.send("I can't use that emoji.")
-            elif action == "myut" and emoji == None:
-                await self.config.guild(guild).myut_emoji.set("\N{FACE WITH FINGER COVERING CLOSED LIPS}")
-                await ctx.send("The emoji has been reset.")
-            elif action == "kik" and emoji != None:
-                try:
-                    await ctx.message.add_reaction(emoji)
-                    await self.config.guild(guild).kik_emoji.set(emoji)
-                    await ctx.send("Emoji for `kik` has been set.")
-                except:
-                    await ctx.send("I can't use that emoji.")
-            elif action == "kik" and emoji == None:
-                await self.config.guild(guild).kik_emoji.set("\N{HIGH-HEELED SHOE}")
-                await ctx.send("The emoji has been reset.")
-            elif action == "ben" and emoji != None:
-                try:
-                    await ctx.message.add_reaction(emoji)
-                    await self.config.guild(guild).ben_emoji.set(emoji)
-                    await ctx.send("Emoji for `ben` has been set.")
-                except:
-                    await ctx.send("I can't use that emoji.")
-            elif action == "ben" and emoji == None:
-                await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
-                await ctx.send("The emoji has been reset.")
+            else:
+                if action == "worn" and emoji != None:
+                    try:
+                        await ctx.message.add_reaction(emoji)
+                        await self.config.guild(guild).worn_emoji.set(emoji)
+                        await ctx.send("Emoji for `worn` has been set.")
+                    except:
+                        await ctx.send("I can't use that emoji.")
+                elif action == "worn" and emoji == None:
+                    await self.config.guild(guild).worn_emoji.set(
+                        "\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}"
+                    )
+                    await ctx.send("The emoji has been reset.")
+                elif action == "myut" and emoji != None:
+                    try:
+                        await ctx.message.add_reaction(emoji)
+                        await self.config.guild(guild).myut_emoji.set(emoji)
+                        await ctx.send("Emoji for `myut` has been set.")
+                    except:
+                        await ctx.send("I can't use that emoji.")
+                elif action == "myut" and emoji == None:
+                    await self.config.guild(guild).myut_emoji.set("\N{FACE WITH FINGER COVERING CLOSED LIPS}")
+                    await ctx.send("The emoji has been reset.")
+                elif action == "kik" and emoji != None:
+                    try:
+                        await ctx.message.add_reaction(emoji)
+                        await self.config.guild(guild).kik_emoji.set(emoji)
+                        await ctx.send("Emoji for `kik` has been set.")
+                    except:
+                        await ctx.send("I can't use that emoji.")
+                elif action == "kik" and emoji == None:
+                    await self.config.guild(guild).kik_emoji.set("\N{HIGH-HEELED SHOE}")
+                    await ctx.send("The emoji has been reset.")
+                elif action == "ben" and emoji != None:
+                    try:
+                        await ctx.message.add_reaction(emoji)
+                        await self.config.guild(guild).ben_emoji.set(emoji)
+                        await ctx.send("Emoji for `ben` has been set.")
+                    except:
+                        await ctx.send("I can't use that emoji.")
+                elif action == "ben" and emoji == None:
+                    await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
+                    await ctx.send("The emoji has been reset.")
 
     @fakemodlogset.command()
     async def resetcases(self, ctx):
