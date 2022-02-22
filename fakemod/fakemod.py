@@ -144,16 +144,17 @@ class FakeMod(commands.Cog):
         else:
             await ctx.tick()
             channel = await self.config.guild(ctx.guild).channel()
-            fake_modlog = self.bot.get_channel(channel)
-            case_id: int = await self.config.guild(ctx.guild).case_id()
-            await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-            emoji = await self.config.guild(ctx.guild).worn_emoji()
-            reason = reason if reason else "Not provided."
-            embed = discord.Embed(title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}")
-            embed.set_author(name=f"{user} ({user.id})")
-            embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await fake_modlog.send(embed=embed)
+            if channel:
+                fake_modlog = self.bot.get_channel(channel)
+                case_id: int = await self.config.guild(ctx.guild).case_id()
+                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self.config.guild(ctx.guild).worn_emoji()
+                reason = reason if reason else "Not provided."
+                embed = discord.Embed(title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}")
+                embed.set_author(name=f"{user} ({user.id})")
+                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await fake_modlog.send(embed=embed)
 
     @commands.command()
     async def myut(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
@@ -165,16 +166,17 @@ class FakeMod(commands.Cog):
         else:
             await ctx.send(f"{user} has been myuted in this server.")
             channel = await self.config.guild(ctx.guild).channel()
-            fake_modlog = self.bot.get_channel(channel)
-            case_id: int = await self.config.guild(ctx.guild).case_id()
-            await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-            emoji = await self.config.guild(ctx.guild).myut_emoji()
-            reason = reason if reason else "Not provided."
-            embed = discord.Embed(title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}")
-            embed.set_author(name=f"{user} ({user.id})")
-            embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await fake_modlog.send(embed=embed)
+            if channel:
+                fake_modlog = self.bot.get_channel(channel)
+                case_id: int = await self.config.guild(ctx.guild).case_id()
+                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self.config.guild(ctx.guild).myut_emoji()
+                reason = reason if reason else "Not provided."
+                embed = discord.Embed(title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}")
+                embed.set_author(name=f"{user} ({user.id})")
+                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await fake_modlog.send(embed=embed)
 
     @commands.command()
     async def kik(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
@@ -186,16 +188,17 @@ class FakeMod(commands.Cog):
         else:
             await ctx.send(f"**{user}** has been kikked from the server.")
             channel = await self.config.guild(ctx.guild).channel()
-            fake_modlog = self.bot.get_channel(channel)
-            case_id: int = await self.config.guild(ctx.guild).case_id()
-            await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-            emoji = await self.config.guild(ctx.guild).kik_emoji()
-            reason = reason if reason else "Not provided."
-            embed = discord.Embed(title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}")
-            embed.set_author(name=f"{user} ({user.id})")
-            embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await fake_modlog.send(embed=embed)
+            if channel:
+                fake_modlog = self.bot.get_channel(channel)
+                case_id: int = await self.config.guild(ctx.guild).case_id()
+                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self.config.guild(ctx.guild).kik_emoji()
+                reason = reason if reason else "Not provided."
+                embed = discord.Embed(title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}")
+                embed.set_author(name=f"{user} ({user.id})")
+                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await fake_modlog.send(embed=embed)
 
     @commands.command()
     async def ben(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
@@ -207,13 +210,14 @@ class FakeMod(commands.Cog):
         else:
             await ctx.send(f"**{user}** has been benned from the server.")
             channel = await self.config.guild(ctx.guild).channel()
-            fake_modlog = self.bot.get_channel(channel)
-            case_id: int = await self.config.guild(ctx.guild).case_id()
-            await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-            emoji = await self.config.guild(ctx.guild).ben_emoji()
-            reason = reason if reason else "Not provided."
-            embed = discord.Embed(title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}")
-            embed.set_author(name=f"{user} ({user.id})")
-            embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-            embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-            await fake_modlog.send(embed=embed)
+            if channel:
+                fake_modlog = self.bot.get_channel(channel)
+                case_id: int = await self.config.guild(ctx.guild).case_id()
+                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self.config.guild(ctx.guild).ben_emoji()
+                reason = reason if reason else "Not provided."
+                embed = discord.Embed(title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}")
+                embed.set_author(name=f"{user} ({user.id})")
+                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
+                await fake_modlog.send(embed=embed)
