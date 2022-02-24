@@ -1,4 +1,4 @@
-from .core import DownConfirmation
+from .core import DownConfirm
 
 def setup(bot):
     global old_restart
@@ -11,4 +11,4 @@ def setup(bot):
     if old_shutdown:
         bot.remove_command(old_shutdown.name)
     
-    bot.add_cog(DownConfirmation(bot))
+    bot.add_cog(DownConfirm(bot))

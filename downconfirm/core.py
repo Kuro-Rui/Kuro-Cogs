@@ -6,7 +6,7 @@ from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
 
 
-class DownConfirmation(commands.Cog):
+class DownConfirm(commands.Cog):
     """Shutdown and Restart with confirmation!"""
 
     def __init__(self, bot):
@@ -39,11 +39,11 @@ class DownConfirmation(commands.Cog):
                 pred = ReactionPredicate.yes_or_no(msg, ctx.author)
                 await ctx.bot.wait_for("reaction_add", check=pred)
                 if pred.result is True:
-                    emb = discord.Embed(title="Restarting...")
+                    emb = discord.Embed(title="Restarting...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
                     await self.bot.shutdown(restart=True)
                 else:
-                    emb = discord.Embed(title="Cancelling...")
+                    emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
     
     @checks.is_owner()
@@ -74,9 +74,9 @@ class DownConfirmation(commands.Cog):
                 pred = ReactionPredicate.yes_or_no(msg, ctx.author)
                 await ctx.bot.wait_for("reaction_add", check=pred)
                 if pred.result is True:
-                    emb = discord.Embed(title="Shutting Down...")
+                    emb = discord.Embed(title="Shutting Down...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
                     await self.bot.shutdown()
                 else:
-                    emb = discord.Embed(title="Cancelling...")
+                    emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
