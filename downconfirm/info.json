@@ -3,7 +3,7 @@
     "description": "Restart/Shutdown your bot with or without confirmation!",
     "disabled": false,
     "end_user_data_statement": "This cog does not store end user data.",
-    "hidden": true,
+    "hidden": false,
     "install_msg": "Thanks for installing `DownConfirm`!",
     "name": "DownConfirmation",
     "short": "Restart/Shutdown your bot with or without confirmation!",
