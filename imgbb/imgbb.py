@@ -26,7 +26,7 @@ class ImgBB(commands.Cog):
             "2. Go to https://api.imgbb.com/ and press \"Add API key\",\n"
             "3. Copy the key and set it with `{p}set api imgbb api_key <api_key>`,\n"
             "4. You're all set! Get started with `{p}imgbb upload`."
-        ).format(p=self.bot.clean_prefix)
+        ).format(p=ctx.clean_prefix)
         await ctx.send(embed=embed)
 
     @imgbb.command()
@@ -39,7 +39,7 @@ class ImgBB(commands.Cog):
         if not api_key:
             return await ctx.send(
                 "The ImgBB API key hasn't been set yet! Run `{}imgbb creds` for instructions!".format(
-                    self.bot.clean_prefix
+                    ctx.clean_prefix
                 )
             )
 
