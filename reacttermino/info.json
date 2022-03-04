@@ -1,0 +1,12 @@
+{
+    "author": ["Kuro"],
+    "description": "Restart/Shutdown your bot with reaction predicate!",
+    "disabled": false,
+    "end_user_data_statement": "This cog does not store end user data.",
+    "hidden": false,
+    "install_msg": "Thanks for installing `ReactTermino`!",
+    "name": "ReactTermino",
+    "short": "Restart/Shutdown your bot with reaction predicate!",
+    "tags": ["confirm", "confirmation", "predicate", "reaction", "restart", "shutdown"],
+    "type": "COG"
+}

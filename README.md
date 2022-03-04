@@ -40,29 +40,29 @@
 ## Cogs List
 
 ### Original Cogs
-|    Name     |                       Description                        |            Author            |
-|:-----------:|----------------------------------------------------------|:----------------------------:|
-| AvatarImgen | Make images from avatars using Pop Cat API!              |             Kuro             |
-|  CounterCog | A cog that shows how many commands/cogs the bot has.     |             Kuro             |
-| CursedImage | Just a cringe cog that returns some random cursed image. |             Kuro             |
-| DownConfirm | Restart/Shutdown your bot with or without confirmation!  |             Kuro             |
-|   FakeMod   | Fake moderation commands made for fun!                   |             Kuro             |
-|    Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
-|   FunText   | Generates a fun text from your given text :D             |         alec & Kuro          |
-|    ImgBB    | Upload your image to ImgBB!                              |             Kuro             |
-|     Osu     | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>              |             Kuro             |
-|    Polls    | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>  |             Kuro             |
-|  ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details> |             Kuro             |
+|     Name     |                       Description                        |            Author            |
+|:------------:|----------------------------------------------------------|:----------------------------:|
+| AvatarImgen  | Make images from avatars using Pop Cat API!              |             Kuro             |
+|  CounterCog  | A cog that shows how many commands/cogs the bot has.     |             Kuro             |
+| CursedImage  | Just a cringe cog that returns some random cursed image. |             Kuro             |
+|   FakeMod    | Fake moderation commands made for fun!                   |             Kuro             |
+|     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
+|   FunText    | Generates a fun text from your given text :D             |         alec & Kuro          |
+|    ImgBB     | Upload your image to ImgBB!                              |             Kuro             |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>              |             Kuro             |
+|    Polls     | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>  |             Kuro             |
+|   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details> |             Kuro             |
+| ReactTermino | Restart/Shutdown your bot with reaction predicate!       |             Kuro             |
 
 ### Customized/Edited Cogs
-|    Name     |                       Description                        |            Author            |
-|:-----------:|----------------------------------------------------------|:----------------------------:|
-|  BotInvite  | <details><summary>Send an invite with buttons without external libraries.</summary>Fork from https://github.com/Just-Jojo/JojoCogs/tree/master/advancedinvite</details>                       |         Jojo & Kuro          |
-|   BotPing   | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Fork from https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details>                                    |      PhenoM4n4n & Kuro       |
-|    Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>                                           |      TrustyJAID & Kuro       |
-|    Snipe    | <details><summary>Snipe a channel's last deleted message for fun and profit.</summary>Fork from https://github.com/npc203/npc-cogs/tree/main/snipe</details>                                                                              |        npc203 & Kuro         |
-|   Spotify   | <details><summary>Control Spotify via OAuth through the bot on Discord.</summary>Fork from https://github.com/kaogurai/trusty/tree/master/spotify</details>                                                                              |   TrustyJAID, alec & Kuro    |
-| Suggestion  | <details><summary>A simple suggestion box for your server!</summary>Fork from https://github.com/elijabesu/SauriCogs/tree/master/suggestion</details>                                                                                    |     saurichable & Kuro       |
+|     Name     |                       Description                        |            Author            |
+|:------------:|----------------------------------------------------------|:----------------------------:|
+|  BotInvite   | <details><summary>Send an invite with buttons without external libraries.</summary>Fork from https://github.com/Just-Jojo/JojoCogs/tree/master/advancedinvite</details>                       |         Jojo & Kuro          |
+|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Fork from https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details>                                    |      PhenoM4n4n & Kuro       |
+|     Phun     | <details><summary>Various fun commands like react, textflip, and regional.</summary>Fork from https://github.com/TrustyJAID/Trusty-cogs/tree/master/fun</details>                                           |      TrustyJAID & Kuro       |
+|    Snipe     | <details><summary>Snipe a channel's last deleted message for fun and profit.</summary>Fork from https://github.com/npc203/npc-cogs/tree/main/snipe</details>                                                                              |        npc203 & Kuro         |
+|   Spotify    | <details><summary>Control Spotify via OAuth through the bot on Discord.</summary>Fork from https://github.com/kaogurai/trusty/tree/master/spotify</details>                                                                              |   TrustyJAID, alec & Kuro    |
+|  Suggestion  | <details><summary>A simple suggestion box for your server!</summary>Fork from https://github.com/elijabesu/SauriCogs/tree/master/suggestion</details>                                                                                    |     saurichable & Kuro       |
 
 ## Credits
 **Special Thanks** to:

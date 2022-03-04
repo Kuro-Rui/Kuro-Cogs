@@ -6,7 +6,7 @@ from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
 
 
-class DownConfirm(commands.Cog):
+class ReactTermino(commands.Cog):
     """Shutdown and Restart with confirmation!"""
 
     def __init__(self, bot):
