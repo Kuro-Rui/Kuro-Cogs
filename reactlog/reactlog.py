@@ -91,7 +91,7 @@ class ReactLog(commands.Cog):
                             f"**Message:** [Jump to Message ►]({message.jump_url})"
                         )
                         embed.set_thumbnail(url=emoji.url)
-                    except: # Handle Original Emoji
+                    except AttributeError: # Handle Original Emoji
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"
                             f"**Emoji:** {emoji}\n"
@@ -122,7 +122,7 @@ class ReactLog(commands.Cog):
                             f"**Message:** [Jump to Message ►]({message.jump_url})"
                         )
                         embed.set_thumbnail(url=emoji.url)
-                    except: # Handle Original Emoji
+                    except AttributeError: # Handle Original Emoji
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"
                             f"**Emoji:** {emoji}\n"
