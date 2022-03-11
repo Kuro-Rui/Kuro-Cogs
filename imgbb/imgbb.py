@@ -17,6 +17,7 @@ class ImgBB(commands.Cog):
         """Base commands of ImgBB cog."""
         pass
 
+    @commands.is_owner()
     @imgbb.command(aliases=["setcreds"])
     async def creds(self, ctx):
         """Instructions to set ImgBB API Key."""
