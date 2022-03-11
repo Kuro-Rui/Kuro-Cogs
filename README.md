@@ -15,7 +15,13 @@
     <img src="https://img.shields.io/badge/%23support__othercogs-Go%20To%20Channel-cb533f?style=for-the-badge&logo=discord&link=https://discord.com/channels/240154543684321280/240212783503900673" alt="#support_othercogs">
   </a>
   <br>
-  <img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" width=827 height=323 alt="Kuro-Cogs">
+  <a href="https://www.python.org">
+    <img src="https://img.shields.io/badge/python-v3.9-blue?style=for-the-badge&logo=python" alt="Python 3.9">
+  </a>
+  <a href="https://github.com/Rapptz/discord.py">
+    <img src="https://img.shields.io/badge/discord.py-v1.7.3-blue?style=for-the-badge&logo=github" alt="discord.py">
+  </a>
+  <img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" alt="Kuro-Cogs"> <!--width=827 height=323-->
 </div>
 
 ## Installation
