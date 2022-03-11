@@ -68,7 +68,55 @@ class Osu(commands.Cog):
     @emoji.command()
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def ssh(self, ctx, ssh_emoji: Union[discord.Emoji, discord.PartialEmoji] = None):
+    async def multi(
+        self, ctx,
+        ssh_emoji: Union[discord.Emoji, discord.PartialEmoji, str],
+        ss_emoji: Union[discord.Emoji, discord.PartialEmoji, str],
+        sh_emoji: Union[discord.Emoji, discord.PartialEmoji, str],
+        s_emoji: Union[discord.Emoji, discord.PartialEmoji, str],
+        a_emoji: Union[discord.Emoji, discord.PartialEmoji, str]
+    ):
+        """Set custom emoji for all ranks at once!"""
+        try:
+            await ctx.message.add_reaction(ssh_emoji)
+            await ctx.message.add_reaction(ss_emoji)
+            await ctx.message.add_reaction(sh_emoji)
+            await ctx.message.add_reaction(s_emoji)
+            await ctx.message.add_reaction(a_emoji)
+        except discord.HTTPException:
+            return await ctx.send("Uh oh, I cannot use that emoji.")
+
+        try:
+            await self.config.ssh_emoji.set(ssh_emoji.id)
+        except AttributeError: # Handle Original Emoji
+            await self.config.ssh_emoji.set(ssh_emoji)
+        
+        try:
+            await self.config.ss_emoji.set(ss_emoji.id)
+        except AttributeError: # Handle Original Emoji
+            await self.config.ss_emoji.set(ss_emoji)
+        
+        try:
+            await self.config.sh_emoji.set(sh_emoji.id)
+        except AttributeError: # Handle Original Emoji
+            await self.config.sh_emoji.set(sh_emoji)
+        
+        try:
+            await self.config.s_emoji.set(s_emoji.id)
+        except AttributeError: # Handle Original Emoji
+            await self.config.s_emoji.set(s_emoji)
+        
+        try:
+            await self.config.a_emoji.set(a_emoji.id)
+        except AttributeError: # Handle Original Emoji
+            await self.config.a_emoji.set(a_emoji)
+        
+        await ctx.tick()
+
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def ssh(self, ctx, ssh_emoji: Union[discord.Emoji, str] = None):
         """Set custom emoji for SSH rank."""
         if not ssh_emoji:
             await self.config.ssh_emoji.clear()
@@ -78,13 +126,17 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(ssh_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            await self.config.ssh_emoji.set(ssh_emoji.id)
+
+            try:
+                await self.config.ssh_emoji.set(ssh_emoji.id)
+            except AttributeError: # Handle Original Emoji
+                await self.config.ssh_emoji.set(ssh_emoji)
         await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def ss(self, ctx, ss_emoji: Union[discord.Emoji, discord.PartialEmoji] = None):
+    async def ss(self, ctx, ss_emoji: Union[discord.Emoji, str] = None):
         """Set custom emoji for SS rank."""
         if not ss_emoji:
             await self.config.ss_emoji.clear()
@@ -94,13 +146,17 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(ss_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            await self.config.ss_emoji.set(ss_emoji.id)
+            
+            try:
+                await self.config.ss_emoji.set(ss_emoji.id)
+            except AttributeError: # Handle Original Emoji
+                await self.config.ss_emoji.set(ss_emoji)
         await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def sh(self, ctx, sh_emoji: Union[discord.Emoji, discord.PartialEmoji] = None):
+    async def sh(self, ctx, sh_emoji: Union[discord.Emoji, discord.PartialEmoji, str] = None):
         """Set custom emoji for SH rank."""
         if not sh_emoji:
             await self.config.sh_emoji.clear()
@@ -110,13 +166,17 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(sh_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            await self.config.sh_emoji.set(sh_emoji.id)
+            
+            try:
+                await self.config.sh_emoji.set(sh_emoji.id)
+            except AttributeError: # Handle Original Emoji
+                await self.config.sh_emoji.set(sh_emoji)
         await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def s(self, ctx, s_emoji: Union[discord.Emoji, discord.PartialEmoji] = None):
+    async def s(self, ctx, s_emoji: Union[discord.Emoji, discord.PartialEmoji, str] = None):
         """Set custom emoji for S rank."""
         if not s_emoji:
             await self.config.s_emoji.clear()
@@ -126,13 +186,17 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(s_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            await self.config.s_emoji.set(s_emoji.id)
+            
+            try:
+                await self.config.s_emoji.set(s_emoji.id)
+            except AttributeError: # Handle Original Emoji
+                await self.config.s_emoji.set(s_emoji)
         await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def a(self, ctx, a_emoji: Union[discord.Emoji, discord.PartialEmoji] = None):
+    async def a(self, ctx, a_emoji: Union[discord.Emoji, discord.PartialEmoji, str] = None):
         """Set custom emoji for A rank."""
         if not a_emoji:
             await self.config.a_emoji.clear()
@@ -142,7 +206,11 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(a_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            await self.config.a_emoji.set(a_emoji.id)
+            
+            try:
+                await self.config.a_emoji.set(a_emoji.id)
+            except AttributeError: # Handle Original Emoji
+                await self.config.a_emoji.set(a_emoji)
         await ctx.tick()
 
     @emoji.command()
@@ -154,22 +222,43 @@ class Osu(commands.Cog):
         await ctx.send("All custom emojis for ranks has been cleared.")
 
     async def rank_emojis(self, ctx):
-        ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
-        if not ssh_emoji:
-            ssh_emoji = "**SSH** "
-        ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
-        if not ss_emoji:
-            ss_emoji = "**SS** "
-        sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
-        if not sh_emoji:
-            sh_emoji = "**SH** "
-        s_emoji = self.bot.get_emoji(await self.config.s_emoji())
-        if not s_emoji:
-            s_emoji = "**S** "
-        a_emoji = self.bot.get_emoji(await self.config.a_emoji())
-        if not a_emoji:
-            a_emoji = "**A** "
-        return ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji
+        """Rank Emojis"""
+        maybe_ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
+        ssh_emoji = await self.config.ssh_emoji()
+        if not maybe_ssh_emoji:
+            ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
+        else:
+            ssh = f"{maybe_ssh_emoji} "
+        
+        maybe_ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
+        ss_emoji = await self.config.ss_emoji()
+        if not maybe_ss_emoji:
+            ss = f"{ss_emoji} " if ss_emoji else "**SS** "
+        else:
+            ss = f"{maybe_ss_emoji} "
+        
+        maybe_sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
+        sh_emoji = await self.config.sh_emoji()
+        if not maybe_sh_emoji:
+            sh = f"{sh_emoji} " if sh_emoji else "**SH** "
+        else:
+            sh = f"{maybe_sh_emoji} "
+        
+        maybe_s_emoji = self.bot.get_emoji(await self.config.s_emoji())
+        s_emoji = await self.config.s_emoji()
+        if not maybe_s_emoji:
+            s = f"{s_emoji} " if s_emoji else "**S** "
+        else:
+            s = f"{maybe_s_emoji} "
+        
+        maybe_a_emoji = self.bot.get_emoji(await self.config.a_emoji())
+        a_emoji = await self.config.a_emoji()
+        if not maybe_a_emoji:
+            a = f"{a_emoji} " if a_emoji else "**A** "
+        else:
+            a = f"{maybe_a_emoji} "
+        
+        return ssh, ss, sh, s, a
 
     @commands.command(aliases=["osu", "std"])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -250,6 +339,9 @@ class Osu(commands.Cog):
         api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
 
         if not api_key:
+            error_msg = "The Owner hasn't set the API Key yet! "
+            if ctx.author.id in self.bot.owner_ids:
+                error_msg += "Set it with `{p}set api osu api_key <API_Key>`."
             return await ctx.send("The API Key hasn't been set yet!")
 
         if not username:
@@ -287,7 +379,7 @@ class Osu(commands.Cog):
             file = discord.File(fp=BytesIO(await image.read()), filename=f"osu_avatar.png")
 
         if osu:
-            ssh_emoji, ss_emoji, sh_emoji, s_emoji, a_emoji = await self.rank_emojis(ctx)
+            ssh, ss, sh, s, a = await self.rank_emojis(ctx)
             # Inspired by owo#0498 (Thanks Stevy 😹)
             description = (
                 "**▸ Joined at:** {}\n"
@@ -308,8 +400,8 @@ class Osu(commands.Cog):
                 osu[0]["accuracy"][:6],
                 humanize_number(osu[0]["playcount"]),
                 humanize_timedelta(seconds=osu[0]["total_seconds_played"]),
-                ssh_emoji, osu[0]["count_rank_ssh"], ss_emoji, osu[0]["count_rank_ss"], 
-                sh_emoji, osu[0]["count_rank_sh"], s_emoji, osu[0]["count_rank_s"], a_emoji, osu[0]["count_rank_a"],
+                ssh, osu[0]["count_rank_ssh"], ss, osu[0]["count_rank_ss"], 
+                sh, osu[0]["count_rank_sh"], s, osu[0]["count_rank_s"], a, osu[0]["count_rank_a"],
                 humanize_number(osu[0]["ranked_score"]),
                 humanize_number(osu[0]["total_score"])
             )
