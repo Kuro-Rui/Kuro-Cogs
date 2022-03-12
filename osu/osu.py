@@ -17,6 +17,9 @@ class Osu(commands.Cog):
         self.config.register_user(username=None)
         self.session = aiohttp.ClientSession()
 
+    def cog_unload(self):
+        self.bot.loop.create_task(self.session.close())
+
     @commands.group()
     async def osuset(self, ctx):
         """Settings for osu!"""
