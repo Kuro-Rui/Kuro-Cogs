@@ -250,7 +250,7 @@ class Osu(commands.Cog):
     async def taiko(self, ctx, *, username: Optional[str]):
         """Shows an osu!taiko User Stats!"""
 
-        await send_osu_user_info(ctx, 1, username)
+        await send_osu_user_info(self, ctx, 1, username)
 
     @commands.command(aliases=["ctb", "catchthebeat"])
     @commands.cooldown(1, 3, commands.BucketType.user)

@@ -85,7 +85,7 @@ async def get_osu_avatar(self, ctx, username: str = None):
 async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
     """osu! User Info Embed"""
     
-    osu = await osu_api_call(self, ctx, username)
+    osu = await osu_api_call(self, ctx, m, username)
     # avatar_url isn't actually used, just to prevent "too many values to unpack"
     avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
 
