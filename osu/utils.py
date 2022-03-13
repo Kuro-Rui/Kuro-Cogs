@@ -45,14 +45,6 @@ async def rank_emojis(self, ctx):
 async def osu_api_call(self, ctx, m: int = 0, username: str = None):
     """osu! API Call"""
 
-    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
-
-    if not api_key:
-        error_msg = "The Owner hasn't set the API Key yet! "
-        if ctx.author.id in self.bot.owner_ids:
-            error_msg += "Set it with `{p}set api osu api_key <API_Key>`."
-        return await ctx.send(error_msg)
-    
     async with self.session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}") as response:
         osu = await response.json()
     return osu
@@ -61,6 +53,15 @@ async def osu_api_call(self, ctx, m: int = 0, username: str = None):
 
 async def get_osu_avatar(self, ctx, username: str = None):
     """Get an osu! Avatar"""
+
+    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+
+    if not api_key:
+        p = ctx.clean_prefix
+        error_msg = "The Owner hasn't set the API Key yet! "
+        if ctx.author.id in self.bot.owner_ids:
+            error_msg += f"Set it with `{p}set api osu api_key <API_Key>`."
+        return await ctx.send(error_msg)
 
     if not username:
         username = await self.config.user(ctx.author).username()
@@ -88,6 +89,15 @@ async def get_osu_avatar(self, ctx, username: str = None):
 
 async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
     """osu! User Info Embed"""
+
+    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+
+    if not api_key:
+        p = ctx.clean_prefix
+        error_msg = "The Owner hasn't set the API Key yet! "
+        if ctx.author.id in self.bot.owner_ids:
+            error_msg += f"Set it with `{p}set api osu api_key <API_Key>`."
+        return await ctx.send(error_msg)
 
     if not username:
         username = await self.config.user(ctx.author).username()
@@ -162,6 +172,15 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
 
 async def send_osu_user_card(self, ctx, username: str = None):
     """Sends an osu! Profile Card from Martine API"""
+
+    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+
+    if not api_key:
+        p = ctx.clean_prefix
+        error_msg = "The Owner hasn't set the API Key yet! "
+        if ctx.author.id in self.bot.owner_ids:
+            error_msg += f"Set it with `{p}set api osu api_key <API_Key>`."
+        return await ctx.send(error_msg)
 
     if not username:
         username = await self.config.user(ctx.author).username()
