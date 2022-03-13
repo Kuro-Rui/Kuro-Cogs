@@ -182,12 +182,19 @@ async def send_osu_user_card(self, ctx, username: str = None):
             "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
         ) as resp:
             if resp.status in [200, 201]:
-                embed = discord.Embed(title="{}'s osu! Standard Stats:".format(osu[0]["username"]), url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
-                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_profile.png")
-                embed.set_image(url="attachment://osu_profile.png")
-                embed.set_footer(text="Powered by api.martinebot.com", icon_url="https://img.icons8.com/color/48/000000/osu.png")
-                await ctx.send(embed=embed, file=file)
-                file.close()
+                embed = discord.Embed(
+                    title="{}'s osu! Standard Stats:".format(osu[0]["username"]), 
+                    url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), 
+                    color=await ctx.embed_color()
+                )
+                filename = "{}_osu-card.png".format(osu[0]["username"])
+                card = discord.File(fp=BytesIO(await resp.read()), filename=filename)
+                embed.set_image(url=f"attachment://{filename}")
+                embed.set_footer(
+                    text="Powered by api.martinebot.com", 
+                    icon_url="https://img.icons8.com/color/48/000000/osu.png"
+                )
+                await ctx.send(embed=embed, file=card)
             elif resp.status in [404, 410, 422]:
                 await ctx.send((await resp.json())['message'])
             else:
