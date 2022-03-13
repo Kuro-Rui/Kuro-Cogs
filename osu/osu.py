@@ -5,7 +5,7 @@ from typing import Optional, Union
 import discord
 from redbot.core import commands, Config, checks
 
-from .utils import osu_api_call, get_osu_avatar, send_osu_user_info
+from .utils import osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
 
 class Osu(commands.Cog):
     """Show osu! user stats with osu! API"""
@@ -277,18 +277,4 @@ class Osu(commands.Cog):
     async def osucard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Card!""" # Thanks epic guy, thanks Preda <3
 
-        osu = await osu_api_call(self, ctx, username=username)
-        async with self.session.get(
-            "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
-        ) as resp:
-            if resp.status in [200, 201]:
-                embed = discord.Embed(title="{}'s osu! Standard Stats:".format(osu[0]["username"]), url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), colour=await ctx.embed_colour())
-                file = discord.File(fp=BytesIO(await resp.read()), filename=f"osu_profile.png")
-                embed.set_image(url="attachment://osu_profile.png")
-                embed.set_footer(text="Powered by api.martinebot.com", icon_url="https://img.icons8.com/color/48/000000/osu.png")
-                await ctx.send(embed=embed, file=file)
-                file.close()
-            elif resp.status in [404, 410, 422]:
-                await ctx.send((await resp.json())['message'])
-            else:
-                await ctx.send("API is currently down, please try again later.")
+        await send_osu_user_card(self, ctx, username)
