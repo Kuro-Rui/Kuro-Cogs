@@ -48,6 +48,11 @@ class Phun(commands.Cog):
     __author__ = ["Appu", "TrustyJAID", "Kuro"]
     __version__ = "1.3.0"
 
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+
     def __init__(self, bot: Red):
         self.bot = bot
 
@@ -66,13 +71,6 @@ class Phun(commands.Cog):
         for idx, char in enumerate(char_list):
             self.text_flip[char] = alt_char_list[::-1][idx]
             self.text_flip[alt_char_list[::-1][idx]] = char
-
-    def format_help_for_context(self, ctx: commands.Context) -> str:
-        """
-        Thanks Sinbad!
-        """
-        pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nCog Version: {self.__version__}"
 
     # used in [p]react, checks if it's possible to react with the duper string or not
     def has_dupe(self, duper: Union[str, list]) -> bool:

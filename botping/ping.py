@@ -51,12 +51,12 @@ class BotPing(commands.Cog):
         self.settings = {}
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.0.0"
+    __version__ = "1.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
 
     async def initialize(self):
         self.settings = await self.config.all()

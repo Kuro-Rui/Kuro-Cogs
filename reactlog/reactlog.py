@@ -15,6 +15,14 @@ class ReactLog(commands.Cog):
         self.config = Config.get_conf(self, 9517306284, True)
         self.config.register_guild(channel=None, reaction_add=False, reaction_remove=False)
 
+    __author__ = "Kuro"
+    __version__ = "1.0.1"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+
     @commands.group(aliases=["reactlogs", "reactionlog", "reactionlogs"])
     @commands.admin()
     @commands.guild_only()
@@ -30,7 +38,7 @@ class ReactLog(commands.Cog):
     @set.command()
     async def channel(self, ctx, channel: discord.TextChannel):
         """Set the reactions logging channel."""
-        if ctx.channel.permissions_for(channel.guild.me).send_messages == True:
+        if ctx.channel.permissions_for(channel.guild.me).send_messages:
             await self.config.guild(ctx.guild).channel.set(channel.id)
             await ctx.send(f"Set reaction log channel to: {channel.mention}")
         else:
@@ -80,7 +88,7 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_add():
-            if user.bot == False:
+            if not user.bot:
                 if reaction.count == 1:
                     embed = discord.Embed(color=discord.Color.green())
                     embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
@@ -111,7 +119,7 @@ class ReactLog(commands.Cog):
         channel = message.channel
         emoji = reaction.emoji
         if await self.config.guild(user.guild).reaction_remove():
-            if user.bot == False:
+            if not user.bot:
                 if reaction.count == 0:
                     embed = discord.Embed(color=discord.Color.red())
                     embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)

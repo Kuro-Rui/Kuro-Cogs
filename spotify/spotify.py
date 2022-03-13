@@ -177,12 +177,10 @@ class Spotify(commands.Cog):
                 pass
         self._ready.set()
 
-    def format_help_for_context(self, ctx: commands.Context) -> str:
-        """
-        Thanks Sinbad!
-        """
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
 
     async def cog_before_invoke(self, ctx: commands.Context) -> None:
         await self._ready.wait()

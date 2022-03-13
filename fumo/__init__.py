@@ -18,13 +18,13 @@ class Fumo(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    __author__ = ["Kuro"]
+    __author__ = "Kuro"
     __version__ = "1.1.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
     
     @commands.group()
     async def fumo(self, ctx):
