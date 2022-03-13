@@ -10,6 +10,7 @@ class AvatarImgen(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     __author__ = "Kuro"
     __version__ = "1.0.1"
@@ -18,6 +19,9 @@ class AvatarImgen(commands.Cog):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+
+    def cog_unload(self):
+        self.bot.loop.create_task(self.session.close())
 
     @commands.command(aliases=["ads"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -30,15 +34,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/ad?image={avatar}") as r:
-                    embed = discord.Embed(title="Advertisement", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"ads.png")
-                    embed.set_image(url="attachment://ads.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/ad?image={avatar}") as r:
+                embed = discord.Embed(title="Advertisement", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"ads.png")
+                embed.set_image(url="attachment://ads.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -48,15 +50,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/clown?image={avatar}") as r:
-                    embed = discord.Embed(title="Clown", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"clown.png")
-                    embed.set_image(url="attachment://clown.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/clown?image={avatar}") as r:
+                embed = discord.Embed(title="Clown", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"clown.png")
+                embed.set_image(url="attachment://clown.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -69,15 +69,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/drip?image={avatar}") as r:
-                    embed = discord.Embed(title="Drip", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"drip.png")
-                    embed.set_image(url="attachment://drip.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/drip?image={avatar}") as r:
+                embed = discord.Embed(title="Drip", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"drip.png")
+                embed.set_image(url="attachment://drip.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -90,15 +88,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/gun?image={avatar}") as r:
-                    embed = discord.Embed(title="Gun", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"gun.png")
-                    embed.set_image(url="attachment://gun.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/gun?image={avatar}") as r:
+                embed = discord.Embed(title="Gun", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"gun.png")
+                embed.set_image(url="attachment://gun.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command(aliases=["jokesoverhead"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -109,15 +105,13 @@ class AvatarImgen(commands.Cog):
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/jokeoverhead?image={avatar}") as r:
-                    embed = discord.Embed(title="Jokes Overhead", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"jokeoverhead.png")
-                    embed.set_image(url="attachment://jokeoverhead.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/jokeoverhead?image={avatar}") as r:
+                embed = discord.Embed(title="Jokes Overhead", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"jokeoverhead.png")
+                embed.set_image(url="attachment://jokeoverhead.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -130,15 +124,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/mnm?image={avatar}") as r:
-                    embed = discord.Embed(title="M&M", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"mnm.png")
-                    embed.set_image(url="attachment://mnm.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/mnm?image={avatar}") as r:
+                embed = discord.Embed(title="M&M", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"mnm.png")
+                embed.set_image(url="attachment://mnm.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command(aliases=["wall"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -151,15 +143,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/uncover?image={avatar}") as r:
-                    embed = discord.Embed(title="Behind The Wall", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"wall.png")
-                    embed.set_image(url="attachment://wall.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/uncover?image={avatar}") as r:
+                embed = discord.Embed(title="Behind The Wall", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"wall.png")
+                embed.set_image(url="attachment://wall.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -172,15 +162,13 @@ class AvatarImgen(commands.Cog):
         avatar = user.avatar_url_as(format="png")
 
         async with ctx.typing():
-            async with aiohttp.ClientSession() as s:
-                async with s.get(f"https://api.popcat.xyz/wanted?image={avatar}") as r:
-                    embed = discord.Embed(title="WANTED", color=user.color)
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"wanted.png")
-                    embed.set_image(url="attachment://wanted.png")
-                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                    await ctx.send(embed=embed, file=file)
-                    file.close()
+            async with self.session.get(f"https://api.popcat.xyz/wanted?image={avatar}") as r:
+                embed = discord.Embed(title="WANTED", color=user.color)
+                file = discord.File(fp=BytesIO(await r.read()), filename=f"wanted.png")
+                embed.set_image(url="attachment://wanted.png")
+                pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                await ctx.send(embed=embed, file=file)
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -197,12 +185,12 @@ class AvatarImgen(commands.Cog):
             await ctx.send("Of course you would tie against yourself.")
         else:
             async with ctx.typing():
-                async with aiohttp.ClientSession() as s:
-                    async with s.get(f"https://api.popcat.xyz/whowouldwin?image1={avatar_1}&image2={avatar_2}") as r:
-                        embed = discord.Embed(title="Who Would Win?", color=await ctx.embed_color())
-                        file = discord.File(fp=BytesIO(await r.read()), filename=f"whowouldwin.png")
-                        embed.set_image(url="attachment://whowouldwin.png")
-                        pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-                        embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-                        await ctx.send(embed=embed, file=file)
-                        file.close()
+                async with self.session.get(
+                    f"https://api.popcat.xyz/whowouldwin?image1={avatar_1}&image2={avatar_2}"
+                ) as r:
+                    embed = discord.Embed(title="Who Would Win?", color=await ctx.embed_color())
+                    file = discord.File(fp=BytesIO(await r.read()), filename=f"whowouldwin.png")
+                    embed.set_image(url="attachment://whowouldwin.png")
+                    pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+                    embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+                    await ctx.send(embed=embed, file=file)
