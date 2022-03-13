@@ -39,8 +39,6 @@ log = logging.getLogger("red.kuro.customping")
 class BotPing(commands.Cog):
     """A more information rich ping message."""
 
-    __version__ = "1.0.0"
-
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(
@@ -51,6 +49,14 @@ class BotPing(commands.Cog):
         default_global = {"host_latency": True}
         self.config.register_global(**default_global)
         self.settings = {}
+
+    __author__ = ["PhenoM4n4n", "Kuro"]
+    __version__ = "1.0.0"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
 
     async def initialize(self):
         self.settings = await self.config.all()

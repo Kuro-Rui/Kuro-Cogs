@@ -13,11 +13,17 @@ class FunText(commands.Cog):
     Generate a fun text from your given text :D
     """
 
-    __version__ = "1.0.0"
-
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
+
+    __author__ = ["alec", "Kuro"]
+    __version__ = "1.0.1"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
 
     @commands.command(aliases=["uwuify", "owo", "owoify"])
     async def uwu(self, ctx: commands.Context, *, text: str):
@@ -62,8 +68,10 @@ class FunText(commands.Cog):
         """
         # ⚠️WARNING⚠️: Way too unefficient 😃
         text = text.lower()
+        # O and U first
         text = text.replace("o", "ooOo ")
         text = text.replace("u", "uUuu ")
+        # Then whatever
         text = text.replace("a", "OoO ")
         text = text.replace("b", "ooO ")
         text = text.replace("c", "Ooo ")

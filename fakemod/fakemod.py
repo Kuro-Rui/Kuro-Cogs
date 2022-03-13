@@ -22,6 +22,14 @@ class FakeMod(commands.Cog):
             ben_emoji="\N{COLLISION SYMBOL}"
         )
 
+    __author__ = ["Kuro"]
+    __version__ = "1.0.2"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+
     @commands.guild_only()
     @commands.admin_or_permissions(manage_guild=True)
     @commands.group()

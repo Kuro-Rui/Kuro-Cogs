@@ -1,29 +1,30 @@
-import random
+from io import BytesIO
 from random import choice
 
-from io import BytesIO
-import aiohttp
-
 import discord
-
-import redbot
 from redbot.core import commands
 
 from .images import food_images, food_emojis
 
 class CursedImages(commands.Cog):
+    """Just a cringe cog that returns cursed images."""
+    
     def __init__(self, bot):
         self.bot = bot
+
+    __author__ = ["Kuro"]
+    __version__ = "1.0.0"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
 
     @commands.command(aliases=["cursedfoods"])
     async def cursedfood(self, ctx):
         """Generates a random cursed food image."""
-        async with ctx.typing():
-            async with aiohttp.ClientSession() as session:
-                async with session.get("{}".format(random.choice(food_images))) as resp:
-                    t = "Here's Cursed Food Image... {}".format(random.choice(food_emojis))
-                    d = "⚠️**TW⚠️ : CURSED FOOD IMAGES**"
-                    e = discord.Embed(title=t, description=d, color=await ctx.embed_color())
-                    f = discord.File(fp=BytesIO(await resp.read()), filename=f"cursed_food.png")
-                    e.set_image(url=f"attachment://cursed_food.png")
-                    await ctx.send(embed=e, file=f)
+        t = "Here's Cursed Food Image... {}".format(choice(food_emojis))
+        d = "⚠️**TW⚠️ : CURSED FOOD IMAGES**"
+        e = discord.Embed(title=t, description=d, color=await ctx.embed_color())
+        e.set_image(url=choice(food_images))
+        await ctx.send(embed=e)

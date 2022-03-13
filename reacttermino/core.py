@@ -12,6 +12,14 @@ class ReactTermino(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    __author__ = ["Kuro"]
+    __version__ = "1.0.0"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+
     @checks.is_owner()
     @commands.command(name="restart", usage="[directly=False]")
     async def _restart(self, ctx: commands.Context, directly: bool = False):

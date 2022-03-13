@@ -13,23 +13,22 @@ class Polls(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    __author__ = ["Kuro"]
+    __version__ = "1.0.0"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
+
     @commands.command(usage="<question> <option_1> <option_2> [option_3] ... [option_10]")
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(add_reactions=True, embed_links=True, use_external_emojis=True)
     async def poll(
-        self, 
-        ctx, 
-        question: str, 
-        option_1: str, 
-        option_2: str, 
-        option_3: str = None, 
-        option_4: str = None, 
-        option_5: str = None,
-        option_6: str = None,
-        option_7: str = None,
-        option_8: str = None,
-        option_9: str = None,
-        option_10: str = None
+        self, ctx, 
+        question: str, option_1: str, option_2: str, 
+        option_3: str = None, option_4: str = None, option_5: str = None, option_6: str = None,
+        option_7: str = None, option_8: str = None, option_9: str = None, option_10: str = None
         ):
         """
         Create a poll with up to 10 options.

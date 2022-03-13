@@ -45,7 +45,7 @@ class Phun(commands.Cog):
     RedBot V3 conversion of Appu's Fun cog.
     """
 
-    __author__ = ["Appu", "TrustyJAID"]
+    __author__ = ["Appu", "TrustyJAID", "Kuro"]
     __version__ = "1.3.0"
 
     def __init__(self, bot: Red):

@@ -88,7 +88,7 @@ class Snipe(commands.Cog):
     Multi Snipe for fun and non-profit
     """
 
-    __author__ = "npc203 (epic guy#0715)"
+    __author__ = ["npc203 (epic guy#0715)", "Kuro"]
     __version__ = "0.6.9"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
@@ -101,11 +101,7 @@ class Snipe(commands.Cog):
         self.notrack = set()
         self.deletecache = defaultdict(lambda: deque(maxlen=100))
         self.editcache = defaultdict(lambda: deque(maxlen=100))
-        self.config = Config.get_conf(
-            self,
-            identifier=231923422,
-            force_registration=True,
-        )
+        self.config = Config.get_conf(self, identifier=231923422, force_registration=True)
         self.config.register_guild(ignored_channels=[], ignore_guild=False)
 
     @commands.Cog.listener()

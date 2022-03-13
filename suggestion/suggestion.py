@@ -13,8 +13,6 @@ class Suggestion(commands.Cog):
     Per guild, as well as global, suggestion box voting system.
     """
 
-    __version__ = "1.6.3"
-
     def __init__(self, bot: Red):
         self.bot = bot
         self.config = Config.get_conf(
@@ -66,10 +64,13 @@ class Suggestion(commands.Cog):
                         "SUGGESTION", guild.id, suggestion_id
                     ).author.clear()
 
-    def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad."""
-        context = super().format_help_for_context(ctx)
-        return f"{context}\n\nVersion: {self.__version__}"
+    __author__ = ["saurichable", "Kuro"]
+    __version__ = "1.6.4"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nCog Version: {self.__version__}"
 
     @commands.command()
     @commands.guild_only()

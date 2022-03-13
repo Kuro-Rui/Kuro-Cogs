@@ -85,7 +85,7 @@ class Spotify(commands.Cog):
     Display information from Spotify's API
     """
 
-    __author__ = ["TrustyJAID", "NeuroAssassin"]
+    __author__ = ["TrustyJAID", "NeuroAssassin", "alec", "Kuro"]
     __version__ = "1.6.1"
 
     def __init__(self, bot):
