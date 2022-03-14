@@ -45,6 +45,8 @@ async def rank_emojis(self, ctx):
 async def osu_api_call(self, ctx, m: int = 0, username: str = None):
     """osu! API Call"""
 
+    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+
     async with self.session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}") as response:
         osu = await response.json()
     return osu
