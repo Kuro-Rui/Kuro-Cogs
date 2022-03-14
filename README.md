@@ -16,7 +16,7 @@
   </a>
   <br>
   <a href="https://www.python.org">
-    <img src="https://img.shields.io/badge/python-v3.9-blue?style=for-the-badge&logo=python" alt="Python 3.9">
+    <img src="https://img.shields.io/badge/python-v3.8%20|%20v3.9-blue?style=for-the-badge&logo=python" alt="Python 3.9">
   </a>
   <a href="https://github.com/Rapptz/discord.py">
     <img src="https://img.shields.io/badge/discord.py-v1.7.3-blue?style=for-the-badge&logo=github" alt="discord.py">
