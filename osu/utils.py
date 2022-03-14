@@ -3,7 +3,7 @@ from io import BytesIO
 import discord
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
-async def rank_emojis(self, ctx):
+async def rank_emojis(self):
     """Rank Emojis"""
     maybe_ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
     ssh_emoji = await self.config.ssh_emoji()
@@ -42,7 +42,7 @@ async def rank_emojis(self, ctx):
     
     return ssh, ss, sh, s, a
 
-async def osu_api_call(self, ctx, m: int = 0, username: str = None):
+async def osu_api_call(self, m: int = 0, username: str = None):
     """osu! API Call"""
 
     api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
@@ -78,7 +78,7 @@ async def get_osu_avatar(self, ctx, username: str = None):
             error_embed = discord.Embed(title=error_title, description=error_desc, color=await ctx.embed_color())
             return await ctx.send(embed=error_embed)
 
-    osu = await osu_api_call(self, ctx, username=username)
+    osu = await osu_api_call(self, username=username)
 
     if osu:
         avatar_url = "https://a.ppy.sh/{}".format(osu[0]["user_id"])
@@ -114,12 +114,12 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
             error_embed = discord.Embed(title=error_title, description=error_desc, color=await ctx.embed_color())
             return await ctx.send(embed=error_embed)
     
-    osu = await osu_api_call(self, ctx, m, username)
+    osu = await osu_api_call(self, m, username)
     # avatar_url isn't actually used, just to prevent "too many values to unpack"
     avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
 
     if osu:
-        ssh, ss, sh, s, a = await rank_emojis(self, ctx)
+        ssh, ss, sh, s, a = await rank_emojis(self)
         # Inspired by owo#0498 (Thanks Stevy 😹)
         description = (
             "**▸ Joined at:** {}\n"
@@ -197,7 +197,7 @@ async def send_osu_user_card(self, ctx, username: str = None):
             error_embed = discord.Embed(title=error_title, description=error_desc, color=await ctx.embed_color())
             return await ctx.send(embed=error_embed)
 
-    osu = await osu_api_call(self, ctx, username=username)
+    osu = await osu_api_call(self, username=username)
     if osu:
         async with self.session.get(
             "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
