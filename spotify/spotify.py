@@ -85,7 +85,7 @@ class Spotify(commands.Cog):
     Display information from Spotify's API
     """
 
-    __author__ = ["TrustyJAID", "NeuroAssassin", "alec", "Kuro"]
+    __author__ = humanize_list(["TrustyJAID", "NeuroAssassin", "alec", "Kuro"])
     __version__ = "1.6.1"
 
     def __init__(self, bot):
@@ -180,7 +180,11 @@ class Spotify(commands.Cog):
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     async def cog_before_invoke(self, ctx: commands.Context) -> None:
         await self._ready.wait()

@@ -2,6 +2,7 @@ import contextlib
 
 import discord
 from redbot.core import checks, commands
+from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
 
@@ -12,13 +13,17 @@ class ReactTermino(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    __author__ = "Kuro"
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.0.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @checks.is_owner()
     @commands.command(name="restart", usage="[directly=False]")

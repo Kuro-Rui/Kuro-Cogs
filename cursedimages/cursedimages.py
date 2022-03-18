@@ -3,6 +3,7 @@ from random import choice
 
 import discord
 from redbot.core import commands
+from redbot.core.utils.chat_formatting import humanize_list
 
 from .images import food_images, food_emojis
 
@@ -18,7 +19,11 @@ class CursedImages(commands.Cog):
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @commands.command(aliases=["cursedfoods"])
     async def cursedfood(self, ctx):

@@ -3,6 +3,7 @@ from io import BytesIO
 
 import discord
 from redbot.core import commands
+from redbot.core.utils.chat_formatting import humanize_list
 
 
 class AvatarImgen(commands.Cog):
@@ -12,13 +13,17 @@ class AvatarImgen(commands.Cog):
         self.bot = bot
         self.session = aiohttp.ClientSession()
 
-    __author__ = "Kuro"
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.0.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     def cog_unload(self):
         self.bot.loop.create_task(self.session.close())

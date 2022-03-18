@@ -4,6 +4,7 @@ from typing import Union
 
 import discord
 from redbot.core import Config, commands
+from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import MessagePredicate
 
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
@@ -22,13 +23,17 @@ class FakeMod(commands.Cog):
             ben_emoji="\N{COLLISION SYMBOL}"
         )
 
-    __author__ = "Kuro"
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.0.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @commands.guild_only()
     @commands.admin_or_permissions(manage_guild=True)

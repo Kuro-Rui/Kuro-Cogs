@@ -31,7 +31,8 @@ import time
 import discord
 import speedtest
 from redbot.core import Config, commands
-from redbot.core.utils import AsyncIter, chat_formatting as chat
+from redbot.core.utils import chat_formatting as chat
+from redbot.core.utils.chat_formatting import humanize_list
 
 old_ping = None
 log = logging.getLogger("red.kuro.customping")
@@ -50,13 +51,17 @@ class BotPing(commands.Cog):
         self.config.register_global(**default_global)
         self.settings = {}
 
-    __author__ = ["PhenoM4n4n", "Kuro"]
+    __author__ = humanize_list(["PhenoM4n4n", "Kuro"])
     __version__ = "1.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     async def initialize(self):
         self.settings = await self.config.all()

@@ -2,7 +2,8 @@ import aiohttp
 
 import discord
 
-from redbot.core import Config, commands
+from redbot.core import commands
+from redbot.core.utils.chat_formatting import humanize_list
 
 import urllib
 from zalgo_text import zalgo
@@ -17,13 +18,17 @@ class FunText(commands.Cog):
         self.bot = bot
         self.session = aiohttp.ClientSession()
 
-    __author__ = ["alec", "Kuro"]
+    __author__ = humanize_list(["alec", "Kuro"])
     __version__ = "1.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @commands.command(aliases=["uwuify", "owo", "owoify"])
     async def uwu(self, ctx: commands.Context, *, text: str):

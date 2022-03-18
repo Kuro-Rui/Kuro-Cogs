@@ -5,6 +5,7 @@ from random import choice
 
 import discord
 from redbot.core import commands
+from redbot.core.utils.chat_formatting import humanize_list
 
 from .fumo import FUMO
 
@@ -18,13 +19,17 @@ class Fumo(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    __author__ = "Kuro"
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.1.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
     
     @commands.group()
     async def fumo(self, ctx):

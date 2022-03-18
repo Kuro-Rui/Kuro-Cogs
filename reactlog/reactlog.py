@@ -1,8 +1,8 @@
 import datetime
 
 import discord
-from redbot.core import commands
-from redbot.core.config import Config
+from redbot.core import Config, commands
+from redbot.core.utils.chat_formatting import humanize_list
 
 
 class ReactLog(commands.Cog):
@@ -15,13 +15,17 @@ class ReactLog(commands.Cog):
         self.config = Config.get_conf(self, 9517306284, True)
         self.config.register_guild(channel=None, reaction_add=False, reaction_remove=False)
 
-    __author__ = "Kuro"
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Author  :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @commands.group(aliases=["reactlogs", "reactionlog", "reactionlogs"])
     @commands.admin()

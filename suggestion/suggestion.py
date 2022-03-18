@@ -64,13 +64,17 @@ class Suggestion(commands.Cog):
                         "SUGGESTION", guild.id, suggestion_id
                     ).author.clear()
 
-    __author__ = ["saurichable", "Kuro"]
+    __author__ = humanize_list(["saurichable", "Kuro"])
     __version__ = "1.6.4"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     @commands.command()
     @commands.guild_only()

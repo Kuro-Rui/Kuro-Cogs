@@ -33,6 +33,7 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.bot import Red
 from redbot.core.utils import chat_formatting as cf
+from redbot.core.utils.chat_formatting import humanize_list
 from redbot.vendored.discord.ext import menus
 
 
@@ -88,13 +89,17 @@ class Snipe(commands.Cog):
     Multi Snipe for fun and non-profit
     """
 
-    __author__ = ["npc203 (epic guy#0715)", "Kuro"]
+    __author__ = humanize_list(["npc203 (epic guy#0715)", "Kuro"])
     __version__ = "0.6.9"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nAuthor: {self.__author__}\nCog version: {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot

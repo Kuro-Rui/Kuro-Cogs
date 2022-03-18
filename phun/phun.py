@@ -30,7 +30,7 @@ import random
 import discord
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import pagify
+from redbot.core.utils.chat_formatting import pagify, humanize_list
 
 from .constants import ball, emoji_dict, regionals
 
@@ -45,13 +45,17 @@ class Phun(commands.Cog):
     RedBot V3 conversion of Appu's Fun cog.
     """
 
-    __author__ = ["Appu", "TrustyJAID", "Kuro"]
+    __author__ = humanize_list(["Appu", "TrustyJAID", "Kuro"])
     __version__ = "1.3.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\n`Cog Authors :` {self.__author__}\n`Cog Version :` {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     def __init__(self, bot: Red):
         self.bot = bot
