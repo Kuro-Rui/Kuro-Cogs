@@ -4,9 +4,8 @@ from typing import Optional, Union
 
 import discord
 from redbot.core import commands, Config, checks
-from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
+from .utils import api_is_set, osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
 
 class Osu(commands.Cog):
     """Show osu! user stats with osu! API"""
@@ -17,18 +16,6 @@ class Osu(commands.Cog):
         self.config.register_global(ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None)
         self.config.register_user(username=None)
         self.session = aiohttp.ClientSession()
-
-    __author__ = humanize_list(["Kuro"])
-    __version__ = "4.0.1"
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
 
     def cog_unload(self):
         self.bot.loop.create_task(self.session.close())
@@ -52,6 +39,7 @@ class Osu(commands.Cog):
         ).format(app=ctx.me.name, p=ctx.clean_prefix)
         await ctx.send(embed=embed)
 
+    @api_is_set()
     @osuset.command(aliases=["name"])
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
@@ -75,7 +63,8 @@ class Osu(commands.Cog):
                     await ctx.send(f"Your username has been set to `{username}`.")
                 else:
                     await ctx.send(f"I can't find any player with the name `{username}`.")
-    
+
+    @api_is_set()
     @osuset.group()
     @checks.is_owner()
     async def emoji(self, ctx):
@@ -235,6 +224,7 @@ class Osu(commands.Cog):
         await ctx.tick()
         await ctx.send("All custom emojis for ranks has been cleared.")
 
+    @api_is_set()
     @commands.command(aliases=["osuav"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -242,6 +232,11 @@ class Osu(commands.Cog):
         """Shows your/another user osu! Avatar"""
 
         osu = await osu_api_call(self, ctx, username=username)
+        if not username:
+            username = await self.config.user(ctx.author).username()
+        if not username:
+            return osu
+        
         avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
         
         embed = discord.Embed(
@@ -252,6 +247,8 @@ class Osu(commands.Cog):
         embed.set_image(url=f"attachment://{filename}")
         await ctx.send(embed=embed, file=avatar)
 
+
+    @api_is_set()
     @commands.command(aliases=["osu", "std"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -260,6 +257,7 @@ class Osu(commands.Cog):
 
         await send_osu_user_info(self, ctx, 0, username)
 
+    @api_is_set()
     @commands.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -268,6 +266,7 @@ class Osu(commands.Cog):
 
         await send_osu_user_info(self, ctx, 1, username)
 
+    @api_is_set()
     @commands.command(aliases=["ctb", "catchthebeat"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -276,6 +275,7 @@ class Osu(commands.Cog):
 
         await send_osu_user_info(self, ctx, 2, username)
 
+    @api_is_set()
     @commands.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
@@ -284,10 +284,11 @@ class Osu(commands.Cog):
 
         await send_osu_user_info(self, ctx, 3, username)
 
+    @api_is_set()
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
     @commands.cooldown(60, 60, commands.BucketType.default)
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username: Optional[str]):
-        """Shows an osu!standard User Card!""" # Thanks epic guy, thanks Preda <3
+        """Shows an osu!standard User Card!""" # Thanks epic, thanks Preda <3
 
         await send_osu_user_card(self, ctx, username)
