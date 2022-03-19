@@ -239,10 +239,10 @@ class Osu(commands.Cog):
         
         avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
         
-        embed = discord.Embed(
-            title="{}'s osu! Avatar".format(osu[0]["username"]), 
-            url=avatar_url, 
-            color=await ctx.embed_color()
+        embed = discord.Embed(color=await ctx.embed_color())
+        embed.set_author(
+            name="{}'s osu! Avatar".format(osu[0]["username"]), 
+            url=avatar_url
         )
         embed.set_image(url=f"attachment://{filename}")
         await ctx.send(embed=embed, file=avatar)

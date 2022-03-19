@@ -170,10 +170,10 @@ async def send_osu_user_card(self, ctx, username: str = None):
         "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(osu[0]["username"])
     ) as response:
         if response.status in [200, 201]:
-            embed = discord.Embed(
-                title="{}'s osu! Standard Stats:".format(osu[0]["username"]), 
-                url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]), 
-                color=await ctx.embed_color()
+            embed = discord.Embed(color=await ctx.embed_color())
+            embed.set_author(
+                name="{}'s osu! Standard Stats:".format(osu[0]["username"]),
+                url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"])
             )
             filename = "{}_osu-card.png".format(osu[0]["username"])
             card = discord.File(fp=BytesIO(await response.read()), filename=filename)
