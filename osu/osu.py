@@ -1,9 +1,9 @@
 import aiohttp
-from io import BytesIO
 from typing import Optional, Union
 
 import discord
 from redbot.core import commands, Config, checks
+from redbot.core.utils.chat_formatting import humanize_list
 
 from .utils import api_is_set, osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
 
@@ -16,6 +16,18 @@ class Osu(commands.Cog):
         self.config.register_global(ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None)
         self.config.register_user(username=None)
         self.session = aiohttp.ClientSession()
+
+    __author__ = humanize_list(["Kuro"])
+    __version__ = "4.0.3"
+
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
 
     def cog_unload(self):
         self.bot.loop.create_task(self.session.close())
