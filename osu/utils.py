@@ -4,7 +4,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
-# ~ ~ ~ ~ ~ Decorators ~ ~ ~ ~ ~
+# ~ ~ ~ ~ ~ Decorator ~ ~ ~ ~ ~
 
 def api_is_set():
     async def predicate(self):
@@ -122,7 +122,7 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
     ).format(
         osu[0]["join_date"][:10], 
         humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]), 
-        osu[0]["level"][:5],
+        int(float(osu[0]["level"])),
         osu[0]["pp_raw"],
         osu[0]["accuracy"][:6],
         humanize_number(osu[0]["playcount"]),
