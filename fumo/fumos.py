@@ -1,3 +1,6 @@
+# Credits to Mlaxy#7921 for most of the images. (Thanks for being daily fumo dealer)
+# All images credits goes to the rightful owner of each image.
+
 fumo = {
     "image": [
         "https://telegra.ph/file/f1aeb2540bff2b6441a4b.jpg",
