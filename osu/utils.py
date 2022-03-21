@@ -113,7 +113,7 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
         "**▸ Rank:** #{} (:flag_{}: #{})\n"
         "**▸ Level:** {}\n"
         "**▸ PP:** {}\n"
-        "**▸ Accuracy:** {} %\n"
+        "**▸ Accuracy:** {}%\n"
         "**▸ Playcount:** {}\n"
         "**▸ Playtime:** {}\n"
         "**▸ Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
@@ -122,16 +122,16 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
     ).format(
         osu[0]["join_date"][:10], 
         humanize_number(osu[0]["pp_rank"]), osu[0]["country"].lower(), humanize_number(osu[0]["pp_country_rank"]), 
-        int(float(osu[0]["level"])),
+        osu[0]["level"][:2],
         osu[0]["pp_raw"],
-        osu[0]["accuracy"][:6],
+        osu[0]["accuracy"][:5],
         humanize_number(osu[0]["playcount"]),
         humanize_timedelta(seconds=osu[0]["total_seconds_played"]),
         ssh, osu[0]["count_rank_ssh"], ss, osu[0]["count_rank_ss"], 
         sh, osu[0]["count_rank_sh"], s, osu[0]["count_rank_s"], a, osu[0]["count_rank_a"],
         humanize_number(osu[0]["ranked_score"]),
         humanize_number(osu[0]["total_score"])
-    )
+    ).replace(",", ".")
 
     if m == 0:
         type = icon = "osu"
