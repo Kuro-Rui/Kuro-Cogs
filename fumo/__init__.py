@@ -18,6 +18,15 @@ class Fumo(commands.Cog):
     __author__ = humanize_list(["Kuro"])
     __version__ = "1.1.3"
 
+    def format_help_for_context(self, ctx: commands.Context):
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Author  :` {self.__author__}\n"
+            f"`Cog Version :` {self.__version__}"
+        )
+
     def cog_unload(self):
         self.bot.loop.create_task(self.session.close())
     
