@@ -40,7 +40,7 @@ class ImgBB(commands.Cog):
         embed = discord.Embed(color=await ctx.embed_color())
         embed.description = (
             "1. Go to https://imgbb.com/ and login,\n"
-            "2. Go to https://api.imgbb.com/ and press \"Add API key\",\n"
+            '2. Go to https://api.imgbb.com/ and press "Add API key",\n'
             "3. Copy the key and set it with `{p}set api imgbb api_key <api_key>`,\n"
             "4. You're all set! Get started with `{p}imgbb upload`."
         ).format(p=ctx.clean_prefix)
@@ -67,7 +67,7 @@ class ImgBB(commands.Cog):
 
         if not image:
             return await ctx.send_help()
-        
+
         if name:
             params = {"name": name, "image": image, "key": api_key}
         else:
@@ -82,7 +82,9 @@ class ImgBB(commands.Cog):
                 params = {"image": image, "key": api_key}
 
         async with ctx.typing():
-            async with self.session.post("https://api.imgbb.com/1/upload", params=params) as response:
+            async with self.session.post(
+                "https://api.imgbb.com/1/upload", params=params
+            ) as response:
                 ibb = await response.json()
                 if response.status == 200:
                     url = ibb["data"]["url"]
@@ -93,4 +95,3 @@ class ImgBB(commands.Cog):
                     await ctx.send(embed=embed)
                 else:
                     await ctx.send("There's an error with the API")
-                    

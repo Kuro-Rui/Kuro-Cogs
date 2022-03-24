@@ -48,7 +48,7 @@ food_images = (
     "https://i2.wp.com/alittlebithuman.com/wp-content/uploads/2021/06/steak-bananas-ketchup-cursed-foods.jpg?resize=639%2C504&ssl=1",
     "https://i.imgur.com/XTx4O1v.jpg",
     "https://i.chzbgr.com/full/9626594048/h80246D16/hamburger",
-    "https://pbs.twimg.com/media/EPZNpKKU0AAhvbI.jpg"
+    "https://pbs.twimg.com/media/EPZNpKKU0AAhvbI.jpg",
 )
 
 food_emojis = (
@@ -72,5 +72,5 @@ food_emojis = (
     "🍫",
     "🍝",
     "🍮",
-    "🍤"
+    "🍤",
 )

@@ -33,7 +33,7 @@ class AvatarImgen(commands.Cog):
     async def ad(self, ctx, user: discord.User = None):
         """Make an advertisement!"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")
@@ -49,7 +49,7 @@ class AvatarImgen(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def clown(self, ctx, user: discord.User): # You don't want to be a clown, do you?
+    async def clown(self, ctx, user: discord.User):  # You don't want to be a clown, do you?
         """This person is a clown, Star."""
 
         avatar = user.avatar_url_as(format="png")
@@ -68,7 +68,7 @@ class AvatarImgen(commands.Cog):
     async def drip(self, ctx, user: discord.User = None):
         """Pretend to wear a rich jacket!"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")
@@ -87,7 +87,7 @@ class AvatarImgen(commands.Cog):
     async def gun(self, ctx, user: discord.User = None):
         """Add a gun overlay to your avatar!"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")
@@ -103,14 +103,16 @@ class AvatarImgen(commands.Cog):
 
     @commands.command(aliases=["jokesoverhead"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def jokeoverhead(self, ctx, user: discord.User): # You understand jokes, don't you?
+    async def jokeoverhead(self, ctx, user: discord.User):  # You understand jokes, don't you?
         """This person doesn't get jokes at all!"""
 
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
 
         async with ctx.typing():
-            async with self.session.get(f"https://api.popcat.xyz/jokeoverhead?image={avatar}") as r:
+            async with self.session.get(
+                f"https://api.popcat.xyz/jokeoverhead?image={avatar}"
+            ) as r:
                 embed = discord.Embed(title="Jokes Overhead", color=user.color)
                 file = discord.File(fp=BytesIO(await r.read()), filename=f"jokeoverhead.png")
                 embed.set_image(url="attachment://jokeoverhead.png")
@@ -123,7 +125,7 @@ class AvatarImgen(commands.Cog):
     async def mnm(self, ctx, user: discord.User = None):
         """Make anyone turns into a shape of M&M!"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")
@@ -142,7 +144,7 @@ class AvatarImgen(commands.Cog):
     async def uncover(self, ctx, user: discord.User = None):
         """So this person was hiding behind the wall all the time?"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")
@@ -161,7 +163,7 @@ class AvatarImgen(commands.Cog):
     async def wanted(self, ctx, user: discord.User = None):
         """Make a wanted poster!"""
 
-        if not user: 
+        if not user:
             user = ctx.author
 
         avatar = user.avatar_url_as(format="png")

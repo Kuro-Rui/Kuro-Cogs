@@ -4,7 +4,6 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 
 class CounterCog(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
@@ -39,7 +38,7 @@ class CounterCog(commands.Cog):
     async def commands(self, ctx, cog: str = None):
         """
         Count your commands.
-        
+
         You can also provide a cog name to see how many commands is in that cog.
         """
         if cog:

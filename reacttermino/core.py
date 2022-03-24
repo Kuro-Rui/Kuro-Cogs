@@ -46,7 +46,9 @@ class ReactTermino(commands.Cog):
                 await ctx.send(embed=emb)
                 await self.bot.shutdown(restart=True)
             else:
-                emb = discord.Embed(title="Are you sure you want to restart?", color=await ctx.embed_color())
+                emb = discord.Embed(
+                    title="Are you sure you want to restart?", color=await ctx.embed_color()
+                )
                 msg = await ctx.send(embed=emb)
                 start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
                 pred = ReactionPredicate.yes_or_no(msg, ctx.author)
@@ -58,7 +60,7 @@ class ReactTermino(commands.Cog):
                 else:
                     emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
-    
+
     @checks.is_owner()
     @commands.command(name="shutdown", usage="[directly=False]")
     async def _shutdown(self, ctx: commands.Context, directly: bool = False):
@@ -81,7 +83,9 @@ class ReactTermino(commands.Cog):
                 await ctx.send(embed=emb)
                 await self.bot.shutdown()
             else:
-                emb = discord.Embed(title="Are you sure you want to shut down?", color=await ctx.embed_color())
+                emb = discord.Embed(
+                    title="Are you sure you want to shut down?", color=await ctx.embed_color()
+                )
                 msg = await ctx.send(embed=emb)
                 start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
                 pred = ReactionPredicate.yes_or_no(msg, ctx.author)

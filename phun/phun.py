@@ -147,9 +147,7 @@ class Phun(commands.Cog):
             await ctx.send("That message is too long.", delete_after=10)
 
     @commands.command()
-    async def oof(
-        self, ctx: commands.Context, message: Optional[discord.Message]
-    ) -> None:
+    async def oof(self, ctx: commands.Context, message: Optional[discord.Message]) -> None:
         """
         React :regional_indicator_o:🅾:regional_indicator_f: to a message.
         `[message]` Can be a message ID from the current channel, a jump URL,
@@ -166,7 +164,7 @@ class Phun(commands.Cog):
                 await message.add_reaction(emoji)
         if ctx.channel.permissions_for(ctx.me).manage_messages:
             with contextlib.suppress(discord.NotFound):
-               await ctx.message.delete()
+                await ctx.message.delete()
 
     # given String react_me, return a list of emojis that can construct the string with no duplicates (for the purpose of reacting)
     # TODO make it consider reactions already applied to the message
@@ -213,17 +211,17 @@ class Phun(commands.Cog):
             # there's a duplicate letter somewhere, so let's go ahead try to fix it.
             react_me = self.replace_combos(react_me)
             try:
-               react_me = self.replace_letters(react_me)
+                react_me = self.replace_letters(react_me)
             except IndexError:
-               pass
+                pass
             # print(react_me)
             if self.has_dupe(react_me):  # check if we were able to solve the dupe
                 react_me = react_me_original
                 react_me = self.replace_combos(react_me)
                 try:
-                  react_me = self.replace_letters(react_me)
+                    react_me = self.replace_letters(react_me)
                 except IndexError:
-                  pass
+                    pass
                 if self.has_dupe(react_me):
                     # this failed too, so there's really nothing we can do anymore.
                     return await ctx.send(
@@ -244,9 +242,9 @@ class Phun(commands.Cog):
                     reactions.append(emoji_dict[char][0])
                 else:
                     reactions.append(char)
-                     
+
         reactions = list(filter(None.__ne__, reactions))
-      
+
         if not reactions:
             await ctx.send("I'm not in the server where that emote is from.")
             return
@@ -286,7 +284,9 @@ class Phun(commands.Cog):
         random.setstate(state)
         lengths = sorted(lengths.items(), key=lambda x: x[1])
 
-        msg = "".join("**{}'s size:**\n{}\n".format(user.display_name, length) for user, length in lengths)
+        msg = "".join(
+            "**{}'s size:**\n{}\n".format(user.display_name, length) for user, length in lengths
+        )
 
         for page in pagify(msg):
             await ctx.send(page)

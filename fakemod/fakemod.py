@@ -15,12 +15,12 @@ class FakeMod(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, 9863948134, True)
         self.config.register_guild(
-            channel=None, 
+            channel=None,
             case_id=1,
-            worn_emoji="\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}", 
-            myut_emoji="\N{FACE WITH FINGER COVERING CLOSED LIPS}", 
-            kik_emoji="\N{HIGH-HEELED SHOE}", 
-            ben_emoji="\N{COLLISION SYMBOL}"
+            worn_emoji="\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}",
+            myut_emoji="\N{FACE WITH FINGER COVERING CLOSED LIPS}",
+            kik_emoji="\N{HIGH-HEELED SHOE}",
+            ben_emoji="\N{COLLISION SYMBOL}",
         )
 
     __author__ = humanize_list(["Kuro"])
@@ -45,7 +45,7 @@ class FakeMod(commands.Cog):
     @fakemodlogset.command(aliases=["channel"])
     async def modlog(self, ctx, channel: discord.TextChannel = None):
         """
-        Set a channel as the fake modlog. 
+        Set a channel as the fake modlog.
         Omit [channel] to disable the fake modlog.
         """
         if channel:
@@ -108,7 +108,9 @@ class FakeMod(commands.Cog):
                     except:
                         await ctx.send("I can't use that emoji.")
                 elif action == "myut" and emoji == None:
-                    await self.config.guild(guild).myut_emoji.set("\N{FACE WITH FINGER COVERING CLOSED LIPS}")
+                    await self.config.guild(guild).myut_emoji.set(
+                        "\N{FACE WITH FINGER COVERING CLOSED LIPS}"
+                    )
                     await ctx.send("The emoji has been reset.")
                 elif action == "kik" and emoji != None:
                     try:
@@ -163,7 +165,9 @@ class FakeMod(commands.Cog):
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
                 emoji = await self.config.guild(ctx.guild).worn_emoji()
                 reason = reason if reason else "Not provided."
-                embed = discord.Embed(title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}")
+                embed = discord.Embed(
+                    title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}"
+                )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
@@ -185,7 +189,9 @@ class FakeMod(commands.Cog):
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
                 emoji = await self.config.guild(ctx.guild).myut_emoji()
                 reason = reason if reason else "Not provided."
-                embed = discord.Embed(title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}")
+                embed = discord.Embed(
+                    title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}"
+                )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
@@ -207,7 +213,9 @@ class FakeMod(commands.Cog):
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
                 emoji = await self.config.guild(ctx.guild).kik_emoji()
                 reason = reason if reason else "Not provided."
-                embed = discord.Embed(title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}")
+                embed = discord.Embed(
+                    title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}"
+                )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
@@ -229,7 +237,9 @@ class FakeMod(commands.Cog):
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
                 emoji = await self.config.guild(ctx.guild).ben_emoji()
                 reason = reason if reason else "Not provided."
-                embed = discord.Embed(title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}")
+                embed = discord.Embed(
+                    title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}"
+                )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)

@@ -823,9 +823,7 @@ class SpotifyUserMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                     return
                 if cur.item.id == self.source.current_track.id:
                     if cur.is_playing:
@@ -899,9 +897,7 @@ class SpotifyUserMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                 state = not cur.shuffle_state
                 await user_spotify.playback_shuffle(state)
         except tekore.Unauthorised:
@@ -932,9 +928,7 @@ class SpotifyUserMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                 await user_spotify.saved_tracks_add([self.source.current_track.id])
         except tekore.Unauthorised:
             await self.ctx.send(_("I am not authorized to perform this action for you."))
@@ -1207,9 +1201,7 @@ class SpotifySearchMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                     return
                 if cur.item.id == self.source.current_track.id:
                     if cur.is_playing:
@@ -1243,9 +1235,7 @@ class SpotifySearchMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                     return
                 else:
                     if self.source.current_track.type == "track":
@@ -1276,9 +1266,7 @@ class SpotifySearchMenu(menus.MenuPages, inherit_buttons=False):
             with user_spotify.token_as(self.user_token):
                 cur = await user_spotify.playback()
                 if not cur:
-                    await self.ctx.send(
-                        _("I could not find an active device to play songs on.")
-                    )
+                    await self.ctx.send(_("I could not find an active device to play songs on."))
                     return
                 else:
                     if self.source.current_track.type == "track":

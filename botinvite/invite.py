@@ -92,12 +92,11 @@ class BotInvite(commands.Cog):
         )
         url = await self._invite_url()
         invite_msg = f"**Bot Invite:** <{url}>"
-        footer = settings.get("footer").replace(
-            "{bot_name}", ctx.me.name
-        ).replace(
-            "{guild_count}", humanize_number(len(ctx.bot.guilds))
-        ).replace(
-            "{user_count}", humanize_number(len(self.bot.users))
+        footer = (
+            settings.get("footer")
+            .replace("{bot_name}", ctx.me.name)
+            .replace("{guild_count}", humanize_number(len(ctx.bot.guilds)))
+            .replace("{user_count}", humanize_number(len(self.bot.users)))
         )
         time = datetime.datetime.now(tz=datetime.timezone.utc)
         timestamp = f"<t:{int(time.timestamp())}>"
@@ -110,28 +109,30 @@ class BotInvite(commands.Cog):
             message = settings.get("custom_message", _config_structure["custom_message"]).replace(
                 "{bot_name}", ctx.me.name
             )
-            content = f"**{title}**\n{message}\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
+            content = (
+                f"**{title}**\n{message}\n{invite_msg}\n{support_msg}\n\n{footer} • {timestamp}"
+            )
         else:
             message = None
             content = f"**{title}**\n{invite_msg}\n{support_msg}\n{req}\n\n{footer} • {timestamp}"
 
-        kwargs: Dict[str, Any] = {
-            "content": content
-        }
+        kwargs: Dict[str, Any] = {"content": content}
         support_server_emoji, invite_emoji = [
             Emoji.from_data(settings.get(x)) for x in ["support_server_emoji", "invite_emoji"]
         ]
         if await self._embed_requested(ctx, channel):
             embed = discord.Embed(
-                title = title,
-                color = await ctx.embed_color(),
-                timestamp = time,
+                title=title,
+                color=await ctx.embed_color(),
+                timestamp=time,
             )
             if message:
                 embed.description = message
             embed.add_field(name="Bot Invite:", value=f"[Click Here!]({url})", inline=True)
             if support:
-                embed.add_field(name="Support Server:", value=f"[Click Here!]({support})", inline=True)
+                embed.add_field(
+                    name="Support Server:", value=f"[Click Here!]({support})", inline=True
+                )
             if curl := settings.get("custom_url"):
                 embed.set_thumbnail(url=curl)
             if req:
@@ -143,9 +144,7 @@ class BotInvite(commands.Cog):
         kwargs["url"] = url
         buttons = [Button(f"Invite {ctx.me.name}", url, invite_emoji)]
         if support is not None:
-            buttons.append(
-                Button("Support Server", url=support, emoji=support_server_emoji)
-            )
+            buttons.append(Button("Support Server", url=support, emoji=support_server_emoji))
         kwargs["components"] = [Component(buttons)]
         try:
             await send_button(ctx, **kwargs)

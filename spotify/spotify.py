@@ -265,7 +265,10 @@ class Spotify(commands.Cog):
             return (author.id in self.dashboard_authed) or (
                 message.author.id == author.id and self._tokens[-1] in message.content
             )
-        e = discord.Embed(title="Authorization", color=await ctx.embed_color(), description=description)
+
+        e = discord.Embed(
+            title="Authorization", color=await ctx.embed_color(), description=description
+        )
         await author.send(embed=e)
         try:
             check_msg = await self.bot.wait_for("message", check=check, timeout=120)
@@ -1831,7 +1834,9 @@ class Spotify(commands.Cog):
 
     @spotify_device.command(name="transfer")
     @commands.bot_has_permissions(add_reactions=True)
-    async def spotify_device_transfer(self, ctx: commands.Context, *, device_name: Optional[str] = None):
+    async def spotify_device_transfer(
+        self, ctx: commands.Context, *, device_name: Optional[str] = None
+    ):
         """
         Change the currently playing spotify device
 
@@ -1889,11 +1894,11 @@ class Spotify(commands.Cog):
             devices_msg += f"{c+1}. `{d.name}` - {d.type} - {d.volume_percent}% "
             if d.is_active:
                 devices_msg += emoji_handler.get_emoji(
-                        "playpause", ctx.channel.permissions_for(ctx.me).use_external_emojis
-                    )
+                    "playpause", ctx.channel.permissions_for(ctx.me).use_external_emojis
+                )
             devices_msg += "\n"
         msg = await ctx.maybe_send_embed(devices_msg)
-        emojis = ReactionPredicate.NUMBER_EMOJIS[1:len(devices)+1]
+        emojis = ReactionPredicate.NUMBER_EMOJIS[1 : len(devices) + 1]
         start_adding_reactions(msg, emojis)
         pred = ReactionPredicate.with_emojis(emojis, msg)
         try:
@@ -1925,8 +1930,8 @@ class Spotify(commands.Cog):
                 devices_msg += f"{c+1}. `{d.name}` - {d.type} - {d.volume_percent}% "
                 if d.is_active:
                     devices_msg += emoji_handler.get_emoji(
-                            "playpause", ctx.channel.permissions_for(ctx.me).use_external_emojis
-                        )
+                        "playpause", ctx.channel.permissions_for(ctx.me).use_external_emojis
+                    )
                 devices_msg += "\n"
             await ctx.maybe_send_embed(devices_msg)
         except tekore.Unauthorised:
@@ -1997,7 +2002,9 @@ class Spotify(commands.Cog):
                     cur = await user_spotify.followed_playlists(limit=50)
                     playlists = cur.items
                     while len(playlists) < cur.total:
-                        new = await user_spotify.followed_playlists(limit=50, offset=len(playlists))
+                        new = await user_spotify.followed_playlists(
+                            limit=50, offset=len(playlists)
+                        )
                         for p in new.items:
                             playlists.append(p)
             except tekore.Unauthorised:
@@ -2045,7 +2052,9 @@ class Spotify(commands.Cog):
                     cur = await user_spotify.followed_playlists(limit=50)
                     playlists = cur.items
                     while len(playlists) < cur.total:
-                        new = await user_spotify.followed_playlists(limit=50, offset=len(playlists))
+                        new = await user_spotify.followed_playlists(
+                            limit=50, offset=len(playlists)
+                        )
                         for p in new.items:
                             playlists.append(p)
             except tekore.Unauthorised:

@@ -8,6 +8,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
+
 class Polls(commands.Cog):
     """Just some Poll cog."""
 
@@ -30,17 +31,26 @@ class Polls(commands.Cog):
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.bot_has_permissions(add_reactions=True, embed_links=True, use_external_emojis=True)
     async def poll(
-        self, ctx, 
-        question: str, option_1: str, option_2: str, 
-        option_3: str = None, option_4: str = None, option_5: str = None, option_6: str = None,
-        option_7: str = None, option_8: str = None, option_9: str = None, option_10: str = None
-        ):
+        self,
+        ctx,
+        question: str,
+        option_1: str,
+        option_2: str,
+        option_3: str = None,
+        option_4: str = None,
+        option_5: str = None,
+        option_6: str = None,
+        option_7: str = None,
+        option_8: str = None,
+        option_9: str = None,
+        option_10: str = None,
+    ):
         """
         Create a poll with up to 10 options.
         You need atleast 1 message and 2 options.
         **Use `""` in every argument that is more than a word.**
 
-        **Examples:** 
+        **Examples:**
         • `[p]poll "Is this a poll?" Yes Maybe No`
         • `[p]poll "How are you?" Good "Not feeling well"`
         """
@@ -49,7 +59,7 @@ class Polls(commands.Cog):
         if len(question) > 256:
             await ctx.send("That question is too long.")
             return
-        
+
         one = "\N{DIGIT ONE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
         two = "\N{DIGIT TWO}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
         three = "\N{DIGIT THREE}\N{VARIATION SELECTOR-16}\N{COMBINING ENCLOSING KEYCAP}"
@@ -70,7 +80,7 @@ class Polls(commands.Cog):
         d7 = f"{d6}\n\n{eight} : {option_8}"
         d8 = f"{d7}\n\n{nine} : {option_9}"
         d9 = f"{d8}\n\n{ten} : {option_10}"
-        
+
         if option_3 is None:
             d = d1
         elif option_4 is None:
@@ -89,12 +99,12 @@ class Polls(commands.Cog):
             d = d8
         else:
             d = d9
-        
+
         e = discord.Embed(title=question, description=d, color=await ctx.embed_color())
         e.set_footer(text=f"Poll by: {ctx.author}")
         e.timestamp = datetime.datetime.now(datetime.timezone.utc)
 
-        message = await ctx.send(embed=e) # A really bad code right here
+        message = await ctx.send(embed=e)  # A really bad code right here
         if option_3 is None:
             await message.add_reaction(one)
             await message.add_reaction(two)

@@ -7,9 +7,10 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 from .images import food_images, food_emojis
 
+
 class CursedImages(commands.Cog):
     """Just a cringe cog that returns cursed images."""
-    
+
     def __init__(self, bot):
         self.bot = bot
 

@@ -34,6 +34,7 @@ from redbot.core.utils import AsyncIter, chat_formatting as chat
 old_ping = None
 log = logging.getLogger("red.kuro.botping")
 
+
 class BotPing(commands.Cog):
     """A more information rich ping message."""
 

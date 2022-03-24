@@ -7,13 +7,16 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 from .utils import api_is_set, osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
 
+
 class Osu(commands.Cog):
     """Show osu! user stats with osu! API"""
 
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=842364413)
-        self.config.register_global(ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None)
+        self.config.register_global(
+            ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None
+        )
         self.config.register_user(username=None)
         self.session = aiohttp.ClientSession()
 
@@ -67,7 +70,9 @@ class Osu(commands.Cog):
                 await ctx.tick()
                 await ctx.send("Your username has been removed.")
             else:
-                async with self.session.post(f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}", headers=headers) as response:
+                async with self.session.post(
+                    f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}", headers=headers
+                ) as response:
                     osu = await response.json()
                 if osu:
                     await self.config.user(ctx.author).username.set(username)
@@ -87,9 +92,13 @@ class Osu(commands.Cog):
     @checks.is_owner()
     @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
     async def multi(
-        self, ctx,
-        ssh_emoji: Union[discord.Emoji, str], ss_emoji: Union[discord.Emoji, str],
-        sh_emoji: Union[discord.Emoji, str], s_emoji: Union[discord.Emoji, str], a_emoji: Union[discord.Emoji, str]
+        self,
+        ctx,
+        ssh_emoji: Union[discord.Emoji, str],
+        ss_emoji: Union[discord.Emoji, str],
+        sh_emoji: Union[discord.Emoji, str],
+        s_emoji: Union[discord.Emoji, str],
+        a_emoji: Union[discord.Emoji, str],
     ):
         """Set custom emoji for all ranks at once!"""
         try:
@@ -103,29 +112,29 @@ class Osu(commands.Cog):
 
         try:
             await self.config.ssh_emoji.set(ssh_emoji.id)
-        except AttributeError: # Handle Original Emoji
+        except AttributeError:  # Handle Original Emoji
             await self.config.ssh_emoji.set(ssh_emoji)
-        
+
         try:
             await self.config.ss_emoji.set(ss_emoji.id)
-        except AttributeError: # Handle Original Emoji
+        except AttributeError:  # Handle Original Emoji
             await self.config.ss_emoji.set(ss_emoji)
-        
+
         try:
             await self.config.sh_emoji.set(sh_emoji.id)
-        except AttributeError: # Handle Original Emoji
+        except AttributeError:  # Handle Original Emoji
             await self.config.sh_emoji.set(sh_emoji)
-        
+
         try:
             await self.config.s_emoji.set(s_emoji.id)
-        except AttributeError: # Handle Original Emoji
+        except AttributeError:  # Handle Original Emoji
             await self.config.s_emoji.set(s_emoji)
-        
+
         try:
             await self.config.a_emoji.set(a_emoji.id)
-        except AttributeError: # Handle Original Emoji
+        except AttributeError:  # Handle Original Emoji
             await self.config.a_emoji.set(a_emoji)
-        
+
         await ctx.tick()
 
     @emoji.command()
@@ -144,7 +153,7 @@ class Osu(commands.Cog):
 
             try:
                 await self.config.ssh_emoji.set(ssh_emoji.id)
-            except AttributeError: # Handle Original Emoji
+            except AttributeError:  # Handle Original Emoji
                 await self.config.ssh_emoji.set(ssh_emoji)
         await ctx.tick()
 
@@ -161,10 +170,10 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(ss_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            
+
             try:
                 await self.config.ss_emoji.set(ss_emoji.id)
-            except AttributeError: # Handle Original Emoji
+            except AttributeError:  # Handle Original Emoji
                 await self.config.ss_emoji.set(ss_emoji)
         await ctx.tick()
 
@@ -181,10 +190,10 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(sh_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            
+
             try:
                 await self.config.sh_emoji.set(sh_emoji.id)
-            except AttributeError: # Handle Original Emoji
+            except AttributeError:  # Handle Original Emoji
                 await self.config.sh_emoji.set(sh_emoji)
         await ctx.tick()
 
@@ -201,10 +210,10 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(s_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            
+
             try:
                 await self.config.s_emoji.set(s_emoji.id)
-            except AttributeError: # Handle Original Emoji
+            except AttributeError:  # Handle Original Emoji
                 await self.config.s_emoji.set(s_emoji)
         await ctx.tick()
 
@@ -221,10 +230,10 @@ class Osu(commands.Cog):
                 await ctx.message.add_reaction(a_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
-            
+
             try:
                 await self.config.a_emoji.set(a_emoji.id)
-            except AttributeError: # Handle Original Emoji
+            except AttributeError:  # Handle Original Emoji
                 await self.config.a_emoji.set(a_emoji)
         await ctx.tick()
 
@@ -248,17 +257,13 @@ class Osu(commands.Cog):
             username = await self.config.user(ctx.author).username()
         if not username:
             return osu
-        
+
         avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
-        
+
         embed = discord.Embed(color=await ctx.embed_color())
-        embed.set_author(
-            name="{}'s osu! Avatar".format(osu[0]["username"]), 
-            url=avatar_url
-        )
+        embed.set_author(name="{}'s osu! Avatar".format(osu[0]["username"]), url=avatar_url)
         embed.set_image(url=f"attachment://{filename}")
         await ctx.send(embed=embed, file=avatar)
-
 
     @api_is_set()
     @commands.command(aliases=["osu", "std"])
@@ -301,6 +306,6 @@ class Osu(commands.Cog):
     @commands.cooldown(60, 60, commands.BucketType.default)
     @commands.bot_has_permissions(embed_links=True)
     async def osucard(self, ctx, *, username: Optional[str]):
-        """Shows an osu!standard User Card!""" # Thanks epic, thanks Preda <3
+        """Shows an osu!standard User Card!"""  # Thanks epic, thanks Preda <3
 
         await send_osu_user_card(self, ctx, username)

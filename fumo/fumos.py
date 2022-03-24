@@ -296,7 +296,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/948244184496734218/Screenshot_20220301-224325_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/948528830904156170/Screenshot_20220302-173332_Instagram.jpg",
         "https://media.discordapp.net/attachments/844262973043114044/844264392199766027/tumblr_oxooqm5sGX1wvw3f7o1_540.jpg?width=427&height=427",
-        "https://media.discordapp.net/attachments/844262973043114044/844264444448210964/tumblr_p00bkkj4VQ1wvw3f7o1_540.jpg?width=320&height=427"
+        "https://media.discordapp.net/attachments/844262973043114044/844264444448210964/tumblr_p00bkkj4VQ1wvw3f7o1_540.jpg?width=320&height=427",
     ],
     "gif": [
         "https://telegra.ph/file/cef926728f278abb74955.gif",
@@ -335,7 +335,7 @@ fumo = {
         "https://c.tenor.com/zETOl6JNRk0AAAAC/touhou-fumo-fumo-touhou.gif",
         "https://c.tenor.com/5iY6DCQf8r8AAAAC/patchouli-knowledge-patchy.gif",
         "https://c.tenor.com/pPp3eOE-vS8AAAAC/patchouli-patchouli-knowledge.gif",
-        "https://cdn.discordapp.com/attachments/834742953275555850/888836728914345984/image0-8.gif"
+        "https://cdn.discordapp.com/attachments/834742953275555850/888836728914345984/image0-8.gif",
     ],
     "meme": [
         "https://telegra.ph/file/a0afeb6efbd006f956070.jpg",
@@ -378,7 +378,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/910590893050982420/Screenshot_20211118-000921_Twitter.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/911685528141856808/Screenshot_20211121-013226_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/913295988444254229/Screenshot_20211125-111949_Instagram.jpg",
-        "https://cdn.discordapp.com/attachments/834742953275555850/945159406532829204/Screenshot_20220221-090306_Instagram.jpg"
+        "https://cdn.discordapp.com/attachments/834742953275555850/945159406532829204/Screenshot_20220221-090306_Instagram.jpg",
     ],
     # "videos" : [
     #     "https://telegra.ph/file/f2235dde2263d69cb5e22.mp4",

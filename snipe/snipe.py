@@ -78,7 +78,8 @@ class EditMsg:
         self.author = old_msg.author
         self.content = list(
             cf.pagify(
-                f"**Old Content:**\n{old_msg.content}\n\n**New Content:**\n{new_msg.content}", page_length=4000
+                f"**Old Content:**\n{old_msg.content}\n\n**New Content:**\n{new_msg.content}",
+                page_length=4000,
             )
         )
         # TODO embeds
@@ -143,7 +144,7 @@ class Snipe(commands.Cog):
         else:
             await ctx.reply(
                 f"{ctx.author.name}, you don't have `View Channel` permissions in {channel.mention}.",
-                mention_author = True,
+                mention_author=True,
             )
             return False
 
@@ -440,7 +441,7 @@ class MsgSource(menus.ListPageSource):
         super().__init__(**kwargs)
 
     async def format_page(self, menu, msg):
-        emb = self.template_emb.copy() 
+        emb = self.template_emb.copy()
         #        emb.title = f"Message Contents"
         emb.description = msg.content
         emb.set_author(name=f"{msg.author} ({msg.author.id})", icon_url=msg.author.avatar_url)

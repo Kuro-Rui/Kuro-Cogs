@@ -3,6 +3,7 @@ import discord
 
 from .fumos import fumo
 
+
 async def gensokyo_status(self) -> bool:
     """Fumo API Status"""
     async with self.session.get("https://fumoapi.herokuapp.com/random") as response:
@@ -10,6 +11,7 @@ async def gensokyo_status(self) -> bool:
             return True
         else:
             return False
+
 
 async def fumo_calling_ritual(self):
     """Fumo API Call."""
@@ -19,6 +21,7 @@ async def fumo_calling_ritual(self):
             return get_fumo["URL"]
     else:
         return
+
 
 async def summon_fumo(self, ctx, type: str):
     """Summon a Fumo."""
@@ -30,7 +33,7 @@ async def summon_fumo(self, ctx, type: str):
             e.set_image(url=get_fumo)
             e.set_footer(
                 text="Source: https://fumoapi.herokuapp.com/",
-                icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless"
+                icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless",
             )
         else:
             return await ctx.send("There's something wrong with the Fumo API, try again later!")
@@ -39,6 +42,6 @@ async def summon_fumo(self, ctx, type: str):
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
             text="Source: Kuro-Cogs/blob/main/fumo/fumos.py",
-            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless"
+            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless",
         )
     await ctx.send(embed=e)

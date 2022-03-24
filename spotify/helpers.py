@@ -282,7 +282,7 @@ class RecommendationsConverter(Converter):
         argument = argument.replace("🧑‍🎨", ":artist:")
         # because discord will replace this in URI's automatically 🙄
         rec_str = r"|".join(i for i in VALID_RECOMMENDATIONS.keys())
-        find_rec = re.compile(fr"({rec_str})\W(.+)", flags=re.I)
+        find_rec = re.compile(rf"({rec_str})\W(.+)", flags=re.I)
         if not ctx.cog.GENRES:
             try:
                 ctx.cog.GENRES = await ctx.cog._spotify_client.recommendation_genre_seeds()
@@ -295,7 +295,7 @@ class RecommendationsConverter(Converter):
                     ).format(prefix=ctx.clean_prefix)
                 )
         genre_str = r"|".join(i for i in ctx.cog.GENRES)
-        find_genre = re.compile(fr"\b({genre_str})\b", flags=re.I)
+        find_genre = re.compile(rf"\b({genre_str})\b", flags=re.I)
         find_extra = find_rec.finditer(argument)
         genres = list(find_genre.findall(argument))
         song_data = SPOTIFY_RE.finditer(argument)
