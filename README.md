@@ -22,7 +22,7 @@
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge" alt="Code style: black">
   </a>
   <a href="https://github.com/Rapptz/discord.py">
-    <img src="https://img.shields.io/badge/discord.py-v1.7.3-blue?style=for-the-badge&logo=github" alt="discord.py">
+    <img src="https://img.shields.io/badge/discord.py-v2.0.0a-blue?style=for-the-badge&logo=github" alt="discord.py">
   </a>
   <img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" alt="Kuro-Cogs"> <!--width=827 height=323-->
 </div>
