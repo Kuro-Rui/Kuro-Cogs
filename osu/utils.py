@@ -78,7 +78,8 @@ async def osu_api_call(self, ctx, m: int = 0, username: str = None):
             error_embed = discord.Embed(
                 title=error_title, description=error_desc, color=await ctx.embed_color()
             )
-            return await ctx.send(embed=error_embed)
+            await ctx.send(embed=error_embed)
+            return
 
     async with self.session.post(
         f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
@@ -93,10 +94,8 @@ async def get_osu_avatar(self, ctx, username: str = None):
     """Get an osu! Avatar"""
 
     osu = await osu_api_call(self, ctx, username=username)
-    if not username:
-        username = await self.config.user(ctx.author).username()
-        if not username:
-            return osu
+    if not osu:
+        return osu  # Return error embed, to prevent subscription error.
 
     avatar_url = "https://a.ppy.sh/{}".format(osu[0]["user_id"])
     filename = "{}_osu-avatar.png".format(osu[0]["username"])
@@ -109,10 +108,8 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
     """osu! User Info Embed"""
 
     osu = await osu_api_call(self, ctx, m, username)
-    if not username:
-        username = await self.config.user(ctx.author).username()
-        if not username:
-            return osu
+    if not osu:
+        return osu  # Return error embed, to prevent subscription error.
 
     # avatar_url isn't actually used, just to prevent "too many values to unpack"
     avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
@@ -189,10 +186,8 @@ async def send_osu_user_card(self, ctx, username: str = None):
     """Sends an osu! Profile Card from Martine API"""
 
     osu = await osu_api_call(self, ctx, username=username)
-    if not username:
-        username = await self.config.user(ctx.author).username()
-        if not username:
-            return osu
+    if not osu:
+        return osu  # Return error embed, to prevent subscription error.
 
     async with self.session.get(
         "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(
@@ -202,7 +197,7 @@ async def send_osu_user_card(self, ctx, username: str = None):
         if response.status in [200, 201]:
             embed = discord.Embed(color=await ctx.embed_color())
             embed.set_author(
-                name="{}'s osu! Standard Stats:".format(osu[0]["username"]),
+                name="{}'s osu! Standard Card:".format(osu[0]["username"]),
                 url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]),
             )
             filename = "{}_osu-card.png".format(osu[0]["username"])
