@@ -25,7 +25,7 @@ class Sudo(commands.Cog):
         self.all_owner_ids.clear()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -52,21 +52,6 @@ class Sudo(commands.Cog):
 
     @is_owner(real=False, copied=True)
     @commands.command()
-    async def sudo(self, ctx: commands.Context, *, command: str):
-        """Runs the specified command with bot owner permissions.
-
-        The prefix must not be entered.
-        """
-        self.bot.owner_ids.add(ctx.author.id)
-        msg = ctx.message
-        msg.content = ctx.prefix + command
-        context = await ctx.bot.get_context(msg)
-        await ctx.bot.invoke(context)
-        if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
-            self.bot.owner_ids.remove(ctx.author.id)
-
-    @is_owner(real=False, copied=True)
-    @commands.command()
     async def sutimeout(
         self,
         ctx: commands.Context,
@@ -87,5 +72,40 @@ class Sudo(commands.Cog):
             f"Your bot owner privileges have been enabled for {humanize_timedelta(seconds=time)}."
         )
         await asyncio.sleep(time)
-        if self.bot.get_cog("Sudo"):
+        if self.bot.get_cog("Sudo"):  # Worst condition if user unloaded sudo.
+            self.bot.owner_ids.remove(ctx.author.id)
+
+    @is_owner(real=False, copied=True)
+    @commands.command()
+    async def sudo(self, ctx: commands.Context, *, command: str):
+        """Runs the specified command with bot owner permissions.
+
+        The prefix must not be entered.
+        """
+        self.bot.owner_ids.add(ctx.author.id)
+        await ctx.bot.invoke(command)
+        if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
+            self.bot.owner_ids.remove(ctx.author.id)
+
+    @is_owner(real=False, copied=True)
+    @commands.command()
+    async def sudomsg(self, ctx: commands.Context, *, content: str = ""):
+        """Dispatch a message event as if it were sent by bot owner.
+
+        Current message is used as a base (including attachments, embeds, etc.)
+
+        Note: If `content` isn't passed, the message needs to contain embeds, attachments,
+        or anything else that makes the message non-empty.
+        """
+        self.bot.owner_ids.add(ctx.author.id)
+        msg = ctx.message
+        if not content and not msg.embeds and not msg.attachments:
+            # DEP-WARN: add `msg.stickers` when adding d.py 2.0
+            self.bot.owner_ids.remove(ctx.author.id)
+            await ctx.send_help()
+            return
+        msg = copy(msg)
+        msg.content = content
+        self.bot.dispatch("message", msg)
+        if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
             self.bot.owner_ids.remove(ctx.author.id)
