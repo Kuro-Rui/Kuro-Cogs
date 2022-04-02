@@ -1,4 +1,4 @@
-# Credits to jack1142 for the idea. (https://github.com/Cog-Creators/Red-DiscordBot/pull/5419)
+# Credits to Draper & jack1142 for the idea. (https://github.com/Cog-Creators/Red-DiscordBot/pull/5419)
 
 import asyncio
 from copy import copy
