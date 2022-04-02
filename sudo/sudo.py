@@ -97,15 +97,14 @@ class Sudo(commands.Cog):
         Note: If `content` isn't passed, the message needs to contain embeds, attachments,
         or anything else that makes the message non-empty.
         """
-        self.bot.owner_ids.add(ctx.author.id)
-        msg = ctx.message
-        if not content and not msg.embeds and not msg.attachments:
+        message = ctx.message
+        if not content and not message.embeds and not message.attachments:
             # DEP-WARN: add `msg.stickers` when adding d.py 2.0
-            self.bot.owner_ids.remove(ctx.author.id)
             await ctx.send_help()
             return
-        msg = copy(msg)
+        self.bot.owner_ids.add(ctx.author.id)
+        msg = copy(message)
         msg.content = content
-        self.bot.dispatch("message", msg)
+        self.bot.dispatch("message", message)
         if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
             self.bot.owner_ids.remove(ctx.author.id)
