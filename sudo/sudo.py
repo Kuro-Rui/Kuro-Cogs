@@ -13,7 +13,7 @@ from .utils import is_owner
 
 
 class Sudo(commands.Cog):
-    """Allows dropping and elevating owner permissions"""
+    """Allows dropping and elevating owner permissions!"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -53,7 +53,7 @@ class Sudo(commands.Cog):
     @is_owner(real=False, copied=True)
     @commands.command()
     async def sudo(self, ctx: commands.Context, *, command: str):
-        """Runs the specified command with bot owner permissions
+        """Runs the specified command with bot owner permissions.
 
         The prefix must not be entered.
         """
