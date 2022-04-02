@@ -1,9 +1,0 @@
-{
-    "author" : ["saurichable", "Kuro"],
-    "install_msg" : "Thank you for installing `Suggestion` cog!",
-    "name" : "Suggestion",
-    "short" : "Simple suggestion box.",
-    "description" : "Per guild, as well as global, suggestion box voting system.",
-    "tags" : ["suggest", "suggestion"],
-    "end_user_data_statement": "This cog stores user names, discriminators, and IDs upon sending a suggestion. This data is used solely to display and contact the user about any change to their suggestion."
-}
