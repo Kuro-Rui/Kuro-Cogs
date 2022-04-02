@@ -62,9 +62,11 @@
 |    Polls     | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>  |             Kuro             |
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details> |             Kuro             |
 | ReactTermino | Restart/Shutdown your bot with reaction predicate!       |             Kuro             |
+|     Sudo     | Allows dropping and elevating your owner permissions!    |             Kuro             |
 
 ## Credits
 **Special Thanks** to:
-- [**PhenoM4n4n**](https://github.com/phenom4n4n) for some base of [BotPing](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/botping) cog.
-- [**Jintaku**](https://github.com/Jintaku) for some base of [Osu](https://github.com/Kuro-Rui/Kuro-Cogs/tree/main/osu) cog.
+- [**PhenoM4n4n**](https://github.com/phenom4n4n) for some base of [BotPing](botping) cog.
+- [**Jintaku**](https://github.com/Jintaku) for some base of [Osu](osu) cog.
+- [**Jack**](https://github.com/jack1142) for some base of [Sudo](sudo) cog.
 - **Some nice peeps from [Red Community](https://discord.gg/red)** that helps me figure stuffs out and inspiring me to make cogs.
