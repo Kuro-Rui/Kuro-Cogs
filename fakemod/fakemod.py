@@ -17,14 +17,14 @@ class FakeMod(commands.Cog):
         self.config.register_guild(
             channel=None,
             case_id=1,
-            worn_emoji="\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}",
-            myut_emoji="\N{FACE WITH FINGER COVERING CLOSED LIPS}",
-            kik_emoji="\N{HIGH-HEELED SHOE}",
-            ben_emoji="\N{COLLISION SYMBOL}",
+            warn_emoji="\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}",
+            mute_emoji="\N{FACE WITH FINGER COVERING CLOSED LIPS}",
+            kick_emoji="\N{HIGH-HEELED SHOE}",
+            ban_emoji="\N{COLLISION SYMBOL}",
         )
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.2"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -64,74 +64,78 @@ class FakeMod(commands.Cog):
 
         guild = ctx.guild
 
-        worn_emoji = await self.config.guild(guild).worn_emoji()
-        myut_emoji = await self.config.guild(guild).myut_emoji()
-        kik_emoji = await self.config.guild(guild).kik_emoji()
-        ben_emoji = await self.config.guild(guild).ben_emoji()
-
-        current_settings = (
-            "**__Current Settings__:**\n"
-            "`Worn :` {}\n"
-            "`Myut :` {}\n"
-            "`Kik  :` {}\n"
-            "`Ben  :` {}\n"
-        ).format(worn_emoji, myut_emoji, kik_emoji, ben_emoji)
+        warn_emoji = await self.config.guild(guild).warn_emoji()
+        mute_emoji = await self.config.guild(guild).mute_emoji()
+        kick_emoji = await self.config.guild(guild).kick_emoji()
+        ban_emoji = await self.config.guild(guild).ban_emoji()
 
         if action is None:
             await ctx.send_help()
-            await ctx.send(current_settings)
+            await ctx.send(
+                (
+                    "**__Current Settings__:**\n"
+                    "`Fake Warn :` {}\n"
+                    "`Fake Mute :` {}\n"
+                    "`Fake Kick :` {}\n"
+                    "`Fake Ban  :` {}\n"
+                ).format(warn_emoji, mute_emoji, kick_emoji, ban_emoji)
+            )
         else:
             action = action.lower()
-            casetype = ["worn", "myut", "kik", "ben"]
+            casetype = ["warn", "mute", "kick", "ban"]
             if action not in casetype:
                 await ctx.send(
-                    "I can't find that action. You can choose either `worn`, `myut`, `kik`, and `ben`."
+                    "I can't find that action. You can choose either `warn`, `mute`, `kick`, and `ban`."
                 )
             else:
-                if action == "worn" and emoji != None:
-                    try:
-                        await ctx.message.add_reaction(emoji)
-                        await self.config.guild(guild).worn_emoji.set(emoji)
-                        await ctx.send("Emoji for `worn` has been set.")
-                    except:
-                        await ctx.send("I can't use that emoji.")
-                elif action == "worn" and emoji == None:
-                    await self.config.guild(guild).worn_emoji.set(
-                        "\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}"
-                    )
-                    await ctx.send("The emoji has been reset.")
-                elif action == "myut" and emoji != None:
-                    try:
-                        await ctx.message.add_reaction(emoji)
-                        await self.config.guild(guild).myut_emoji.set(emoji)
-                        await ctx.send("Emoji for `myut` has been set.")
-                    except:
-                        await ctx.send("I can't use that emoji.")
-                elif action == "myut" and emoji == None:
-                    await self.config.guild(guild).myut_emoji.set(
-                        "\N{FACE WITH FINGER COVERING CLOSED LIPS}"
-                    )
-                    await ctx.send("The emoji has been reset.")
-                elif action == "kik" and emoji != None:
-                    try:
-                        await ctx.message.add_reaction(emoji)
-                        await self.config.guild(guild).kik_emoji.set(emoji)
-                        await ctx.send("Emoji for `kik` has been set.")
-                    except:
-                        await ctx.send("I can't use that emoji.")
-                elif action == "kik" and emoji == None:
-                    await self.config.guild(guild).kik_emoji.set("\N{HIGH-HEELED SHOE}")
-                    await ctx.send("The emoji has been reset.")
-                elif action == "ben" and emoji != None:
-                    try:
-                        await ctx.message.add_reaction(emoji)
-                        await self.config.guild(guild).ben_emoji.set(emoji)
-                        await ctx.send("Emoji for `ben` has been set.")
-                    except:
-                        await ctx.send("I can't use that emoji.")
-                elif action == "ben" and emoji == None:
-                    await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
-                    await ctx.send("The emoji has been reset.")
+                if action == "warn":
+                    if emoji:
+                        try:
+                            await ctx.message.add_reaction(emoji)
+                            await self.config.guild(guild).warn_emoji.set(emoji)
+                            await ctx.send("Emoji for fake `warn` has been set.")
+                        except:
+                            await ctx.send("I can't use that emoji.")
+                    else:
+                        await self.config.guild(guild).warn_emoji.set(
+                            "\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}"
+                        )
+                        await ctx.send("The emoji has been reset.")
+                elif action == "mute":
+                    if emoji:
+                        try:
+                            await ctx.message.add_reaction(emoji)
+                            await self.config.guild(guild).mute_emoji.set(emoji)
+                            await ctx.send("Emoji for fake `mute` has been set.")
+                        except:
+                            await ctx.send("I can't use that emoji.")
+                    else:
+                        await self.config.guild(guild).mute_emoji.set(
+                            "\N{FACE WITH FINGER COVERING CLOSED LIPS}"
+                        )
+                        await ctx.send("The emoji has been reset.")
+                elif action == "kick":
+                    if emoji:
+                        try:
+                            await ctx.message.add_reaction(emoji)
+                            await self.config.guild(guild).kick_emoji.set(emoji)
+                            await ctx.send("Emoji for fake `kick` has been set.")
+                        except:
+                            await ctx.send("I can't use that emoji.")
+                    else:
+                        await self.config.guild(guild).kick_emoji.set("\N{HIGH-HEELED SHOE}")
+                        await ctx.send("The emoji has been reset.")
+                elif action == "ban" and emoji != None:
+                    if emoji:
+                        try:
+                            await ctx.message.add_reaction(emoji)
+                            await self.config.guild(guild).ban_emoji.set(emoji)
+                            await ctx.send("Emoji for fake `ban` has been set.")
+                        except:
+                            await ctx.send("I can't use that emoji.")
+                    else:
+                        await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
+                        await ctx.send("The emoji has been reset.")
 
     @fakemodlogset.command()
     async def resetcases(self, ctx):
@@ -149,98 +153,108 @@ class FakeMod(commands.Cog):
         else:
             await ctx.send("No changes have been made.")
 
-    @commands.command()
-    async def worn(self, ctx, user: Union[discord.User, discord.Member], reason: str = None):
-        """Worn the user for the specified reason."""
+    @commands.command(name="worn")
+    async def fake_warn(self, ctx, user: Union[discord.User, discord.Member], reason: str = None):
+        """Fake warn the user for the specified reason."""
         if user == ctx.me:
-            await ctx.send("You can't worn me.")
+            await ctx.send("You can't warn me.")
         elif user == ctx.author:
-            await ctx.send("You can't worn yourself.")
+            await ctx.send("You can't warn yourself.")
         else:
             await ctx.tick()
             channel = await self.config.guild(ctx.guild).channel()
-            if channel:
+            if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
                 case_id: int = await self.config.guild(ctx.guild).case_id()
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).worn_emoji()
+                emoji = await self.config.guild(ctx.guild).warn_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
-                    title=f"Case #{case_id} | Worn {emoji}", description=f"**Reason:** {reason}"
+                    title=f"Case #{case_id} | Warn {emoji}", description=f"**Reason:** {reason}"
                 )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.set_footer(text="just kidding lol")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await fake_modlog.send(embed=embed)
 
-    @commands.command()
-    async def myut(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
-        """Myut a user."""
+    @commands.command(name="myut", aliases=["moot"])
+    async def fake_mute(
+        self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None
+    ):
+        """Fake mute a user."""
         if user == ctx.me:
-            await ctx.send("You can't myut me.")
+            await ctx.send("You can't mute me.")
         elif user == ctx.author:
-            await ctx.send("You can't myut yourself.")
+            await ctx.send("You can't mute yourself.")
         else:
-            await ctx.send(f"{user} has been myuted in this server.")
+            await ctx.send(f"{user} has been muted in this server.")
             channel = await self.config.guild(ctx.guild).channel()
-            if channel:
+            if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
                 case_id: int = await self.config.guild(ctx.guild).case_id()
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).myut_emoji()
+                emoji = await self.config.guild(ctx.guild).mute_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
-                    title=f"Case #{case_id} | Myut {emoji}", description=f"**Reason:** {reason}"
+                    title=f"Case #{case_id} | Mute {emoji}", description=f"**Reason:** {reason}"
                 )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.set_footer(text="just kidding lol")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await fake_modlog.send(embed=embed)
 
-    @commands.command()
-    async def kik(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
-        """Kik a user."""
+    @commands.command(name="kik", aliases=["kek", "keck"])
+    async def fake_kick(
+        self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None
+    ):
+        """Fake kick a user."""
         if user == ctx.me:
-            await ctx.send("You can't kik me.")
+            await ctx.send("You can't kick me.")
         elif user == ctx.author:
-            await ctx.send("You can't kik yourself.")
+            await ctx.send("You can't kick yourself.")
         else:
-            await ctx.send(f"**{user}** has been kikked from the server.")
+            await ctx.send(f"**{user}** has been kicked from the server.")
             channel = await self.config.guild(ctx.guild).channel()
-            if channel:
+            if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
                 case_id: int = await self.config.guild(ctx.guild).case_id()
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).kik_emoji()
+                emoji = await self.config.guild(ctx.guild).kick_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
-                    title=f"Case #{case_id} | Kik {emoji}", description=f"**Reason:** {reason}"
+                    title=f"Case #{case_id} | Kick {emoji}", description=f"**Reason:** {reason}"
                 )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.set_footer(text="just kidding lol")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await fake_modlog.send(embed=embed)
 
-    @commands.command()
-    async def ben(self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None):
-        """Ben a user."""
+    @commands.command(name="bam", aliases=["ben", "bon", "bean"])
+    async def fake_ban(
+        self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None
+    ):
+        """Fake ban a user."""
         if user == ctx.me:
-            await ctx.send("You can't ben me.")
+            await ctx.send("You can't ban me.")
         elif user == ctx.author:
-            await ctx.send("You can't ben yourself.")
+            await ctx.send("You can't ban yourself.")
         else:
-            await ctx.send(f"**{user}** has been benned from the server.")
+            await ctx.send(f"**{user}** has been banned from the server.")
             channel = await self.config.guild(ctx.guild).channel()
-            if channel:
+            if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
                 case_id: int = await self.config.guild(ctx.guild).case_id()
                 await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).ben_emoji()
+                emoji = await self.config.guild(ctx.guild).ban_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
-                    title=f"Case #{case_id} | Ben {emoji}", description=f"**Reason:** {reason}"
+                    title=f"Case #{case_id} | Ban {emoji}", description=f"**Reason:** {reason}"
                 )
                 embed.set_author(name=f"{user} ({user.id})")
                 embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
+                embed.set_footer(text="just kidding lol")
                 embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                 await fake_modlog.send(embed=embed)
