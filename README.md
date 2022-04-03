@@ -47,8 +47,6 @@
 **For support**, you can **find and ping me (K u r o#2740) in [*#support_othercogs*](https://discord.com/channels/240154543684321280/240212783503900673) on [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
-
-### Original Cogs
 |     Name     |                       Description                        |            Author            |
 |:------------:|----------------------------------------------------------|:----------------------------:|
 | AvatarImgen  | Make images from avatars using Pop Cat API!              |             Kuro             |
