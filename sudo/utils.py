@@ -4,7 +4,7 @@ import discord
 from redbot.core import commands
 
 
-def is_owner(real: Optional[bool], copied: Optional[bool]):
+def is_owner(real: Optional[bool] = False, copied: Optional[bool] = False):
     async def predicate(ctx):
         if real:
             if ctx.author.id in ctx.bot.owner_ids:

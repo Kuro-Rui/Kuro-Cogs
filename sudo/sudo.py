@@ -36,21 +36,21 @@ class Sudo(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @is_owner(real=False, copied=True)
+    @is_owner(copied=True)
     @commands.command()
     async def su(self, ctx: commands.Context):
         """Enable your bot owner privileges."""
         self.bot.owner_ids.add(ctx.author.id)
         await ctx.send("Your bot owner privileges have been enabled.")
 
-    @is_owner(real=True, copied=False)
+    @is_owner(real=True)
     @commands.command()
     async def unsu(self, ctx: commands.Context):
         """Disable your bot owner privileges."""
         self.bot.owner_ids.remove(ctx.author.id)
         await ctx.send("Your bot owner privileges have been disabled.")
 
-    @is_owner(real=False, copied=True)
+    @is_owner(copied=True)
     @commands.command()
     async def sutimeout(
         self,
@@ -75,7 +75,7 @@ class Sudo(commands.Cog):
         if self.bot.get_cog("Sudo"):  # Worst condition if user unloaded sudo.
             self.bot.owner_ids.remove(ctx.author.id)
 
-    @is_owner(real=False, copied=True)
+    @is_owner(copied=True)
     @commands.command()
     async def sudo(self, ctx: commands.Context, *, command: str):
         """Runs the specified command with bot owner permissions.
@@ -90,7 +90,7 @@ class Sudo(commands.Cog):
         if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
             self.bot.owner_ids.remove(ctx.author.id)
 
-    @is_owner(real=False, copied=True)
+    @is_owner(copied=True)
     @commands.command()
     async def sudomsg(self, ctx: commands.Context, *, content: str = ""):
         """Dispatch a message event as if it were sent by bot owner.
