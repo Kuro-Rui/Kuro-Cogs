@@ -83,10 +83,9 @@ class Sudo(commands.Cog):
         The prefix must not be entered.
         """
         self.bot.owner_ids.add(ctx.author.id)
-        message = ctx.message
+        message = copy(ctx.message)
         message.content = ctx.prefix + command
-        context = await ctx.bot.get_context(message)
-        await ctx.bot.invoke(context)
+        self.bot.dispatch("message", message)
         if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
             self.bot.owner_ids.remove(ctx.author.id)
 
