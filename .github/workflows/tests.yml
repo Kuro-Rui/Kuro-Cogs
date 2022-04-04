@@ -1,0 +1,17 @@
+name: Black Style Formatting Check
+
+on: [push, pull_request]
+
+jobs:
+  mypy:
+    name: Black Style Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - run: "python -m pip install black"
+        name: Install Black
+      - run: "make stylediff"
+        name: Run Style Checks
