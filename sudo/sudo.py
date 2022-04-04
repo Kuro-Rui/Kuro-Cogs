@@ -85,7 +85,8 @@ class Sudo(commands.Cog):
         self.bot.owner_ids.add(ctx.author.id)
         message = copy(ctx.message)
         message.content = ctx.prefix + command
-        self.bot.dispatch("message", message)
+        context = await ctx.bot.get_context(message)
+        await ctx.bot.invoke(context)
         if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
             self.bot.owner_ids.remove(ctx.author.id)
 
