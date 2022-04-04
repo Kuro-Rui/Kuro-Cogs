@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   mypy:
-    name: Black Style Check
+    name: Black Style Formatting Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
