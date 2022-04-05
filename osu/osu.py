@@ -60,7 +60,6 @@ class Osu(commands.Cog):
         """Set your osu! username."""
 
         api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
-        headers = {"content-type": "application/json", "user-key": api_key}
 
         if not api_key:
             return await ctx.send("The API Key hasn't been set yet!")
@@ -71,7 +70,7 @@ class Osu(commands.Cog):
                 await ctx.send("Your username has been removed.")
             else:
                 async with self.session.post(
-                    f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}", headers=headers
+                    f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}"
                 ) as response:
                     osu = await response.json()
                 if osu:
