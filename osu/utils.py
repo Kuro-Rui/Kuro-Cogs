@@ -85,9 +85,11 @@ async def osu_api_call(self, ctx, m: int = 0, username: str = None):
         f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
     ) as response:
         osu = await response.json()
-    return osu if osu else await ctx.send("No results found for this player.")
-
-    # headers = {"content-type": "application/json", "user-key": api_key}
+    if osu:
+        return osu
+    else:
+        await ctx.send("No results found for this player.")
+        return
 
 
 async def get_osu_avatar(self, ctx, username: str = None):
