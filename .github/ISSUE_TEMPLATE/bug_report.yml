@@ -9,19 +9,17 @@ body:
       label: Cog
       description: In which cog was the bug occured in?
       options:
-        - BotInvite
         - BotPing
         - CounterCog
         - CursedImages
+        - FakeMod
         - Fumo
-        - FunText
+        - ImgBB
         - Osu
-        - Phun
         - Polls
         - ReactLog
-        - Snipe
-        - Spotify
-        - Suggestion
+        - ReactTermino
+        - Sudo
     validations:
       required: true
   - type: input
