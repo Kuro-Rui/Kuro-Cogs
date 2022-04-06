@@ -7,6 +7,7 @@ from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import MessagePredicate
 
+
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
 class FakeMod(commands.Cog):
     """Fake Moderation Tools."""

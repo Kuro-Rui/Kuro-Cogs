@@ -1,5 +1,4 @@
 import aiohttp
-
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 

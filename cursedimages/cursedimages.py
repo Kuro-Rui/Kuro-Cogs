@@ -5,7 +5,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .images import food_images, food_emojis
+from .images import food_emojis, food_images
 
 
 class CursedImages(commands.Cog):

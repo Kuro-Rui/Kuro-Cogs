@@ -1,6 +1,6 @@
-import aiohttp
 from io import BytesIO
 
+import aiohttp
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list

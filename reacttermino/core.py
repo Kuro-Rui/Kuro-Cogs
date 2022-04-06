@@ -3,8 +3,8 @@ import contextlib
 import discord
 from redbot.core import checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
-from redbot.core.utils.predicates import ReactionPredicate
 from redbot.core.utils.menus import start_adding_reactions
+from redbot.core.utils.predicates import ReactionPredicate
 
 
 class ReactTermino(commands.Cog):

@@ -21,15 +21,15 @@ SOFTWARE.
 # Remove command logic originally from: https://github.com/mikeshardmind/SinbadCogs/tree/v3/messagebox
 # Speed test logic from https://github.com/PhasecoreX/PCXCogs/tree/master/netspeed
 
-import random
 import asyncio
 import datetime
 import logging
+import random
 import time
 
 import discord
 from redbot.core import Config, commands
-from redbot.core.utils import AsyncIter, chat_formatting as chat
+from redbot.core.utils import chat_formatting as chat
 
 old_ping = None
 log = logging.getLogger("red.kuro.botping")

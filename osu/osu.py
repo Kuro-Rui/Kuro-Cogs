@@ -1,11 +1,11 @@
-import aiohttp
 from typing import Optional, Union
 
+import aiohttp
 import discord
-from redbot.core import commands, Config, checks
+from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import api_is_set, osu_api_call, get_osu_avatar, send_osu_user_info, send_osu_user_card
+from .utils import api_is_set, get_osu_avatar, osu_api_call, send_osu_user_card, send_osu_user_info
 
 
 class Osu(commands.Cog):
