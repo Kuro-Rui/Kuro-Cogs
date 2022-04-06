@@ -29,13 +29,6 @@ body:
       description: Please provide details about the bug. What happened and what did you expect to happen?
     validations:
       required: true
-  - type: input
-    id: discord_user_info
-    attributes:
-      label: Discord User Information
-      description: "What is your Discord Username? (User#1234)"
-    validations:
-      required: true
   - type: textarea
     id: logs
     attributes:
