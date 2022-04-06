@@ -21,6 +21,9 @@
   <a href="https://github.com/psf/black">
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge" alt="Code style: black">
   </a>
+  <a href="https://pycqa.github.io/isort">
+    <img src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=for-the-badge&labelColor=ef8336" alt="Imports: isort">
+  </a>
   <a href="https://github.com/Rapptz/discord.py">
     <img src="https://img.shields.io/badge/discord.py-v1.7.3-blue?style=for-the-badge&logo=github" alt="discord.py">
   </a>
