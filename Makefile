@@ -2,16 +2,16 @@ PYTHON ?= python3.8
 
 # Black
 black_reformat:
-	$(PYTHON) -m black --line-length 99 .
+	$(PYTHON) -m black .
 black_stylecheck:
-	$(PYTHON) -m black --line-length 99 --check .
+	$(PYTHON) -m black --check .
 black_stylediff:
-	$(PYTHON) -m black --line-length 99 --check --diff .
+	$(PYTHON) -m black --check --diff .
 
 # Isort
 isort_reformat:
-	$(PYTHON) -m isort --line-length 99 .
+	$(PYTHON) -m isort .
 isort_stylecheck:
-	$(PYTHON) -m isort --line-length 99 --check .
+	$(PYTHON) -m isort --check .
 isort_stylediff:
-	$(PYTHON) -m isort --line-length 99 --check --diff .
+	$(PYTHON) -m isort --check --diff .
