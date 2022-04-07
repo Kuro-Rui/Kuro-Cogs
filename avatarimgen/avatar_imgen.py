@@ -106,11 +106,12 @@ class AvatarImgen(commands.Cog):
     async def jokeoverhead(self, ctx, user: discord.User):  # You understand jokes, don't you?
         """This person doesn't get jokes at all!"""
 
-        # The API isn't accepting "?size=1024" part that's attached to avatar URLs
         if user.avatar:
+            # The API isn't accepting "?size=1024" part that's attached to avatar URLs
+            # And it's only accepting either "png", "jpg", or "jpeg", so let's just use ".png".
             avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
         else:
-            avatar = user.default_avatar # If user.avatar is None, it means default avatar
+            avatar = user.default_avatar  # If user.avatar is None, it means default avatar
 
         async with ctx.typing():
             async with self.session.get(
