@@ -81,7 +81,7 @@ class ReactLog(commands.Cog):
         embed.add_field(name="Channel", value=channel_mention, inline=True)
         embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
         embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
-        embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
+        embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon.url)
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
@@ -95,7 +95,7 @@ class ReactLog(commands.Cog):
             if not user.bot:
                 if reaction.count == 1:
                     embed = discord.Embed(color=discord.Color.green())
-                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar.url)
                     try:
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"
@@ -126,7 +126,7 @@ class ReactLog(commands.Cog):
             if not user.bot:
                 if reaction.count == 0:
                     embed = discord.Embed(color=discord.Color.red())
-                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar.url)
                     try:
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"
