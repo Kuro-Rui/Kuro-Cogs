@@ -3,5 +3,6 @@
     "description": "Allows dropping and elevating owner permissions.",
     "short": "Allows to drop and elevate owner permissions.",
     "install_msg" : "Thanks for installing `Sudo`! Get started with `[p]help Sudo`.",
+    "min_bot_version": "3.5.0.dev1",
     "tags": ["owner", "perms", "permission", "utility"]
 }
