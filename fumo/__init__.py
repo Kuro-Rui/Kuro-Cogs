@@ -63,8 +63,8 @@ class Fumo(commands.Cog):
         await summon_fumo(self, ctx, "meme")
 
 
-def setup(bot):
-    bot.add_cog(Fumo(bot))
+async def setup(bot):
+    await bot.add_cog(Fumo(bot))
 
 
 __red_end_user_data_statement__ = "This cog does not store any end user data."

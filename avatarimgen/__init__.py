@@ -1,5 +1,5 @@
 from .avatar_imgen import AvatarImgen
 
 
-def setup(bot):
-    bot.add_cog(AvatarImgen(bot))
+async def setup(bot):
+    await bot.add_cog(AvatarImgen(bot))

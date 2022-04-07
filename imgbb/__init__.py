@@ -1,5 +1,5 @@
 from .imgbb import ImgBB
 
 
-def setup(bot):
-    bot.add_cog(ImgBB(bot))
+async def setup(bot):
+    await bot.add_cog(ImgBB(bot))

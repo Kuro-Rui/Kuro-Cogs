@@ -1,7 +1,7 @@
 from .core import ReactTermino
 
 
-def setup(bot):
+async def setup(bot):
     global old_restart
     old_restart = bot.get_command("restart")
     if old_restart:
@@ -12,4 +12,4 @@ def setup(bot):
     if old_shutdown:
         bot.remove_command(old_shutdown.name)
 
-    bot.add_cog(ReactTermino(bot))
+    await bot.add_cog(ReactTermino(bot))
