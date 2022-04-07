@@ -107,7 +107,7 @@ class AvatarImgen(commands.Cog):
         """This person doesn't get jokes at all!"""
 
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
-        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
+        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
 
         async with ctx.typing():
             async with self.session.get(
