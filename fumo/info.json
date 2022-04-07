@@ -4,6 +4,7 @@
     "description": "Generates a random Fumo image from an API.",
     "install_msg": "Thanks for installing `Fumo` cog! Please enjoy it :D",
     "author": ["Kuro"],
+    "min_bot_version": "3.5.0.dev1",
     "tags": ["image", "fumo", "touhou"],
     "hidden": false,
     "disabled": false,

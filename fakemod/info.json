@@ -5,6 +5,7 @@
     "end_user_data_statement": "This cog does not store end user data.",
     "hidden": false,
     "install_msg": "Thanks for installing `FakeMod`!\nGet started with `[p]fakemodset`",
+    "min_bot_version": "3.5.0.dev1",
     "name": "FakeMod",
     "short": "Fake moderation commands.",
     "tags": ["ben", "fake", "fakemod", "kik", "myut", "worn"],

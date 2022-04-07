@@ -4,6 +4,7 @@
     "install_msg": "Thank you for installing `Polls`.\n`[p]poll` uses embed to make a poll, so users will be unable to run the command if the bot doesn't have embed permissions.",
     "description": "Create a poll with up to 10 options. Inspired by Dyno.",
     "short": "Create a Poll.",
+    "min_bot_version": "3.5.0.dev1",
     "tags": ["poll", "polls"],
     "hidden": false,
     "disabled": false,
