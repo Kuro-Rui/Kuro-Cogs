@@ -110,7 +110,7 @@ class AvatarImgen(commands.Cog):
         if user.avatar:
             avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
         else:
-            avatar = user.display_avatar
+            avatar = user.default_avatar # If user.avatar is None, it means default avatar
 
         async with ctx.typing():
             async with self.session.get(

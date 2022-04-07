@@ -81,7 +81,10 @@ class ReactLog(commands.Cog):
         embed.add_field(name="Channel", value=channel_mention, inline=True)
         embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
         embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
-        embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon.url)
+        if ctx.guild.icon:
+            embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon.url)
+        else:
+            embed.set_footer(text=ctx.guild.name)
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
