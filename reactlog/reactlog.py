@@ -95,7 +95,7 @@ class ReactLog(commands.Cog):
             if not user.bot:
                 if reaction.count == 1:
                     embed = discord.Embed(color=discord.Color.green())
-                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar.url)
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.display_avatar)
                     try:
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"
@@ -126,7 +126,7 @@ class ReactLog(commands.Cog):
             if not user.bot:
                 if reaction.count == 0:
                     embed = discord.Embed(color=discord.Color.red())
-                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar.url)
+                    embed.set_author(name=f"{user} ({user.id})", icon_url=user.display_avatar)
                     try:
                         embed.description = (
                             f"**Channel:** {channel.mention}\n"

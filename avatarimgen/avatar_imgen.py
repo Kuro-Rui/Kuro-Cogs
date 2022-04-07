@@ -36,7 +36,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/ad?image={avatar}") as r:
@@ -52,7 +52,7 @@ class AvatarImgen(commands.Cog):
     async def clown(self, ctx, user: discord.User):  # You don't want to be a clown, do you?
         """This person is a clown, Star."""
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/clown?image={avatar}") as r:
@@ -71,7 +71,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/drip?image={avatar}") as r:
@@ -90,7 +90,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/gun?image={avatar}") as r:
@@ -107,7 +107,10 @@ class AvatarImgen(commands.Cog):
         """This person doesn't get jokes at all!"""
 
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
-        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
+        if user.avatar:
+            avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
+        else:
+            avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(
@@ -128,7 +131,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/mnm?image={avatar}") as r:
@@ -147,7 +150,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/uncover?image={avatar}") as r:
@@ -166,7 +169,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar.url
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/wanted?image={avatar}") as r:
