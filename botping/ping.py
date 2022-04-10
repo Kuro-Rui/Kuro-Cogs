@@ -11,6 +11,7 @@ from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import box
 
 from .gifs import ping_pong_gifs
+
 ping_gifs_picker = random.choice(ping_pong_gifs)
 
 old_ping = None
