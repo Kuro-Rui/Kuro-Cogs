@@ -89,7 +89,7 @@ class Hack(commands.Cog):
             ]
         )
         try:
-            await message.edit(content=f"{loading(1)} **Last DM**: \"{last_dm}\"")
+            await message.edit(content=f'{loading(1)} **Last DM**: "{last_dm}"')
         except discord.NotFound:
             return
         await sleep(3)
@@ -115,7 +115,9 @@ class Hack(commands.Cog):
             return
         await sleep(2)
         try:
-            await message.edit(content=f"{loading(2)} Reporting account to Discord for breaking ToS...")
+            await message.edit(
+                content=f"{loading(2)} Reporting account to Discord for breaking ToS..."
+            )
         except discord.NotFound:
             return
         await sleep(1)
