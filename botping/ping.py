@@ -10,9 +10,7 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import box
 
-from .gifs import ping_pong_gifs
-
-ping_gifs_picker = random.choice(ping_pong_gifs)
+from .utils import ping_gifs_picker
 
 old_ping = None
 log = logging.getLogger("red.kuro-cogs.botping")
@@ -71,7 +69,7 @@ class BotPing(commands.Cog):
         overall = round((end - start) * 1000, 2)
         e.add_field(name="Overall Ping:", value=box(f"{overall}" + " ms", "py"))
         if await self.config.use_gifs():
-            e.set_image(url=ping_gifs_picker)
+            e.set_image(url=ping_gifs_picker())
         await asyncio.sleep(0.25)
         try:
             await message.edit(content=None, embed=e)
@@ -129,7 +127,7 @@ class BotPing(commands.Cog):
         send = round((send_end - send_start) * 1000, 2)
         e.add_field(name="Message Send:", value=box(f"{send}" + " ms", "py"))
         if await self.config.use_gifs():
-            e.set_image(url=ping_gifs_picker)
+            e.set_image(url=ping_gifs_picker())
 
         await asyncio.sleep(0.25)
         edit_start = time.monotonic()
