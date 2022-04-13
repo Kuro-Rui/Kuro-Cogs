@@ -9,11 +9,12 @@ body:
       label: Cog
       description: In which cog was the bug occured in?
       options:
+        - AvatarImgen
         - BotPing
         - CounterCog
-        - CursedImages
         - FakeMod
         - Fumo
+        - Hack
         - ImgBB
         - Osu
         - Polls
