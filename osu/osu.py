@@ -247,7 +247,7 @@ class Osu(commands.Cog):
     @api_is_set()
     @commands.command(aliases=["osuav"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.bot_has_permissions(embed_links=True)
+    @commands.bot_has_permissions()
     async def osuavatar(self, ctx, *, username: Optional[str]):
         """Shows your/another user osu! Avatar"""
 
@@ -303,7 +303,7 @@ class Osu(commands.Cog):
     @api_is_set()
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
     @commands.cooldown(60, 60, commands.BucketType.default)
-    @commands.bot_has_permissions(embed_links=True)
+    @commands.bot_has_permissions()
     async def osucard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Card!"""  # Thanks epic, thanks Preda <3
 

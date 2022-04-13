@@ -55,7 +55,6 @@
 | AvatarImgen  | Make images from avatars using Pop Cat API!              |             Kuro             |
 |   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details>      |             Kuro             |
 |  CounterCog  | A cog that shows how many commands/cogs the bot has.     |             Kuro             |
-| CursedImage  | Just a cringe cog that returns some random cursed image. |             Kuro             |
 |   FakeMod    | Fake moderation commands made for fun!                   |             Kuro             |
 |     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
 |    ImgBB     | Upload your image to ImgBB!                              |             Kuro             |
