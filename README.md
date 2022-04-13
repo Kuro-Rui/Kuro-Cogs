@@ -50,19 +50,19 @@
 **For support**, you can **find and ping me (K u r o#2740) in [*#support_othercogs*](https://discord.com/channels/240154543684321280/240212783503900673) on [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
-|     Name     |                       Description                        |            Author            |
-|:------------:|----------------------------------------------------------|:----------------------------:|
-| AvatarImgen  | Make images from avatars using Pop Cat API!              |             Kuro             |
-|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details>      |             Kuro             |
-|  CounterCog  | A cog that shows how many commands/cogs the bot has.     |             Kuro             |
-|   FakeMod    | Fake moderation commands made for fun!                   |             Kuro             |
-|     Fumo     | Generates a random Fumo image from an API.               |             Kuro             |
-|    ImgBB     | Upload your image to ImgBB!                              |             Kuro             |
-|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |             Kuro             |
-|    Polls     | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>  |             Kuro             |
-|   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details> |             Kuro             |
-| ReactTermino | Restart/Shutdown your bot with reaction predicate!       |             Kuro             |
-|     Sudo     | Allows dropping and elevating your owner permissions!    |             Kuro             |
+|     Name     | Description                                                                                                                                                                        | Version | Author |
+|:------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|:------:|
+| AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  1.0.2  |  Kuro  |
+|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details> |  1.1.0  |  Kuro  |
+|  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  1.0.1  |  Kuro  |
+|   FakeMod    | Fake moderation commands made for fun!                                                                                                                                             |  1.1.0  |  Kuro  |
+|     Fumo     | Generates a random Fumo image from an API.                                                                                                                                         |  1.1.3  |  Kuro  |
+|    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  1.0.0  |  Kuro  |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.0.4  |  Kuro  |
+|    Polls     | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>                                                                       |  1.0.0  |  Kuro  |
+|   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
+| ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
+|     Sudo     | Allows dropping and elevating your owner permissions!                                                                                                                              |  1.1.0  |  Kuro  |
 
 ## Credits
 **Special Thanks** to:

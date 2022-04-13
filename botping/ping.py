@@ -86,14 +86,17 @@ class BotPing(commands.Cog):
         except discord.NotFound:
             return
 
-        shards_ping = []
-        shards_latency = []
-        for shard_id, shard in self.bot.shards.items():
-            latency = round(shard.latency * 1000, 2)
-            shards_latency.append(latency)
-            shards_ping.append(box(f"Shard {shard_id + 1}: {latency}" + " ms", "py"))
-        e.add_field(name="Shards Ping:", value="\n".join(shards_ping))
-        average = sum(shards_latency) / len(shards_latency)
+        if self.bot.shard_count > 1:
+            shards_ping = []
+            shards_latency = []
+            for shard_id, shard in self.bot.shards.items():
+                latency = round(shard.latency * 1000, 2)
+                shards_latency.append(latency)
+                shards_ping.append(box(f"Shard {shard_id + 1}: {latency}" + " ms", "py"))
+            e.add_field(name="Shards Ping:", value="\n".join(shards_ping), inline=False)
+            average = sum(shards_latency) / len(shards_latency)
+        else:
+            average = (overall + latency) / 2
         if average >= 1000:
             e.color = discord.Colour.red()
         elif average >= 200:
