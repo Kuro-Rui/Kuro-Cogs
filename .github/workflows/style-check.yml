@@ -1,0 +1,29 @@
+name: Style Formatting Check
+
+on: [push, pull_request]
+
+jobs:
+  black:
+    name: Black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - run: "python -m pip install black"
+        name: Install Black
+      - run: "make black-stylediff"
+        name: Run Style Checks
+  isort:
+    name: Isort
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - run: "python -m pip install isort"
+        name: Install Isort
+      - run: "make isort-stylediff"
+        name: Run Style Checks

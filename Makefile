@@ -1,17 +1,17 @@
 PYTHON ?= python3.8
 
 # Black
-black_reformat:
+black-reformat:
 	$(PYTHON) -m black .
-black_stylecheck:
+black-stylecheck:
 	$(PYTHON) -m black --check .
-black_stylediff:
+black-stylediff:
 	$(PYTHON) -m black --check --diff .
 
 # Isort
-isort_reformat:
+isort-reformat:
 	$(PYTHON) -m isort .
-isort_stylecheck:
+isort-stylecheck:
 	$(PYTHON) -m isort --check .
-isort_stylediff:
+isort-stylediff:
 	$(PYTHON) -m isort --check --diff .
