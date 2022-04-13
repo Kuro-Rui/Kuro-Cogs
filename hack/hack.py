@@ -42,7 +42,7 @@ class Hack(commands.Cog):
             return
 
         # Mass editing lol, must add handler on each :D
-        message = await ctx.send(f"{loading(0)} Hacking {member.nick} now...")
+        message = await ctx.send(f"{loading(0)} Hacking {member.name} now...")
         await sleep(2)
         try:
             await message.edit(content=f"{loading(1)} Finding Discord Login...")
@@ -120,7 +120,7 @@ class Hack(commands.Cog):
             return
         await sleep(1)
         try:
-            await message.edit(content=f"{commands.context.TICK} Finished hacking {member.nick}.")
+            await message.edit(content=f"{commands.context.TICK} Finished hacking {member.name}.")
         except discord.NotFound:
             return
         await ctx.send("The *totally* real and dangerous hack is complete.")
