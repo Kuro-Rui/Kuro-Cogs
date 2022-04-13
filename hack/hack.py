@@ -1,5 +1,6 @@
 from asyncio import sleep
 from random import choice, randint
+from string import ascii_letters
 
 import discord
 from redbot.core import commands
@@ -49,8 +50,8 @@ class Hack(commands.Cog):
         except discord.NotFound:
             return
         await sleep(4)
-        email = member.name.replace(" ","_").replace("'", "") + "@gmail.com"
-        password = "randstr"
+        email = member.name.replace(" ", "_").replace("'", "") + "@gmail.com"
+        password = "".join(choice(ascii_letters) for letters in range(10))
         try:
             await message.edit(
                 f"{loading(3)} Found login information:\n"
