@@ -9,7 +9,7 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 def loading(step: int):
     l = ["▖", "▘", "▝", "▗"]
-    screen = l[step]
+    screen = f"[{l[step]}]"
     return screen
 
 
@@ -41,12 +41,12 @@ class Hack(commands.Cog):
         message = await ctx.send(f"{loading(0)} Hacking {member.nick} now...")
         await sleep(3)
         try:
-            await message.edit(f"{loading(1)} Finding Discord Login...")
+            await message.edit(content=f"{loading(1)} Finding Discord Login...")
         except discord.NotFound:
             return
         await sleep(3)
         try:
-            await message.edit(f"{loading(2)} Bypassing 2FA...")
+            await message.edit(content=f"{loading(2)} Bypassing 2FA...")
         except discord.NotFound:
             return
         await sleep(4)
@@ -54,15 +54,17 @@ class Hack(commands.Cog):
         password = "".join(choice(ascii_letters) for letters in range(10))
         try:
             await message.edit(
-                f"{loading(3)} Found login information:\n"
-                f"**Email**: `{email}`\n"
-                f"**Password**: `{password}`"
+                content=(
+                    f"{loading(3)} Found login information:\n"
+                    f"**Email**: `{email}`\n"
+                    f"**Password**: `{password}`"
+                )
             )
         except discord.NotFound:
             return
         await sleep(5)
         try:
-            await message.edit(f"{loading(0)} Fetching user DMs...")
+            await message.edit(content=f"{loading(0)} Fetching user DMs...")
         except discord.NotFound:
             return
         await sleep(2)
@@ -83,38 +85,38 @@ class Hack(commands.Cog):
             ]
         )
         try:
-            await message.edit(f"{loading(1)} **Last DM**: \"{last_dm}\"")
+            await message.edit(content=f"{loading(1)} **Last DM**: \"{last_dm}\"")
         except discord.NotFound:
             return
         await sleep(3)
         try:
-            await message.edit(f"{loading(2)} Injecting trojan virus into {member}...")
+            await message.edit(content=f"{loading(2)} Injecting trojan virus into {member}...")
         except discord.NotFound:
             return
         await sleep(3)
         try:
-            await message.edit(f"{loading(3)} Virus injected. Finding IP Address...")
+            await message.edit(content=f"{loading(3)} Virus injected. Finding IP Address...")
         except discord.NotFound:
             return
         await sleep(4)
         ip_address = f"{randint(50, 255)}.{randint(50, 255)}.{randint(50, 255)}.{randint(50, 255)}"
         try:
-            await message.edit(f"{loading(0)} **IP Address**: `{ip_address}`")
+            await message.edit(content=f"{loading(0)} **IP Address**: `{ip_address}`")
         except discord.NotFound:
             return
         await sleep(3)
         try:
-            await message.edit(f"{loading(1)} Selling user data to the government...")
+            await message.edit(content=f"{loading(1)} Selling user data to the government...")
         except discord.NotFound:
             return
         await sleep(3)
         try:
-            await message.edit(f"{loading(2)} Reporting account to Discord for breaking ToS...")
+            await message.edit(content=f"{loading(2)} Reporting account to Discord for breaking ToS...")
         except discord.NotFound:
             return
         await sleep(2)
         try:
-            await message.edit(f"{commands.context.TICK} Finished hacking {member.nick}.")
+            await message.edit(content=f"{commands.context.TICK} Finished hacking {member.nick}.")
         except discord.NotFound:
             return
         await ctx.send("The *totally* real and dangerous hack is complete.")
