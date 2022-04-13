@@ -37,6 +37,10 @@ class Hack(commands.Cog):
     async def hack(self, ctx, member: discord.Member):
         """Hack someone!"""
 
+        if member == ctx.author:
+            await ctx.send("Umm, please don't DOXX yourself \N{SKULL}")
+            return
+
         # Mass editing lol, must add handler on each :D
         message = await ctx.send(f"{loading(0)} Hacking {member.nick} now...")
         await sleep(2)
