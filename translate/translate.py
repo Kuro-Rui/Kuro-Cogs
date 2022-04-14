@@ -12,12 +12,7 @@ class LangConverter(commands.Converter):
         lang = Language(argument)
         if lang.similarity < 100:
             raise commands.BadArgument()
-        try:
-            return lang.alpha2.upper()
-        except UnknownLanguage as ul:
-            raise commands.BadArgument(
-                f"Unable to find `{argument}`. Do you mean `{ul.guessed_language}`?"
-            )
+        return lang.alpha2.upper()
 
 
 class Translate(commands.Cog):
