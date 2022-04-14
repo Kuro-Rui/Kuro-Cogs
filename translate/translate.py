@@ -41,22 +41,24 @@ class Translate(commands.Cog):
 
     @commands.command()
     async def translate(
-            self,
-            ctx,
-            to_language: LangConverter,
-            from_language: Optional[LangConverter] = "Auto",
-            *,
-            text: str
+        self,
+        ctx,
+        from_language: Optional[LangConverter],
+        to_language: LangConverter,
+        *,
+        text: str
     ):
         """
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
-            - `[p]translate es en Example Text` (Translates "Example Text" to Español)
+            - `[p]translate en es Example Text` (Translates "Example Text" to Español)
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
+        if not from_language:
+            from_language = "Auto"
         try:
             result = await self.bot.loop.run_in_executor(
                 None,
