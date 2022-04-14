@@ -26,18 +26,18 @@ class Translate(commands.Cog):
         )
 
     @commands.command()
-    async def translate(self, ctx, to_language: str, from_language: str, *, text: str):
+    async def translate(self, ctx, from_language: str, to_language: str, *, text: str):
         """
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
-            - `[p]translate es en Example Text` (Translates "Example Text" to Español)
-            - `[p]translate en es Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
+            - `[p]translate en es Example Text` (Translates "Example Text" to Español)
+            - `[p]translate es en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
-        to_language = await self.language_converter(ctx, to_language)
         from_language = await self.language_converter(ctx, from_language)
+        to_language = await self.language_converter(ctx, to_language)
 
         try:
             result = self.translator.translate(text, to_language, from_language)
