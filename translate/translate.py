@@ -41,19 +41,19 @@ class Translate(commands.Cog):
 
     @commands.command()
     async def translate(
-        self,
-        ctx,
-        to_language: LangConverter,
-        from_language: Optional[LangConverter] = "Auto",
-        *,
-        text: str
+            self,
+            ctx,
+            to_language: LangConverter,
+            from_language: Optional[LangConverter] = "Auto",
+            *,
+            text: str
     ):
         """
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
-            - `[p]translate en es Example Text` (Translates "Example Text" to Español)
+            - `[p]translate es en Example Text` (Translates "Example Text" to Español)
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
@@ -68,9 +68,10 @@ class Translate(commands.Cog):
         except TranslatepyException:
             return await ctx.send("An error occurred while translating. Please try again later.")
 
-        if from_language.lower() == "auto":
-            from_language = result.source_language.alpha2.upper()
-        footer = f"{from_language} to {to_language} | Translated with {result.service}."
+        footer = (
+            f"{result.source_language.name} to {result.destination_language.name} | "
+            f"Translated with {result.service}\nRequested by: {ctx.author}"
+        )
         if await ctx.embed_requested():
             embed = discord.Embed(description=result, color=await ctx.embed_color())
             embed.set_footer(text=footer)
