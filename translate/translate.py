@@ -26,45 +26,39 @@ class Translate(commands.Cog):
         )
 
     @commands.command()
-    async def translate(self, ctx, to_language: str, text: str, from_language: str = "auto"):
+    async def translate(self, ctx, to_language: str, from_language: str, *, text: str):
         """
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
-        Make sure to use \"\" (quotes) for the `text`.
         **Examples**:
-            - `[p]translate es "Example Text"` (Translates "Example Text" to Español)
-            - `[p]translate en "Ejemplo de texto" es` (Translates "Ejemplo de texto" from Español to English)
+            - `[p]translate es en Example Text` (Translates "Example Text" to Español)
+            - `[p]translate en es Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
-        try:
-            to_language = Language(to_language).alpha2.upper()
-        except UnknownLanguage as ul:
-            return await ctx.send(
-                f"I can't find the language `{to_language}`. Do you mean `{ul.guessed_language}`?"
-            )
-
-        try:
-            from_language = Language(from_language).alpha2.upper()
-        except UnknownLanguage as ul:
-            return await ctx.send(
-                f"I can't find the language `{from_language}`. Do you mean `{ul.guessed_language}`?"
-            )
-        if from_language == "AUTO":
-            from_language = self.translator.language(text).result.alpha2.upper()
+        to_language = await self.language_converter(ctx, to_language)
+        from_language = await self.language_converter(ctx, from_language)
 
         try:
             result = self.translator.translate(text, to_language, from_language)
         except TranslatepyException:
             return await ctx.send("An error occurred while translating. Please try again later.")
 
-        footer = f"{from_language} to {to_language} | Translated using {result.service}."
+        footer = f"{from_language} to {to_language} | Translated with {result.service}."
         if await ctx.embed_requested():
             embed = discord.Embed(description=result, color=await ctx.embed_color())
             embed.set_footer(text=footer)
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"{result}\n\n{footer}")
+
+    async def language_converter(self, ctx, language: str):
+        try:
+            return Language(language).alpha2.upper()
+        except UnknownLanguage as ul:
+            return await ctx.send(
+                f"I can't find the language `{language}`. Do you mean `{ul.guessed_language}`?"
+            )
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx, *, text: str):
