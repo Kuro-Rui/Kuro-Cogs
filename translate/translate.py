@@ -9,10 +9,15 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 class LangConverter(commands.Converter):
     async def convert(self, ctx, argument):
-        lang = Language(argument)
-        if lang.similarity < 100:
-            raise commands.BadArgument()
-        return lang.alpha2.upper()
+        try:
+            lang = Language(argument)
+            if lang.similarity < 100:
+                raise commands.BadArgument()
+            return lang.alpha2.upper()
+        except UnknownLanguage as ul:
+            raise commands.BadArgument(
+                f"Unable to find `{argument}`. Did you mean `{ul.guessed_language}`?"
+            )
 
 
 class Translate(commands.Cog):
@@ -39,7 +44,7 @@ class Translate(commands.Cog):
         self,
         ctx,
         to_language: LangConverter,
-        from_language: Optional[LangConverter],
+        from_language: Optional[LangConverter] = "Auto",
         *,
         text: str
     ):
