@@ -64,6 +64,7 @@
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
 | ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
 |     Sudo     | Allows dropping and elevating your owner permissions!                                                                                                                              |  1.1.0  |  Kuro  |
+|  Translate   | Translate the given text!                                                                                                                                                          |  1.0.0  |  Kuro  |
 
 ## Credits
 **Special Thanks** to:

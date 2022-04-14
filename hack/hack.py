@@ -103,7 +103,8 @@ class Hack(commands.Cog):
         except discord.NotFound:
             return
         await sleep(3)
-        ip_address = f"{randint(50, 255)}.{randint(50, 255)}.{randint(50, 255)}.{randint(50, 255)}"
+        # A valid IP address must be in the form of x.x.x.x, where x is a number from 0-255.
+        ip_address = f"{randint(0, 255)}.{randint(0, 255)}.{randint(0, 255)}.{randint(0, 255)}"
         try:
             await message.edit(content=f"{loading(0)} **IP Address**: `{ip_address}`")
         except discord.NotFound:
