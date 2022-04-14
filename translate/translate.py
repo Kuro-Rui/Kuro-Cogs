@@ -31,10 +31,10 @@ class Translate(commands.Cog):
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
-        Make sure to use \"\" (quotes) for the `text` if you want to provide it.
+        Make sure to use \"\" (quotes) for the `text`.
         **Examples**:
-            - [p]translate es "Example Text" (Translates "Example Text" to Español)
-            - [p]translate en "Ejemplo de texto" es (Translates "Ejemplo de texto" from Español to English)
+            - `[p]translate es "Example Text"` (Translates "Example Text" to Español)
+            - `[p]translate en "Ejemplo de texto" es` (Translates "Ejemplo de texto" from Español to English)
         """
 
         try:
