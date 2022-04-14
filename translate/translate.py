@@ -67,7 +67,7 @@ class Translate(commands.Cog):
             await ctx.send(f"{result}\n\n{footer}")
 
     @commands.command(aliases=["tte"])
-    async def texttoemoji(self, ctx, text: str):
+    async def texttoemoji(self, ctx, *, text: str):
         """Convert the given text to emojis!"""
 
         result = self.translator.translate(text, "EMJ")
