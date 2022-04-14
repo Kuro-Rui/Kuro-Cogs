@@ -13,7 +13,7 @@ class LangConverter(commands.Converter):
             lang = Language(argument)
             if lang.similarity < 100:
                 raise commands.BadArgument()
-            return lang.alpha2.upper()
+            return lang
         except UnknownLanguage as ul:
             raise commands.BadArgument(
                 f"Unable to find `{argument}`. Did you mean `{ul.guessed_language}`?"
@@ -84,7 +84,7 @@ class Translate(commands.Cog):
         """Convert the given text to emojis!"""
 
         result = self.translator.translate(text, "EMJ")
-        footer = f"Requested by {ctx.author}"
+        footer = f"Requested by: {ctx.author}"
         if await ctx.embed_requested():
             embed = discord.Embed(description=result, color=await ctx.embed_color())
             embed.set_footer(text=footer)
