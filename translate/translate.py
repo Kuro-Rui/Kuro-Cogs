@@ -38,8 +38,8 @@ class Translate(commands.Cog):
     async def translate(
         self,
         ctx,
-        from_language: Optional[LangConverter],
         to_language: LangConverter,
+        from_language: Optional[LangConverter],
         *,
         text: str
     ):
