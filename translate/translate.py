@@ -36,13 +36,15 @@ class Translate(commands.Cog):
             - `[p]translate es en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
-        from_language = await self.language_converter(ctx, from_language)
-        to_language = await self.language_converter(ctx, to_language)
+        from_language = await language_converter(ctx, from_language)
+        to_language = await language_converter(ctx, to_language)
 
-        try:
-            result = self.translator.translate(text, to_language, from_language)
-        except TranslatepyException:
-            return await ctx.send("An error occurred while translating. Please try again later.")
+        if from_language and to_language:
+            try:
+                result = self.translator.translate(text, to_language, from_language)
+            except TranslatepyException:
+                await ctx.send("An error occurred while translating. Please try again later.")
+                return
 
         footer = f"{from_language} to {to_language} | Translated with {result.service}."
         if await ctx.embed_requested():
@@ -51,15 +53,6 @@ class Translate(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"{result}\n\n{footer}")
-
-    async def language_converter(self, ctx, language: str):
-        try:
-            return Language(language).alpha2.upper()
-        except UnknownLanguage as ul:
-            await ctx.send(
-                f"I can't find the language `{language}`. Do you mean `{ul.guessed_language}`?"
-            )
-            return
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx, *, text: str):
@@ -73,3 +66,13 @@ class Translate(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"{result}\n\n{footer}")
+
+
+async def language_converter(ctx, language: str):
+    try:
+        return Language(language).alpha2.upper()
+    except UnknownLanguage as ul:
+        await ctx.send(
+            f"I can't find the language `{language}`. Do you mean `{ul.guessed_language}`?"
+        )
+        return
