@@ -1,9 +1,20 @@
 from translatepy import Language, Translator
 from translatepy.exceptions import TranslatepyException, UnknownLanguage
+from typing import Optional
 
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
+
+
+class LangConverter(commands.Converter):
+    async def convert(self, ctx, argument):
+        try:
+            return Language(argument).alpha2.upper()
+        except UnknownLanguage as ul:
+            raise commands.BadArgument(
+                f"Unable to find `{argument}`. Do you mean `{ul.guessed_language}`?"
+            )
 
 
 class Translate(commands.Cog):
@@ -26,25 +37,27 @@ class Translate(commands.Cog):
         )
 
     @commands.command()
-    async def translate(self, ctx, from_language: str, to_language: str, *, text: str):
+    async def translate(
+        self,
+        ctx,
+        from_language: Optional[LangConverter],
+        to_language: LangConverter,
+        *,
+        text: str
+    ):
         """
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]translate en es Example Text` (Translates "Example Text" to Español)
-            - `[p]translate es en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
+            - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
-        from_language = await language_converter(ctx, from_language)
-        to_language = await language_converter(ctx, to_language)
-
-        if from_language and to_language:
-            try:
-                result = self.translator.translate(text, to_language, from_language)
-            except TranslatepyException:
-                await ctx.send("An error occurred while translating. Please try again later.")
-                return
+        try:
+            result = self.translator.translate(text, to_language, from_language)
+        except TranslatepyException:
+            return await ctx.send("An error occurred while translating. Please try again later.")
 
         footer = f"{from_language} to {to_language} | Translated with {result.service}."
         if await ctx.embed_requested():
@@ -66,13 +79,3 @@ class Translate(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"{result}\n\n{footer}")
-
-
-async def language_converter(ctx, language: str):
-    try:
-        return Language(language).alpha2.upper()
-    except UnknownLanguage as ul:
-        await ctx.send(
-            f"I can't find the language `{language}`. Do you mean `{ul.guessed_language}`?"
-        )
-        return
