@@ -40,8 +40,8 @@ class Translate(commands.Cog):
     async def translate(
         self,
         ctx,
-        to_language: LangConverter,
         from_language: Optional[LangConverter],
+        to_language: LangConverter,
         *,
         text: str
     ):
@@ -49,6 +49,7 @@ class Translate(commands.Cog):
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
+        You can add \"\" (quotes) to the text if you feel it doesn't feel right.
         **Examples**:
             - `[p]translate en es Example Text` (Translates "Example Text" to Español)
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
