@@ -9,8 +9,11 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 class LangConverter(commands.Converter):
     async def convert(self, ctx, argument):
+        lang = Language(argument)
+        if lang.similarity < 100:
+            raise commands.BadArgument()
         try:
-            return Language(argument).alpha2.upper()
+            return lang.alpha2.upper()
         except UnknownLanguage as ul:
             raise commands.BadArgument(
                 f"Unable to find `{argument}`. Do you mean `{ul.guessed_language}`?"
