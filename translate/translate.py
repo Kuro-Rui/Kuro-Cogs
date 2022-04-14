@@ -56,9 +56,10 @@ class Translate(commands.Cog):
         try:
             return Language(language).alpha2.upper()
         except UnknownLanguage as ul:
-            return await ctx.send(
+            await ctx.send(
                 f"I can't find the language `{language}`. Do you mean `{ul.guessed_language}`?"
             )
+            return
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx, *, text: str):
