@@ -52,17 +52,24 @@ class Translate(commands.Cog):
         Translates the given text!
 
         You can also provide a language to translate from (`from_language`).
-        You can add \"\" (quotes) to the text if you feel it doesn't feel right.
         **Examples**:
             - `[p]translate en es Example Text` (Translates "Example Text" to Español)
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
         """
 
         try:
-            result = self.translator.translate(text, to_language, from_language)
+            result = await self.bot.loop.run_in_executor(
+                None,
+                self.translator.translate,
+                text,
+                to_language,
+                from_language
+            )
         except TranslatepyException:
             return await ctx.send("An error occurred while translating. Please try again later.")
 
+        if from_language.lower() == "auto":
+            from_language = result.source_language.alpha2.upper()
         footer = f"{from_language} to {to_language} | Translated with {result.service}."
         if await ctx.embed_requested():
             embed = discord.Embed(description=result, color=await ctx.embed_color())
