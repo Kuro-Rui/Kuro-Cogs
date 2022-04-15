@@ -62,7 +62,7 @@ class Translate(commands.Cog):
                 None, self.translator.translate, text, to_language, from_language
             )
         except TranslatepyException as error:
-            return await ctx.send(error.original)
+            return await ctx.send(error)
 
         footer = (
             f"{result.source_language.name} to {result.destination_language.name} | "
