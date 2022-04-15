@@ -4,7 +4,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 from translatepy import Language, Translator
-from translatepy.exceptions import TranslatepyException, UnknownLanguage
+from translatepy.exceptions import NoResult, UnknownLanguage
 
 
 class LangConverter(commands.Converter):
@@ -61,8 +61,8 @@ class Translate(commands.Cog):
             result = await self.bot.loop.run_in_executor(
                 None, self.translator.translate, text, to_language, from_language
             )
-        except TranslatepyException:
-            return await ctx.send("An error occurred while translating. Please try again later.")
+        except NoResult:
+            return await ctx.send("No service has returned a valid result.")
 
         footer = (
             f"{result.source_language.name} to {result.destination_language.name} | "
