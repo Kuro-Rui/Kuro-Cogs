@@ -53,8 +53,8 @@ class Translate(commands.Cog):
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
-            - `[p]translate es en Example Text` (Translates "Example Text" to Español)
-            - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" from Español to English)
+            - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]translate es en Example Text` (Translates "Example Text" from English to Español)
         """
 
         try:
