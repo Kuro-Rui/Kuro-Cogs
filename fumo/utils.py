@@ -373,6 +373,7 @@ fumo = {
         "https://c.tenor.com/KaefJfwjvPsAAAAd/fumo-fumofumo.gif",
         "https://c.tenor.com/z0gjYuuVNJgAAAAd/reisen-touhou.gif",
         "https://c.tenor.com/IOQ4jEkj-6UAAAAd/yuyuko-touhou.gif",
+        "https://c.tenor.com/SEk0JfR7b5oAAAAd/fumo-touhou-fumo.gif",
         "https://c.tenor.com/bEGPFX60ULEAAAAd/reimu-fumo-touhou.gif",
         "https://c.tenor.com/ZxRJ0mBd5SYAAAAd/cirno-bounce-cirno.gif",
         "https://c.tenor.com/e2qNXLfFaDkAAAAd/touhou-touhou-fumo.gif",
@@ -477,6 +478,4 @@ async def summon_fumo(self, ctx, type: str):
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
             text="Source: Kuro-Cogs/blob/main/fumo/fumo.py",
-            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless",
-        )
-    await ctx.send(embed=e)
+            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif
