@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import asyncio
 from io import BytesIO
 
 import aiohttp
-import asyncio
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
