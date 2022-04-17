@@ -478,4 +478,5 @@ async def summon_fumo(self, ctx, type: str):
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
             text="Source: Kuro-Cogs/blob/main/fumo/fumo.py",
-            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif
+            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif"
+        )
