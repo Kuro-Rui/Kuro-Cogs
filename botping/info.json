@@ -5,5 +5,5 @@
     "description": "Creates a custom ping embed to display latency statistics.",
     "short": "Creates a custom ping embed to display latency statistics.",
     "tags": ["ping"],
-    "end_user_data_statement": "This cog does not store any End User Data."
+    "end_user_data_statement": "This cog does not store any end user data."
 }

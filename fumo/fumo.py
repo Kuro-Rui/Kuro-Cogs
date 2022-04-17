@@ -22,17 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import discord
+import aiohttp
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
+from .utils import summon_fumo
 
-class CounterCog(commands.Cog):
+
+class Fumo(commands.Cog):
+    """
+    Le Fumo Cog.
+    """
+
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.1"
+    __version__ = "1.1.3"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -43,47 +50,38 @@ class CounterCog(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @commands.is_owner()
+    def cog_unload(self):
+        self.bot.loop.create_task(self.session.close())
+
     @commands.group()
-    async def count(self, ctx):
-        """Count your cogs/commands."""
+    async def fumo(self, ctx):
+        """Generates Fumo Image."""
         pass
 
-    @commands.is_owner()
-    @count.command()
-    async def cogs(self, ctx):
-        """Count your cogs."""
+    @fumo.command()
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def random(self, ctx):
+        """Generates a random Fumo!"""
 
-        total = len(set(await ctx.bot._cog_mgr.available_modules()))
-        loaded = len(set(ctx.bot.extensions.keys()))
-        unloaded = total - loaded
+        await summon_fumo(self, ctx, "random")
 
-        msg = (
-            f"`Loaded   :` **{loaded}** Cogs.\n"
-            f"`Unloaded :` **{unloaded}** Cogs.\n"
-            f"`Total    :` **{total}** Cogs."
-        )
-        if await ctx.embed_requested():
-            embed = discord.Embed(title="Cogs", description=msg, color=await ctx.embed_color())
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send(f"**Cogs**\n\n{msg}")
+    @fumo.command(aliases=["images"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def image(self, ctx):
+        """Generates a random Fumo image."""
 
-    @commands.is_owner()
-    @count.command()
-    async def commands(self, ctx, cog: str = None):
-        """
-        Count your commands.
+        await summon_fumo(self, ctx, "image")
 
-        You can also provide a cog name to see how many commands is in that cog.
-        The commands count includes subcommands.
-        """
-        if cog:
-            if self.bot.get_cog(cog):
-                cmds = sum(1 for _ in self.bot.get_cog(cog).walk_commands())
-                await ctx.send(f"I have `{cmds}` commands on that cog.")
-            else:
-                await ctx.send("Please provide a valid cog name. (Example: `CounterCog`)")
-        else:
-            cmds = len(self.bot.commands)
-            await ctx.send(f"I have `{cmds}` commands.")
+    @fumo.command(aliases=["gifs"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def gif(self, ctx):
+        """Generates a random Fumo GIF."""
+
+        await summon_fumo(self, ctx, "gif")
+
+    @fumo.command(aliases=["memes"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def meme(self, ctx):
+        """Generates a random Fumo meme."""
+
+        await summon_fumo(self, ctx, "meme")

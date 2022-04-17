@@ -71,4 +71,5 @@
 - [**PhenoM4n4n**](https://github.com/phenom4n4n) for some base of [BotPing](botping) cog.
 - [**Jintaku**](https://github.com/Jintaku) for some base of [Osu](osu) cog.
 - **[Draper](https://github.com/Drapersniper) and [Jack](https://github.com/jack1142)** for some base of [Sudo](sudo) cog.
+- [**Fixator**](https://github.com/fixator10) for helping me in the making of [Translate](translate) cog.
 - **Some nice peeps from [Red Community](https://discord.gg/red)** that helps me figure stuffs out and inspiring me to make cogs.
