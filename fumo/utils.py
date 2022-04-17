@@ -469,7 +469,7 @@ async def summon_fumo(self, ctx, type: str):
             e.set_image(url=get_fumo)
             e.set_footer(
                 text="Source: https://fumoapi.herokuapp.com/",
-                icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?size=128&quality=lossless",
+                icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless",
             )
         else:
             return await ctx.send("There's something wrong with the Fumo API, try again later!")
@@ -478,5 +478,5 @@ async def summon_fumo(self, ctx, type: str):
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
             text="Source: Kuro-Cogs/blob/main/fumo/fumo.py",
-            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif"
+            icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless"
         )
