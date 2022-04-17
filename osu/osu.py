@@ -25,6 +25,7 @@ SOFTWARE.
 from typing import Optional, Union
 
 import aiohttp
+import asyncio
 import discord
 from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
@@ -57,7 +58,7 @@ class Osu(commands.Cog):
         )
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.session.close())
+        asyncio.create_task(self.session.close())
 
     @commands.group()
     async def osuset(self, ctx):

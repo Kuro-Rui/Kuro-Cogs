@@ -25,6 +25,7 @@ SOFTWARE.
 import datetime
 
 import aiohttp
+import asyncio
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
@@ -50,7 +51,7 @@ class ImgBB(commands.Cog):
         )
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.session.close())
+        asyncio.create_task(self.session.close())
 
     @commands.group()
     async def imgbb(self, ctx):

@@ -25,6 +25,7 @@ SOFTWARE.
 from io import BytesIO
 
 import aiohttp
+import asyncio
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
@@ -54,7 +55,7 @@ class AvatarImgen(commands.Cog):
         return
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.session.close())
+        asyncio.create_task(self.session.close())
 
     @commands.command(aliases=["ads"])
     @commands.cooldown(1, 5, commands.BucketType.user)

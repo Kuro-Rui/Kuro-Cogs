@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import aiohttp
+import asyncio
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
@@ -51,7 +52,7 @@ class Fumo(commands.Cog):
         )
 
     def cog_unload(self):
-        self.bot.loop.create_task(self.session.close())
+        asyncio.create_task(self.session.close())
 
     @commands.group()
     async def fumo(self, ctx):
