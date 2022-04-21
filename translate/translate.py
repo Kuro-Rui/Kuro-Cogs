@@ -27,21 +27,10 @@ from typing import Optional
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
-from translatepy import Language, Translator
-from translatepy.exceptions import TranslatepyException, UnknownLanguage
+from translatepy import Translator
+from translatepy.translators import *
 
-
-class LangConverter(commands.Converter):
-    async def convert(self, ctx, argument):
-        try:
-            lang = Language(argument)
-            if lang.similarity < 100:
-                raise commands.BadArgument()
-            return lang
-        except UnknownLanguage as ul:
-            raise commands.BadArgument(
-                f"Unable to find `{argument}`. Did you mean `{ul.guessed_language}`?"
-            )
+from .utils import LanguageConverter, send_result
 
 
 class Translate(commands.Cog):
@@ -50,9 +39,18 @@ class Translate(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.translator = Translator()
+        self.bing = BingTranslate()
+        self.deepl = DeeplTranslate()
+        self.google = GoogleTranslate()
+        self.libre = LibreTranslate()
+        self.microsoft = MicrosoftTranslate()
+        self.mymemory = MyMemoryTranslate()
+        self.reverso = ReversoTranslate()
+        self.translatecom = TranslateComTranslate()
+        self.yandex = YandexTranslate()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.0"
+    __version__ = "2.0.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -68,8 +66,8 @@ class Translate(commands.Cog):
     async def translate(
         self,
         ctx,
-        to_language: LangConverter,
-        from_language: Optional[LangConverter] = "Auto",
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
         *,
         text: str,
     ):
@@ -79,26 +77,190 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]translate es en Example Text` (Translates "Example Text" from English to Español)
+            - `[p]translate es en Example of text` (Translates "Example Text" from English to Español)
         """
 
-        try:
-            result = await self.bot.loop.run_in_executor(
-                None, self.translator.translate, text, to_language, from_language
-            )
-        except TranslatepyException as error:
-            return await ctx.send(error)
+        await send_result(self, ctx, text, from_language, to_language)
 
-        footer = (
-            f"{result.source_language.name} to {result.destination_language.name} | "
-            f"Translated with {result.service}\nRequested by: {ctx.author}"
-        )
-        if await ctx.embed_requested():
-            embed = discord.Embed(description=result, color=await ctx.embed_color())
-            embed.set_footer(text=footer)
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send(f"{result}\n\n{footer}")
+    @commands.command(aliases=["bingtranslate"])
+    async def btranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Microsoft Bing Translator!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]btranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]btranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Bing")
+
+    @commands.command(aliases=["dltranslate","deepltranslate"])
+    async def dtranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with DeepL!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]dtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]dtranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "DeepL")
+
+    @commands.command(aliases=["googletranslate"])
+    async def gtranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Google Translate!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]gtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]gtranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Google")
+
+    @commands.command(aliases=["libretranslate"])
+    async def ltranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with LibreTranslate!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]ltranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]ltranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Libre")
+
+    @commands.command(aliases=["microsofttranslate"])
+    async def mctranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Microsoft Translator!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]mctranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]mctranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Microsoft")
+
+    @commands.command(aliases=["mymemtranslate","mymemorytranslate"])
+    async def mmtranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with MyMemory!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]mmtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]mmtranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "MyMemory")
+
+    @commands.command(aliases=["reversotranslate"])
+    async def rtranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Reverso!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]rtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]rtranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Reverso")
+
+    @commands.command(aliases=["ttranslate","translatecom"])
+    async def tctranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Translate.com!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]tctranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]tctranslate es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Translate.com")
+
+    @commands.command(aliases=["ytrans", "yandextranslate"])
+    async def ytranslate(
+        self,
+        ctx,
+        to_language: LanguageConverter,
+        from_language: Optional[LanguageConverter] = "Auto",
+        *,
+        text: str,
+    ):
+        """
+        Translates the given text with Yandex Translate!
+
+        You can also provide a language to translate from (`from_language`).
+        **Examples**:
+            - `[p]ytrans en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]ytrans es en Example of text` (Translates "Example Text" from English to Español)
+        """
+
+        await send_result(self, ctx, text, from_language, to_language, "Yandex")
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx, *, text: str):
