@@ -21,6 +21,7 @@ body:
         - ReactLog
         - ReactTermino
         - Sudo
+        - Translate
     validations:
       required: true
   - type: input

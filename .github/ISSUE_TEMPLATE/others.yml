@@ -1,5 +1,5 @@
 name: Others
-description: Submit an issue for one of the cogs.
+description: Submit an issue that doesn't belong to other categories.
 labels: [others]
 assignees: "Kuro-Rui"
 body:
