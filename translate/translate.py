@@ -80,7 +80,7 @@ class Translate(commands.Cog):
             - `[p]translate es en Example of text` (Translates "Example Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language)
+        await send_result(self, ctx, text, from_language, to_language, "Auto")
 
     @commands.command(aliases=["bingtranslate"])
     async def btranslate(
@@ -102,7 +102,7 @@ class Translate(commands.Cog):
 
         await send_result(self, ctx, text, from_language, to_language, "Bing")
 
-    @commands.command(aliases=["dltranslate","deepltranslate"])
+    @commands.command(aliases=["dltranslate", "deepltranslate"])
     async def dtranslate(
         self,
         ctx,
@@ -182,7 +182,7 @@ class Translate(commands.Cog):
 
         await send_result(self, ctx, text, from_language, to_language, "Microsoft")
 
-    @commands.command(aliases=["mymemtranslate","mymemorytranslate"])
+    @commands.command(aliases=["mymemtranslate", "mymemorytranslate"])
     async def mmtranslate(
         self,
         ctx,
@@ -222,7 +222,7 @@ class Translate(commands.Cog):
 
         await send_result(self, ctx, text, from_language, to_language, "Reverso")
 
-    @commands.command(aliases=["ttranslate","translatecom"])
+    @commands.command(aliases=["ttranslate", "translatecom"])
     async def tctranslate(
         self,
         ctx,
@@ -256,8 +256,8 @@ class Translate(commands.Cog):
 
         You can also provide a language to translate from (`from_language`).
         **Examples**:
-            - `[p]ytrans en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]ytrans es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]ytranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
+            - `[p]ytranslate es en Example of text` (Translates "Example Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Yandex")

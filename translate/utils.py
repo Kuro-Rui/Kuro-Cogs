@@ -49,12 +49,14 @@ async def send_result(
     text: str,
     from_language: LanguageConverter,
     to_language: LanguageConverter,
-    translator: Optional[str],
+    translator: str,
 ):
     """Sends Translate Result"""
 
     # Don't mind the long-ass ifs lol :v
-    if translator == "Bing":
+    if translator == "Auto":
+        translator = self.translator
+    elif translator == "Bing":
         translator = self.bing
     elif translator == "DeepL":
         translator = self.deepl
@@ -72,8 +74,6 @@ async def send_result(
         translator = self.translatecom
     elif translator == "Yandex":
         translator = self.yandex
-    else:
-        translator = self.translator
 
     try:
         result = await self.bot.loop.run_in_executor(
