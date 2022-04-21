@@ -77,7 +77,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]translate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]translate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]translate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Auto")
@@ -97,7 +97,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]btranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]btranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]btranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Bing")
@@ -117,7 +117,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]dtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]dtranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]dtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "DeepL")
@@ -137,7 +137,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]gtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]gtranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]gtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Google")
@@ -157,7 +157,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]ltranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]ltranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]ltranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Libre")
@@ -177,7 +177,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]mctranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]mctranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]mctranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Microsoft")
@@ -197,7 +197,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]mmtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]mmtranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]mmtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "MyMemory")
@@ -217,7 +217,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]rtranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]rtranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]rtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Reverso")
@@ -237,12 +237,12 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]tctranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]tctranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]tctranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Translate.com")
 
-    @commands.command(aliases=["ytrans", "yandextranslate"])
+    @commands.command(aliases=["yandextranslate"])
     async def ytranslate(
         self,
         ctx,
@@ -257,7 +257,7 @@ class Translate(commands.Cog):
         You can also provide a language to translate from (`from_language`).
         **Examples**:
             - `[p]ytranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]ytranslate es en Example of text` (Translates "Example Text" from English to Español)
+            - `[p]ytranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Yandex")
