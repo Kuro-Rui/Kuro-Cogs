@@ -67,4 +67,6 @@ class DankTax(commands.Cog):
             embed.set_footer(f"Tax: ⏣ {tax(quantity)} (Rate: 1%)")
             await ctx.send(embed=embed)
         else:
-            await ctx.send(f"{msg}\n\n**Examples**\n{examples}\n\nTax: ⏣ {tax(quantity)} (Rate: 1%)")
+            await ctx.send(
+                f"{msg}\n\n**Examples**\n{examples}\n\nTax: ⏣ {tax(quantity)} (Rate: 1%)"
+            )
