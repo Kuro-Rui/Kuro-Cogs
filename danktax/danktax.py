@@ -64,11 +64,10 @@ class DankTax(commands.Cog):
         )
 
         if await ctx.embed_requested():
+            tx = humanize_number(tax(quantity))
             embed = discord.Embed(title="Tax Calc", description=msg, color=await ctx.embed_color())
             embed.add_field(name="Examples", value=examples)
-            embed.set_footer(text=f"Tax: ⏣ {tax(quantity)} (Rate: 1%)")
+            embed.set_footer(text=f"Tax: ⏣ {tx} (Rate: 1%)")
             await ctx.send(embed=embed)
         else:
-            await ctx.send(
-                f"{msg}\n\n**Examples**\n{examples}\n\nTax: ⏣ {tax(quantity)} (Rate: 1%)"
-            )
+            await ctx.send(f"{msg}\n\n**Examples**\n{examples}\n\nTax: ⏣ {tx} (Rate: 1%)")
