@@ -1,8 +1,5 @@
 PYTHON ?= python3.8
 
-install-reqs:
-    $(PYTHON) -m pip install -U black isort
-
 # Black
 black-reformat:
 	$(PYTHON) -m black .
