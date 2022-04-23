@@ -39,7 +39,6 @@ class Translate(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.translator = Translator()
-        self.bing = BingTranslate()
         self.deepl = DeeplTranslate()
         self.google = GoogleTranslate()
         self.libre = LibreTranslate()
@@ -81,26 +80,6 @@ class Translate(commands.Cog):
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Auto")
-
-    @commands.command(aliases=["bingtranslate"])
-    async def btranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
-    ):
-        """
-        Translates the given text with Microsoft Bing Translator!
-
-        You can also provide a language to translate from (`from_language`).
-        **Examples**:
-            - `[p]btranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]btranslate es en Example of text` (Translates "Example of Text" from English to Español)
-        """
-
-        await send_result(self, ctx, text, from_language, to_language, "Bing")
 
     @commands.command(aliases=["dltranslate", "deepltranslate"])
     async def dtranslate(

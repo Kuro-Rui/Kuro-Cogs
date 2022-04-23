@@ -56,8 +56,6 @@ async def send_result(
     # Don't mind the long-ass ifs lol :v
     if translator == "Auto":
         translator = self.translator
-    elif translator == "Bing":
-        translator = self.bing
     elif translator == "DeepL":
         translator = self.deepl
     elif translator == "Google":
