@@ -52,13 +52,14 @@ class DankTax(commands.Cog):
         """Calculate your Dank Memer tax!"""
 
         q = humanize_number(quantity)
+        tq1 = humanize_number(total(quantity))
+        tq2 = humanize_number(total(quantity, False))
         msg = (
-            f"*If you send `⏣ {q}`, you will pay `⏣ {total(quantity)}`.\n"
-            f"To spend `⏣ {q}` with tax included, send `⏣ {total(quantity, False)}`.*"
+            f"*If you send `⏣ {q}`, you will pay `⏣ {tq1}`.\n"
+            f"To spend `⏣ {q}` with tax included, send `⏣ {tq2}`.*"
         )
-        tq = humanize_number(total(quantity))
         examples = (
-            f"- `pls trade {quantity} @user` = `⏣ {tq}`\n"
+            f"- `pls trade {quantity} @user` = `⏣ {tq1}`\n"
             f"- `pls trade {total(quantity, False)} @user` = `⏣ {q}`"
         )
 
