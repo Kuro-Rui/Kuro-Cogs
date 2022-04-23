@@ -1,17 +1,16 @@
 PYTHON ?= python3.8
 
+install-reqs:
+    $(PYTHON) -m pip install -U black isort
+
 # Black
 black-reformat:
 	$(PYTHON) -m black .
-black-stylecheck:
-	$(PYTHON) -m black --check .
 black-stylediff:
-	$(PYTHON) -m black --check --diff .
+	$(PYTHON) -m black --check --color --diff .
 
 # Isort
 isort-reformat:
 	$(PYTHON) -m isort .
-isort-stylecheck:
-	$(PYTHON) -m isort --check .
 isort-stylediff:
-	$(PYTHON) -m isort --check --diff .
+	$(PYTHON) -m isort --check --color --diff .
