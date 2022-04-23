@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install Black & Isort
-        run: "python -m pip install -U black isort"
+        run: python -m pip install -U black isort
       - name: Reformat with Black & Isort
         continue-on-error: true
         run: |
