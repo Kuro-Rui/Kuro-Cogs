@@ -2,7 +2,7 @@
   "author": ["Kuro"],
   "description": "Translate the given text!",
   "disabled": false,
-  "end_user_data_statement": "This cog does not store end user data.",
+  "end_user_data_statement": "This cog does not store any end user data.",
   "hidden": false,
   "install_msg": "Thanks for installing `Translate`!",
   "name": "Translate",

@@ -2,7 +2,7 @@
     "author": ["Kuro"],
     "description": "Fake moderation commands for fun!",
     "disabled": false,
-    "end_user_data_statement": "This cog does not persistently store data or metadata about users.",
+    "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
     "install_msg": "Thanks for installing `FakeMod`!\nGet started with `[p]fakemodset`",
     "name": "FakeMod",

@@ -1,8 +1,8 @@
 {
     "author": ["Kuro"],
+    "description": "Some cogs made/rewritten by Kuro for Red-DiscordBot v3.",
     "install_msg": "Thanks for installing my repo!\nFor Support, You can visit <#240212783503900673> in **Red - Cog Support** (https://discord.gg/GET4DVk) :D\nUse `[p]cog list kuro-cogs` to see available cogs.",
     "name": "kuro-cogs",
-    "short": "Some (dumb) cogs made/customized by Kuro.",
-    "description": "Some (dumb) cogs made/customized by Kuro.",
-    "tags": ["custom", "customized", "fun", "kuro", "tools", "utility"]
+    "short": "Some cogs made/rewritten by Kuro for Red-DiscordBot v3.",
+    "tags": ["fun", "kuro", "tools", "utils", "utility"]
 }
