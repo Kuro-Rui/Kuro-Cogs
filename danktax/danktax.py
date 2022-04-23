@@ -26,7 +26,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_number
 
-from .utils import percent, tax, total
+from .utils import tax, total
 
 
 class DankTax(commands.Cog):
@@ -64,7 +64,7 @@ class DankTax(commands.Cog):
         if await ctx.embed_requested():
             embed = discord.Embed(title="Tax Calc", description=msg, color=await ctx.embed_color())
             embed.add_field(name="Examples", value=examples)
-            embed.set_footer(f"Tax: ⏣ {tax(quantity)} (Rate: 1%)")
+            embed.set_footer(text=f"Tax: ⏣ {tax(quantity)} (Rate: 1%)")
             await ctx.send(embed=embed)
         else:
             await ctx.send(
