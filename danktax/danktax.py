@@ -56,8 +56,9 @@ class DankTax(commands.Cog):
             f"*If you send `⏣ {q}`, you will pay `⏣ {total(quantity)}`.\n"
             f"To spend `⏣ {q}` with tax included, send `⏣ {total(quantity, False)}`.*"
         )
+        tq = humanize_number(total(quantity))
         examples = (
-            f"- `pls trade {q} @user` = `⏣ {total(quantity)}`\n"
+            f"- `pls trade {quantity} @user` = `⏣ {tq}`\n"
             f"- `pls trade {total(quantity, False)} @user` = `⏣ {q}`"
         )
 
