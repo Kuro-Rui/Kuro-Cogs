@@ -30,7 +30,7 @@ import discord
 from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import api_is_set, get_osu_avatar, osu_api_call, send_osu_user_card, send_osu_user_info
+from .utils import RankConverter, api_is_set, get_osu_avatar, osu_api_call, send_osu_user_card, send_osu_user_info
 
 
 class Osu(commands.Cog):
@@ -46,7 +46,7 @@ class Osu(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "4.0.4"
+    __version__ = "4.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -59,6 +59,9 @@ class Osu(commands.Cog):
 
     def cog_unload(self):
         asyncio.create_task(self.session.close())
+
+    async def red_delete_data_for_user(self, *, requester, user_id: int):
+        await self.config.user_from_id(user_id).clear()
 
     @commands.group()
     async def osuset(self, ctx):
@@ -108,9 +111,41 @@ class Osu(commands.Cog):
     @api_is_set()
     @osuset.group()
     @checks.is_owner()
-    async def emoji(self, ctx):
+    async def emoji(self, ctx, rank: RankConverter, emoji: Union[discord.Emoji, str]):
         """Set custom emoji for ranks."""
-        pass
+        if not ctx.invoked_subcommand:
+            try:
+                await ctx.message.add_reaction(emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+
+            if rank == "ssh":
+                try:
+                    await self.config.ssh_emoji.set(emoji.id)
+                except AttributeError:  # Handle Original Emoji
+                    await self.config.ssh_emoji.set(emoji)
+            elif rank == "ss":
+                try:
+                    await self.config.ss_emoji.set(emoji.id)
+                except AttributeError:  # Handle Original Emoji
+                    await self.config.ss_emoji.set(emoji)
+            elif rank == "sh":
+                try:
+                    await self.config.sh_emoji.set(emoji.id)
+                except AttributeError:  # Handle Original Emoji
+                    await self.config.sh_emoji.set(emoji)
+            elif rank == "s":
+                try:
+                    await self.config.s_emoji.set(emoji.id)
+                except AttributeError:  # Handle Original Emoji
+                    await self.config.s_emoji.set(emoji)
+            elif rank == "a":
+                try:
+                    await self.config.a_emoji.set(emoji.id)
+                except AttributeError:  # Handle Original Emoji
+                    await self.config.a_emoji.set(emoji)
+
+            await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
@@ -132,133 +167,29 @@ class Osu(commands.Cog):
             await ctx.message.add_reaction(s_emoji)
             await ctx.message.add_reaction(a_emoji)
         except discord.HTTPException:
-            return await ctx.send("Uh oh, I cannot use that emoji.")
+            return await ctx.send("Uh oh, I cannot use one of the emojis.")
 
         try:
             await self.config.ssh_emoji.set(ssh_emoji.id)
         except AttributeError:  # Handle Original Emoji
             await self.config.ssh_emoji.set(ssh_emoji)
-
         try:
             await self.config.ss_emoji.set(ss_emoji.id)
         except AttributeError:  # Handle Original Emoji
             await self.config.ss_emoji.set(ss_emoji)
-
         try:
             await self.config.sh_emoji.set(sh_emoji.id)
         except AttributeError:  # Handle Original Emoji
             await self.config.sh_emoji.set(sh_emoji)
-
         try:
             await self.config.s_emoji.set(s_emoji.id)
         except AttributeError:  # Handle Original Emoji
             await self.config.s_emoji.set(s_emoji)
-
         try:
             await self.config.a_emoji.set(a_emoji.id)
         except AttributeError:  # Handle Original Emoji
             await self.config.a_emoji.set(a_emoji)
 
-        await ctx.tick()
-
-    @emoji.command()
-    @checks.is_owner()
-    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def ssh(self, ctx, ssh_emoji: Optional[Union[discord.Emoji, str]]):
-        """Set custom emoji for SSH rank."""
-        if not ssh_emoji:
-            await self.config.ssh_emoji.clear()
-            await ctx.send("Custom emoji for SSH Rank removed.")
-        else:
-            try:
-                await ctx.message.add_reaction(ssh_emoji)
-            except discord.HTTPException:
-                return await ctx.send("Uh oh, I cannot use that emoji.")
-
-            try:
-                await self.config.ssh_emoji.set(ssh_emoji.id)
-            except AttributeError:  # Handle Original Emoji
-                await self.config.ssh_emoji.set(ssh_emoji)
-        await ctx.tick()
-
-    @emoji.command()
-    @checks.is_owner()
-    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def ss(self, ctx, ss_emoji: Optional[Union[discord.Emoji, str]]):
-        """Set custom emoji for SS rank."""
-        if not ss_emoji:
-            await self.config.ss_emoji.clear()
-            await ctx.send("Custom emoji for SS Rank removed.")
-        else:
-            try:
-                await ctx.message.add_reaction(ss_emoji)
-            except discord.HTTPException:
-                return await ctx.send("Uh oh, I cannot use that emoji.")
-
-            try:
-                await self.config.ss_emoji.set(ss_emoji.id)
-            except AttributeError:  # Handle Original Emoji
-                await self.config.ss_emoji.set(ss_emoji)
-        await ctx.tick()
-
-    @emoji.command()
-    @checks.is_owner()
-    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def sh(self, ctx, sh_emoji: Optional[Union[discord.Emoji, str]]):
-        """Set custom emoji for SH rank."""
-        if not sh_emoji:
-            await self.config.sh_emoji.clear()
-            await ctx.send("Custom emoji for SH Rank removed.")
-        else:
-            try:
-                await ctx.message.add_reaction(sh_emoji)
-            except discord.HTTPException:
-                return await ctx.send("Uh oh, I cannot use that emoji.")
-
-            try:
-                await self.config.sh_emoji.set(sh_emoji.id)
-            except AttributeError:  # Handle Original Emoji
-                await self.config.sh_emoji.set(sh_emoji)
-        await ctx.tick()
-
-    @emoji.command()
-    @checks.is_owner()
-    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def s(self, ctx, s_emoji: Optional[Union[discord.Emoji, str]]):
-        """Set custom emoji for S rank."""
-        if not s_emoji:
-            await self.config.s_emoji.clear()
-            await ctx.send("Custom emoji for S Rank removed.")
-        else:
-            try:
-                await ctx.message.add_reaction(s_emoji)
-            except discord.HTTPException:
-                return await ctx.send("Uh oh, I cannot use that emoji.")
-
-            try:
-                await self.config.s_emoji.set(s_emoji.id)
-            except AttributeError:  # Handle Original Emoji
-                await self.config.s_emoji.set(s_emoji)
-        await ctx.tick()
-
-    @emoji.command()
-    @checks.is_owner()
-    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
-    async def a(self, ctx, a_emoji: Optional[Union[discord.Emoji, str]]):
-        """Set custom emoji for A rank."""
-        if not a_emoji:
-            await self.config.a_emoji.clear()
-            await ctx.send("Custom emoji for A Rank removed.")
-        else:
-            try:
-                await ctx.message.add_reaction(a_emoji)
-            except discord.HTTPException:
-                return await ctx.send("Uh oh, I cannot use that emoji.")
-
-            try:
-                await self.config.a_emoji.set(a_emoji.id)
-            except AttributeError:  # Handle Original Emoji
-                await self.config.a_emoji.set(a_emoji)
         await ctx.tick()
 
     @emoji.command()

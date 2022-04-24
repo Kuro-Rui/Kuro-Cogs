@@ -41,6 +41,19 @@ def api_is_set():
     return commands.check(predicate)
 
 
+# ~ ~ ~ ~ ~ Converter ~ ~ ~ ~ ~
+
+
+class RankConverter(commands.Converter):
+    async def convert(self, ctx, argument):
+        if argument.lower() in ["ssh", "ss", "sh", "s", "a"]:
+            return argument.lower()
+        else:
+            raise commands.BadArgument(
+                "Type must be either `ssh`, `ss`, `sh`, `s`, or `a`."
+            )
+
+
 # ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~
 
 
