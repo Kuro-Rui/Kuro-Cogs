@@ -30,7 +30,14 @@ import discord
 from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import RankConverter, api_is_set, get_osu_avatar, osu_api_call, send_osu_user_card, send_osu_user_info
+from .utils import (
+    RankConverter,
+    api_is_set,
+    get_osu_avatar,
+    osu_api_call,
+    send_osu_user_card,
+    send_osu_user_info,
+)
 
 
 class Osu(commands.Cog):

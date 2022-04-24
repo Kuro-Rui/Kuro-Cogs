@@ -49,9 +49,7 @@ class RankConverter(commands.Converter):
         if argument.lower() in ["ssh", "ss", "sh", "s", "a"]:
             return argument.lower()
         else:
-            raise commands.BadArgument(
-                "Type must be either `ssh`, `ss`, `sh`, `s`, or `a`."
-            )
+            raise commands.BadArgument("Type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
 
 
 # ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~
