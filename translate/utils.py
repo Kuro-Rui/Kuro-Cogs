@@ -62,8 +62,6 @@ async def send_result(
         translator = self.google
     elif translator == "Libre":
         translator = self.libre
-    elif translator == "Microsoft":
-        translator = self.microsoft
     elif translator == "MyMemory":
         translator = self.mymemory
     elif translator == "Reverso":
