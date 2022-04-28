@@ -22,105 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-"""
-MIT License
-
-Copyright (c) 2021-present Kuro-Rui
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 # Credits to Mlaxy#7921 for most of the images. (Thanks for being a daily fumo dealer :D)
 # All images credits goes to the rightful owner of each image.
 
 fumo = {
     "image": [
-        "https://telegra.ph/file/f1aeb2540bff2b6441a4b.jpg",
-        "https://telegra.ph/file/312f9edafc74743eaba63.jpg",
-        "https://telegra.ph/file/946d3b09f476fb1974b0e.jpg",
-        "https://telegra.ph/file/41a44212819c2ee611643.jpg",
-        "https://telegra.ph/file/2f94205750f692283cf72.jpg",
-        "https://telegra.ph/file/eed769bd5fe34d4e4d6b3.jpg",
-        "https://telegra.ph/file/74e0ddb2633cfeb04cd3f.jpg",
-        "https://telegra.ph/file/5575a4b2314fb4e9d14db.jpg",
-        "https://telegra.ph/file/16471fa80fa9eec6e76de.png",
-        "https://telegra.ph/file/2be41520e1db4270d1cbb.png",
-        "https://telegra.ph/file/bc62705032af80e90da9f.png",
-        "https://telegra.ph/file/ed56eb8dfb7c61e1b1069.jpg",
-        "https://telegra.ph/file/646f9d6ad2f311ea3014b.jpg",
-        "https://telegra.ph/file/e6fcc3c77e0f841b706a8.jpg",
-        "https://telegra.ph/file/5435efa7c4659b154fd36.jpg",
-        "https://telegra.ph/file/9f6f9fa76417f329fb0d3.png",
-        "https://telegra.ph/file/63d396091df896d3c764a.jpg",
-        "https://telegra.ph/file/d8734b862934944ea1fa6.jpg",
-        "https://telegra.ph/file/76885e1417dddae2f239d.jpg",
-        "https://telegra.ph/file/59ebd2ec1cd003fec4d35.jpg",
-        "https://telegra.ph/file/7170bdbcc17498848ccce.jpg",
-        "https://telegra.ph/file/22c1b65351b7fcfa93c3f.jpg",
-        "https://telegra.ph/file/ab768b6f2a6abb88b60da.jpg",
-        "https://telegra.ph/file/851fc6bb04a97397711e6.jpg",
-        "https://telegra.ph/file/250909b14598a29e96205.png",
-        "https://telegra.ph/file/e940728a0c0e1f52c4b8f.jpg",
-        "https://telegra.ph/file/ebb1e9c00c38624f38a9a.jpg",
-        "https://telegra.ph/file/b92ea867f5cf7ddaccc0d.jpg",
-        "https://telegra.ph/file/198ad563a9b41dd095ce2.jpg",
-        "https://telegra.ph/file/2ff1340d5d1403a30fb1a.jpg",
-        "https://telegra.ph/file/6655db3cd5bc57fec5152.jpg",
-        "https://telegra.ph/file/9c37bf02df1a47c2aba7a.png",
-        "https://telegra.ph/file/c7cb14c6592d57c48765b.png",
-        "https://telegra.ph/file/bc388016ebb2628de0832.jpg",
-        "https://telegra.ph/file/52a91e53dc314a2410b2b.jpg",
-        "https://telegra.ph/file/fce49330edbbd6c0d4d3a.png",
-        "https://telegra.ph/file/d4e610f7548e210c9df87.jpg",
-        "https://telegra.ph/file/cdaa928240daf40d4b782.jpg",
-        "https://telegra.ph/file/f3b13661ca61769a748ba.jpg",
-        "https://telegra.ph/file/1574785fd773b5f999fc7.png",
-        "https://telegra.ph/file/baf05fda9973c59fc097e.jpg",
-        "https://telegra.ph/file/d454109f87046184133a8.jpg",
-        "https://telegra.ph/file/41fb12a623ca5a8f71107.jpg",
-        "https://telegra.ph/file/b13615d971fe9d67df394.jpg",
-        "https://telegra.ph/file/e74230da6ec29f18430f2.jpg",
-        "https://telegra.ph/file/7d7431abd6f1504461863.jpg",
-        "https://telegra.ph/file/87c667d731ea81a0b0a27.jpg",
-        "https://telegra.ph/file/c949d4bb012ddf0993a3f.jpg",
-        "https://telegra.ph/file/164ddca4e3b1de03716ca.jpg",
-        "https://telegra.ph/file/555223b2210cb36682eec.jpg",
-        "https://telegra.ph/file/d83cb180b0d27e20238d0.png",
-        "https://telegra.ph/file/515a1d3d6456605aefbfa.jpg",
-        "https://telegra.ph/file/f0acfd31c409a5f13beb6.jpg",
-        "https://telegra.ph/file/97b7044b6f7ec97921c8c.png",
-        "https://telegra.ph/file/ef6d3063799f896dd4676.jpg",
-        "https://telegra.ph/file/a946634b23ddaf4f542b9.jpg",
-        "https://telegra.ph/file/cf412fac2ff8f7dd1a899.jpg",
-        "https://telegra.ph/file/a7ec79a9ca2f9524fbbc2.png",
-        "https://telegra.ph/file/4689fcacd9e8e6fdc587a.jpg",
-        "https://telegra.ph/file/eea05b02163b59c4515f4.jpg",
         "https://cdn.discordapp.com/emojis/588080110373044254.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/936477877799616712/bdb.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/847445160828862464/pfp.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/895655373195845662/image0.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/897134911012606052/unknown.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/897134999336255498/unknown.png",
+        "https://cdn.discordapp.com/attachments/834742953275555850/969211707849318480/unknown.png",
         "https://media.discordapp.net/attachments/844262973043114044/844264277232582726/image9.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/889181441517301760/IMG_ri5c2x.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/890053784686964746/E_0_MNjVIAcT-bA.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/896289476526104596/E4R4Z11XoAA2fFB.png",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957124262202855465/FOvXy_KUcAMqelJ.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/894234464501239888/FAxgQx_VgAAn0TE.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/896252906766991390/FBBkv82VkAYPHRb.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/895493565621354536/FBC8C4BUcAIoPW0.png",
@@ -270,10 +188,12 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/941222215372918835/IMG_20220210_060426.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/941281160414232576/IMG_20220210_162409.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/941450922914091079/IMG_20220210_230342.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960579655868489748/IMG_20220211_054754.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/941744235026210906/IMG_20220212_001447.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/942086002577666128/IMG_20220212_150939.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/942263117050703872/IMG_20220213_075101.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/942804695167152158/IMG_20220214_222448.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960579655579099186/IMG_20220214_222656.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/943168071479222332/IMG_20220215_220405.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/943520841830891560/IMG_20220216_015406.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/943833812582932500/IMG_20220216_222624.jpg",
@@ -308,6 +228,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/950432876728578058/IMG_20220305_112038.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/950971083719340073/IMG_20220308_225622.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/951028127524593664/IMG_20220308_225624.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957247630663090176/IMG_20220310_024458.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/951399306047406120/IMG_20220310_125802.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/951721519795539978/IMG_20220311_130008.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/951979639193088040/IMG_20220312_015407.jpg",
@@ -317,6 +238,42 @@ fumo = {
         "https://cdn.discordapp.com/attachments/935751385046212658/953830008730812446/IMG_20220317_075401.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/954579418955800586/IMG_20220319_013103.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/954815664776970250/IMG_20220319_185859.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957647413978472448/IMG_20220327_194159.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957872119969116161/IMG_20220328_122101.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957901989033947146/IMG_20220328_141602.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/958385212243443773/IMG_20220328_141757.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/958595836332367892/IMG_20220329_223337.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960579654702477422/IMG_20220331_001123.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/959169974813986836/IMG_20220331_003817.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/959721034326614036/IMG_20220402_144738.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/963739123594702858/IMG_20220402_174419.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/959906063522615296/IMG_20220402_224828.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960220039355719680/IMG_20220403_045508.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960501003176800286/IMG_20220404_002535.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960289192204726343/IMG_20220404_015215.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/960568545115242526/IMG_20220404_225314.jpg",
+        "https://cdn.discordapp.com/attachments/847435071203573770/960819310404730890/IMG_20220405_144219.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/963491750444400650/IMG_20220406_000705.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/961394881316671558/IMG_20220406_223450.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/961623567794065488/IMG_20220407_062259.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/961749602862776360/IMG_20220408_050414.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/962380126513954866/IMG_20220409_220300.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/962385542782255144/IMG_20220409_231514.jpg",
+        "https://cdn.discordapp.com/attachments/834742953275555850/962677293673762826/IMG_20220410_130256.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/962759416728412170/IMG_20220410_213444.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/963334367957090314/IMG_20220411_010547.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/963056307622006855/IMG_20220411_170603.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/964135592889839656/IMG_20220413_054044.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/965371464008224828/IMG_20220416_170510.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/964830003734925342/IMG_20220416_170631.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/966009738649296916/IMG_20220419_205918.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/966136791621070868/IMG_20220420_073056.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/966784928756957264/IMG_20220421_014812.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/967191001900924978/IMG_20220423_012922.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/968527536936087582/IMG_20220423_072334.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/967756934130319360/IMG_20220424_043418.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/967995846643834880/IMG_20220425_081331.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/968984116546658364/IMG_20220428_034218.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/949588750583873556/FB_IMG_1641340803028.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/938655549250232350/IMG_20220203_044650_305.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/888836333794123876/IMG_20210917_223057_485.jpg",
@@ -332,6 +289,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/939552825506152448/Screenshot_20220205-223356_Twitter.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/947065858495221780/Screenshot_20220226-163230_Twitter.jpg",
         "https://cdn.discordapp.com/attachments/935751385046212658/954995596828217394/Screenshot_20220319-191008_Twitter.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/964384651118534676/Screenshot_20220415-051528_Twitter.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/892638397842198548/Screenshot_20210929-120333_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/847435071203573770/899322299172393011/Screenshot_20211017-164618_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/911322594169475102/Screenshot_20211120-013022_Instagram.jpg",
@@ -343,6 +301,8 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/947040008588636160/Screenshot_20220226-145827_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/948244184496734218/Screenshot_20220301-224325_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/948528830904156170/Screenshot_20220302-173332_Instagram.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/956249188587429898/Screenshot_20220324-004041_Instagram.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/957561938722816050/Screenshot_20220326-151647_Instagram.jpg",
         "https://media.discordapp.net/attachments/844262973043114044/844264392199766027/tumblr_oxooqm5sGX1wvw3f7o1_540.jpg?width=427&height=427",
         "https://media.discordapp.net/attachments/844262973043114044/844264444448210964/tumblr_p00bkkj4VQ1wvw3f7o1_540.jpg?width=320&height=427",
     ],
@@ -406,6 +366,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/847435071203573770/893130790995644476/i_cant_see.png",
         "https://media.discordapp.net/attachments/844262973043114044/844264251183202339/fascinating.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/889178867632332871/20210831_200822.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/958943380845522944/FPH20P8X0AEtcr2.png",
         "https://media.discordapp.net/attachments/844262973043114044/844264529973215302/reimu_sandwich.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/888856302602846238/IMG_20210911_133142.jpg",
         "https://cdn.discordapp.com/attachments/847435071203573770/889181390095134721/IMG_20210916_225549.jpg",
@@ -442,7 +403,7 @@ import discord
 
 async def gensokyo_status(self) -> bool:
     """Fumo API Status."""
-    async with self.session.get("https://fumoapi.herokuapp.com/random") as response:
+    async with self.session.get("https://fumoapi.nosesisaid.me/random") as response:
         if response.status == 200:
             return True
         else:
@@ -452,7 +413,7 @@ async def gensokyo_status(self) -> bool:
 async def fumo_calling_ritual(self):
     """Fumo API Call."""
     if await gensokyo_status(self):
-        async with self.session.get("https://fumoapi.herokuapp.com/random") as response:
+        async with self.session.get("https://fumoapi.nosesisaid.me/random") as response:
             get_fumo = await response.json()
             return get_fumo["URL"]
     else:
@@ -468,7 +429,7 @@ async def summon_fumo(self, ctx, type: str):
             e.title = f"Here's a Random Fumo! \N{JAPANESE DOLLS}"
             e.set_image(url=get_fumo)
             e.set_footer(
-                text="Source: https://fumoapi.herokuapp.com/",
+                text="Source: https://fumoapi.nosesisaid.me/",
                 icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless",
             )
         else:
