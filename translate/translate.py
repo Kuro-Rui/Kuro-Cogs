@@ -48,7 +48,7 @@ class Translate(commands.Cog):
         self.yandex = YandexTranslate()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "2.1.0"
+    __version__ = "2.2.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
