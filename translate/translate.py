@@ -42,7 +42,6 @@ class Translate(commands.Cog):
         self.deepl = DeeplTranslate()
         self.google = GoogleTranslate()
         self.libre = LibreTranslate()
-        self.microsoft = MicrosoftTranslate()
         self.mymemory = MyMemoryTranslate()
         self.reverso = ReversoTranslate()
         self.translatecom = TranslateComTranslate()
@@ -140,26 +139,6 @@ class Translate(commands.Cog):
         """
 
         await send_result(self, ctx, text, from_language, to_language, "Libre")
-
-    @commands.command(aliases=["microsofttranslate"])
-    async def mctranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
-    ):
-        """
-        Translates the given text with Microsoft Translator!
-
-        You can also provide a language to translate from (`from_language`).
-        **Examples**:
-            - `[p]mctranslate en Ejemplo de texto` (Translates "Ejemplo de texto" to English)
-            - `[p]mctranslate es en Example of text` (Translates "Example of Text" from English to Español)
-        """
-
-        await send_result(self, ctx, text, from_language, to_language, "Microsoft")
 
     @commands.command(aliases=["mymemtranslate", "mymemorytranslate"])
     async def mmtranslate(
