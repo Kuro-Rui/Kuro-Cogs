@@ -45,17 +45,12 @@ class Sudo(commands.Cog):
         self.all_owner_ids = copy(self.bot.owner_ids)
         self.bot.owner_ids.clear()
 
-    @tasks.loop(seconds=1.0)
-    async def update_all_owner_ids(self):
-        if self.all_owner_ids != self.bot.owner_ids:
-            self.all_owner_ids.update(copy(self.bot.owner_ids))
-
     def cog_unload(self):
         self.bot.owner_ids.update(copy(self.all_owner_ids))
         self.all_owner_ids.clear()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.2.0"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""

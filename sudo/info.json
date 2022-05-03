@@ -3,6 +3,6 @@
     "description": "Allows dropping and elevating owner permissions.",
     "end_user_data_statement": "This cog stores bot owner ids so the bot owners can elevate their owner permissions.",
     "short": "Allows to drop and elevate owner permissions.",
-    "install_msg" : "Thanks for installing `Sudo`! Get started with `[p]help Sudo`.",
+    "install_msg" : "Thanks for installing `Sudo`! Get started with `[p]help Sudo`.\nKeep in mind that this cog doesn't update bot.owner_ids on it's own, so anytime there's a change on the current bot owners please reload this cog.",
     "tags": ["owner", "perms", "permission", "utility"]
 }
