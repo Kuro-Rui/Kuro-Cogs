@@ -29,7 +29,6 @@ from copy import copy
 from datetime import timedelta
 
 import discord
-from discord.ext import tasks
 from redbot.core import commands
 from redbot.core.commands import TimedeltaConverter
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
