@@ -61,7 +61,6 @@
 |     Hack     | <details><summary>Act like a professional hacker and hack anyone!</summary>Inspired by **Dank Memer**.</details>                                                                   |  1.0.0  |  Kuro  |
 |    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  1.0.0  |  Kuro  |
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.1.0  |  Kuro  |
-|    Polls     | <details><summary>Create a poll with a question & up to 10 options!</summary>Inspired by **Dyno**.</details>                                                                       |  1.0.0  |  Kuro  |
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
 | ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
 |     Sudo     | Allows dropping and elevating your owner permissions!                                                                                                                              |  1.1.0  |  Kuro  |

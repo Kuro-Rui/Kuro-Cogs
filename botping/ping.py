@@ -32,18 +32,17 @@ import time
 
 import discord
 from redbot.core import Config, commands
-from redbot.core.utils.chat_formatting import box
+from redbot.core.utils.chat_formatting import box, humanize_list
 
 from .utils import ping_gifs_picker
 
 old_ping = None
-log = logging.getLogger("red.kuro-cogs.botping")
 
 
 class BotPing(commands.Cog):
     """A more information rich ping message."""
 
-    __author__ = ["Kuro"]
+    __author__ = humanize_list(["Kuro"])
     __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
