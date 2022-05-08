@@ -34,7 +34,7 @@ from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelt
 
 def api_is_set():
     async def predicate(self):
-        if not osu_api_key(self):
+        if not await osu_api_key(self):
             return False
         else:
             return True
@@ -56,7 +56,7 @@ class RankConverter(commands.Converter):
 # ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~
 
 
-def osu_api_key(self):
+async def osu_api_key(self):
     api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
     return api_key
 
@@ -104,7 +104,7 @@ async def rank_emojis(self):
 async def osu_get_user(self, ctx, m: int = 0, username: str = None):
     """osu! API Call"""
 
-    api_key = osu_api_key(self)
+    api_key = await osu_api_key(self)
 
     if not username:
         username = await self.config.user(ctx.author).username()

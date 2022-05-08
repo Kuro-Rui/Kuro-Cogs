@@ -95,7 +95,7 @@ class Osu(commands.Cog):
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
 
-        api_key = osu_api_key(self)
+        api_key = await osu_api_key(self)
 
         if not username:
             if not await self.config.user(ctx.author).username():
