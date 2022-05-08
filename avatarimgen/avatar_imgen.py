@@ -70,7 +70,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/ad?image={avatar}") as r:
                 embed = discord.Embed(title="Advertisement", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"ads.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"ads.png")
                 embed.set_image(url="attachment://ads.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -86,7 +86,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/clown?image={avatar}") as r:
                 embed = discord.Embed(title="Clown", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"clown.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"clown.png")
                 embed.set_image(url="attachment://clown.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -105,7 +105,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/drip?image={avatar}") as r:
                 embed = discord.Embed(title="Drip", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"drip.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"drip.png")
                 embed.set_image(url="attachment://drip.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -124,7 +124,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/gun?image={avatar}") as r:
                 embed = discord.Embed(title="Gun", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"gun.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"gun.png")
                 embed.set_image(url="attachment://gun.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -143,7 +143,7 @@ class AvatarImgen(commands.Cog):
                 f"https://api.popcat.xyz/jokeoverhead?image={avatar}"
             ) as r:
                 embed = discord.Embed(title="Jokes Overhead", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"jokeoverhead.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"jokeoverhead.png")
                 embed.set_image(url="attachment://jokeoverhead.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -162,7 +162,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/mnm?image={avatar}") as r:
                 embed = discord.Embed(title="M&M", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"mnm.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"mnm.png")
                 embed.set_image(url="attachment://mnm.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -181,7 +181,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/uncover?image={avatar}") as r:
                 embed = discord.Embed(title="Behind The Wall", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"wall.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"wall.png")
                 embed.set_image(url="attachment://wall.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -200,7 +200,7 @@ class AvatarImgen(commands.Cog):
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/wanted?image={avatar}") as r:
                 embed = discord.Embed(title="WANTED", color=user.color)
-                file = discord.File(fp=BytesIO(await r.read()), filename=f"wanted.png")
+                file = discord.File(BytesIO(await r.read()), filename=f"wanted.png")
                 embed.set_image(url="attachment://wanted.png")
                 pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
@@ -225,7 +225,7 @@ class AvatarImgen(commands.Cog):
                     f"https://api.popcat.xyz/whowouldwin?image1={avatar_1}&image2={avatar_2}"
                 ) as r:
                     embed = discord.Embed(title="Who Would Win?", color=await ctx.embed_color())
-                    file = discord.File(fp=BytesIO(await r.read()), filename=f"whowouldwin.png")
+                    file = discord.File(BytesIO(await r.read()), filename=f"whowouldwin.png")
                     embed.set_image(url="attachment://whowouldwin.png")
                     pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
                     embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)

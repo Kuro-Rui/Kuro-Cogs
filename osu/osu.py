@@ -34,7 +34,8 @@ from .utils import (
     RankConverter,
     api_is_set,
     get_osu_avatar,
-    osu_api_call,
+    osu_api_key,
+    osu_get_user,
     send_osu_user_card,
     send_osu_user_info,
 )
@@ -53,7 +54,7 @@ class Osu(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "4.1.0"
+    __version__ = "4.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -94,26 +95,26 @@ class Osu(commands.Cog):
     async def username(self, ctx, *, username: str = None):
         """Set your osu! username."""
 
-        api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+        api_key = osu_api_key(self)
 
-        if not api_key:
-            return await ctx.send("The API Key hasn't been set yet!")
+        if not username:
+            if not await self.config.user(ctx.author).username():
+                return await ctx.send_help()
+            await self.config.user(ctx.author).username.clear()
+            await ctx.tick()
+            await ctx.send("Your username has been removed.")
         else:
-            if not username:
-                await self.config.user(ctx.author).username.clear()
+            async with self.session.post(
+                f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}"
+            ) as response:
+                osu = await response.json()
+            if osu:
+                username = osu[0]["username"]
+                await self.config.user(ctx.author).username.set(username)
                 await ctx.tick()
-                await ctx.send("Your username has been removed.")
+                await ctx.send(f"Your username has been set to `{username}`.")
             else:
-                async with self.session.post(
-                    f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}"
-                ) as response:
-                    osu = await response.json()
-                if osu:
-                    await self.config.user(ctx.author).username.set(username)
-                    await ctx.tick()
-                    await ctx.send(f"Your username has been set to `{username}`.")
-                else:
-                    await ctx.send(f"I can't find any player with the name `{username}`.")
+                await ctx.send(f"I can't find any player with the name `{username}`.")
 
     @api_is_set()
     @osuset.group()
@@ -214,7 +215,7 @@ class Osu(commands.Cog):
     async def osuavatar(self, ctx, *, username: Optional[str]):
         """Shows your/another user osu! Avatar"""
 
-        osu = await osu_api_call(self, ctx, username=username)
+        osu = await osu_get_user(self, ctx, username=username)
         if not username:
             username = await self.config.user(ctx.author).username()
         if not username:
