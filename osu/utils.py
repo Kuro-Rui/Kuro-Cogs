@@ -157,41 +157,38 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
 
         # Inspired by owo#0498 (Thanks Stevy 😹)
         description = (
-            (
-                "**▸ Joined at:** {}\n"
-                "**▸ Rank:** #{} (:flag_{}: #{})\n"
-                "**▸ Level:** {}\n"
-                "**▸ PP:** {}\n"
-                "**▸ Accuracy:** {}%\n"
-                "**▸ Playcount:** {}\n"
-                "**▸ Playtime:** {}\n"
-                "**▸ Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
-                "**▸ Ranked Score:** {}\n"
-                "**▸ Total Score:** {}"
-            )
-            .format(
-                player["join_date"][:10],
-                humanize_number(player["pp_rank"]),
-                player["country"].lower(),
-                humanize_number(player["pp_country_rank"]),
-                trunc(float(player["level"])),
-                humanize_number(round(float(player["pp_raw"]))),
-                round(float(player["accuracy"]), 2),
-                humanize_number(player["playcount"]),
-                humanize_timedelta(seconds=player["total_seconds_played"]),
-                ssh,
-                player["count_rank_ssh"],
-                ss,
-                player["count_rank_ss"],
-                sh,
-                player["count_rank_sh"],
-                s,
-                player["count_rank_s"],
-                a,
-                osu[0]["count_rank_a"],
-                humanize_number(player["ranked_score"]),
-                humanize_number(player["total_score"]),
-            )
+            "**▸ Joined at:** {}\n"
+            "**▸ Rank:** #{} (:flag_{}: #{})\n"
+            "**▸ Level:** {}\n"
+            "**▸ PP:** {}\n"
+            "**▸ Accuracy:** {}%\n"
+            "**▸ Playcount:** {}\n"
+            "**▸ Playtime:** {}\n"
+            "**▸ Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
+            "**▸ Ranked Score:** {}\n"
+            "**▸ Total Score:** {}"
+        ).format(
+            player["join_date"][:10],
+            humanize_number(player["pp_rank"]),
+            player["country"].lower(),
+            humanize_number(player["pp_country_rank"]),
+            trunc(float(player["level"])),
+            humanize_number(round(float(player["pp_raw"]))),
+            round(float(player["accuracy"]), 2),
+            humanize_number(player["playcount"]),
+            humanize_timedelta(seconds=player["total_seconds_played"]),
+            ssh,
+            player["count_rank_ssh"],
+            ss,
+            player["count_rank_ss"],
+            sh,
+            player["count_rank_sh"],
+            s,
+            player["count_rank_s"],
+            a,
+            osu[0]["count_rank_a"],
+            humanize_number(player["ranked_score"]),
+            humanize_number(player["total_score"]),
         )
 
         if m == 0:

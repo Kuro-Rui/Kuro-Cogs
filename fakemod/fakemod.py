@@ -86,7 +86,9 @@ class FakeMod(commands.Cog):
             await ctx.send("Fake mod log deactivated.")
 
     @fakemodlogset.command()
-    async def emoji(self, ctx, action: Optional[Action], emoji: Optional[Union[discord.Emoji, str]]):
+    async def emoji(
+        self, ctx, action: Optional[Action], emoji: Optional[Union[discord.Emoji, str]]
+    ):
         """Set an emoji for a fake mod action."""
 
         guild = ctx.guild
