@@ -97,7 +97,7 @@ class FakeMod(commands.Cog):
         kick_emoji = await self.config.guild(guild).kick_emoji()
         ban_emoji = await self.config.guild(guild).ban_emoji()
 
-        if not action and not emoji:
+        if not action:
             await ctx.send_help()
             return await ctx.send(
                 (
