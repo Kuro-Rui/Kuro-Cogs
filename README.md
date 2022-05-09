@@ -63,7 +63,7 @@
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.1.1  |  Kuro  |
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
 | ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
-|     Sudo     | Allows dropping and elevating your owner permissions!                                                                                                                              |  1.1.0  |  Kuro  |
+|     Sudo     | <details><summary>Allows dropping and elevating your owner permissions!</summary>Rewrite of https://github.com/Cog-Creators/Red-DiscordBot/pull/5419</details>                     |  1.1.0  |  Kuro  |
 |  Translate   | Translates the given text!                                                                                                                                                         |  2.0.0  |  Kuro  |
 
 ## Credits
