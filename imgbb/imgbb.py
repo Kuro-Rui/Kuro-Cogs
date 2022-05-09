@@ -93,6 +93,8 @@ class ImgBB(commands.Cog):
             return await ctx.send_help()
         if ctx.message.attachments:
             url_or_attachment = ctx.message.attachments[0].url
+
+        params = {"image": url_or_attachment, "key": api_key}
         if name:
             params = {"name": name, "image": url_or_attachment, "key": api_key}
 
