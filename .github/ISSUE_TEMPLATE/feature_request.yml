@@ -12,12 +12,12 @@ body:
         - AvatarImgen
         - BotPing
         - CounterCog
+        - DankTax
         - FakeMod
         - Fumo
         - Hack
         - ImgBB
         - Osu
-        - Polls
         - ReactLog
         - ReactTermino
         - Sudo
