@@ -55,7 +55,7 @@
 | AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  1.0.2  |  Kuro  |
 |   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details> |  1.1.0  |  Kuro  |
 |  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  1.0.1  |  Kuro  |
- |   DankTax    | Calculate your tax before giving money on Dank Memer!                                                                                                                              |  1.0.0  |  Kuro  |
+ |   DankTax    | <details><summary>Calculate your tax before giving money on Dank Memer!</summary>Inspired by **Dank Memer**.</details>                                                             |  1.0.0  |  Kuro  |
 |   FakeMod    | Fake moderation commands made for fun!                                                                                                                                             |  1.1.0  |  Kuro  |
 |     Fumo     | Generates a random Fumo image from an API.                                                                                                                                         |  1.1.3  |  Kuro  |
 |     Hack     | <details><summary>Act like a professional hacker and hack anyone!</summary>Inspired by **Dank Memer**.</details>                                                                   |  1.0.0  |  Kuro  |
