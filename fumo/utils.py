@@ -453,7 +453,7 @@ async def summon_fumo(self, ctx, type: str):
         e.title = f"Here's a Random Fumo {type.title()}! \N{JAPANESE DOLLS}"
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
-            text="Source: Kuro-Cogs/blob/main/fumo/fumo.py",
+            text="Source: Kuro-Cogs/tree/main/fumo",
             icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless",
         )
     await ctx.send(embed=e)
