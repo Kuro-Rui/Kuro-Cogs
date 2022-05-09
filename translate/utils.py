@@ -25,20 +25,20 @@ SOFTWARE.
 from typing import Optional
 
 import discord
-from redbot.core import commands
+from redbot.core.commands import BadArgument, Converter
 from translatepy import Language
 from translatepy.exceptions import TranslatepyException, UnknownLanguage
 
 
-class LanguageConverter(commands.Converter):
+class LanguageConverter(Converter):
     async def convert(self, ctx, argument):
         try:
             lang = Language(argument)
             if lang.similarity < 100:
-                raise commands.BadArgument(f"Unable to find `{argument}`.")
+                raise BadArgument(f"Unable to find `{argument}`.")
             return lang
         except UnknownLanguage as ul:
-            raise commands.BadArgument(
+            raise BadArgument(
                 f"Unable to find `{argument}`. Did you mean `{ul.guessed_language}`?"
             )
 

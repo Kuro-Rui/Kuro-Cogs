@@ -26,7 +26,7 @@ from io import BytesIO
 from math import trunc
 
 import discord
-from redbot.core import commands
+from redbot.core.commands import BadArgument, Converter, check
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
 # ~ ~ ~ ~ ~ Decorator ~ ~ ~ ~ ~
@@ -39,18 +39,18 @@ def api_is_set():
         else:
             return True
 
-    return commands.check(predicate)
+    return check(predicate)
 
 
 # ~ ~ ~ ~ ~ Converter ~ ~ ~ ~ ~
 
 
-class RankConverter(commands.Converter):
+class Rank(Converter):
     async def convert(self, ctx, argument):
         if argument.lower() in ["ssh", "ss", "sh", "s", "a"]:
             return argument.lower()
         else:
-            raise commands.BadArgument("Type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
+            raise BadArgument("Type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
 
 
 # ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~
