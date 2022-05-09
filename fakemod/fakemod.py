@@ -24,12 +24,14 @@ SOFTWARE.
 
 import asyncio
 import datetime
-from typing import Union
+from typing import Optional, Union
 
 import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import MessagePredicate
+
+from .converters import Action
 
 
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
@@ -84,19 +86,18 @@ class FakeMod(commands.Cog):
             await ctx.send("Fake mod log deactivated.")
 
     @fakemodlogset.command()
-    async def emoji(self, ctx, action: str = None, emoji: str = None):
+    async def emoji(self, ctx, action: Optional[Action], emoji: Optional[Union[discord.Emoji, str]]):
         """Set an emoji for a fake mod action."""
 
         guild = ctx.guild
-
         warn_emoji = await self.config.guild(guild).warn_emoji()
         mute_emoji = await self.config.guild(guild).mute_emoji()
         kick_emoji = await self.config.guild(guild).kick_emoji()
         ban_emoji = await self.config.guild(guild).ban_emoji()
 
-        if action is None:
+        if not action and not emoji:
             await ctx.send_help()
-            await ctx.send(
+            return await ctx.send(
                 (
                     "**__Current Settings__:**\n"
                     "`Fake Warn :` {}\n"
@@ -105,62 +106,46 @@ class FakeMod(commands.Cog):
                     "`Fake Ban  :` {}\n"
                 ).format(warn_emoji, mute_emoji, kick_emoji, ban_emoji)
             )
-        else:
-            action = action.lower()
-            casetype = ["warn", "mute", "kick", "ban"]
-            if action not in casetype:
-                await ctx.send(
-                    "I can't find that action. You can choose either `warn`, `mute`, `kick`, and `ban`."
-                )
-            else:
-                if action == "warn":
-                    if emoji:
-                        try:
-                            await ctx.message.add_reaction(emoji)
-                            await self.config.guild(guild).warn_emoji.set(emoji)
-                            await ctx.send("Emoji for fake `warn` has been set.")
-                        except:
-                            await ctx.send("I can't use that emoji.")
-                    else:
-                        await self.config.guild(guild).warn_emoji.set(
-                            "\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}"
-                        )
-                        await ctx.send("The emoji has been reset.")
-                elif action == "mute":
-                    if emoji:
-                        try:
-                            await ctx.message.add_reaction(emoji)
-                            await self.config.guild(guild).mute_emoji.set(emoji)
-                            await ctx.send("Emoji for fake `mute` has been set.")
-                        except:
-                            await ctx.send("I can't use that emoji.")
-                    else:
-                        await self.config.guild(guild).mute_emoji.set(
-                            "\N{FACE WITH FINGER COVERING CLOSED LIPS}"
-                        )
-                        await ctx.send("The emoji has been reset.")
-                elif action == "kick":
-                    if emoji:
-                        try:
-                            await ctx.message.add_reaction(emoji)
-                            await self.config.guild(guild).kick_emoji.set(emoji)
-                            await ctx.send("Emoji for fake `kick` has been set.")
-                        except:
-                            await ctx.send("I can't use that emoji.")
-                    else:
-                        await self.config.guild(guild).kick_emoji.set("\N{HIGH-HEELED SHOE}")
-                        await ctx.send("The emoji has been reset.")
-                elif action == "ban":
-                    if emoji:
-                        try:
-                            await ctx.message.add_reaction(emoji)
-                            await self.config.guild(guild).ban_emoji.set(emoji)
-                            await ctx.send("Emoji for fake `ban` has been set.")
-                        except:
-                            await ctx.send("I can't use that emoji.")
-                    else:
-                        await self.config.guild(guild).ben_emoji.set("\N{COLLISION SYMBOL}")
-                        await ctx.send("The emoji has been reset.")
+        if action == "warn":
+            if not emoji:
+                await self.config.guild(guild).warn_emoji.clear()
+                return await ctx.send("The emoji has been reset.")
+            try:
+                await ctx.message.add_reaction(emoji)
+                await self.config.guild(guild).warn_emoji.set(emoji)
+                await ctx.send("Emoji for fake `warn` has been set.")
+            except:
+                await ctx.send("I can't use that emoji.")
+        elif action == "mute":
+            if not emoji:
+                await self.config.guild(guild).mute_emoji.clear()
+                return await ctx.send("The emoji has been reset.")
+            try:
+                await ctx.message.add_reaction(emoji)
+                await self.config.guild(guild).mute_emoji.set(emoji)
+                await ctx.send("Emoji for fake `mute` has been set.")
+            except:
+                await ctx.send("I can't use that emoji.")
+        elif action == "kick":
+            if not emoji:
+                await self.config.guild(guild).kick_emoji.clear()
+                return await ctx.send("The emoji has been reset.")
+            try:
+                await ctx.message.add_reaction(emoji)
+                await self.config.guild(guild).kick_emoji.set(emoji)
+                await ctx.send("Emoji for fake `kick` has been set.")
+            except:
+                await ctx.send("I can't use that emoji.")
+        elif action == "ban":
+            if not emoji:
+                await self.config.guild(guild).ben_emoji.clear()
+                return await ctx.send("The emoji has been reset.")
+            try:
+                await ctx.message.add_reaction(emoji)
+                await self.config.guild(guild).ban_emoji.set(emoji)
+                await ctx.send("Emoji for fake `ban` has been set.")
+            except:
+                await ctx.send("I can't use that emoji.")
 
     @fakemodlogset.command()
     async def resetcases(self, ctx):
