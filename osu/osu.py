@@ -31,7 +31,7 @@ from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
 from .utils import (
-    RankConverter,
+    Rank,
     api_is_set,
     get_osu_avatar,
     osu_api_key,
@@ -119,7 +119,7 @@ class Osu(commands.Cog):
     @api_is_set()
     @osuset.group()
     @checks.is_owner()
-    async def emoji(self, ctx, rank: RankConverter, emoji: Union[discord.Emoji, str]):
+    async def emoji(self, ctx, rank: Rank, emoji: Union[discord.Emoji, str]):
         """Set custom emoji for ranks."""
         if not ctx.invoked_subcommand:
             try:
