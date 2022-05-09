@@ -26,8 +26,6 @@ SOFTWARE.
 
 import asyncio
 import datetime
-import logging
-import random
 import time
 
 import discord
