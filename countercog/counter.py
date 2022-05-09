@@ -54,8 +54,8 @@ class CounterCog(commands.Cog):
     async def cogs(self, ctx):
         """Count your cogs."""
 
-        total = len(set(await ctx.bot._cog_mgr.available_modules()))
-        loaded = len(set(ctx.bot.extensions.keys()))
+        total = len(set(await self.bot._cog_mgr.available_modules()))
+        loaded = len(set(self.bot.extensions.keys()))
         unloaded = total - loaded
 
         msg = (
@@ -80,7 +80,8 @@ class CounterCog(commands.Cog):
         """
         if cog:
             if self.bot.get_cog(cog):
-                cmds = sum(1 for _ in self.bot.get_cog(cog).walk_commands())
+                cog = self.bot.get_cog(cog)
+                cmds = len([c.qualified_name for c in cog.walk_commands()])
                 await ctx.send(f"I have `{cmds}` commands on that cog.")
             else:
                 await ctx.send("Please provide a valid cog name. (Example: `CounterCog`)")
