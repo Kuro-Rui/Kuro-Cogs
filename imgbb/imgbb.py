@@ -24,11 +24,14 @@ SOFTWARE.
 
 import asyncio
 import datetime
+from typing import Optional
 
 import aiohttp
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
+
+from .converters import Link, NonLink
 
 
 class ImgBB(commands.Cog):
@@ -39,7 +42,7 @@ class ImgBB(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.0"
+    __version__ = "1.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -72,39 +75,26 @@ class ImgBB(commands.Cog):
         await ctx.send(embed=embed)
 
     @imgbb.command()
-    async def upload(self, ctx, url_or_attachment: str = None, name: str = None):
+    async def upload(self, ctx, name: Optional[NonLink], url_or_attachment: Optional[Link]):
         """
-        Upload an image to imgbb!
-        You can provide an url/attachment
+        Upload an image to ImgBB!
+
+        You can provide an url/attachment.
         """
         api_key = (await self.bot.get_shared_api_tokens("imgbb")).get("api_key")
         if not api_key:
             return await ctx.send(
                 "The ImgBB API key hasn't been set yet! Run `{}imgbb creds` for instructions!".format(
-                    ctx.clean_prefix
+                    ctx.prefix
                 )
             )
 
-        if ctx.message.attachments:
-            image = ctx.message.attachments[0].url
-        else:
-            image = url_or_attachment
-
-        if not image:
+        if not url_or_attachment and not ctx.message.attachments:
             return await ctx.send_help()
-
+        if ctx.message.attachments:
+            url_or_attachment = ctx.message.attachments[0].url
         if name:
-            params = {"name": name, "image": image, "key": api_key}
-        else:
-            if ctx.message.attachments:
-                if "https://" or "http://" not in url_or_attachment:
-                    if url_or_attachment:
-                        name = url_or_attachment
-                        params = {"name": name, "image": image, "key": api_key}
-                    else:
-                        params = {"image": image, "key": api_key}
-            else:
-                params = {"image": image, "key": api_key}
+            params = {"name": name, "image": url_or_attachment, "key": api_key}
 
         async with ctx.typing():
             async with self.session.post(
@@ -113,10 +103,13 @@ class ImgBB(commands.Cog):
                 ibb = await response.json()
                 if response.status == 200:
                     url = ibb["data"]["url"]
-                    embed = discord.Embed(title="Here's Your Link!", color=await ctx.embed_color())
-                    embed.description = url
+                    embed = discord.Embed(
+                        title="Here's Your Link!",
+                        description=url,
+                        color=await ctx.embed_color(),
+                        timestamp=datetime.datetime.now(datetime.timezone.utc),
+                    )
                     embed.set_image(url=url)
-                    embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
                     await ctx.send(embed=embed)
                 else:
                     await ctx.send("There's an error with the API")
