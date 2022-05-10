@@ -118,7 +118,7 @@ class Osu(commands.Cog):
     @api_is_set()
     @osuset.group()
     @checks.is_owner()
-    async def emoji(self, ctx, rank: str, emoji: Union[discord.Emoji, str]):
+    async def emoji(self, ctx):
         """Set custom emoji for ranks."""
         pass
 
