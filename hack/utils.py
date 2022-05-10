@@ -84,7 +84,7 @@ def get_email_and_password(user: discord.Member):
     puncts = "".join(choice(punctuation) for puncts in range(3))
     password = list(letters + numbers + puncts)
     shuffle(password)
-    password = "".join(password)
+    password = "".join(password).replace("`", "'")
     return email, password
 
 
