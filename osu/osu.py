@@ -53,7 +53,7 @@ class Osu(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "4.1.1"
+    __version__ = "4.0.4    "
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -120,29 +120,92 @@ class Osu(commands.Cog):
     @checks.is_owner()
     async def emoji(self, ctx, rank: str, emoji: Union[discord.Emoji, str]):
         """Set custom emoji for ranks."""
-        if not ctx.invoked_subcommand:
-            if rank.lower() not in ["ssh", "ss", "sh", "s", "a"]:
-                await ctx.send("Rank type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
-                return
+        pass
 
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def ssh(self, ctx, ssh_emoji: Optional[Union[discord.Emoji, str]]):
+        """Set custom emoji for SSH rank."""
+        if not ssh_emoji:
+            await self.config.ssh_emoji.clear()
+            await ctx.send("Custom emoji for SSH Rank removed.")
+        else:
             try:
-                await ctx.message.add_reaction(emoji)
+                await ctx.message.add_reaction(ssh_emoji)
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
 
-            # "JSON Serializable"
-            if rank == "ssh":
-                await self.config.ssh_emoji.set(str(emoji))
-            elif rank == "ss":
-                await self.config.ss_emoji.set(str(emoji))
-            elif rank == "sh":
-                await self.config.sh_emoji.set(str(emoji))
-            elif rank == "s":
-                await self.config.s_emoji.set(str(emoji))
-            elif rank == "a":
-                await self.config.a_emoji.set(str(emoji))
+            await self.config.ssh_emoji.set(str(ssh_emoji))
+        await ctx.tick()
 
-            await ctx.tick()
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def ss(self, ctx, ss_emoji: Optional[Union[discord.Emoji, str]]):
+        """Set custom emoji for SS rank."""
+        if not ss_emoji:
+            await self.config.ss_emoji.clear()
+            await ctx.send("Custom emoji for SS Rank removed.")
+        else:
+            try:
+                await ctx.message.add_reaction(ss_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+
+            await self.config.ss_emoji.set(str(ss_emoji))
+        await ctx.tick()
+
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def sh(self, ctx, sh_emoji: Optional[Union[discord.Emoji, str]]):
+        """Set custom emoji for SH rank."""
+        if not sh_emoji:
+            await self.config.sh_emoji.clear()
+            await ctx.send("Custom emoji for SH Rank removed.")
+        else:
+            try:
+                await ctx.message.add_reaction(sh_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+
+            await self.config.sh_emoji.set(str(sh_emoji))
+        await ctx.tick()
+
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def s(self, ctx, s_emoji: Optional[Union[discord.Emoji, str]]):
+        """Set custom emoji for S rank."""
+        if not s_emoji:
+            await self.config.s_emoji.clear()
+            await ctx.send("Custom emoji for S Rank removed.")
+        else:
+            try:
+                await ctx.message.add_reaction(s_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+
+            await self.config.s_emoji.set(str(s_emoji))
+        await ctx.tick()
+
+    @emoji.command()
+    @checks.is_owner()
+    @commands.bot_has_permissions(add_reactions=True, use_external_emojis=True)
+    async def a(self, ctx, a_emoji: Optional[Union[discord.Emoji, str]]):
+        """Set custom emoji for A rank."""
+        if not a_emoji:
+            await self.config.a_emoji.clear()
+            await ctx.send("Custom emoji for A Rank removed.")
+        else:
+            try:
+                await ctx.message.add_reaction(a_emoji)
+            except discord.HTTPException:
+                return await ctx.send("Uh oh, I cannot use that emoji.")
+
+            await self.config.a_emoji.set(str(a_emoji))
+        await ctx.tick()
 
     @emoji.command()
     @checks.is_owner()
