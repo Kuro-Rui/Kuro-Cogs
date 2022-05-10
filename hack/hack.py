@@ -82,7 +82,8 @@ class Hack(commands.Cog):
                     "@gmx.net",
                     "@hotmail.com",
                     "@icloud.com",
-                    "@msn.com" "@outlook.com",
+                    "@msn.com",
+                    "@outlook.com",
                     "@protonmail.com",
                     "@yahoo.com",
                     "@yandex.com",
@@ -94,6 +95,7 @@ class Hack(commands.Cog):
             puncts = "".join(choice(punctuation) for puncts in range(3))
             password = list(letters + numbers + puncts)
             shuffle(password)
+            password = "".join(password)
             await message.edit(
                 content=(
                     f"{loading(3)} Found login information:\n"
