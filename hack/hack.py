@@ -95,6 +95,7 @@ class Hack(commands.Cog):
             puncts = "".join(choice(punctuation) for puncts in range(3))
             password = list(letters + numbers + puncts)
             shuffle(password)
+            password = "".join(password)
             await message.edit(
                 content=(
                     f"{loading(3)} Found login information:\n"
