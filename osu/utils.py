@@ -63,40 +63,20 @@ async def osu_api_key(self):
 
 async def rank_emojis(self):
     """Rank Emojis"""
-    maybe_ssh_emoji = self.bot.get_emoji(await self.config.ssh_emoji())
     ssh_emoji = await self.config.ssh_emoji()
-    if not maybe_ssh_emoji:
-        ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
-    else:
-        ssh = f"{maybe_ssh_emoji} "
+    ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
 
-    maybe_ss_emoji = self.bot.get_emoji(await self.config.ss_emoji())
     ss_emoji = await self.config.ss_emoji()
-    if not maybe_ss_emoji:
-        ss = f"{ss_emoji} " if ss_emoji else "**SS** "
-    else:
-        ss = f"{maybe_ss_emoji} "
+    ss = f"{ss_emoji} " if ss_emoji else "**SS** "
 
-    maybe_sh_emoji = self.bot.get_emoji(await self.config.sh_emoji())
     sh_emoji = await self.config.sh_emoji()
-    if not maybe_sh_emoji:
-        sh = f"{sh_emoji} " if sh_emoji else "**SH** "
-    else:
-        sh = f"{maybe_sh_emoji} "
+    sh = f"{sh_emoji} " if sh_emoji else "**SH** "
 
-    maybe_s_emoji = self.bot.get_emoji(await self.config.s_emoji())
     s_emoji = await self.config.s_emoji()
-    if not maybe_s_emoji:
-        s = f"{s_emoji} " if s_emoji else "**S** "
-    else:
-        s = f"{maybe_s_emoji} "
+    s = f"{s_emoji} " if s_emoji else "**S** "
 
-    maybe_a_emoji = self.bot.get_emoji(await self.config.a_emoji())
     a_emoji = await self.config.a_emoji()
-    if not maybe_a_emoji:
-        a = f"{a_emoji} " if a_emoji else "**A** "
-    else:
-        a = f"{maybe_a_emoji} "
+    a = f"{a_emoji} " if a_emoji else "**A** "
 
     return ssh, ss, sh, s, a
 

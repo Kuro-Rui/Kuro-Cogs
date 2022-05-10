@@ -128,30 +128,15 @@ class Osu(commands.Cog):
                 return await ctx.send("Uh oh, I cannot use that emoji.")
 
             if rank == "ssh":
-                try:
-                    await self.config.ssh_emoji.set(emoji.id)
-                except AttributeError:  # Handle Original Emoji
-                    await self.config.ssh_emoji.set(emoji)
+                await self.config.ssh_emoji.set(emoji)
             elif rank == "ss":
-                try:
-                    await self.config.ss_emoji.set(emoji.id)
-                except AttributeError:  # Handle Original Emoji
-                    await self.config.ss_emoji.set(emoji)
+                await self.config.ss_emoji.set(emoji)
             elif rank == "sh":
-                try:
-                    await self.config.sh_emoji.set(emoji.id)
-                except AttributeError:  # Handle Original Emoji
-                    await self.config.sh_emoji.set(emoji)
+                await self.config.sh_emoji.set(emoji)
             elif rank == "s":
-                try:
-                    await self.config.s_emoji.set(emoji.id)
-                except AttributeError:  # Handle Original Emoji
-                    await self.config.s_emoji.set(emoji)
+                await self.config.s_emoji.set(emoji)
             elif rank == "a":
-                try:
-                    await self.config.a_emoji.set(emoji.id)
-                except AttributeError:  # Handle Original Emoji
-                    await self.config.a_emoji.set(emoji)
+                await self.config.a_emoji.set(emoji)
 
             await ctx.tick()
 
@@ -177,26 +162,11 @@ class Osu(commands.Cog):
         except discord.HTTPException:
             return await ctx.send("Uh oh, I cannot use one of the emojis.")
 
-        try:
-            await self.config.ssh_emoji.set(ssh_emoji.id)
-        except AttributeError:  # Handle Original Emoji
-            await self.config.ssh_emoji.set(ssh_emoji)
-        try:
-            await self.config.ss_emoji.set(ss_emoji.id)
-        except AttributeError:  # Handle Original Emoji
-            await self.config.ss_emoji.set(ss_emoji)
-        try:
-            await self.config.sh_emoji.set(sh_emoji.id)
-        except AttributeError:  # Handle Original Emoji
-            await self.config.sh_emoji.set(sh_emoji)
-        try:
-            await self.config.s_emoji.set(s_emoji.id)
-        except AttributeError:  # Handle Original Emoji
-            await self.config.s_emoji.set(s_emoji)
-        try:
-            await self.config.a_emoji.set(a_emoji.id)
-        except AttributeError:  # Handle Original Emoji
-            await self.config.a_emoji.set(a_emoji)
+        await self.config.ssh_emoji.set(ssh_emoji)
+        await self.config.ss_emoji.set(ss_emoji)
+        await self.config.sh_emoji.set(sh_emoji)
+        await self.config.s_emoji.set(s_emoji)
+        await self.config.a_emoji.set(a_emoji)
 
         await ctx.tick()
 
