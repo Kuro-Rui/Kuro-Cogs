@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 from asyncio import sleep
-from random import choice, randint
+from random import randint
 
 import discord
 from redbot.core import commands
