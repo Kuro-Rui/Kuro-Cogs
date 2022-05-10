@@ -23,18 +23,14 @@ SOFTWARE.
 """
 
 from asyncio import sleep
-from random import choice, randint, shuffle
-from string import ascii_letters, digits, punctuation
+from random import choice, randint
 
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
 
-def loading(step: int):
-    l = ["▖", "▘", "▝", "▗"]
-    screen = f"[{l[step]}]"
-    return screen
+from .utils import get_email_and_password, get_last_dm, loading
 
 
 class Hack(commands.Cog):
@@ -44,7 +40,7 @@ class Hack(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.1"
+    __version__ = "1.0.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -73,29 +69,7 @@ class Hack(commands.Cog):
             await sleep(2)
             await message.edit(content=f"{loading(2)} Bypassing 2FA...")
             await sleep(3)
-            domain = choice(
-                [
-                    "@aol.com",
-                    "@disposablemail.com",
-                    "@edu.com",
-                    "@gmail.com",
-                    "@gmx.net",
-                    "@hotmail.com",
-                    "@icloud.com",
-                    "@msn.com",
-                    "@outlook.com",
-                    "@protonmail.com",
-                    "@yahoo.com",
-                    "@yandex.com",
-                ]
-            )
-            email = member.name.replace(" ", "").replace("'", "").replace('"', "") + domain
-            letters = "".join(choice(ascii_letters) for letters in range(4))
-            numbers = "".join(choice(digits) for numbers in range(3))
-            puncts = "".join(choice(punctuation) for puncts in range(3))
-            password = list(letters + numbers + puncts)
-            shuffle(password)
-            password = "".join(password)
+            email, password = get_email_and_password(member)
             await message.edit(
                 content=(
                     f"{loading(3)} Found login information:\n"
@@ -106,23 +80,7 @@ class Hack(commands.Cog):
             await sleep(4)
             await message.edit(content=f"{loading(0)} Fetching user DMs...")
             await sleep(1)
-            last_dm = choice(
-                [
-                    "I hope blueballs aren't real.",
-                    "I hope noone sees my nudes folder.",
-                    "I think it's smaller than most.",
-                    "UwU",
-                    "can I see your feet pics?",
-                    "dont frgt to like and subscrube!!",
-                    "honestly I'm pretty sure blue waffle is real and I have it.",
-                    "imagine having a peen as small as mine in 2022",
-                    "man I love my mommy.",
-                    "pwetty pwease?",
-                    "yeah I'm just built different.",
-                    "yeah she goes to another school.",
-                ]
-            )
-            await message.edit(content=f"{loading(1)} **Last DM**: `{last_dm}`")
+            await message.edit(content=f"{loading(1)} **Last DM**: `{get_last_dm()}`")
             await sleep(3)
             await message.edit(content=f"{loading(2)} Injecting trojan virus into {member}...")
             await sleep(2)
