@@ -31,7 +31,6 @@ from redbot.core import Config, checks, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
 from .utils import (
-    Rank,
     api_is_set,
     get_osu_avatar,
     osu_api_key,
@@ -119,9 +118,13 @@ class Osu(commands.Cog):
     @api_is_set()
     @osuset.group()
     @checks.is_owner()
-    async def emoji(self, ctx, rank: Rank, emoji: Union[discord.Emoji, str]):
+    async def emoji(self, ctx, rank: str, emoji: Union[discord.Emoji, str]):
         """Set custom emoji for ranks."""
         if not ctx.invoked_subcommand:
+            if rank.lower() not in ["ssh", "ss", "sh", "s", "a"]:
+                await ctx.send("Rank type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
+                return
+
             try:
                 await ctx.message.add_reaction(emoji)
             except discord.HTTPException:
