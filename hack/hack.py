@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 from asyncio import sleep
-from random import choice, randint
-from string import ascii_letters
+from random import choice, randint, shuffle
+from string import ascii_letters, digits, punctuation
 
 import discord
 from redbot.core import commands
@@ -73,8 +73,28 @@ class Hack(commands.Cog):
             await sleep(2)
             await message.edit(content=f"{loading(2)} Bypassing 2FA...")
             await sleep(3)
-            email = member.name.replace(" ", "_").replace("'", "") + "@gmail.com"
-            password = "".join(choice(ascii_letters) for letters in range(10))
+            domain = choice(
+                [
+                    "@aol.com",
+                    "@disposablemail.com",
+                    "@edu.com",
+                    "@gmail.com",
+                    "@gmx.net",
+                    "@hotmail.com",
+                    "@icloud.com",
+                    "@msn.com"
+                    "@outlook.com",
+                    "@protonmail.com",
+                    "@yahoo.com",
+                    "@yandex.com"
+                ]
+            )
+            email = member.name.replace(" ", "").replace("'", "").replace("\"", "") + domain
+            letters = "".join(choice(ascii_letters) for letters in range(4))
+            numbers = "".join(choice(digits) for numbers in range(3))
+            puncts = "".join(choice(punctuation) for puncts in range(3))
+            password = list(letters + numbers + puncts)
+            shuffle(password)
             await message.edit(
                 content=(
                     f"{loading(3)} Found login information:\n"
@@ -87,21 +107,21 @@ class Hack(commands.Cog):
             await sleep(1)
             last_dm = choice(
                 [
-                    "man I love my mommy.",
-                    "can I see your feet pics?",
-                    "yeah I'm just built different.",
-                    "UwU",
-                    "pwetty pwease?",
-                    "dont frgt to like and subscrube!!",
-                    "I think it's smaller than most.",
                     "I hope blueballs aren't real.",
-                    "yeah she goes to another school.",
-                    "imagine having a peen as small as mine in 2022",
                     "I hope noone sees my nudes folder.",
+                    "I think it's smaller than most.",
+                    "UwU",
+                    "can I see your feet pics?",
+                    "dont frgt to like and subscrube!!",
                     "honestly I'm pretty sure blue waffle is real and I have it.",
+                    "imagine having a peen as small as mine in 2022",
+                    "man I love my mommy.",
+                    "pwetty pwease?",
+                    "yeah I'm just built different.",
+                    "yeah she goes to another school.",
                 ]
             )
-            await message.edit(content=f'{loading(1)} **Last DM**: "{last_dm}"')
+            await message.edit(content=f"{loading(1)} **Last DM**: `{last_dm}`")
             await sleep(3)
             await message.edit(content=f"{loading(2)} Injecting trojan virus into {member}...")
             await sleep(2)
