@@ -39,13 +39,13 @@ def remove_emoji(text: str):
     compiled = compile(
         (
             "["
-            u"\U0001F600-\U0001F64F"  # Emoticons
-            u"\U0001F300-\U0001F5FF"  # Symbols & Pictographs
-            u"\U0001F680-\U0001F6FF"  # Transport & Map Symbols
-            u"\U0001F1E0-\U0001F1FF"  # Flags (iOS)
+            "\U0001F600-\U0001F64F"  # Emoticons
+            "\U0001F300-\U0001F5FF"  # Symbols & Pictographs
+            "\U0001F680-\U0001F6FF"  # Transport & Map Symbols
+            "\U0001F1E0-\U0001F1FF"  # Flags (iOS)
             "]+"
         ),
-        UNICODE
+        UNICODE,
     )
     return compiled.sub(r"", text)
 
