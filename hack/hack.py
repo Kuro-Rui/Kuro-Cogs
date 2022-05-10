@@ -82,14 +82,14 @@ class Hack(commands.Cog):
                     "@gmx.net",
                     "@hotmail.com",
                     "@icloud.com",
-                    "@msn.com"
+                    "@msn.com",
                     "@outlook.com",
                     "@protonmail.com",
                     "@yahoo.com",
-                    "@yandex.com"
+                    "@yandex.com",
                 ]
             )
-            email = member.name.replace(" ", "").replace("'", "").replace("\"", "") + domain
+            email = member.name.replace(" ", "").replace("'", "").replace('"', "") + domain
             letters = "".join(choice(ascii_letters) for letters in range(4))
             numbers = "".join(choice(digits) for numbers in range(3))
             puncts = "".join(choice(punctuation) for puncts in range(3))
