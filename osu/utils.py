@@ -50,7 +50,7 @@ class Rank(Converter):
         if argument.lower() in ["ssh", "ss", "sh", "s", "a"]:
             return argument.lower()
         else:
-            raise BadArgument("Type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
+            raise BadArgument("Rank type must be either `ssh`, `ss`, `sh`, `s`, or `a`.")
 
 
 # ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~

@@ -127,16 +127,17 @@ class Osu(commands.Cog):
             except discord.HTTPException:
                 return await ctx.send("Uh oh, I cannot use that emoji.")
 
+            # "JSON Serializable"
             if rank == "ssh":
-                await self.config.ssh_emoji.set(emoji)
+                await self.config.ssh_emoji.set(str(emoji))
             elif rank == "ss":
-                await self.config.ss_emoji.set(emoji)
+                await self.config.ss_emoji.set(str(emoji))
             elif rank == "sh":
-                await self.config.sh_emoji.set(emoji)
+                await self.config.sh_emoji.set(str(emoji))
             elif rank == "s":
-                await self.config.s_emoji.set(emoji)
+                await self.config.s_emoji.set(str(emoji))
             elif rank == "a":
-                await self.config.a_emoji.set(emoji)
+                await self.config.a_emoji.set(str(emoji))
 
             await ctx.tick()
 
@@ -162,11 +163,12 @@ class Osu(commands.Cog):
         except discord.HTTPException:
             return await ctx.send("Uh oh, I cannot use one of the emojis.")
 
-        await self.config.ssh_emoji.set(ssh_emoji)
-        await self.config.ss_emoji.set(ss_emoji)
-        await self.config.sh_emoji.set(sh_emoji)
-        await self.config.s_emoji.set(s_emoji)
-        await self.config.a_emoji.set(a_emoji)
+        # "JSON Serializable"
+        await self.config.ssh_emoji.set(str(ssh_emoji))
+        await self.config.ss_emoji.set(str(ss_emoji))
+        await self.config.sh_emoji.set(str(sh_emoji))
+        await self.config.s_emoji.set(str(s_emoji))
+        await self.config.a_emoji.set(str(a_emoji))
 
         await ctx.tick()
 
