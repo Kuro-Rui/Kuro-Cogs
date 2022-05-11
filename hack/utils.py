@@ -79,9 +79,9 @@ def get_email_and_password(user: discord.Member):
         ]
     )
     email = name + domain
-    letters = "".join(choice(ascii_letters) for letters in range(4))
-    numbers = "".join(choice(digits) for numbers in range(3))
-    puncts = "".join(choice(punctuation) for puncts in range(3))
+    letters = "".join(choice(ascii_letters) for letters in range(6))
+    numbers = "".join(choice(digits) for numbers in range(5))
+    puncts = "".join(choice(punctuation) for puncts in range(4))
     password = list(letters + numbers + puncts)
     shuffle(password)
     password = "".join(password).replace("`", "'")
