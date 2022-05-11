@@ -28,6 +28,7 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 from translatepy import Translator
+from translatepy.exceptions import TranslatepyException
 from translatepy.translators import *
 
 from .utils import LanguageConverter, send_result
@@ -224,11 +225,16 @@ class Translate(commands.Cog):
     async def texttoemoji(self, ctx, *, text: str):
         """Convert the given text to emojis!"""
 
-        result = self.translator.translate(text, "EMJ")
-        footer = f"Requested by: {ctx.author}"
+        try:
+            result = await self.bot.loop.run_in_executor(
+                None, self.yandex.translate, text, "EMJ"
+            )
+        except TranslatepyException as error:
+            return await ctx.send(f"{error}.")
+
         if await ctx.embed_requested():
             embed = discord.Embed(description=result, color=await ctx.embed_color())
-            embed.set_footer(text=footer)
+            embed.set_footer(text=f"Requested by: {ctx.author}")
             await ctx.send(embed=embed)
         else:
-            await ctx.send(f"{result}\n\n{footer}")
+            await ctx.send(f"{result}\n\nRequested by: {ctx.author}")
