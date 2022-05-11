@@ -226,9 +226,7 @@ class Translate(commands.Cog):
         """Convert the given text to emojis!"""
 
         try:
-            result = await self.bot.loop.run_in_executor(
-                None, self.yandex.translate, text, "EMJ"
-            )
+            result = await self.bot.loop.run_in_executor(None, self.yandex.translate, text, "EMJ")
         except TranslatepyException as error:
             return await ctx.send(f"{error}.")
 
