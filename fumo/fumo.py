@@ -33,7 +33,7 @@ from .utils import summon_fumo
 
 class Fumo(commands.Cog):
     """
-    Le Fumo Cog.
+    Fumo Fumo. Fumo? Fumo! ᗜˬᗜ
     """
 
     def __init__(self, bot):
@@ -57,33 +57,33 @@ class Fumo(commands.Cog):
 
     @commands.group()
     async def fumo(self, ctx):
-        """Generates Fumo Image."""
+        """Generates Fumo Image ᗜˬᗜ"""
         pass
 
     @fumo.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def random(self, ctx):
-        """Generates a random Fumo!"""
+        """Generates a random Fumo ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "random")
+        await summon_fumo(self, ctx, "Random")
 
     @fumo.command(aliases=["images"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def image(self, ctx):
-        """Generates a random Fumo image."""
+        """Generates a random Fumo image ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "image")
+        await summon_fumo(self, ctx, "Image")
 
     @fumo.command(aliases=["gifs"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def gif(self, ctx):
-        """Generates a random Fumo GIF."""
+        """Generates a random Fumo GIF ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "gif")
+        await summon_fumo(self, ctx, "GIF")
 
     @fumo.command(aliases=["memes"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def meme(self, ctx):
-        """Generates a random Fumo meme."""
+        """Generates a random Fumo meme ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "meme")
+        await summon_fumo(self, ctx, "Meme")

@@ -23,10 +23,14 @@ SOFTWARE.
 """
 
 # Credits to Mlaxy#7921 for most of the images. (Thanks for being a daily fumo dealer :D)
-# All images credits goes to the rightful owner of each image.
+# All images credits goes to the rightful owner of each image ᗜˬᗜ
+
+from random import choice
+
+import discord
 
 fumo = {
-    "image": [
+    "Image": [
         "https://cdn.discordapp.com/emojis/588080110373044254.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/936477877799616712/bdb.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/847445160828862464/pfp.jpg",
@@ -34,6 +38,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/847435071203573770/897134911012606052/unknown.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/897134999336255498/unknown.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/969211707849318480/unknown.png",
+        "https://cdn.discordapp.com/attachments/935751385046212658/974161113740632115/unknown.png",
         "https://media.discordapp.net/attachments/844262973043114044/844264277232582726/image9.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/889181441517301760/IMG_ri5c2x.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/890053784686964746/E_0_MNjVIAcT-bA.png",
@@ -47,6 +52,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/899541680296972318/FB7wYG-XMA0df7L.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/920398779021152306/FGXwZj1VcAEuZto.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/933185876790493274/FJXZMKIVIAEL2AH.png",
+        "https://cdn.discordapp.com/attachments/935751385046212658/974944639184437288/SPOILER_unknown.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/852271698741166080/630820213994029087.png",
         "https://cdn.discordapp.com/attachments/847435071203573770/889181561969340496/IMG_20210614_135534.jpg",
         "https://cdn.discordapp.com/attachments/847435071203573770/889181651618365501/IMG_20210531_222334.jpg",
@@ -287,6 +293,13 @@ fumo = {
         "https://cdn.discordapp.com/attachments/935751385046212658/972549080729407509/IMG_20220508_002004.jpg",
         "https://cdn.discordapp.com/attachments/935751385046212658/972911371085824030/IMG_20220509_002121.jpg",
         "https://cdn.discordapp.com/attachments/935751385046212658/973005918532947999/IMG_20220509_033822.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/973828883952578580/IMG_20220511_130803.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/973970183813234829/IMG_20220511_222906.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/973994342043770880/IMG_20220512_000335.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/974570637433667584/IMG_20220512_000442.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/974124450100420649/IMG_20220512_084217.jpg",
+        "https://cdn.discordapp.com/attachments/935751385046212658/975241078632484915/IMG_20220514_212735.jpg",
+        "https://cdn.discordapp.com/attachments/925195622087270401/975112426641051759/IMG_20220515_020722.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/949588750583873556/FB_IMG_1641340803028.png",
         "https://cdn.discordapp.com/attachments/834742953275555850/938655549250232350/IMG_20220203_044650_305.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/888836333794123876/IMG_20210917_223057_485.jpg",
@@ -319,7 +332,7 @@ fumo = {
         "https://media.discordapp.net/attachments/844262973043114044/844264392199766027/tumblr_oxooqm5sGX1wvw3f7o1_540.jpg?width=427&height=427",
         "https://media.discordapp.net/attachments/844262973043114044/844264444448210964/tumblr_p00bkkj4VQ1wvw3f7o1_540.jpg?width=320&height=427",
     ],
-    "gif": [
+    "GIF": [
         "https://telegra.ph/file/cef926728f278abb74955.gif",
         "https://telegra.ph/file/a1c2a4666ca7a25c513cb.gif",
         "https://telegra.ph/file/985ba9a032433c1c5dec1.gif",
@@ -360,7 +373,7 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/888836728914345984/image0-8.gif",
         "https://cdn.discordapp.com/attachments/935751385046212658/972076954943635466/reverse-2.gif",
     ],
-    "meme": [
+    "Meme": [
         "https://telegra.ph/file/a0afeb6efbd006f956070.jpg",
         "https://telegra.ph/file/3c6a0f5b3701fc18d31bd.png",
         "https://telegra.ph/file/41f0ad0453ada1ff861b8.png",
@@ -405,15 +418,11 @@ fumo = {
         "https://cdn.discordapp.com/attachments/834742953275555850/913295988444254229/Screenshot_20211125-111949_Instagram.jpg",
         "https://cdn.discordapp.com/attachments/834742953275555850/945159406532829204/Screenshot_20220221-090306_Instagram.jpg",
     ],
-    # "videos" : [
+    # "Video" : [
     #     "https://telegra.ph/file/f2235dde2263d69cb5e22.mp4",
     #     "https://telegra.ph/file/d414452895ef211ecb8d7.mp4"
     # ]
 }
-
-from random import choice
-
-import discord
 
 
 async def gensokyo_status(self) -> bool:
@@ -438,10 +447,10 @@ async def fumo_calling_ritual(self):
 async def summon_fumo(self, ctx, type: str):
     """Summon a Fumo."""
     e = discord.Embed(color=await ctx.embed_color())
-    if type == "random":
+    if type == "Random":
         get_fumo = await fumo_calling_ritual(self)
         if get_fumo:
-            e.title = f"Here's a Random Fumo! \N{JAPANESE DOLLS}"
+            e.title = f"Here's a Random Fumo! ᗜˬᗜ"
             e.set_image(url=get_fumo)
             e.set_footer(
                 text="Source: https://fumoapi.nosesisaid.me/",
@@ -450,7 +459,7 @@ async def summon_fumo(self, ctx, type: str):
         else:
             return await ctx.send("There's something wrong with the Fumo API, try again later!")
     else:
-        e.title = f"Here's a Random Fumo {type.title()}! \N{JAPANESE DOLLS}"
+        e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
         e.set_image(url=choice(fumo[type]))
         e.set_footer(
             text="Source: https://github.com/Kuro-Cogs/tree/main/fumo",
