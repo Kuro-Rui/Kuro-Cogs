@@ -60,11 +60,11 @@
 |     Fumo     | Generates a random Fumo image from an API.                                                                                                                                         |  1.1.3  |  Kuro  |
 |     Hack     | <details><summary>Act like a professional hacker and hack anyone!</summary>Inspired by **Dank Memer**.</details>                                                                   |  1.0.2  |  Kuro  |
 |    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  1.0.1  |  Kuro  |
-|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.1.1  |  Kuro  |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.0.4  |  Kuro  |
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
 | ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
 |     Sudo     | <details><summary>Allows dropping and elevating your owner permissions!</summary>Rewrite of https://github.com/Cog-Creators/Red-DiscordBot/pull/5419</details>                     |  1.1.0  |  Kuro  |
-|  Translate   | Translates the given text!                                                                                                                                                         |  2.0.0  |  Kuro  |
+|  Translate   | Translates the given text!                                                                                                                                                         |  2.2.0  |  Kuro  |
 
 ## Credits
 **Special Thanks** to:
