@@ -49,7 +49,7 @@ class Translate(commands.Cog):
         self.yandex = YandexTranslate()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "2.2.0"
+    __version__ = "2.3.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -141,8 +141,8 @@ class Translate(commands.Cog):
 
         await send_result(self, ctx, text, from_language, to_language, "Libre")
 
-    @commands.command(aliases=["mymemtranslate", "mymemorytranslate"])
-    async def mmtranslate(
+    @commands.command(aliases=["mmtranslate", "mymemtranslate", "mymemorytranslate"])
+    async def mtranslate(
         self,
         ctx,
         to_language: LanguageConverter,
@@ -181,8 +181,8 @@ class Translate(commands.Cog):
 
         await send_result(self, ctx, text, from_language, to_language, "Reverso")
 
-    @commands.command(aliases=["ttranslate", "translatecom"])
-    async def tctranslate(
+    @commands.command(aliases=["tctranslate", "translatecom"])
+    async def ttranslate(
         self,
         ctx,
         to_language: LanguageConverter,
