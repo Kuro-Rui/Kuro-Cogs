@@ -25,11 +25,17 @@ SOFTWARE.
 import json
 from pathlib import Path
 
+import discord
+from redbot.core.errors import CogLoadError
+
 from .hack import Hack
+
+if discord.version_info.major != 2:
+    raise CogLoadError("This cog requires dpy2.")
 
 with open(Path(__file__).parent / "info.json") as fp:
     __red_end_user_data_statement__ = json.load(fp)["end_user_data_statement"]
 
 
-def setup(bot):
-    bot.add_cog(Hack(bot))
+async def setup(bot):
+    await bot.add_cog(Hack(bot))

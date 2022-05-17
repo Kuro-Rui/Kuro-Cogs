@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 from io import BytesIO
 
 import aiohttp
@@ -39,7 +38,7 @@ class AvatarImgen(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.3"
+    __version__ = "0.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -54,8 +53,8 @@ class AvatarImgen(commands.Cog):
         """Nothing to delete"""
         return
 
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
+    async def cog_unload(self):
+        await self.session.close()
 
     @commands.command(aliases=["ads"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -65,7 +64,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/ad?image={avatar}") as r:
@@ -81,7 +80,7 @@ class AvatarImgen(commands.Cog):
     async def clown(self, ctx, user: discord.User):  # You don't want to be a clown, do you?
         """This person is a clown, Star."""
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/clown?image={avatar}") as r:
@@ -100,7 +99,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/drip?image={avatar}") as r:
@@ -119,7 +118,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/gun?image={avatar}") as r:
@@ -135,8 +134,12 @@ class AvatarImgen(commands.Cog):
     async def jokeoverhead(self, ctx, user: discord.User):  # You understand jokes, don't you?
         """This person doesn't get jokes at all!"""
 
-        # The API isn't accepting "?size=1024" part that's attached to avatar URLs
-        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
+        if user.avatar:
+            # The API isn't accepting "?size=1024" part that's attached to avatar URLs
+            # And it's only accepting either "png", "jpg", or "jpeg", so let's just use ".png"
+            avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar.key}.png"
+        else:
+            avatar = user.default_avatar
 
         async with ctx.typing():
             async with self.session.get(
@@ -157,7 +160,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/mnm?image={avatar}") as r:
@@ -176,7 +179,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/uncover?image={avatar}") as r:
@@ -195,7 +198,7 @@ class AvatarImgen(commands.Cog):
         if not user:
             user = ctx.author
 
-        avatar = user.avatar_url_as(format="png")
+        avatar = user.display_avatar
 
         async with ctx.typing():
             async with self.session.get(f"https://api.popcat.xyz/wanted?image={avatar}") as r:

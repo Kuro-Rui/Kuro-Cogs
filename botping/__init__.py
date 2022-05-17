@@ -25,6 +25,12 @@ SOFTWARE.
 import json
 from pathlib import Path
 
+import discord
+from redbot.core.errors import CogLoadError
+
+if discord.version_info.major != 2:
+    raise CogLoadError("This cog requires dpy2.")
+
 from .ping import setup
 
 with open(Path(__file__).parent / "info.json") as fp:

@@ -40,7 +40,7 @@ class ReactLog(commands.Cog):
         self.config.register_guild(channel=None, reaction_add=False, reaction_remove=False)
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.2"
+    __version__ = "0.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -105,7 +105,10 @@ class ReactLog(commands.Cog):
         embed.add_field(name="Channel", value=channel_mention, inline=True)
         embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
         embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
-        embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
+        if ctx.guild.icon:
+            embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon.url)
+        else:
+            embed.set_footer(text=ctx.guild.name)
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()

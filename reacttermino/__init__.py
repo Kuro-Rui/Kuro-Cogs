@@ -25,21 +25,25 @@ SOFTWARE.
 import json
 from pathlib import Path
 
+import discord
+from redbot.core.errors import CogLoadError
+
 from .reacttermino import ReactTermino
+
+if discord.version_info.major != 2:
+    raise CogLoadError("This cog requires dpy2.")
 
 with open(Path(__file__).parent / "info.json") as fp:
     __red_end_user_data_statement__ = json.load(fp)["end_user_data_statement"]
 
 
-def setup(bot):
-    global old_restart
+async def setup(bot):
     old_restart = bot.get_command("restart")
     if old_restart:
         bot.remove_command(old_restart.name)
 
-    global old_shutdown
     old_shutdown = bot.get_command("shutdown")
     if old_shutdown:
         bot.remove_command(old_shutdown.name)
 
-    bot.add_cog(ReactTermino(bot))
+    await bot.add_cog(ReactTermino(bot))

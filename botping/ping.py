@@ -41,7 +41,7 @@ class BotPing(commands.Cog):
     """A more information rich ping message."""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -205,4 +205,4 @@ async def setup(bot):
 
     cog = BotPing(bot)
     await cog.initialize()
-    bot.add_cog(cog)
+    await bot.add_cog(cog)

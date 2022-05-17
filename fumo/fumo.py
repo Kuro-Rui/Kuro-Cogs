@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
-
 import aiohttp
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
@@ -41,7 +39,7 @@ class Fumo(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.3"
+    __version__ = "0.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -52,8 +50,8 @@ class Fumo(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
+    async def cog_unload(self):
+        await self.session.close()
 
     @commands.group()
     async def fumo(self, ctx):
