@@ -51,7 +51,7 @@ class FakeMod(commands.Cog):
         )
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.1.0"
+    __version__ = "0.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""

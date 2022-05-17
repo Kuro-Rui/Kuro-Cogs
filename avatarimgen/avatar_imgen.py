@@ -39,7 +39,7 @@ class AvatarImgen(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.2"
+    __version__ = "0.0.3"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""

@@ -52,19 +52,19 @@
 ## Cogs List
 |     Name     | Description                                                                                                                                                                        | Version | Author |
 |:------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|:------:|
-| AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  1.0.2  |  Kuro  |
-|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details> |  1.1.0  |  Kuro  |
-|  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  1.0.1  |  Kuro  |
- |   DankTax    | <details><summary>Calculate your tax before giving money on Dank Memer!</summary>Inspired by **Dank Memer**.</details>                                                             |  1.0.0  |  Kuro  |
-|   FakeMod    | Fake moderation commands made for fun!                                                                                                                                             |  1.1.0  |  Kuro  |
-|     Fumo     | Generates a random Fumo image from an API.                                                                                                                                         |  1.1.3  |  Kuro  |
-|     Hack     | <details><summary>Act like a professional hacker and hack anyone!</summary>Inspired by **Dank Memer**.</details>                                                                   |  1.0.2  |  Kuro  |
-|    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  1.0.1  |  Kuro  |
-|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  4.0.4  |  Kuro  |
-|   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  1.0.1  |  Kuro  |
-| ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  1.0.0  |  Kuro  |
-|     Sudo     | <details><summary>Allows dropping and elevating your owner permissions!</summary>Rewrite of https://github.com/Cog-Creators/Red-DiscordBot/pull/5419</details>                     |  1.1.0  |  Kuro  |
-|  Translate   | Translates the given text!                                                                                                                                                         |  2.2.0  |  Kuro  |
+| AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  0.0.3  |  Kuro  |
+|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details> |  0.1.0  |  Kuro  |
+|  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  0.0.2  |  Kuro  |
+ |   DankTax    | <details><summary>Calculate your tax before giving money on Dank Memer!</summary>Inspired by **Dank Memer**.</details>                                                             |  0.0.1  |  Kuro  |
+|   FakeMod    | Fake moderation commands made for fun!                                                                                                                                             |  0.1.0  |  Kuro  |
+|     Fumo     | Generates a random Fumo image from an API.                                                                                                                                         |  0.1.3  |  Kuro  |
+|     Hack     | <details><summary>Act like a professional hacker and hack anyone!</summary>Inspired by **Dank Memer**.</details>                                                                   |  0.0.3  |  Kuro  |
+|    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  0.0.2  |  Kuro  |
+|     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  3.0.4  |  Kuro  |
+|   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  0.0.2  |  Kuro  |
+| ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  0.0.1  |  Kuro  |
+|     Sudo     | <details><summary>Allows dropping and elevating your owner permissions!</summary>Rewrite of https://github.com/Cog-Creators/Red-DiscordBot/pull/5419</details>                     |  0.1.0  |  Kuro  |
+|  Translate   | Translates the given text!                                                                                                                                                         |  1.3.0  |  Kuro  |
 
 ## Credits
 **Special Thanks** to:
