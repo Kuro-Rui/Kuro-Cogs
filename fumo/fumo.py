@@ -41,7 +41,7 @@ class Fumo(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.2.0"
+    __version__ = "0.2.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -61,28 +61,24 @@ class Fumo(commands.Cog):
         pass
 
     @fumo.command()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     async def random(self, ctx):
         """Generates a random Fumo ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "Random")
 
     @fumo.command(aliases=["images"])
-    @commands.cooldown(1, 3, commands.BucketType.user)
     async def image(self, ctx):
         """Generates a random Fumo image ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "Image")
 
     @fumo.command(aliases=["gifs"])
-    @commands.cooldown(1, 3, commands.BucketType.user)
     async def gif(self, ctx):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "GIF")
 
     @fumo.command(aliases=["memes"])
-    @commands.cooldown(1, 3, commands.BucketType.user)
     async def meme(self, ctx):
         """Generates a random Fumo meme ᗜˬᗜ"""
 
