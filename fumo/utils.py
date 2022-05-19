@@ -28,9 +28,6 @@ from random import choice
 
 import discord
 
-with open(Path(__file__).parent / "fumos.json") as fumos:
-    fumo = json.load(fumos)
-
 
 async def fumo_calling_ritual(self):
     """Fumo API Call."""
@@ -46,10 +43,10 @@ async def summon_fumo(self, ctx, type: str):
     """Summon a Fumo."""
     e = discord.Embed(color=await ctx.embed_color())
     if type == "Random":
-        get_fumo = await fumo_calling_ritual(self)
-        if get_fumo:
+        fumo = await fumo_calling_ritual(self)
+        if fumo:
             e.title = f"Here's a Random Fumo! ᗜˬᗜ"
-            e.set_image(url=get_fumo)
+            e.set_image(url=fumo)
             e.set_footer(
                 text="Source: https://fumoapi.nosesisaid.me/",
                 icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless",
@@ -57,6 +54,8 @@ async def summon_fumo(self, ctx, type: str):
         else:
             return await ctx.send("There's something wrong with the Fumo API, try again later!")
     else:
+        with open(Path(__file__).parent / "fumos.json") as fumos:
+            fumo = json.load(fumos)
         e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
         e.set_image(url=choice(fumo[type]))
     await ctx.send(embed=e)
