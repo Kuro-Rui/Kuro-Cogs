@@ -41,7 +41,7 @@ class Fumo(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.3"
+    __version__ = "0.2.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
