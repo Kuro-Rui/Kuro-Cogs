@@ -23,11 +23,12 @@ SOFTWARE.
 """
 
 import json
+from pathlib import Path
 from random import choice
 
 import discord
 
-with open("fumos.json") as fumos:
+with open(Path(__file__).parent / "fumos.json") as fumos:
     fumo = json.load(fumos)
 
 
