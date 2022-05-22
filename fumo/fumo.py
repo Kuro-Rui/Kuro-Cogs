@@ -61,19 +61,19 @@ class Fumo(commands.Cog):
     async def image(self, ctx):
         """Generates a random Fumo image ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "Image")
+        await summon_fumo(ctx, "Image")
 
     @fumo.command()
     async def gif(self, ctx):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "GIF")
+        await summon_fumo(ctx, "GIF")
 
     @fumo.command()
     async def meme(self, ctx):
         """Generates a random Fumo meme ᗜˬᗜ"""
 
-        await summon_fumo(self, ctx, "Meme")
+        await summon_fumo(ctx, "Meme")
 
     @fumo.command()
     async def video(self, ctx):
@@ -84,4 +84,4 @@ class Fumo(commands.Cog):
         else:
             choice = "Video"
 
-        await summon_fumo(self, ctx, choice)
+        await summon_fumo(ctx, choice)

@@ -32,7 +32,7 @@ with open(Path(__file__).parent / "fumos.json") as fumos:
     fumo = json.load(fumos)
 
 
-async def summon_fumo(self, ctx, type: str):
+async def summon_fumo(ctx, type: str):
     """Summon a Fumo."""
     url = random.choice(fumo[type])
     if type == "Video" or "FUMO FRIDAY":
