@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 import asyncio
-from datetime import datetime
 import random
+from datetime import datetime
 
 import aiohttp
 from redbot.core import commands

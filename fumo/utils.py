@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from io import BytesIO
 import json
-from pathlib import Path
 import random
+from io import BytesIO
+from pathlib import Path
 
 import discord
 
