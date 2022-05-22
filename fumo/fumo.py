@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 import asyncio
-from datetime import datetime
 import random
+from datetime import datetime
 
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list

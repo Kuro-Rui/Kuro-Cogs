@@ -23,8 +23,9 @@ SOFTWARE.
 """
 
 import json
-from pathlib import Path
 import random
+from io import BytesIO
+from pathlib import Path
 
 import discord
 
