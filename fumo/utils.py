@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from io import BytesIO
 import json
 from pathlib import Path
 import random
@@ -37,9 +36,7 @@ async def summon_fumo(self, ctx, type: str):
     """Summon a Fumo."""
     url = random.choice(fumo[type])
     if type == "Video" or "FUMO FRIDAY":
-        async with self.session.get(url) as response:
-            video = discord.File(BytesIO(await response.read()))
-        return await ctx.send(embed="**Here's a Random Fumo Video! ᗜˬᗜ**", file=video)
+        return await ctx.send(embed="**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
     e = discord.Embed(color=await ctx.embed_color())
     e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
     e.set_image(url=url)

@@ -26,7 +26,6 @@ import asyncio
 from datetime import datetime
 import random
 
-import aiohttp
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
@@ -40,7 +39,6 @@ class Fumo(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "1.0.0"
@@ -53,9 +51,6 @@ class Fumo(commands.Cog):
             f"`Cog Author  :` {self.__author__}\n"
             f"`Cog Version :` {self.__version__}"
         )
-
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
 
     @commands.group()
     async def fumo(self, ctx):
