@@ -36,8 +36,10 @@ async def summon_fumo(ctx, type: str):
     """Summon a Fumo."""
     url = random.choice(fumo[type])
     if type == "Video" or "FUMO FRIDAY":
-        return await ctx.send(embed="**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
-    e = discord.Embed(color=await ctx.embed_color())
-    e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
-    e.set_image(url=url)
-    await ctx.send(embed=e)
+        await ctx.send("**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
+    else:
+        embed = discord.Embed(
+            title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color()
+        )
+        embed.set_image(url=url)
+        await ctx.send(embed=embed)
