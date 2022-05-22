@@ -35,11 +35,10 @@ with open(Path(__file__).parent / "fumos.json") as fumos:
 async def summon_fumo(ctx, type: str):
     """Summon a Fumo."""
     url = random.choice(fumo[type])
-    if type == "Video" or "FUMO FRIDAY":
-        await ctx.send("**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
-    else:
-        embed = discord.Embed(
-            title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color()
-        )
-        embed.set_image(url=url)
-        await ctx.send(embed=embed)
+    if type == "Video" or type == "FUMO FRIDAY":
+        return await ctx.send("**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
+    embed = discord.Embed(
+        title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color()
+    )
+    embed.set_image(url=url)
+    await ctx.send(embed=embed)
