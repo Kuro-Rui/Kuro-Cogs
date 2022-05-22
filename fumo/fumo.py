@@ -23,6 +23,8 @@ SOFTWARE.
 """
 
 import asyncio
+from datetime import datetime
+import random
 
 import aiohttp
 from redbot.core import commands
@@ -41,7 +43,7 @@ class Fumo(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.2.1"
+    __version__ = "1.0.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -57,29 +59,34 @@ class Fumo(commands.Cog):
 
     @commands.group()
     async def fumo(self, ctx):
-        """Generates Fumo Image ᗜˬᗜ"""
+        """Generate a random Fumo ᗜˬᗜ"""
         pass
 
     @fumo.command()
-    async def random(self, ctx):
-        """Generates a random Fumo ᗜˬᗜ"""
-
-        await summon_fumo(self, ctx, "Random")
-
-    @fumo.command(aliases=["images"])
     async def image(self, ctx):
         """Generates a random Fumo image ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "Image")
 
-    @fumo.command(aliases=["gifs"])
+    @fumo.command()
     async def gif(self, ctx):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "GIF")
 
-    @fumo.command(aliases=["memes"])
+    @fumo.command()
     async def meme(self, ctx):
         """Generates a random Fumo meme ᗜˬᗜ"""
 
         await summon_fumo(self, ctx, "Meme")
+
+    @fumo.command()
+    async def video(self, ctx):
+        """Generates a random Fumo video ᗜˬᗜ"""
+
+        if datetime.today().isoweekday() == 5:
+            choice = random.choice(["FUMO FRIDAY", "Video"])
+        else:
+            choice = "Video"
+
+        await summon_fumo(self, ctx, choice)

@@ -22,40 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from io import BytesIO
 import json
 from pathlib import Path
-from random import choice
+import random
 
 import discord
 
-
-async def fumo_calling_ritual(self):
-    """Fumo API Call."""
-    async with self.session.get("https://fumoapi.nosesisaid.me/random") as response:
-        if response.status == 200:
-            get_fumo = await response.json()
-            return get_fumo["URL"]
-        else:
-            return
+with open(Path(__file__).parent / "fumos.json") as fumos:
+    fumo = json.load(fumos)
 
 
 async def summon_fumo(self, ctx, type: str):
     """Summon a Fumo."""
+    url = random.choice(fumo[type])
+    if type == "Video" or "FUMO FRIDAY":
+        async with self.session.get(url) as response:
+            video = discord.File(BytesIO(await response.read()))
+        return await ctx.send(embed="**Here's a Random Fumo Video! ᗜˬᗜ**", file=video)
     e = discord.Embed(color=await ctx.embed_color())
-    if type == "Random":
-        fumo = await fumo_calling_ritual(self)
-        if fumo:
-            e.title = f"Here's a Random Fumo! ᗜˬᗜ"
-            e.set_image(url=fumo)
-            e.set_footer(
-                text="Source: https://fumoapi.nosesisaid.me/",
-                icon_url="https://cdn.discordapp.com/emojis/935839733173612594.gif?quality=lossless",
-            )
-        else:
-            return await ctx.send("There's something wrong with the Fumo API, try again later!")
-    else:
-        with open(Path(__file__).parent / "fumos.json") as fumos:
-            fumo = json.load(fumos)
-        e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
-        e.set_image(url=choice(fumo[type]))
+    e.title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
+    e.set_image(url=url)
     await ctx.send(embed=e)
