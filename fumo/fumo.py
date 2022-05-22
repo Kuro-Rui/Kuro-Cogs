@@ -77,7 +77,11 @@ class Fumo(commands.Cog):
 
     @fumo.command()
     async def video(self, ctx):
-        """Generates a random Fumo video ᗜˬᗜ"""
+        """
+        Generates a random Fumo video ᗜˬᗜ
+
+        SPOILER: ||More videos on Fumo Funky Friday ᗜˬᗜ||
+        """
 
         if datetime.today().isoweekday() == 5:
             choice = random.choice(["FUMO FRIDAY", "Video"])
