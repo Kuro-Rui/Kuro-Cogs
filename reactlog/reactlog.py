@@ -109,19 +109,21 @@ class ReactLog(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, member: discord.Member):
-        if not await self.config.guild(member.guild).reaction_add():
-            return
-        if member.bot:
-            return
-        log_channel = await self.config.guild(member.guild).channel()
-        log = self.bot.get_channel(log_channel)
+    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
         message = reaction.message
+        if not message.guild:
+            return
+        if not await self.config.guild(message.guild).reaction_add():
+            return
+        if user.bot:
+            return
         channel = message.channel
         emoji = reaction.emoji
+        log_channel = await self.config.guild(message.guild).channel()
+        log = self.bot.get_channel(log_channel)
         if reaction.count == 1:
             embed = discord.Embed(color=discord.Color.green())
-            embed.set_author(name=f"{member} ({member.id})", icon_url=member.avatar_url)
+            embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
             try:
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
@@ -140,19 +142,21 @@ class ReactLog(commands.Cog):
             await log.send(embed=embed)
 
     @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction: discord.Reaction, member: discord.Member):
-        if not await self.config.guild(member.guild).reaction_remove():
-            return
-        if member.bot:
-            return
-        log_channel = await self.config.guild(member.guild).channel()
-        log = self.bot.get_channel(log_channel)
+    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
         message = reaction.message
+        if not message.guild:
+            return
+        if not await self.config.guild(message.guild).reaction_remove():
+            return
+        if user.bot:
+            return
         channel = message.channel
         emoji = reaction.emoji
+        log_channel = await self.config.guild(message.guild).channel()
+        log = self.bot.get_channel(log_channel)
         if reaction.count == 0:
             embed = discord.Embed(color=discord.Color.red())
-            embed.set_author(name=f"{member} ({member.id})", icon_url=member.avatar_url)
+            embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
             try:
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
