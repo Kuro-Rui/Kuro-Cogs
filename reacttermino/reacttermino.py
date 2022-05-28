@@ -70,24 +70,30 @@ class ReactTermino(commands.Cog):
             self.bot.add_command(old_shutdown)
 
     @checks.is_owner()
-    @commands.command(name="restart")
-    async def _restart(self, ctx: commands.Context, directly: bool = False):
+    @commands.command()
+    async def restart(self, ctx: commands.Context, directly: bool = False, silently: bool = False):
         """Attempts to restart [botname].
 
         Makes [botname] quit with exit code 26.
+
         The restart is not guaranteed: it must be dealt with by the process manager in use.
+
+        You can't restart silently if directly is False.
 
         **Examples:**
             - `[p]restart`
             - `[p]restart True` - Restart directly without confirmation.
+            - `[p]restart True True` - Restart directly without any message.
 
         **Arguments:**
             - `[directly]` - Whether to directly restart with no confirmation message. Defaults to False.
+            - `[silently]` - Whether to skip sending the restart message. Defaults to False & `directly` must be True.
         """
         with contextlib.suppress(discord.HTTPException):
             if directly:
-                emb = discord.Embed(title="Restarting...", color=await ctx.embed_color())
-                await ctx.send(embed=emb)
+                if silently:
+                    emb = discord.Embed(title="Restarting...", color=await ctx.embed_color())
+                    await ctx.send(embed=emb)
                 await self.bot.shutdown(restart=True)
             else:
                 emb = discord.Embed(
@@ -106,8 +112,8 @@ class ReactTermino(commands.Cog):
                     await msg.edit(embed=emb)
 
     @checks.is_owner()
-    @commands.command(name="shutdown")
-    async def _shutdown(self, ctx: commands.Context, directly: bool = False):
+    @commands.command()
+    async def shutdown(self, ctx: commands.Context, directly: bool = False, silently: bool = False):
         """Shuts down the bot.
 
         Allows [botname] to shut down gracefully.
@@ -117,14 +123,17 @@ class ReactTermino(commands.Cog):
         **Examples:**
             - `[p]shutdown`
             - `[p]shutdown True` - Shutdown directly without confirmation.
+            - `[p]shutdown True True` - Shutdown directly without any message.
 
         **Arguments:**
             - `[directly]` - Whether to directly shut down with no confirmation message. Defaults to False.
+            - `[silently]` - Whether to skip sending the shutdown message. Defaults to False & `directly` must be True.
         """
         with contextlib.suppress(discord.HTTPException):
             if directly:
-                emb = discord.Embed(title="Shutting Down...", color=await ctx.embed_color())
-                await ctx.send(embed=emb)
+                if not silently:
+                    emb = discord.Embed(title="Shutting Down...", color=await ctx.embed_color())
+                    await ctx.send(embed=emb)
                 await self.bot.shutdown()
             else:
                 emb = discord.Embed(

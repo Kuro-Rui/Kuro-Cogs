@@ -62,7 +62,7 @@
 |    ImgBB     | Upload your image to ImgBB!                                                                                                                                                        |  0.0.2  |  Kuro  |
 |     Osu      | <details><summary>Show osu!user Stats with details/card! (Card is STD only)</summary>Rewrite of https://github.com/Jintaku/Jintaku-Cogs-V3/tree/master/osu</details>               |  3.0.4  |  Kuro  |
 |   ReactLog   | <details><summary>Log reactions when reactions were added/removed!</summary>Inspired by **Sx Bot**.</details>                                                                      |  0.0.2  |  Kuro  |
-| ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  0.0.1  |  Kuro  |
+| ReactTermino | Restart/Shutdown your bot with reaction predicate!                                                                                                                                 |  0.1.0  |  Kuro  |
 |     Sudo     | <details><summary>Allows dropping and elevating your owner permissions!</summary>Rewrite of https://github.com/Cog-Creators/Red-DiscordBot/pull/5419</details>                     |  0.1.0  |  Kuro  |
 |  Translate   | Translates the given text!                                                                                                                                                         |  1.3.0  |  Kuro  |
 
