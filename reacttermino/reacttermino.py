@@ -30,6 +30,9 @@ from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.menus import start_adding_reactions
 from redbot.core.utils.predicates import ReactionPredicate
 
+old_restart = None
+old_shutdown = None
+
 
 class ReactTermino(commands.Cog):
     """Shutdown and Restart with confirmation!"""
@@ -38,7 +41,7 @@ class ReactTermino(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.1"
+    __version__ = "0.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -49,8 +52,25 @@ class ReactTermino(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
+    def cog_unload(self):
+        global old_restart
+        if old_restart:
+            try:
+                self.bot.remove_command("restart")
+            except:
+                pass
+            self.bot.add_command(old_restart)
+
+        global old_shutdown
+        if old_shutdown:
+            try:
+                self.bot.remove_command("shutdown")
+            except:
+                pass
+            self.bot.add_command(old_shutdown)
+
     @checks.is_owner()
-    @commands.command(name="restart", usage="[directly=False]")
+    @commands.command(name="restart")
     async def _restart(self, ctx: commands.Context, directly: bool = False):
         """Attempts to restart [botname].
 
@@ -86,7 +106,7 @@ class ReactTermino(commands.Cog):
                     await msg.edit(embed=emb)
 
     @checks.is_owner()
-    @commands.command(name="shutdown", usage="[directly=False]")
+    @commands.command(name="shutdown")
     async def _shutdown(self, ctx: commands.Context, directly: bool = False):
         """Shuts down the bot.
 
@@ -121,3 +141,17 @@ class ReactTermino(commands.Cog):
                 else:
                     emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
+
+
+def setup(bot):
+    global old_restart
+    old_restart = bot.get_command("restart")
+    if old_restart:
+        bot.remove_command(old_restart.name)
+
+    global old_shutdown
+    old_shutdown = bot.get_command("shutdown")
+    if old_shutdown:
+        bot.remove_command(old_shutdown.name)
+
+    bot.add_cog(ReactTermino(bot))
