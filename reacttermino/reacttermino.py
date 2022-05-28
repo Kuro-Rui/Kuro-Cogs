@@ -113,7 +113,9 @@ class ReactTermino(commands.Cog):
 
     @checks.is_owner()
     @commands.command()
-    async def shutdown(self, ctx: commands.Context, directly: bool = False, silently: bool = False):
+    async def shutdown(
+        self, ctx: commands.Context, directly: bool = False, silently: bool = False
+    ):
         """Shuts down the bot.
 
         Allows [botname] to shut down gracefully.
