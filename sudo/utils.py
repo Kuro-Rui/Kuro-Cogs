@@ -35,4 +35,5 @@ def is_owner(real: bool = False, copied: bool = False):
             if ctx.author.id in all_owner_ids and ctx.author.id not in ctx.bot.owner_ids:
                 return True
         return False
+
     return commands.check(predicate)
