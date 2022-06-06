@@ -28,7 +28,6 @@ import asyncio
 from copy import copy
 from datetime import timedelta
 
-import discord
 from redbot.core import commands
 from redbot.core.commands import TimedeltaConverter
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
@@ -49,7 +48,7 @@ class Sudo(commands.Cog):
         self.all_owner_ids.clear()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -65,12 +64,14 @@ class Sudo(commands.Cog):
     async def su(self, ctx: commands.Context):
         """Enable your bot owner privileges."""
         self.bot.owner_ids.add(ctx.author.id)
+        self.all_owner_ids.remove(ctx.author.id)
         await ctx.send("Your bot owner privileges have been enabled.")
 
     @is_owner(real=True)
     @commands.command()
     async def unsu(self, ctx: commands.Context):
         """Disable your bot owner privileges."""
+        self.all_owner_ids.add(ctx.author.id)
         self.bot.owner_ids.remove(ctx.author.id)
         await ctx.send("Your bot owner privileges have been disabled.")
 
@@ -90,13 +91,15 @@ class Sudo(commands.Cog):
 
         Should be between 1 minute and 1 day. Default is 15 minutes.
         """
-        time = interval.total_seconds()
         self.bot.owner_ids.add(ctx.author.id)
+        self.all_owner_ids.remove(ctx.author.id)
+        time = interval.total_seconds()
         await ctx.send(
             f"Your bot owner privileges have been enabled for {humanize_timedelta(seconds=time)}."
         )
         await asyncio.sleep(time)
         if self.bot.get_cog("Sudo"):  # Worst condition if user unloaded sudo.
+            self.all_owner_ids.add(ctx.author.id)
             self.bot.owner_ids.remove(ctx.author.id)
 
     @is_owner(copied=True)
@@ -107,11 +110,13 @@ class Sudo(commands.Cog):
         The prefix must not be entered.
         """
         self.bot.owner_ids.add(ctx.author.id)
+        self.all_owner_ids.remove(ctx.author.id)
         message = copy(ctx.message)
         message.content = ctx.prefix + command
         context = await self.bot.get_context(message)
         await self.bot.invoke(context)  # Doesn't work for tags tho
         if self.bot.get_cog("Sudo"):  # Worst condition if the command is "unload sudo".
+            self.all_owner_ids.add(ctx.author.id)
             self.bot.owner_ids.remove(ctx.author.id)
 
     @is_owner(copied=True)
@@ -126,12 +131,14 @@ class Sudo(commands.Cog):
         """
         message = ctx.message
         if not content and not message.embeds and not message.attachments:
-            # DEP-WARN: add `msg.stickers` when adding d.py 2.0
+            # DEP-WARN: add `message.stickers` when adding d.py 2.0
             await ctx.send_help()
             return
         self.bot.owner_ids.add(ctx.author.id)
+        self.all_owner_ids.remove(ctx.author.id)
         msg = copy(message)
         msg.content = content
         self.bot.dispatch("message", msg)
         if self.bot.get_cog("Sudo"):  # Worst condition if the content is "[p]unload sudo".
+            self.all_owner_ids.add(ctx.author.id)
             self.bot.owner_ids.remove(ctx.author.id)
