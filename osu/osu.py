@@ -118,7 +118,6 @@ class Osu(commands.Cog):
             f"`A Emoji  ` : {emojis[4]}"
         )
         await ctx.send(embed=embed)
-        await ctx.send_help()
 
     @emoji.command()
     async def ssh(self, ctx, ssh_emoji: Optional[Emoji]):
