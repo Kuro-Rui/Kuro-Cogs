@@ -110,10 +110,14 @@ class ReactLog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
+        if reaction.count != 1:
+            return
         await self.send_to_log(reaction.message, reaction.emoji, user, True)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
+        if reaction.count != 0:
+            return
         await self.send_to_log(reaction.message, reaction.emoji, user, False)
 
     async def send_to_log(self, message, emoji, user, added: bool) -> discord.Message:
