@@ -31,14 +31,7 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import (
-    Emoji,
-    api_is_set,
-    get_osu_avatar,
-    osu_api_key,
-    get_osu_user,
-    send_osu_user_info,
-)
+from .utils import Emoji, api_is_set, get_osu_avatar, get_osu_user, osu_api_key, send_osu_user_info
 
 
 class Osu(commands.Cog):
@@ -252,7 +245,7 @@ class Osu(commands.Cog):
         if player:
             async with self.session.get(
                 "https://api.martinebot.com/v1/imagesgen/osuprofile",
-                params={"player_username": player['username']},
+                params={"player_username": player["username"]},
             ) as response:
                 if response.status == 201:
                     embed = discord.Embed(color=await ctx.embed_color())
