@@ -110,27 +110,19 @@ class ReactLog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
-        message: discord.Message = reaction.message
-        if not message.guild:
-            return
-        if not await self.config.guild(message.guild).reaction_remove():
-            return
-        if user.bot:
-            return
-        await self.send_to_log(message, reaction.emoji, user, True)
+        await self.send_to_log(reaction.message, reaction.emoji, user, True)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
-        message: discord.Message = reaction.message
+        await self.send_to_log(reaction.message, reaction.emoji, user, False)
+
+    async def send_to_log(self, message, emoji, user, added: bool) -> discord.Message:
         if not message.guild:
             return
         if not await self.config.guild(message.guild).reaction_remove():
             return
         if user.bot:
             return
-        await self.send_to_log(message, reaction.emoji, user, False)
-
-    async def send_to_log(self, message, emoji, user, added: bool):
         log = self.bot.get_channel(await self.config.guild(message.guild).channel())
         color = discord.Color.green() if added else discord.Color.red()
         embed = discord.Embed(color=color, timestamp=datetime.utcnow())
