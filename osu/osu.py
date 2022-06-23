@@ -31,7 +31,8 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import Emoji, api_is_set, get_osu_avatar, get_osu_user, osu_api_key, send_osu_user_info
+from .converters import Emoji
+from .utils import api_is_set, get_osu_avatar, get_osu_user, send_osu_user_info
 
 
 class Osu(commands.Cog):
@@ -47,7 +48,7 @@ class Osu(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "3.1.0"
+    __version__ = "3.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -104,9 +105,20 @@ class Osu(commands.Cog):
     @api_is_set()
     @osuset.group()
     @commands.is_owner()
+    @commands.bot_has_permissions(use_external_emojis=True)
     async def emoji(self, ctx):
         """Set custom emoji for ranks."""
-        pass
+        embed = discord.Embed(title="Current Emojis", color=await ctx.embed_color())
+        emojis = [e for e in (await self.config.all()).values()]
+        embed.description = (
+            f"`SSH Emoji` : {emojis[0]}\n"
+            f"`SS Emoji ` : {emojis[1]}\n"
+            f"`SH Emoji ` : {emojis[2]}\n"
+            f"`S Emoji  ` : {emojis[3]}\n"
+            f"`A Emoji  ` : {emojis[4]}"
+        )
+        await ctx.send(embed=embed)
+        await ctx.send_help()
 
     @emoji.command()
     async def ssh(self, ctx, ssh_emoji: Optional[Emoji]):
@@ -174,13 +186,13 @@ class Osu(commands.Cog):
         await self.config.sh_emoji.set(sh_emoji)
         await self.config.s_emoji.set(s_emoji)
         await self.config.a_emoji.set(a_emoji)
-        await ctx.tick()
+        await ctx.send("The custom emojis for all ranks has been set.")
 
     @emoji.command()
+    @commands.bot_has_permissions()
     async def clear(self, ctx):
         """Clear all set custom emojis for ranks."""
         await self.config.clear()
-        await ctx.tick()
         await ctx.send("All custom emojis for ranks has been cleared.")
 
     @api_is_set()

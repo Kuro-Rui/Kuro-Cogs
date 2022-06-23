@@ -26,7 +26,6 @@ from io import BytesIO
 from math import trunc
 
 import discord
-from emoji import UNICODE_EMOJI_ENGLISH
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
 
@@ -39,13 +38,6 @@ def api_is_set():
             return True
 
     return commands.check(predicate)
-
-
-class Emoji(commands.EmojiConverter):
-    async def convert(self, ctx: commands.Context, argument: str):
-        if argument in UNICODE_EMOJI_ENGLISH:
-            return argument
-        return str(await super().convert(ctx, argument))
 
 
 async def osu_api_key(self):
@@ -78,7 +70,7 @@ async def get_osu_user(self, ctx, username: str = None, m: int = 0):
     if not username:
         username = await self.config.user(ctx.author).username()
         if not username:
-            p = ctx.clean_prefix
+            p = ctx.prefix
             command = ctx.invoked_with
             error_title = "Your username hasn't been set yet!"
             error_desc = (
