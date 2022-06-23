@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import datetime
+import unicodedata
 
 import discord
 from redbot.core import Config, commands
@@ -124,19 +125,28 @@ class ReactLog(commands.Cog):
         if reaction.count == 1:
             embed = discord.Embed(color=discord.Color.green())
             embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-            try:
+            if isinstance(emoji, discord.Emoji):
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
                     f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
                     f"**Message:** [Jump to Message ►]({message.jump_url})"
                 )
-                embed.set_thumbnail(url=emoji.url)
-            except AttributeError:  # Handle Original Emoji
+                url = emoji.url
+            else:  # Default Emoji
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
                     f"**Emoji:** {emoji}\n"
                     f"**Message:** [Jump to Message ►]({message.jump_url})"
                 )
+                # https://github.com/flapjax/FlapJack-Cogs/blob/red-v3-rewrites/bigmoji/bigmoji.py#L69-L93
+                chars = [str(hex(ord(c)))[2:] for c in emoji]
+                if len(chars) == 2:
+                    if "fe0f" in chars:
+                        chars.remove("fe0f")
+                if "20e3" in chars:
+                    chars.remove("fe0f")
+                url = f"https://twemoji.maxcdn.com/2/72x72/{'-'.join(chars)}.png"
+            embed.set_thumbnail(url=url)
             embed.set_footer(text=f"Reaction Added | #{channel.name}")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await log.send(embed=embed)
@@ -157,19 +167,28 @@ class ReactLog(commands.Cog):
         if reaction.count == 0:
             embed = discord.Embed(color=discord.Color.red())
             embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
-            try:
+            if isinstance(emoji, discord.Emoji):
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
                     f"**Emoji:** {emoji.name} (ID: {emoji.id})\n"
                     f"**Message:** [Jump to Message ►]({message.jump_url})"
                 )
-                embed.set_thumbnail(url=emoji.url)
-            except AttributeError:  # Handle Original Emoji
+                url = emoji.url
+            else:  # Default Emoji
                 embed.description = (
                     f"**Channel:** {channel.mention}\n"
                     f"**Emoji:** {emoji}\n"
                     f"**Message:** [Jump to Message ►]({message.jump_url})"
                 )
+                # https://github.com/flapjax/FlapJack-Cogs/blob/red-v3-rewrites/bigmoji/bigmoji.py#L69-L93
+                chars = [str(hex(ord(c)))[2:] for c in emoji]
+                if len(chars) == 2:
+                    if "fe0f" in chars:
+                        chars.remove("fe0f")
+                if "20e3" in chars:
+                    chars.remove("fe0f")
+                url = f"https://twemoji.maxcdn.com/2/72x72/{'-'.join(chars)}.png"
+            embed.set_thumbnail(url=url)
             embed.set_footer(text=f"Reaction Removed | #{channel.name}")
             embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
             await log.send(embed=embed)
