@@ -149,5 +149,6 @@ class ReactLog(commands.Cog):
                 chars.remove("fe0f")
             url = f"https://twemoji.maxcdn.com/2/72x72/{'-'.join(chars)}.png"
         embed.set_thumbnail(url=url)
-        embed.set_footer(text=f"Reaction Removed | #{message.channel.name}")
+        a_or_r = "Added" if added else "Removed"
+        embed.set_footer(text=f"Reaction {a_or_r} | #{message.channel.name}")
         await log.send(embed=embed)
