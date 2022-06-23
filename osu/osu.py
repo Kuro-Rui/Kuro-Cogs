@@ -195,7 +195,10 @@ class Osu(commands.Cog):
         if player:
             avatar, filename = await get_osu_avatar(self, ctx, player["username"])
             embed = discord.Embed(color=await ctx.embed_color())
-            embed.set_author(name="{}'s osu! Avatar".format(player["username"]))
+            embed.set_author(
+                name="{}'s osu! Avatar".format(player["username"]),
+                url="https://a.ppy.sh/{}".format(player["user_id"]),
+            )
             embed.set_image(url=f"attachment://{filename}")
             await ctx.send(embed=embed, file=avatar)
 
