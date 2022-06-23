@@ -256,7 +256,7 @@ class Osu(commands.Cog):
                         name="{}'s osu! Standard Card:".format(player["username"]),
                         url="https://osu.ppy.sh/users/{}".format(player["user_id"]),
                     )
-                    filename = player["username"] + ".png"
+                    filename = player["username"].replace(" ", "_") + ".png"
                     card = discord.File(BytesIO(await response.read()), filename=filename)
                     embed.set_image(url=f"attachment://{filename}")
                     embed.set_footer(

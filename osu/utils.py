@@ -109,7 +109,7 @@ async def get_osu_avatar(self, ctx, username: str = None):
     if player:
         async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
             image = await image.read()
-        filename = player["username"] + ".png"
+        filename = player["username"].replace(" ", "_") + ".png"
         avatar = discord.File(BytesIO(image), filename=filename)
         return avatar, filename
 
