@@ -112,10 +112,10 @@ class Osu(commands.Cog):
         emojis = [e for e in (await self.config.all()).values()]
         embed.description = (
             f"`SSH Emoji` : {emojis[0]}\n"
-            f"`SS Emoji ` : {emojis[1]}\n"
-            f"`SH Emoji ` : {emojis[2]}\n"
-            f"`S Emoji  ` : {emojis[3]}\n"
-            f"`A Emoji  ` : {emojis[4]}"
+            f"`SS  Emoji` : {emojis[1]}\n"
+            f"`SH  Emoji` : {emojis[2]}\n"
+            f"`S   Emoji` : {emojis[3]}\n"
+            f"`A   Emoji` : {emojis[4]}"
         )
         await ctx.send(embed=embed)
 
