@@ -40,7 +40,7 @@ class ReactLog(commands.Cog):
         self.config.register_guild(channel=None, reaction_add=False, reaction_remove=False)
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.2"
+    __version__ = "0.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
