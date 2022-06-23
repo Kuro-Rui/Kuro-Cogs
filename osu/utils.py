@@ -26,10 +26,9 @@ from io import BytesIO
 from math import trunc
 
 import discord
+from emoji import UNICODE_EMOJI_ENGLISH
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelta
-
-# ~ ~ ~ ~ ~ Decorator ~ ~ ~ ~ ~
 
 
 def api_is_set():
@@ -42,12 +41,15 @@ def api_is_set():
     return commands.check(predicate)
 
 
-# ~ ~ ~ ~ ~ Functions ~ ~ ~ ~ ~
+class Emoji(commands.EmojiConverter):
+    async def convert(self, ctx: commands.Context, argument: str):
+        if argument in UNICODE_EMOJI_ENGLISH:
+            return argument
+        return str(await super().convert(ctx, argument))
 
 
 async def osu_api_key(self):
-    api_key = (await self.bot.get_shared_api_tokens("osu")).get("api_key")
-    return api_key
+    return (await self.bot.get_shared_api_tokens("osu")).get("api_key")
 
 
 async def rank_emojis(self):
@@ -70,11 +72,9 @@ async def rank_emojis(self):
     return ssh, ss, sh, s, a
 
 
-async def osu_get_user(self, ctx, m: int = 0, username: str = None):
+async def get_osu_user(self, ctx, username: str = None, m: int = 0):
     """osu! API Call"""
-
     api_key = await osu_api_key(self)
-
     if not username:
         username = await self.config.user(ctx.author).username()
         if not username:
@@ -96,33 +96,31 @@ async def osu_get_user(self, ctx, m: int = 0, username: str = None):
     ) as response:
         osu = await response.json()
     if osu:
-        return osu
+        return osu[0]
     else:
-        await ctx.send("No results found for this player.")
+        await ctx.send("Player not found.")
         return
 
 
 async def get_osu_avatar(self, ctx, username: str = None):
     """Get an osu! Avatar"""
 
-    osu = await osu_get_user(self, ctx, username=username)
-    if osu:
-        avatar_url = "https://a.ppy.sh/{}".format(osu[0]["user_id"])
-        filename = "{}_osu-avatar.png".format(osu[0]["username"])
-        async with self.session.get(avatar_url) as image:
-            avatar = discord.File(BytesIO(await image.read()), filename=filename)
-        return avatar, avatar_url, filename
+    player = await get_osu_user(self, ctx, username)
+    if player:
+        async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
+            image = await image.read()
+        filename = player["username"] + ".png"
+        avatar = discord.File(BytesIO(image), filename=filename)
+        return avatar, filename
 
 
-async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
+async def send_osu_user_info(self, ctx, username: str = None, m: int = 0):
     """osu! User Info Embed"""
 
-    osu = await osu_get_user(self, ctx, m, username)
-    if osu:
-        # avatar_url isn't actually used, just to prevent "too many values to unpack"
-        avatar, avatar_url, filename = await get_osu_avatar(self, ctx, username)
+    player = await get_osu_user(self, ctx, username, m)
+    if player:
+        avatar, filename = await get_osu_avatar(self, ctx, username)
         ssh, ss, sh, s, a = await rank_emojis(self)
-        player = osu[0]
 
         # Inspired by owo#0498 (Thanks Stevy 😹)
         description = (
@@ -155,7 +153,7 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
             s,
             player["count_rank_s"],
             a,
-            osu[0]["count_rank_a"],
+            player["count_rank_a"],
             humanize_number(player["ranked_score"]),
             humanize_number(player["total_score"]),
         )
@@ -177,41 +175,11 @@ async def send_osu_user_info(self, ctx, m: int = 0, username: str = None):
         embed = discord.Embed(description=description, color=await ctx.embed_color())
         embed.set_author(
             icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
-            url="https://osu.ppy.sh/users/{}/{}".format(osu[0]["user_id"], type),
-            name="osu! {} Profile for {}".format(mode, osu[0]["username"]),
+            url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], type),
+            name="osu! {} Profile for {}".format(mode, player["username"]),
         )
         embed.set_footer(
             text="Powered by osu!", icon_url="https://img.icons8.com/color/48/000000/osu.png"
         )
         embed.set_thumbnail(url=f"attachment://{filename}")
         await ctx.send(embed=embed, file=avatar)
-
-
-async def send_osu_user_card(self, ctx, username: str = None):
-    """Sends an osu! Profile Card from Martine API"""
-
-    osu = await osu_get_user(self, ctx, username=username)
-    if osu:
-        async with self.session.get(
-            "https://api.martinebot.com/v1/imagesgen/osuprofile?player_username={}".format(
-                osu[0]["username"]
-            )
-        ) as response:
-            if response.status in [200, 201]:
-                embed = discord.Embed(color=await ctx.embed_color())
-                embed.set_author(
-                    name="{}'s osu! Standard Card:".format(osu[0]["username"]),
-                    url="https://osu.ppy.sh/users/{}".format(osu[0]["user_id"]),
-                )
-                filename = "{}_osu-card.png".format(osu[0]["username"])
-                card = discord.File(BytesIO(await response.read()), filename=filename)
-                embed.set_image(url=f"attachment://{filename}")
-                embed.set_footer(
-                    text="Powered by api.martinebot.com",
-                    icon_url="https://img.icons8.com/color/48/000000/osu.png",
-                )
-                await ctx.send(embed=embed, file=card)
-            elif response.status in [404, 410, 422]:
-                await ctx.send((await response.json())["message"])
-            else:
-                await ctx.send("API is currently down, please try again later.")
