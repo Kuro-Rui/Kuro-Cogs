@@ -116,7 +116,7 @@ class Osu(commands.Cog):
             await ctx.send("The custom emoji for SSH Rank has been removed.")
         else:
             await self.config.ssh_emoji.set(ssh_emoji)
-        await ctx.send(f"The custom emoji for SSH Rank has been set to: {ssh_emoji}.")
+        await ctx.send(f"The custom emoji for SSH Rank has been set to: {ssh_emoji}")
 
     @emoji.command()
     async def ss(self, ctx, ss_emoji: Optional[Emoji]):
@@ -126,7 +126,7 @@ class Osu(commands.Cog):
             await ctx.send("The custom emoji for SS Rank has been removed.")
         else:
             await self.config.ss_emoji.set(ss_emoji)
-        await ctx.send(f"The custom emoji for SS Rank has been set to: {ss_emoji}.")
+        await ctx.send(f"The custom emoji for SS Rank has been set to: {ss_emoji}")
 
     @emoji.command()
     async def sh(self, ctx, sh_emoji: Optional[Emoji]):
@@ -136,7 +136,7 @@ class Osu(commands.Cog):
             await ctx.send("The custom emoji for SH Rank has been removed.")
         else:
             await self.config.sh_emoji.set(sh_emoji)
-        await ctx.send(f"The custom emoji for SH Rank has been set to: {sh_emoji}.")
+        await ctx.send(f"The custom emoji for SH Rank has been set to: {sh_emoji}")
 
     @emoji.command()
     async def s(self, ctx, s_emoji: Optional[Emoji]):
@@ -146,7 +146,7 @@ class Osu(commands.Cog):
             await ctx.send("The custom emoji for S Rank has been removed.")
         else:
             await self.config.s_emoji.set(s_emoji)
-        await ctx.send(f"The custom emoji for S Rank has been set to: {s_emoji}.")
+        await ctx.send(f"The custom emoji for S Rank has been set to: {s_emoji}")
 
     @emoji.command()
     async def a(self, ctx, a_emoji: Optional[Emoji]):
@@ -156,7 +156,7 @@ class Osu(commands.Cog):
             await ctx.send("The custom emoji for A Rank has been removed.")
         else:
             await self.config.a_emoji.set(a_emoji)
-        await ctx.send(f"The custom emoji for A Rank has been set to: {a_emoji}.")
+        await ctx.send(f"The custom emoji for A Rank has been set to: {a_emoji}")
 
     @emoji.command()
     async def multi(
