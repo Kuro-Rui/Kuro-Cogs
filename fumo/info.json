@@ -1,12 +1,13 @@
 {
-    "name": "Fumo",
-    "short": "Generates a random Fumo image ᗜˬᗜ",
-    "description": "Generates a random Fumo image ᗜˬᗜ",
-    "install_msg": "Thanks for installing `Fumo` cog! Please enjoy it ᗜˬᗜ",
     "author": ["Kuro"],
-    "tags": ["image", "fumo", "touhou"],
-    "hidden": false,
+    "description": "Generates a random Fumo image ᗜˬᗜ",
     "disabled": false,
-    "type": "COG",
-    "end_user_data_statement": "This cog does not store any end user data."
+    "end_user_data_statement": "This cog does not store any end user data.",
+    "hidden": false,
+    "install_msg": "Thanks for installing `Fumo` cog! Please enjoy it ᗜˬᗜ",
+    "name": "Fumo",
+    "requirements": ["pillow<=9.0.1"],
+    "short": "Generates a random Fumo image ᗜˬᗜ",
+    "tags": ["image", "fumo", "touhou"],
+    "type": "COG"
 }
