@@ -41,7 +41,7 @@ class Fumo(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = humanize_list(["Kuro", "Glas"])
     __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
@@ -93,7 +93,7 @@ class Fumo(commands.Cog):
 
     @commands.command(aliases=["fumopolaroid"])
     async def fumoroid(self, ctx, user: discord.User = None):
-        """Generate a Fumo staring at your polaroid avatar."""
+        """Generate a Fumo staring at your polaroid avatar."""  # Thanks Glas!
         user = user or ctx.author
         async with ctx.typing():
             avatar = await get_avatar(user)
