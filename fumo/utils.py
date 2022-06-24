@@ -27,10 +27,10 @@ import functools
 import json
 import random
 from io import BytesIO
-from PIL import Image
 from pathlib import Path
 
 import discord
+from PIL import Image
 from redbot.core.data_manager import bundled_data_path as image_folder
 
 __all__ = ["generate_fumoroid", "generate_image", "get_avatar", "summon_fumo"]
