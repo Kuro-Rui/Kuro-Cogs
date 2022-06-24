@@ -22,14 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
+import functools
 import random
 from datetime import datetime
 
+import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .utils import summon_fumo
+from .utils import *
 
 
 class Fumo(commands.Cog):
@@ -41,7 +42,7 @@ class Fumo(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -89,3 +90,16 @@ class Fumo(commands.Cog):
             choice = "Video"
 
         await summon_fumo(ctx, choice)
+
+    @commands.command(aliases=["fumopolaroid"])
+    async def fumoroid(self, ctx, user: discord.User = None):
+        """Generate a Fumo staring at your polaroid avatar."""
+        user = user or ctx.author
+        async with ctx.typing():
+            avatar = await get_avatar(user)
+            task = functools.partial(generate_fumoroid, ctx, avatar)
+            image = await generate_image(ctx, task)
+        if isinstance(image, str):
+            await ctx.send(image)
+        else:
+            await ctx.send(file=image)
