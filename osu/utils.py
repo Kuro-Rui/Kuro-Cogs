@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 from io import BytesIO
-from math import trunc
 
 import discord
 from redbot.core import commands
@@ -134,7 +133,7 @@ async def send_osu_user_info(ctx, username: str = None, m: int = 0):
             humanize_number(player["pp_rank"]),
             player["country"].lower(),
             humanize_number(player["pp_country_rank"]),
-            trunc(float(player["level"])),
+            round(float(player["level"]), 2),
             humanize_number(round(float(player["pp_raw"]))),
             round(float(player["accuracy"]), 2),
             humanize_number(player["playcount"]),
