@@ -31,8 +31,8 @@ from redbot.core.utils.chat_formatting import humanize_number, humanize_timedelt
 
 
 def api_is_set():
-    async def predicate(self):
-        if not await osu_api_key(self):
+    async def predicate(ctx):
+        if not await osu_api_key(ctx):
             return False
         else:
             return True
@@ -40,12 +40,14 @@ def api_is_set():
     return commands.check(predicate)
 
 
-async def osu_api_key(self):
-    return (await self.bot.get_shared_api_tokens("osu")).get("api_key")
+async def osu_api_key(ctx):
+    return (await ctx.bot.get_shared_api_tokens("osu")).get("api_key")
 
 
-async def rank_emojis(self):
+async def rank_emojis(ctx):
     """Rank Emojis"""
+    self = ctx.bot.get_cog("Osu")
+
     ssh_emoji = await self.config.ssh_emoji()
     ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
 
@@ -64,9 +66,9 @@ async def rank_emojis(self):
     return ssh, ss, sh, s, a
 
 
-async def get_osu_user(self, ctx, username: str = None, m: int = 0):
+async def get_osu_user(ctx, username: str = None, m: int = 0):
     """osu! API Call"""
-    api_key = await osu_api_key(self)
+    self = ctx.bot.get_cog("Osu")
     if not username:
         username = await self.config.user(ctx.author).username()
         if not username:
@@ -83,6 +85,7 @@ async def get_osu_user(self, ctx, username: str = None, m: int = 0):
             await ctx.send(embed=error_embed)
             return
 
+    api_key = await osu_api_key(ctx)
     async with self.session.post(
         f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
     ) as response:
@@ -94,9 +97,9 @@ async def get_osu_user(self, ctx, username: str = None, m: int = 0):
         return
 
 
-async def get_osu_avatar(self, ctx, username: str = None):
+async def get_osu_avatar(ctx, username: str = None):
     """Get an osu! Avatar"""
-
+    self = ctx.bot.get_cog("Osu")
     player = await get_osu_user(self, ctx, username)
     if player:
         async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
@@ -106,9 +109,9 @@ async def get_osu_avatar(self, ctx, username: str = None):
         return avatar, filename
 
 
-async def send_osu_user_info(self, ctx, username: str = None, m: int = 0):
+async def send_osu_user_info(ctx, username: str = None, m: int = 0):
     """osu! User Info Embed"""
-
+    self = ctx.bot.get_cog("Osu")
     player = await get_osu_user(self, ctx, username, m)
     if player:
         avatar, filename = await get_osu_avatar(self, ctx, username)

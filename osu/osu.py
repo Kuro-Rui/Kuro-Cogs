@@ -95,7 +95,7 @@ class Osu(commands.Cog):
             await ctx.tick()
             await ctx.send("Your username has been removed.")
         else:
-            player = await get_osu_user(self, ctx, username)
+            player = await get_osu_user(ctx, username)
             if player:
                 username = player["username"]
                 await self.config.user(ctx.author).username.set(username)
@@ -208,9 +208,9 @@ class Osu(commands.Cog):
         """Shows your/another user osu! Avatar"""
         if not username:
             username = await self.config.user(ctx.author).username()
-        player = await get_osu_user(self, ctx, username=username)
+        player = await get_osu_user(ctx, username)
         if player:
-            avatar, filename = await get_osu_avatar(self, ctx, player["username"])
+            avatar, filename = await get_osu_avatar(ctx, player["username"])
             embed = discord.Embed(color=await ctx.embed_color())
             embed.set_author(
                 name="{}'s osu! Avatar".format(player["username"]),
@@ -225,7 +225,7 @@ class Osu(commands.Cog):
     async def standard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Stats!"""
 
-        await send_osu_user_info(self, ctx, username)
+        await send_osu_user_info(ctx, username, 0)
 
     @api_is_set()
     @commands.command()
@@ -233,7 +233,7 @@ class Osu(commands.Cog):
     async def taiko(self, ctx, *, username: Optional[str]):
         """Shows an osu!taiko User Stats!"""
 
-        await send_osu_user_info(self, ctx, username, 1)
+        await send_osu_user_info(ctx, username, 1)
 
     @api_is_set()
     @commands.command(aliases=["ctb", "catchthebeat"])
@@ -242,7 +242,7 @@ class Osu(commands.Cog):
     async def catch(self, ctx, *, username: Optional[str]):
         """Shows an osu!catch User Stats!"""
 
-        await send_osu_user_info(self, ctx, username, 2)
+        await send_osu_user_info(ctx, username, 2)
 
     @api_is_set()
     @commands.command()
@@ -251,7 +251,7 @@ class Osu(commands.Cog):
     async def mania(self, ctx, *, username: Optional[str]):
         """Shows an osu!mania User Stats!"""
 
-        await send_osu_user_info(self, ctx, username, 3)
+        await send_osu_user_info(ctx, username, 3)
 
     @api_is_set()
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
@@ -259,27 +259,28 @@ class Osu(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     async def osucard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Card!"""  # Thanks Epic, thanks Preda <3
-        player = await get_osu_user(self, ctx, username=username)
+        player = await get_osu_user(ctx, username)
         if player:
             async with self.session.get(
                 "https://api.martinebot.com/v1/imagesgen/osuprofile",
                 params={"player_username": player["username"]},
             ) as response:
                 if response.status == 201:
-                    embed = discord.Embed(color=await ctx.embed_color())
-                    embed.set_author(
-                        name="{}'s osu! Standard Card:".format(player["username"]),
-                        url="https://osu.ppy.sh/users/{}".format(player["user_id"]),
-                    )
-                    filename = player["username"].replace(" ", "_") + ".png"
-                    card = discord.File(BytesIO(await response.read()), filename=filename)
-                    embed.set_image(url=f"attachment://{filename}")
-                    embed.set_footer(
-                        text="Powered by api.martinebot.com",
-                        icon_url="https://img.icons8.com/color/48/000000/osu.png",
-                    )
-                    await ctx.send(embed=embed, file=card)
+                    card = await response.read()
                 elif response.status in [404, 410, 422]:
-                    await ctx.send((await response.json())["message"])
+                    return await ctx.send((await response.json())["message"])
                 else:
-                    await ctx.send("API is currently down, please try again later.")
+                    return await ctx.send("API is currently down, please try again later.")
+            embed = discord.Embed(color=await ctx.embed_color())
+            embed.set_author(
+                name="{}'s osu! Standard Card:".format(player["username"]),
+                url="https://osu.ppy.sh/users/{}".format(player["user_id"]),
+            )
+            filename = player["username"].replace(" ", "_") + ".png"
+            file = discord.File(BytesIO(card), filename)
+            embed.set_image(url=f"attachment://{filename}")
+            embed.set_footer(
+                text="Powered by api.martinebot.com",
+                icon_url="https://img.icons8.com/color/48/000000/osu.png",
+            )
+            await ctx.send(embed=embed, file=file)
