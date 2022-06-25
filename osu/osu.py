@@ -103,21 +103,12 @@ class Osu(commands.Cog):
                 await ctx.send(f"Your username has been set to `{username}`.")
 
     @api_is_set()
-    @osuset.group(invoke_without_command=True)
+    @osuset.group()
     @commands.is_owner()
     @commands.bot_has_permissions(use_external_emojis=True)
     async def emoji(self, ctx):
         """Set custom emoji for ranks."""
-        embed = discord.Embed(title="Current Emojis", color=await ctx.embed_color())
-        emojis = [e for e in (await self.config.all()).values()]
-        embed.description = (
-            f"`SSH Emoji` : {emojis[0]}\n"
-            f"`SS  Emoji` : {emojis[1]}\n"
-            f"`SH  Emoji` : {emojis[2]}\n"
-            f"`S   Emoji` : {emojis[3]}\n"
-            f"`A   Emoji` : {emojis[4]}"
-        )
-        await ctx.send(embed=embed)
+        pass
 
     @emoji.command()
     async def ssh(self, ctx, ssh_emoji: Optional[Emoji]):
@@ -188,6 +179,22 @@ class Osu(commands.Cog):
         await ctx.send("The custom emojis for all ranks has been set.")
 
     @emoji.command()
+    async def current(self, ctx):
+        """Shows current set emojis."""
+        emojis = [e for e in (await self.config.all()).values()]
+        if not emojis:
+            return await ctx.send("You haven't set any emojis yet.")
+        embed = discord.Embed(title="Current Emojis", color=await ctx.embed_color())
+        embed.description = (
+            f"`SSH Emoji` : {emojis[0]}\n"
+            f"`SS  Emoji` : {emojis[1]}\n"
+            f"`SH  Emoji` : {emojis[2]}\n"
+            f"`S   Emoji` : {emojis[3]}\n"
+            f"`A   Emoji` : {emojis[4]}"
+        )
+        await ctx.send(embed=embed)
+
+    @emoji.command()
     @commands.bot_has_permissions()
     async def clear(self, ctx):
         """Clear all set custom emojis for ranks."""
@@ -196,7 +203,6 @@ class Osu(commands.Cog):
 
     @api_is_set()
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.bot_has_permissions(attach_files=True)
     async def osuavatar(self, ctx, *, username: Optional[str]):
         """Shows your/another user osu! Avatar"""
@@ -215,7 +221,6 @@ class Osu(commands.Cog):
 
     @api_is_set()
     @commands.command(aliases=["osu", "std"])
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(attach_files=True, embed_links=True)
     async def standard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Stats!"""
@@ -224,7 +229,6 @@ class Osu(commands.Cog):
 
     @api_is_set()
     @commands.command()
-    @commands.cooldown(1, 3, commands.BucketType.user)
     @commands.bot_has_permissions(embed_links=True)
     async def taiko(self, ctx, *, username: Optional[str]):
         """Shows an osu!taiko User Stats!"""
