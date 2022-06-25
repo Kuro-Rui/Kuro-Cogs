@@ -103,7 +103,7 @@ class Osu(commands.Cog):
                 await ctx.send(f"Your username has been set to `{username}`.")
 
     @api_is_set()
-    @osuset.group()
+    @osuset.group(invoke_without_command=True)
     @commands.is_owner()
     @commands.bot_has_permissions(use_external_emojis=True)
     async def emoji(self, ctx):
