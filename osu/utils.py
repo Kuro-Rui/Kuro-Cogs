@@ -100,21 +100,21 @@ async def get_osu_user(ctx, username: str = None, m: int = 0):
 async def get_osu_avatar(ctx, username: str = None):
     """Get an osu! Avatar"""
     self = ctx.bot.get_cog("Osu")
-    player = await get_osu_user(self, ctx, username)
+    player = await get_osu_user(ctx, username)
     if player:
         async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
-            image = await image.read()
+            avatar = await image.read()
         filename = player["username"].replace(" ", "_") + ".png"
-        avatar = discord.File(BytesIO(image), filename=filename)
+        avatar = discord.File(BytesIO(avatar), filename=filename)
         return avatar, filename
 
 
 async def send_osu_user_info(ctx, username: str = None, m: int = 0):
     """osu! User Info Embed"""
     self = ctx.bot.get_cog("Osu")
-    player = await get_osu_user(self, ctx, username, m)
+    player = await get_osu_user(ctx, username, m)
     if player:
-        avatar, filename = await get_osu_avatar(self, ctx, username)
+        avatar, filename = await get_osu_avatar(ctx, username)
         ssh, ss, sh, s, a = await rank_emojis(self)
 
         # Inspired by owo#0498 (Thanks Stevy 😹)
