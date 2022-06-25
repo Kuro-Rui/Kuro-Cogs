@@ -119,16 +119,16 @@ async def send_osu_user_info(ctx, username: str = None, m: int = 0):
 
         # Inspired by owo#0498 (Thanks Stevy 😹)
         description = (
-            "**▸ Joined at:** {}\n"
-            "**▸ Rank:** #{} (:flag_{}: #{})\n"
-            "**▸ Level:** {}\n"
-            "**▸ PP:** {}\n"
-            "**▸ Accuracy:** {}%\n"
-            "**▸ Playcount:** {}\n"
-            "**▸ Playtime:** {}\n"
-            "**▸ Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
-            "**▸ Ranked Score:** {}\n"
-            "**▸ Total Score:** {}"
+            "▸ **Joined at:** {}\n"
+            "▸ **Rank:** #{} (:flag_{}: #{})\n"
+            "▸ **Level:** {}\n"
+            "▸ **PP:** {}\n"
+            "▸ **Accuracy:** {}%\n"
+            "▸ **Playcount:** {}\n"
+            "▸ **Playtime:** {}\n"
+            "▸ **Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
+            "▸ **Ranked Score:** {}\n"
+            "▸ **Total Score:** {}"
         ).format(
             player["join_date"][:10],
             humanize_number(player["pp_rank"]),
