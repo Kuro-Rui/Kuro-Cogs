@@ -163,7 +163,7 @@ class AvatarImgen(commands.Cog):
                 await ctx.send(embed=embed, file=file)
 
     async def generate_image(self, ctx, endpoint: str, avatar: str) -> discord.File:
-        """Generate an image from the user's avatar."""
+        """Generate an image from the user's avatar and return a discord.File object."""
         async with ctx.typing():
             async with self.session.get(
                 f"https://api.popcat.xyz/{endpoint}", params={"image": avatar}
@@ -172,9 +172,7 @@ class AvatarImgen(commands.Cog):
                     return await ctx.send("Something went wrong with the API, try again later.")
                 if endpoint == "jokeoverhead" and await r.json()["error"]:  # Dumb Endpoint
                     return await ctx.send("Something went wrong with the API, try again later.")
-                image = await r.read()
-        file = BytesIO(image)
-        return discord.File(file, filename=f"{endpoint}.png")
+                return discord.File(BytesIO(await r.read()), filename=f"{endpoint}.png")
 
     async def send_embed(self, ctx, endpoint: str, avatar: str, **kwargs) -> discord.Message:
         """Send an embed with the generated image."""
