@@ -349,7 +349,7 @@ class Osu(commands.Cog):
         player = await self.get_osu_user(ctx, username, m)
         if player:
             avatar, filename = await self.get_osu_avatar(ctx, username)
-            ssh, ss, sh, s, a = await self.rank_emojis(self)
+            ssh, ss, sh, s, a = await self.rank_emojis()
 
             # Inspired by owo#0498 (Thanks Stevy 😹)
             description = (
