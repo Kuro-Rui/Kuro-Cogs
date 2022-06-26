@@ -168,18 +168,21 @@ class AvatarImgen(commands.Cog):
             async with self.session.get(
                 f"https://api.popcat.xyz/{endpoint}", params={"image": avatar}
             ) as r:
-                api_error_message = "Something went wrong with the API, try again later."
                 if r.status != 200:
-                    return await ctx.send(api_error_message)
+                    return
                 if endpoint == "jokeoverhead":  # Dumb Endpoint
                     if await r.json() and (await r.json())["error"]:
-                        return await ctx.send(api_error_message)
-                return discord.File(BytesIO(await r.read()), filename=f"{endpoint}.png")
+                        return
+                file = BytesIO(await r.read())
+        return discord.File(file, filename=f"{endpoint}.png")
 
     async def send_embed(self, ctx, endpoint: str, avatar: str, **kwargs) -> discord.Message:
         """Send an embed with the generated image."""
+        file = await self.generate_image(ctx, endpoint, avatar)
+        if not file:
+            return await ctx.send("Something went wrong with the API, try again later.")
         embed = discord.Embed(**kwargs)
         pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
         embed.set_image(url=f"attachment://{endpoint}.png")
         embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
-        await ctx.send(embed=embed, file=await self.generate_image(ctx, endpoint, avatar))
+        await ctx.send(embed=embed, file=file)
