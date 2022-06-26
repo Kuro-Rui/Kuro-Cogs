@@ -172,7 +172,7 @@ class AvatarImgen(commands.Cog):
                 if r.status != 200:
                     return await ctx.send(api_error_message)
                 if endpoint == "jokeoverhead":  # Dumb Endpoint
-                    if await r.json() and await r.json()["error"]:
+                    if await r.json() and (await r.json())["error"]:
                         return await ctx.send(api_error_message)
                 return discord.File(BytesIO(await r.read()), filename=f"{endpoint}.png")
 
