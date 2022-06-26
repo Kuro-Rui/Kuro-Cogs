@@ -29,10 +29,10 @@ from typing import Optional
 import aiohttp
 import discord
 from redbot.core import Config, commands
-from redbot.core.utils.chat_formatting import humanize_list
+from redbot.core.utils.chat_formatting import humanize_list, humanize_number, humanize_timedelta
 
 from .converters import Emoji
-from .utils import api_is_set, get_osu_avatar, get_osu_user, send_osu_user_info
+from .utils import api_is_set, osu_api_key
 
 
 class Osu(commands.Cog):
@@ -95,7 +95,7 @@ class Osu(commands.Cog):
             await ctx.tick()
             await ctx.send("Your username has been removed.")
         else:
-            player = await get_osu_user(ctx, username)
+            player = await self.get_osu_user(ctx, username)
             if player:
                 username = player["username"]
                 await self.config.user(ctx.author).username.set(username)
@@ -208,9 +208,9 @@ class Osu(commands.Cog):
         """Shows your/another user osu! Avatar"""
         if not username:
             username = await self.config.user(ctx.author).username()
-        player = await get_osu_user(ctx, username)
+        player = await self.get_osu_user(ctx, username)
         if player:
-            avatar, filename = await get_osu_avatar(ctx, player["username"])
+            avatar, filename = await self.get_osu_avatar(ctx, player["username"])
             embed = discord.Embed(color=await ctx.embed_color())
             embed.set_author(
                 name="{}'s osu! Avatar".format(player["username"]),
@@ -225,7 +225,7 @@ class Osu(commands.Cog):
     async def standard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Stats!"""
 
-        await send_osu_user_info(ctx, username, 0)
+        await self.send_osu_user_info(ctx, username, 0)
 
     @api_is_set()
     @commands.command()
@@ -233,7 +233,7 @@ class Osu(commands.Cog):
     async def taiko(self, ctx, *, username: Optional[str]):
         """Shows an osu!taiko User Stats!"""
 
-        await send_osu_user_info(ctx, username, 1)
+        await self.send_osu_user_info(ctx, username, 1)
 
     @api_is_set()
     @commands.command(aliases=["ctb", "catchthebeat"])
@@ -242,7 +242,7 @@ class Osu(commands.Cog):
     async def catch(self, ctx, *, username: Optional[str]):
         """Shows an osu!catch User Stats!"""
 
-        await send_osu_user_info(ctx, username, 2)
+        await self.send_osu_user_info(ctx, username, 2)
 
     @api_is_set()
     @commands.command()
@@ -251,7 +251,7 @@ class Osu(commands.Cog):
     async def mania(self, ctx, *, username: Optional[str]):
         """Shows an osu!mania User Stats!"""
 
-        await send_osu_user_info(ctx, username, 3)
+        await self.send_osu_user_info(ctx, username, 3)
 
     @api_is_set()
     @commands.command(aliases=["osuc", "osuimage", "osuimg"])
@@ -259,7 +259,7 @@ class Osu(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     async def osucard(self, ctx, *, username: Optional[str]):
         """Shows an osu!standard User Card!"""  # Thanks Epic, thanks Preda <3
-        player = await get_osu_user(ctx, username)
+        player = await self.get_osu_user(ctx, username)
         if player:
             async with self.session.get(
                 "https://api.martinebot.com/v1/imagesgen/osuprofile",
@@ -284,3 +284,134 @@ class Osu(commands.Cog):
                 icon_url="https://img.icons8.com/color/48/000000/osu.png",
             )
             await ctx.send(embed=embed, file=file)
+
+    async def rank_emojis(self):
+        """Rank Emojis"""
+
+        ssh_emoji = await self.config.ssh_emoji()
+        ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
+
+        ss_emoji = await self.config.ss_emoji()
+        ss = f"{ss_emoji} " if ss_emoji else "**SS** "
+
+        sh_emoji = await self.config.sh_emoji()
+        sh = f"{sh_emoji} " if sh_emoji else "**SH** "
+
+        s_emoji = await self.config.s_emoji()
+        s = f"{s_emoji} " if s_emoji else "**S** "
+
+        a_emoji = await self.config.a_emoji()
+        a = f"{a_emoji} " if a_emoji else "**A** "
+
+        return ssh, ss, sh, s, a
+
+
+    async def get_osu_user(self, ctx, username: str = None, m: int = 0):
+        """osu! API Call"""
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                p = ctx.prefix
+                command = ctx.invoked_with
+                error_title = "Your username hasn't been set yet!"
+                error_desc = (
+                    f"You can set it with `{p}osuset username <username>`\n"
+                    f"You can also provide a username: `{p}{command} <username>`"
+                )
+                error_embed = discord.Embed(
+                    title=error_title, description=error_desc, color=await ctx.embed_color()
+                )
+                await ctx.send(embed=error_embed)
+                return
+
+        api_key = await osu_api_key(ctx)
+        async with self.session.post(
+            f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
+        ) as response:
+            osu = await response.json()
+        if osu:
+            return osu[0]
+        else:
+            await ctx.send("Player not found.")
+            return
+
+
+    async def get_osu_avatar(self, ctx, username: str = None):
+        """Get an osu! Avatar"""
+        player = await self.get_osu_user(ctx, username)
+        if player:
+            async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
+                avatar = await image.read()
+            filename = player["username"].replace(" ", "_") + ".png"
+            avatar = discord.File(BytesIO(avatar), filename=filename)
+            return avatar, filename
+
+
+    async def send_osu_user_info(self, ctx, username: str = None, m: int = 0):
+        """osu! User Info Embed"""
+        player = await self.get_osu_user(ctx, username, m)
+        if player:
+            avatar, filename = await self.get_osu_avatar(ctx, username)
+            ssh, ss, sh, s, a = await self.rank_emojis(self)
+
+            # Inspired by owo#0498 (Thanks Stevy 😹)
+            description = (
+                "▸ **Joined at:** {}\n"
+                "▸ **Rank:** #{} (:flag_{}: #{})\n"
+                "▸ **Level:** {}\n"
+                "▸ **PP:** {}\n"
+                "▸ **Accuracy:** {}%\n"
+                "▸ **Playcount:** {}\n"
+                "▸ **Playtime:** {}\n"
+                "▸ **Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
+                "▸ **Ranked Score:** {}\n"
+                "▸ **Total Score:** {}"
+            ).format(
+                player["join_date"][:10],
+                humanize_number(player["pp_rank"]),
+                player["country"].lower(),
+                humanize_number(player["pp_country_rank"]),
+                round(float(player["level"]), 2),
+                humanize_number(round(float(player["pp_raw"]))),
+                round(float(player["accuracy"]), 2),
+                humanize_number(player["playcount"]),
+                humanize_timedelta(seconds=player["total_seconds_played"]),
+                ssh,
+                player["count_rank_ssh"],
+                ss,
+                player["count_rank_ss"],
+                sh,
+                player["count_rank_sh"],
+                s,
+                player["count_rank_s"],
+                a,
+                player["count_rank_a"],
+                humanize_number(player["ranked_score"]),
+                humanize_number(player["total_score"]),
+            )
+
+            if m == 0:
+                type = icon = "osu"
+                mode = "Standard"
+            elif m == 1:
+                type = icon = "taiko"
+                mode = "Taiko"
+            elif m == 2:
+                type = "fruits"
+                icon = "ctb"
+                mode = "Catch"
+            elif m == 3:
+                type = icon = "mania"
+                mode = "Mania"
+
+            embed = discord.Embed(description=description, color=await ctx.embed_color())
+            embed.set_author(
+                icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
+                url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], type),
+                name="osu! {} Profile for {}".format(mode, player["username"]),
+            )
+            embed.set_footer(
+                text="Powered by osu!", icon_url="https://img.icons8.com/color/48/000000/osu.png"
+            )
+            embed.set_thumbnail(url=f"attachment://{filename}")
+            await ctx.send(embed=embed, file=avatar)
