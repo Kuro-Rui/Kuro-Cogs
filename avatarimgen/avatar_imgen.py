@@ -110,6 +110,16 @@ class AvatarImgen(commands.Cog):
         await self.send_embed(ctx, "jokeoverhead", avatar, title="Joke Overhead", color=user.color)
 
     @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def mnm(self, ctx, user: discord.User = None):
+        """Make anyone turns into a shape of M & Ms!"""
+
+        user = user or ctx.author
+        avatar = user.avatar_url_as(format="png")
+        await self.send_embed(ctx, "mnm", avatar, title="M & M", color=user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["wall"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def uncover(self, ctx, user: discord.User = None):
@@ -159,6 +169,8 @@ class AvatarImgen(commands.Cog):
                 f"https://api.popcat.xyz/{endpoint}", params={"image": avatar}
             ) as r:
                 if r.status != 200:
+                    return await ctx.send("Something went wrong with the API, try again later.")
+                if endpoint == "jokeoverhead" and await r.json()["error"]:  # Dumb Endpoint
                     return await ctx.send("Something went wrong with the API, try again later.")
                 image = await r.read()
         file = BytesIO(image)
