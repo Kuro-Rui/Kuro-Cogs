@@ -116,7 +116,7 @@ class AvatarImgen(commands.Cog):
         """Make anyone turns into a shape of M & Ms!"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "mnm", avatar, title="M & M", color=user.color)
 
     @commands.bot_has_permissions(attach_files=True)
