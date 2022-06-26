@@ -159,5 +159,6 @@ class AvatarImgen(commands.Cog):
         """Send an embed with the generated image."""
         embed = discord.Embed(**kwargs)
         pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+        embed.set_image(url=f"attachment://{endpoint}.png")
         embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
         await ctx.send(embed=embed, file=await self.generate_image(ctx, endpoint, avatar))
