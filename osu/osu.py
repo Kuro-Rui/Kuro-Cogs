@@ -305,7 +305,6 @@ class Osu(commands.Cog):
 
         return ssh, ss, sh, s, a
 
-
     async def get_osu_user(self, ctx, username: str = None, m: int = 0):
         """osu! API Call"""
         if not username:
@@ -335,7 +334,6 @@ class Osu(commands.Cog):
             await ctx.send("Player not found.")
             return
 
-
     async def get_osu_avatar(self, ctx, username: str = None):
         """Get an osu! Avatar"""
         player = await self.get_osu_user(ctx, username)
@@ -345,7 +343,6 @@ class Osu(commands.Cog):
             filename = player["username"].replace(" ", "_") + ".png"
             avatar = discord.File(BytesIO(avatar), filename=filename)
             return avatar, filename
-
 
     async def send_osu_user_info(self, ctx, username: str = None, m: int = 0):
         """osu! User Info Embed"""
