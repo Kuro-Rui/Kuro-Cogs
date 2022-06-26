@@ -58,6 +58,7 @@ class AvatarImgen(commands.Cog):
     def cog_unload(self):
         asyncio.create_task(self.session.close())
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["ads"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def ad(self, ctx, user: discord.User = None):
@@ -67,6 +68,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "ad", avatar, title="Advertisement")
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def clown(self, ctx, user: discord.User = None):
@@ -76,6 +78,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "clown", avatar, title="Clown", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def drip(self, ctx, user: discord.User = None):
@@ -85,6 +88,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "drip", avatar, title="Drip", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def gun(self, ctx, user: discord.User = None):
@@ -94,6 +98,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "gun", avatar, title="Gun", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["jokesoverhead"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def jokeoverhead(self, ctx, user: discord.User):  # You understand jokes, don't you?
@@ -103,6 +108,7 @@ class AvatarImgen(commands.Cog):
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
         await self.send_embed(ctx, "jokeoverhead", avatar, title="Joke Overhead", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["wall"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def uncover(self, ctx, user: discord.User = None):
@@ -112,6 +118,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "uncover", avatar, title="Behind The Wall", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def wanted(self, ctx, user: discord.User = None):
@@ -121,6 +128,7 @@ class AvatarImgen(commands.Cog):
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "wanted", avatar, title="WANTED", color=user.color)
 
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def whowouldwin(self, ctx, user_1: discord.User, user_2: discord.User = None):
