@@ -101,9 +101,10 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["jokesoverhead"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def jokeoverhead(self, ctx, user: discord.User):  # You understand jokes, don't you?
+    async def jokeoverhead(self, ctx, user: discord.User = None):
         """This person doesn't get jokes at all!"""
 
+        user = user or ctx.author
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
         await self.send_embed(ctx, "jokeoverhead", avatar, title="Joke Overhead", color=user.color)
