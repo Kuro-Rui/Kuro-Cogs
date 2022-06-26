@@ -64,15 +64,16 @@ class AvatarImgen(commands.Cog):
         """Make an advertisement!"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "ad", avatar, title="Advertisement")
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def clown(self, ctx, user: discord.User):  # You don't want to be a clown, do you?
+    async def clown(self, ctx, user: discord.User = None):
         """This person is a clown, Star."""
 
-        avatar = user.avatar_url_as(format="png")
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "clown", avatar, title="Clown", color=user.color)
 
     @commands.command()
@@ -81,7 +82,7 @@ class AvatarImgen(commands.Cog):
         """Pretend to wear a rich jacket!"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "drip", avatar, title="Drip", color=user.color)
 
     @commands.command()
@@ -90,7 +91,7 @@ class AvatarImgen(commands.Cog):
         """Add a gun overlay to your avatar!"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "gun", avatar, title="Gun", color=user.color)
 
     @commands.command(aliases=["jokesoverhead"])
@@ -108,7 +109,7 @@ class AvatarImgen(commands.Cog):
         """So this person was hiding behind the wall all the time?"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "uncover", avatar, title="Behind The Wall", color=user.color)
 
     @commands.command()
@@ -117,7 +118,7 @@ class AvatarImgen(commands.Cog):
         """Make a wanted poster!"""
 
         user = user or ctx.author
-        avatar = user.avatar_url_as(format="png")
+        avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "wanted", avatar, title="WANTED", color=user.color)
 
     @commands.command()
@@ -128,8 +129,8 @@ class AvatarImgen(commands.Cog):
         user_2 = user_2 or ctx.author
         if user_1 == user_2:
             return await ctx.send("Of course you would tie against yourself.")
-        avatar_1 = user_1.avatar_url_as(format="png")
-        avatar_2 = user_2.avatar_url_as(format="png")
+        avatar_1 = str(user_1.avatar_url_as(format="png"))
+        avatar_2 = str(user_2.avatar_url_as(format="png"))
         color = random.choice([user_1.color, user_2.color])
         async with ctx.typing():
             async with self.session.get(
