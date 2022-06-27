@@ -25,6 +25,7 @@ SOFTWARE.
 import asyncio
 import random
 from io import BytesIO
+from typing import Literal, Optional
 
 import aiohttp
 import discord
@@ -40,7 +41,7 @@ class AvatarImgen(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.4"
+    __version__ = "0.1.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -66,7 +67,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "ad", avatar, title="Advertisement")
+        await self.send_embed(ctx, "popcat", "ad", avatar, "Advertisement", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -76,7 +77,17 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "clown", avatar, title="Clown", color=user.color)
+        await self.send_embed(ctx, "popcat", "clown", avatar, "Clown", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def communist(self, ctx, user: discord.User = None):
+        """Generate a communist comrade avatar!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "comrade", avatar, "Communist", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -86,7 +97,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "drip", avatar, title="Drip", color=user.color)
+        await self.send_embed(ctx, "popcat", "drip", avatar, "Drip", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -96,7 +107,27 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "gun", avatar, title="Gun", color=user.color)
+        await self.send_embed(ctx, "popcat", "gun", avatar, "Gun", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def hornylicense(self, ctx, user: discord.User = None):
+        """Assign someone a horny license!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "horny", avatar, "You're Now Legally Horny", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def jail(self, ctx, user: discord.User = None):
+        """Send someone to jail!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "jail", avatar, "Go to Jail", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["jokesoverhead"])
@@ -107,7 +138,27 @@ class AvatarImgen(commands.Cog):
         user = user or ctx.author
         # The API isn't accepting "?size=1024" part that's attached to avatar URLs
         avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
-        await self.send_embed(ctx, "jokeoverhead", avatar, title="Joke Overhead", color=user.color)
+        await self.send_embed(ctx, "popcat", "jokeoverhead", avatar, "Joke Overhead", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(alias=["lolipolice"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def lolice(self, ctx, user: discord.User = None):
+        """Be a loli police and put lolicons to jail!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "lolice", avatar, "Lolice Chief", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(alias=["passed"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def missionpassed(self, ctx, user: discord.User = None):
+        """Mission passed, respect +100."""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "passed", avatar, "Mission Passed", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -117,7 +168,78 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "mnm", avatar, title="M & M", color=user.color)
+        await self.send_embed(ctx, "popcat", "mnm", avatar, "M & M", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def simpcard(self, ctx, user: discord.User = None):
+        """Assign someone a simp card!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "simpcard", avatar, "You're Now A Simp", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(aliases=["itssostupid"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def sostupid(self, ctx, user: Optional[discord.User], message: str):
+        """Oh no, it's so stupid!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        async with ctx.typing():
+            async with self.session.get(
+                "https://some-random-api.ml/canvas/its-so-stupid",
+                params={"avatar": avatar, "dog": message},
+            ) as r:
+                if r.status != 200:
+                    return
+                file = discord.File(BytesIO(await r.read()), filename="so-stupid.png")
+        embed = discord.Embed(title="Oh No, It's So Stupid", color=user.color)
+        embed.set_image(url="attachment://so-stupid.png")
+        embed.set_footer(
+            text="Powered by some-random-api.ml", icon_url="https://i.some-random-api.ml/logo.png"
+        )
+        await ctx.send(embed=embed, file=file)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def triggered(self, ctx, user: discord.User = None):
+        """TRIGGERED"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "triggered", avatar, "TRIGGERED", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def tweet(self, ctx, user: Optional[discord.User], message: str):
+        """Generate a fake Twitter tweet!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        async with ctx.typing():
+            params = {
+                "avatar": avatar,
+                "comment": message,
+                "displayname": user.display_name,
+                "username": user.name,
+            }
+            async with self.session.get(
+                "https://some-random-api.ml/canvas/tweet", params=params
+            ) as r:
+                if r.status != 200:
+                    return
+                file = discord.File(BytesIO(await r.read()), filename="tweet.png")
+        embed = discord.Embed(title="Tweet", color=user.color)
+        embed.set_image(url="attachment://tweet.png")
+        embed.set_footer(
+            text="Powered by some-random-api.ml", icon_url="https://i.some-random-api.ml/logo.png"
+        )
+        await ctx.send(embed=embed, file=file)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["wall"])
@@ -127,7 +249,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "uncover", avatar, title="Behind The Wall", color=user.color)
+        await self.send_embed(ctx, "popcat", "uncover", avatar, "Behind The Wall", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -137,7 +259,17 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "wanted", avatar, title="WANTED", color=user.color)
+        await self.send_embed(ctx, "popcat", "wanted", avatar, "WANTED", user.color)
+
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def wasted(self, ctx, user: discord.User = None):
+        """Wasted."""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        await self.send_embed(ctx, "s", "wasted", avatar, "Wasted", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -162,8 +294,31 @@ class AvatarImgen(commands.Cog):
                 embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
                 await ctx.send(embed=embed, file=file)
 
-    async def generate_image(self, ctx, endpoint: str, avatar: str) -> discord.File:
-        """Generate an image from the user's avatar and return a discord.File object."""
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(aliases=["youtubecomment"])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def ytcomment(self, ctx, user: Optional[discord.User], comment: str):
+        """Generate a fake YouTube comment!"""
+
+        user = user or ctx.author
+        avatar = str(user.avatar_url_as(format="png"))
+        async with ctx.typing():
+            async with self.session.get(
+                "https://some-random-api.ml/canvas/youtube-comment",
+                params={"avatar": avatar, "comment": comment, "username": user.display_name},
+            ) as r:
+                if r.status != 200:
+                    return
+                file = discord.File(BytesIO(await r.read()), filename="youtube-comment.png")
+        embed = discord.Embed(title="YouTube Comment", color=user.color)
+        embed.set_image(url="attachment://youtube-comment.png")
+        embed.set_footer(
+            text="Powered by some-random-api.ml", icon_url="https://i.some-random-api.ml/logo.png"
+        )
+        await ctx.send(embed=embed, file=file)
+
+    async def generate_image_from_popcat(self, ctx, endpoint: str, avatar: str) -> discord.File:
+        """Generate image from api.popcat.xyz and return a discord.File object."""
         async with ctx.typing():
             async with self.session.get(
                 f"https://api.popcat.xyz/{endpoint}", params={"image": avatar}
@@ -176,13 +331,38 @@ class AvatarImgen(commands.Cog):
                 file = BytesIO(await r.read())
         return discord.File(file, filename=f"{endpoint}.png")
 
-    async def send_embed(self, ctx, endpoint: str, avatar: str, **kwargs) -> discord.Message:
+    async def generate_image_from_sra(self, ctx, endpoint: str, avatar: str) -> discord.File:
+        """Generate image from some-random-api.ml and return a discord.File object."""
+        async with ctx.typing():
+            async with self.session.get(
+                f"https://some-random-api.ml/canvas/{endpoint}", params={"avatar": avatar}
+            ) as r:
+                if r.status != 200:
+                    return
+                file = BytesIO(await r.read())
+        return discord.File(file, filename=f"{endpoint}.png")
+
+    async def send_embed(
+        self,
+        ctx,
+        which: Literal["popcat", "sra"],
+        endpoint: str,
+        avatar: str,
+        title: str,
+        color: discord.Color,
+    ) -> discord.Message:
         """Send an embed with the generated image."""
-        file = await self.generate_image(ctx, endpoint, avatar)
+        if which == "popcat":
+            by = "api.popcat.xyz"
+            icon_url = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+            file = await self.generate_image_from_popcat(ctx, endpoint, avatar)
+        elif which == "sra":
+            by = "some-random-api.ml"
+            icon_url = "https://i.some-random-api.ml/logo.png"
+            file = await self.generate_image_from_sra(ctx, endpoint, avatar)
         if not file:
             return await ctx.send("Something went wrong with the API, try again later.")
-        embed = discord.Embed(**kwargs)
-        pop_cat = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
+        embed = discord.Embed(title=title, color=color)
         embed.set_image(url=f"attachment://{endpoint}.png")
-        embed.set_footer(text="Powered by api.popcat.xyz", icon_url=pop_cat)
+        embed.set_footer(text=f"Powered by {by}", icon_url=icon_url)
         await ctx.send(embed=embed, file=file)
