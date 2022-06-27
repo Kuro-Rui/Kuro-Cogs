@@ -87,7 +87,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "comrade", avatar, "Communist", user.color)
+        await self.send_embed(ctx, "sra", "comrade", avatar, "Communist", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -117,7 +117,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "horny", avatar, "You're Now Legally Horny", user.color)
+        await self.send_embed(ctx, "sra", "horny", avatar, "You're Now Legally Horny", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -127,7 +127,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "jail", avatar, "Go to Jail", user.color)
+        await self.send_embed(ctx, "sra", "jail", avatar, "Go to Jail", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["jokesoverhead"])
@@ -148,7 +148,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "lolice", avatar, "Lolice Chief", user.color)
+        await self.send_embed(ctx, "sra", "lolice", avatar, "Lolice Chief", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(alias=["passed"])
@@ -158,7 +158,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "passed", avatar, "Mission Passed", user.color)
+        await self.send_embed(ctx, "sra", "passed", avatar, "Mission Passed", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -178,7 +178,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "simpcard", avatar, "You're Now A Simp", user.color)
+        await self.send_embed(ctx, "sra", "simpcard", avatar, "You're Now A Simp", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["itssostupid"])
@@ -211,7 +211,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "triggered", avatar, "TRIGGERED", user.color)
+        await self.send_embed(ctx, "sra", "triggered", avatar, "TRIGGERED", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -269,7 +269,7 @@ class AvatarImgen(commands.Cog):
 
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "s", "wasted", avatar, "Wasted", user.color)
+        await self.send_embed(ctx, "sra", "wasted", avatar, "Wasted", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
