@@ -40,7 +40,7 @@ class ReactLog(commands.Cog):
         self.config.register_guild(channel=None, reaction_add=False, reaction_remove=False)
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.2.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -51,19 +51,14 @@ class ReactLog(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @commands.group(aliases=["reactlogs", "reactionlog", "reactionlogs"])
+    @commands.group(aliases=["reactionlog"])
     @commands.admin()
     @commands.guild_only()
     async def reactlog(self, ctx):
         """ReactLog commands."""
         pass
 
-    @reactlog.group()
-    async def set(self, ctx):
-        """ReactLog settings."""
-        pass
-
-    @set.command()
+    @reactlog.command()
     async def channel(self, ctx, channel: discord.TextChannel):
         """Set the reactions logging channel."""
         if ctx.channel.permissions_for(channel.guild.me).send_messages:
@@ -72,7 +67,7 @@ class ReactLog(commands.Cog):
         else:
             await ctx.send("Please grant me permission to send message in that channel first.")
 
-    @set.command(aliases=["reactionadd"])
+    @reactlog.command(aliases=["reactionadd"])
     async def reactadd(self, ctx, on_or_off: bool):
         """Enable/disable logging when reactions added."""
         await self.config.guild(ctx.guild).reaction_add.set(on_or_off)
@@ -81,7 +76,7 @@ class ReactLog(commands.Cog):
         else:
             await ctx.send("I won't log when reactions added.")
 
-    @set.command(aliases=["reactionremove"])
+    @reactlog.command(aliases=["reactionremove"])
     async def reactremove(self, ctx, on_or_off: bool):
         """Enable/disable logging when reactions removed."""
         await self.config.guild(ctx.guild).reaction_remove.set(on_or_off)
@@ -96,17 +91,27 @@ class ReactLog(commands.Cog):
         """Show the current settings."""
         channel = await self.config.guild(ctx.guild).channel()
         if channel:
-            channel_mention = f"<#{channel}>"
+            channel_mention = self.bot.get_channel(channel).mention
         else:
             channel_mention = "Not Set"
         reaction_add_status = await self.config.guild(ctx.guild).reaction_add()
         reaction_remove_status = await self.config.guild(ctx.guild).reaction_remove()
-        embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
-        embed.add_field(name="Channel", value=channel_mention, inline=True)
-        embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
-        embed.add_field(name="Log On Reaction Remove", value=reaction_remove_status, inline=True)
-        embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
-        await ctx.send(embed=embed)
+        if await ctx.embed_requested():
+            embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
+            embed.add_field(name="Channel", value=channel_mention, inline=True)
+            embed.add_field(name="Log On Reaction Add", value=reaction_add_status, inline=True)
+            embed.add_field(
+                name="Log On Reaction Remove", value=reaction_remove_status, inline=True
+            )
+            embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send(
+                f"**Reaction Log Settings for {ctx.guild.name}**\n"
+                f"Channel: {channel_mention}\n"
+                f"Log On Reaction Add: {reaction_add_status}\n"
+                f"Log On Reaction Remove: {reaction_remove_status}"
+            )
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
