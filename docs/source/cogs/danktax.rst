@@ -1,0 +1,25 @@
+.. _danktax:
+
+*******
+DankTax
+*******
+**Dank Memer tax utility.**
+
+.. important::
+    To use this cog, you will need to install and load it first.
+    See the :ref:`Getting Started<getting_started>` page.
+
+========
+Commands
+========
+
+-----------
+``taxcalc``
+-----------
+
+.. code-block:: yaml
+
+    Syntax: [p]taxcalc <quantity>
+    Alias : [p]gettax
+
+**Description:** Calculate Dank Memer tax!
