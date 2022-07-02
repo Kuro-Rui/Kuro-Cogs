@@ -59,36 +59,48 @@ class ReactLog(commands.Cog):
         pass
 
     @reactlog.command()
-    async def channel(self, ctx, channel: discord.TextChannel):
+    async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the reactions logging channel."""
-        if ctx.channel.permissions_for(channel.guild.me).send_messages:
-            await self.config.guild(ctx.guild).channel.set(channel.id)
-            await ctx.send(f"Set reaction log channel to: {channel.mention}")
-        else:
+        if not channel:
+            await self.config.guild(ctx.guild).channel.clear()
+            await ctx.send("Reaction logging channel has been unset.")
+            return
+        if not ctx.channel.permissions_for(channel.guild.me).send_messages:
             await ctx.send("Please grant me permission to send message in that channel first.")
+            return
+        await self.config.guild(ctx.guild).channel.set(channel.id)
+        await ctx.send(f"Reaction logging channel has been set to: {channel.mention}")
 
-    @reactlog.command(aliases=["reactionadd"])
-    async def reactadd(self, ctx, on_or_off: bool):
+    @reactlog.command()
+    async def reactadd(self, ctx, toggle: bool = None):
         """Enable/disable logging when reactions added."""
-        await self.config.guild(ctx.guild).reaction_add.set(on_or_off)
-        if on_or_off:
+        current = await self.config.guild(ctx.guild).reaction_add()
+        if toggle is None:
+            await self.config.guild(ctx.guild).reaction_add.set(not current)
+        else:
+            await self.config.guild(ctx.guild).reaction_add.set(toggle)
+        if await self.config.guild(ctx.guild).reaction_add():
             await ctx.send("I will log when reactions added.")
         else:
             await ctx.send("I won't log when reactions added.")
 
-    @reactlog.command(aliases=["reactionremove"])
-    async def reactremove(self, ctx, on_or_off: bool):
+    @reactlog.command()
+    async def reactdel(self, ctx, toggle: bool = None):
         """Enable/disable logging when reactions removed."""
-        await self.config.guild(ctx.guild).reaction_remove.set(on_or_off)
-        if on_or_off:
+        current = await self.config.guild(ctx.guild).reaction_remove()
+        if toggle is None:
+            await self.config.guild(ctx.guild).reaction_remove.set(not current)
+        else:
+            await self.config.guild(ctx.guild).reaction_remove.set(toggle)
+        if await self.config.guild(ctx.guild).reaction_remove():
             await ctx.send("I will log when reactions removed.")
         else:
             await ctx.send("I won't log when reactions removed.")
 
-    @reactlog.command(aliases=["settings"])
+    @reactlog.command()
     @commands.bot_has_permissions(embed_links=True)
-    async def showsettings(self, ctx):
-        """Show the current settings."""
+    async def settings(self, ctx):
+        """Show current reaction log settings."""
         channel = await self.config.guild(ctx.guild).channel()
         if channel:
             channel_mention = self.bot.get_channel(channel).mention
