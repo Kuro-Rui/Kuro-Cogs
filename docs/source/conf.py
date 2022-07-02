@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Kuro-Cogs'
-copyright = '2021 - 2022, Kuro-Rui'
-author = 'Kuro-Rui'
+project = "Kuro-Cogs"
+copyright = "2021 - 2022, Kuro-Rui"
+author = "Kuro-Rui"
 
 
 # -- General configuration ---------------------------------------------------
@@ -27,10 +27,10 @@ author = 'Kuro-Rui'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx_copybutton"] # "sphinx_rtd_dark_mode"
+extensions = ["sphinx_copybutton"]  # "sphinx_rtd_dark_mode"
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -40,11 +40,11 @@ exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
-html_title = 'Kuro-Cogs'
+html_title = "Kuro-Cogs"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'furo'
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
