@@ -55,7 +55,7 @@ class ReactLog(commands.Cog):
     @commands.admin()
     @commands.guild_only()
     async def reactlog(self, ctx):
-        """ReactLog commands."""
+        """Reaction logging configuration commands."""
         pass
 
     @reactlog.command()
