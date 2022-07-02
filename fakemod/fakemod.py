@@ -167,7 +167,7 @@ class FakeMod(commands.Cog):
 
     @commands.command(name="worn")
     async def fake_warn(self, ctx, member: discord.Member, reason: str = None):
-        """Fake warn the user for the specified reason."""
+        """Fake warn a member for the specified reason."""
         if member == ctx.me:
             await ctx.send("You can't warn me.")
         elif member == ctx.author:
@@ -192,7 +192,7 @@ class FakeMod(commands.Cog):
 
     @commands.command(name="myut", aliases=["moot"])
     async def fake_mute(self, ctx, member: discord.Member, *, reason: str = None):
-        """Fake mute a user."""
+        """Fake mute a member."""
         if member == ctx.me:
             await ctx.send("You can't mute me.")
         elif member == ctx.author:
@@ -217,7 +217,7 @@ class FakeMod(commands.Cog):
 
     @commands.command(name="kik", aliases=["kek", "keck"])
     async def fake_kick(self, ctx, member: discord.Member, *, reason: str = None):
-        """Fake kick a user."""
+        """Fake kick a member."""
         if member == ctx.me:
             await ctx.send("You can't kick me.")
         elif member == ctx.author:
@@ -241,9 +241,7 @@ class FakeMod(commands.Cog):
                 await fake_modlog.send(embed=embed)
 
     @commands.command(name="bam", aliases=["ben", "bon", "bean"])
-    async def fake_ban(
-        self, ctx, user: Union[discord.User, discord.Member], *, reason: str = None
-    ):
+    async def fake_ban(self, ctx, user: discord.User, *, reason: str = None):
         """Fake ban a user."""
         if user == ctx.me:
             await ctx.send("You can't ban me.")
