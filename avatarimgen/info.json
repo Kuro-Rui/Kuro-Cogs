@@ -4,7 +4,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `AvatarImgen`!",
+    "install_msg": "Thanks for installing `AvatarImgen`! Use `[p]help AvatarImgen` to see the list of available commands.\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/avatarimgen.html>.",
     "name": "AvatarImgen",
     "short": "Make images from avatars!",
     "tags": ["api", "avatar", "imgen"],

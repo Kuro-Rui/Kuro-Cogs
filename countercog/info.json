@@ -5,7 +5,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `CounterCog`.\nIf you think the number isn't accurate, remember that this also counts subcommands.\nTo get started, do `[p]count cogs` or `[p]count commands [Cog]`",
+    "install_msg": "Thanks for installing `CounterCog`.\nIf you think the number isn't accurate, remember that this also counts subcommands.\nTo get started, do `[p]count cogs` or `[p]count commands [Cog]`\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/countercog.html>.",
     "short": "A cog that shows how many commands/cogs the bot has.",
     "tags": ["cogs", "commands", "count"],
     "type": "COG"

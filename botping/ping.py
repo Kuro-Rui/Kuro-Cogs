@@ -26,19 +26,30 @@ SOFTWARE.
 
 import asyncio
 import datetime
+import random
 import time
 
 import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import box, humanize_list
 
-from .utils import ping_gifs_picker
-
 old_ping = None
+ping_pong_gifs = [
+    "https://i.pinimg.com/originals/ac/b8/8f/acb88f71e5ed54072a24f647e28a9c3f.gif",
+    "https://4.bp.blogspot.com/-8XanbCQDxfg/WnJTaUeifYI/AAAAAAABEUo/5yv_KUlLV9cmJsuI8jeFRrGSXbtQMclngCKgBGAs/s1600/Omake%2BGif%2BAnime%2B-%2BShokugeki%2Bno%2BSoma%2BS2%2B-%2BOAD%2B1%2B%255BDVD%255D%2B-%2BMegumi%2Bvs%2BIsshiki.gif",
+    "https://remyfool.files.wordpress.com/2016/11/agari-rally.gif?w=924",
+    "https://i.imgur.com/LkdjWE6.gif",
+    "https://i.gifer.com/6TaL.gif",
+    "https://i.kym-cdn.com/photos/images/original/000/753/601/bc8.gif",
+    "https://c.tenor.com/On7v3wlDxNUAAAAd/ping-pong-anime.gif",
+    "https://imgur.com/1cnscjV.gif",
+    "https://images.squarespace-cdn.com/content/v1/5b23e822f79392038cbd486c/1589129513917-X6QBWRXBHLCSFXT9INR2/b17c1b31e185d12aeca55b576c1ecaef.gif",
+    "https://i1.wp.com/drunkenanimeblog.com/wp-content/uploads/2017/11/shakunetsu-no-takkyuu-musume-scorching-ping-pong-girls.gif?fit=540%2C303&ssl=1&resize=350%2C200https://media1.tenor.com/images/2b27c6e7747d319f76fd98d2a226ab33/tenor.gif?itemid=15479836",
+]
 
 
 class BotPing(commands.Cog):
-    """A more information rich ping message."""
+    """Detailed bot latency information."""
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "0.1.0"
@@ -86,7 +97,7 @@ class BotPing(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.group(invoke_without_command=True)
     async def ping(self, ctx):
-        """View bot latency."""
+        """View [botname]'s latency."""
         start = time.monotonic()
         message = await ctx.send("Pinging...")
         end = time.monotonic()
@@ -94,7 +105,7 @@ class BotPing(commands.Cog):
         overall = round((end - start) * 1000, 2)
         e.add_field(name="Overall Ping:", value=box(f"{overall}" + " ms", "py"))
         if await self.config.use_gifs():
-            e.set_image(url=ping_gifs_picker())
+            e.set_image(url=random.choice(ping_pong_gifs))
         await asyncio.sleep(0.25)
         try:
             await message.edit(content=None, embed=e)
@@ -136,7 +147,8 @@ class BotPing(commands.Cog):
 
     @ping.command()
     async def message(self, ctx: commands.Context):
-        """Show message latencies.
+        """
+        Show message latencies.
 
         This includes when message received, sent, and edited.
         """
@@ -152,7 +164,7 @@ class BotPing(commands.Cog):
         send = round((send_end - send_start) * 1000, 2)
         e.add_field(name="Message Send:", value=box(f"{send}" + " ms", "py"))
         if await self.config.use_gifs():
-            e.set_image(url=ping_gifs_picker())
+            e.set_image(url=random.choice(ping_pong_gifs))
 
         await asyncio.sleep(0.25)
         edit_start = time.monotonic()
@@ -182,6 +194,7 @@ class BotPing(commands.Cog):
     @commands.group()
     async def pingset(self, ctx: commands.Context):
         """Manage BotPing settings."""
+        pass
 
     @pingset.command(name="usegifs", aliases=["usegif", "gif"])
     async def pingset_usegifs(self, ctx: commands.Context, true_or_false: bool = None):
@@ -193,7 +206,7 @@ class BotPing(commands.Cog):
         self.settings["use_gifs"] = target_state
         word = "will" if target_state else "won't"
         await ctx.send(
-            f"Ping Pong GIFs {word} be displayed on the `{ctx.clean_prefix}ping` embed."
+            f"Ping Pong GIFs {word} be displayed on the `{ctx.prefix}ping` embed."
         )
 
 

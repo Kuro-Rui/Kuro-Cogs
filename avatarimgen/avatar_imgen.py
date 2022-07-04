@@ -130,17 +130,6 @@ class AvatarImgen(commands.Cog):
         await self.send_embed(ctx, "sra", "jail", avatar, "Go to Jail", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
-    @commands.command(aliases=["jokesoverhead"])
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def jokeoverhead(self, ctx, user: discord.User = None):
-        """This person doesn't get jokes at all!"""
-
-        user = user or ctx.author
-        # The API isn't accepting "?size=1024" part that's attached to avatar URLs
-        avatar = f"https://cdn.discordapp.com/avatars/{user.id}/{user.avatar}.png"
-        await self.send_embed(ctx, "popcat", "jokeoverhead", avatar, "Joke Overhead", user.color)
-
-    @commands.bot_has_permissions(attach_files=True)
     @commands.command(alias=["lolipolice"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def lolice(self, ctx, user: discord.User = None):
@@ -159,16 +148,6 @@ class AvatarImgen(commands.Cog):
         user = user or ctx.author
         avatar = str(user.avatar_url_as(format="png"))
         await self.send_embed(ctx, "sra", "passed", avatar, "Mission Passed", user.color)
-
-    @commands.bot_has_permissions(attach_files=True)
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def mnm(self, ctx, user: discord.User = None):
-        """Make anyone turns into a shape of M & Ms!"""
-
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "popcat", "mnm", avatar, "M & M", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
@@ -317,26 +296,16 @@ class AvatarImgen(commands.Cog):
         )
         await ctx.send(embed=embed, file=file)
 
-    async def generate_image_from_popcat(self, ctx, endpoint: str, avatar: str) -> discord.File:
-        """Generate image from api.popcat.xyz and return a discord.File object."""
+    async def generate_image(
+        self, ctx, which: Literal["popcat", "sra"], endpoint: str, avatar: str
+    ) -> discord.File:
+        """Generate image and return a discord.File object."""
         async with ctx.typing():
-            async with self.session.get(
-                f"https://api.popcat.xyz/{endpoint}", params={"image": avatar}
-            ) as r:
-                if r.status != 200:
-                    return
-                if endpoint == "jokeoverhead":  # Dumb Endpoint
-                    if await r.json() and (await r.json())["error"]:
-                        return
-                file = BytesIO(await r.read())
-        return discord.File(file, filename=f"{endpoint}.png")
-
-    async def generate_image_from_sra(self, ctx, endpoint: str, avatar: str) -> discord.File:
-        """Generate image from some-random-api.ml and return a discord.File object."""
-        async with ctx.typing():
-            async with self.session.get(
-                f"https://some-random-api.ml/canvas/{endpoint}", params={"avatar": avatar}
-            ) as r:
+            if which == "popcat":
+                link, params = f"https://api.popcat.xyz/{endpoint}", {"image": avatar}
+            elif which == "sra":
+                link, params = f"https://some-random-api.ml/canvas/{endpoint}", {"avatar": avatar}
+            async with self.session.get(link, params=params) as r:
                 if r.status != 200:
                     return
                 file = BytesIO(await r.read())
@@ -352,16 +321,15 @@ class AvatarImgen(commands.Cog):
         color: discord.Color,
     ) -> discord.Message:
         """Send an embed with the generated image."""
+        file = await self.generate_image(ctx, which, endpoint, avatar)
+        if not file:
+            return await ctx.send("Something went wrong with the API, try again later.")
         if which == "popcat":
             by = "api.popcat.xyz"
             icon_url = "https://c.tenor.com/BT8I5b35oMQAAAAC/oatmeal-meme.gif"
-            file = await self.generate_image_from_popcat(ctx, endpoint, avatar)
         elif which == "sra":
             by = "some-random-api.ml"
             icon_url = "https://i.some-random-api.ml/logo.png"
-            file = await self.generate_image_from_sra(ctx, endpoint, avatar)
-        if not file:
-            return await ctx.send("Something went wrong with the API, try again later.")
         embed = discord.Embed(title=title, color=color)
         embed.set_image(url=f"attachment://{endpoint}.png")
         embed.set_footer(text=f"Powered by {by}", icon_url=icon_url)

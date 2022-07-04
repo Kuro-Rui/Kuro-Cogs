@@ -1,7 +1,7 @@
 {
   "author" : ["Kuro"],
   "min_bot_version": "3.0.0",
-  "install_msg" : "Thanks for installing `Osu` cog! CLICK THE CIRCLES, TO THE BEAT!\n------------------------\nTo set API Key, run `[p]osuset creds`. To set emojis (SSH, SS, SH, S, A) for the osu! user info (except card), run `[p]osuset emoji`",
+  "install_msg" : "Thanks for installing `Osu` cog! Get started with `[p]osuset`.\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
   "short" : "Display user information from osu!",
   "description" : "Displays detailed user information about osu! users in an embed.",
   "tags" : ["osu", "osu!"],
