@@ -48,23 +48,23 @@ class DankTax(commands.Cog):
         )
 
     @commands.command(aliases=["gettax"])
-    async def taxcalc(self, ctx, quantity: int):
-        """Calculate your Dank Memer tax!"""
+    async def taxcalc(self, ctx, amount: int):
+        """Calculate Dank Memer tax!"""
 
-        q = humanize_number(quantity)
-        tq1 = humanize_number(total(quantity))
-        tq2 = humanize_number(total(quantity, False))
+        q = humanize_number(amount)
+        tq1 = humanize_number(total(amount))
+        tq2 = humanize_number(total(amount, False))
         msg = (
             f"*If you send `⏣ {q}`, you will pay `⏣ {tq1}`.\n"
             f"To spend `⏣ {q}` with tax included, send `⏣ {tq2}`.*"
         )
         examples = (
-            f"- `pls trade {quantity} @user` = `⏣ {tq1}`\n"
-            f"- `pls trade {total(quantity, False)} @user` = `⏣ {q}`"
+            f"- `pls trade {amount} @user` = `⏣ {tq1}`\n"
+            f"- `pls trade {total(amount, False)} @user` = `⏣ {q}`"
         )
 
         if await ctx.embed_requested():
-            tx = humanize_number(tax(quantity))
+            tx = humanize_number(tax(amount))
             embed = discord.Embed(title="Tax Calc", description=msg, color=await ctx.embed_color())
             embed.add_field(name="Examples", value=examples)
             embed.set_footer(text=f"Tax: ⏣ {tx} (Rate: 1%)")
