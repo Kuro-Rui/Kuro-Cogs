@@ -19,7 +19,7 @@ Commands
 
 .. code-block:: yaml
 
-    Syntax: [p]taxcalc <quantity>
+    Syntax: [p]taxcalc <amount>
     Alias : [p]gettax
 
 **Description:** Calculate Dank Memer tax!
