@@ -1,15 +1,15 @@
 .. _getting_started:
 
-===============
+***************
 Getting Started
-===============
+***************
 
 .. note::
     ``[p]`` is your prefix.
 
----------------------------------------
+=======================================
 Adding The Repository & Installing Cogs
----------------------------------------
+=======================================
 
 1. First, make sure Downloader is already loaded:
     .. code-block:: yaml
@@ -31,9 +31,9 @@ Adding The Repository & Installing Cogs
 
         [p]load cogs...
 
----------
+=========
 Cogs List
----------
+=========
 
 ==================================== ==============================================================
 Cog Name                             Description
@@ -53,9 +53,9 @@ Cog Name                             Description
 :ref:`Translate<translate>`          Translates the given text.
 ==================================== ==============================================================
 
--------
+=======
 Support
--------
+=======
 
 For support, go to `Red - Cog Support <https://discord.gg/GET4DVk>`_ server, 
 in `#support_othercogs <https://discord.com/channels/240154543684321280/240212783503900673>`_.
