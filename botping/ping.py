@@ -205,9 +205,7 @@ class BotPing(commands.Cog):
         await self.config.use_gifs.set(target_state)
         self.settings["use_gifs"] = target_state
         word = "will" if target_state else "won't"
-        await ctx.send(
-            f"Ping Pong GIFs {word} be displayed on the `{ctx.prefix}ping` embed."
-        )
+        await ctx.send(f"Ping Pong GIFs {word} be displayed on the `{ctx.prefix}ping` embed.")
 
 
 async def setup(bot):
