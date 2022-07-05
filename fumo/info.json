@@ -4,7 +4,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `Fumo`! Please enjoy it ᗜˬᗜ\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/fumo.html>.",
+    "install_msg": "Thanks for installing `Fumo`! Please enjoy it ᗜˬᗜ\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/fumo.html>.",
     "name": "Fumo",
     "requirements": ["pillow"],
     "short": "Generates a random Fumo image ᗜˬᗜ",

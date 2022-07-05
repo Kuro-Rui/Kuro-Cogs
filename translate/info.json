@@ -4,7 +4,7 @@
   "disabled": false,
   "end_user_data_statement": "This cog does not store any end user data.",
   "hidden": false,
-  "install_msg": "Thanks for installing `Translate`! Use `[p]help Translate` to see all the available commands.\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/translate.html>.",
+  "install_msg": "Thanks for installing `Translate`! Use `[p]help Translate` to see all the available commands.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/translate.html>.",
   "name": "Translate",
   "requirements": ["translatepy"],
   "short": "Translate the given text!",

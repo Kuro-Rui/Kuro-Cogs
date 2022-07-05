@@ -1,7 +1,7 @@
 {
     "author": ["Kuro"],
     "description": "Log when reactions were added/removed! Inspired by Sx Bot#8364.",
-    "install_msg": "Thanks for installing `ReactLog`! Get started with `[p]reactlog`.\n\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/reactlog.html>.",
+    "install_msg": "Thanks for installing `ReactLog`! Get started with `[p]reactlog`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/reactlog.html>.",
     "short": "Log added/removed reactions!",
     "tags": ["log", "react", "reaction", "reactlog", "reactionlog"],
     "type": "COG",
