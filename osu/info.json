@@ -1,11 +1,11 @@
 {
   "author" : ["Kuro"],
-  "min_bot_version": "3.0.0",
-  "install_msg" : "Thanks for installing `Osu`! Get started with `[p]osuset`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
-  "short" : "Display user information from osu!",
   "description" : "Displays detailed user information about osu! users in an embed.",
-  "tags" : ["osu", "osu!"],
+  "end_user_data_statement": "This cog does not store any end user data.",
   "hidden" : false,
-  "type": "COG",
-  "end_user_data_statement": "This cog does not store any end user data."
+  "install_msg" : "Thanks for installing `Osu`! Get started with `[p]osuset`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
+  "requirements": ["emoji==1.6.3"],
+  "short" : "Display user information from osu!",
+  "tags" : ["osu", "osu!"],
+  "type": "COG"
 }
