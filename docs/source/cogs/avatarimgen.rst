@@ -27,6 +27,8 @@ Commands
 
 **Description:** Make an advertisement!
 
+----
+
 ---------
 ``clown``
 ---------
@@ -36,6 +38,8 @@ Commands
     Syntax: [p]clown [user]
 
 **Description:** This person is a clown, Star.
+
+----
 
 -------------
 ``communist``
@@ -47,6 +51,8 @@ Commands
 
 **Description:** Generate a communist comrade avatar!
 
+----
+
 --------
 ``drip``
 --------
@@ -56,6 +62,8 @@ Commands
     Syntax: [p]drip [user]
 
 **Description:** Pretend to wear a rich jacket!
+
+----
 
 -------
 ``gun``
@@ -67,6 +75,8 @@ Commands
 
 **Description:** Add a gun overlay to your avatar!
 
+----
+
 ----------------
 ``hornylicense``
 ----------------
@@ -76,6 +86,8 @@ Commands
     Syntax: [p]hornylicense [user]
 
 **Description:** Assign someone a horny license!
+
+----
 
 --------
 ``jail``
@@ -87,6 +99,8 @@ Commands
 
 **Description:** Send someone to jail!
 
+----
+
 ----------
 ``lolice``
 ----------
@@ -96,6 +110,8 @@ Commands
     Syntax: [p]lolice [user]
 
 **Description:** Be a loli police and put lolicons to jail!
+
+----
 
 -----------------
 ``missionpassed``
@@ -107,6 +123,8 @@ Commands
 
 **Description:** Mission passed, respect +100.
 
+----
+
 ------------
 ``simpcard``
 ------------
@@ -116,6 +134,8 @@ Commands
     Syntax: [p]simpcard [user]
 
 **Description:** Assign someone a simp card!
+
+----
 
 ------------
 ``sostupid``
@@ -128,6 +148,8 @@ Commands
 
 **Description:** Oh no, it's so stupid!
 
+----
+
 -------------
 ``triggered``
 -------------
@@ -137,6 +159,8 @@ Commands
     Syntax: [p]triggered [user]
 
 **Description:** TRIGGERED
+
+----
 
 ---------
 ``tweet``
@@ -148,6 +172,8 @@ Commands
 
 **Description:** Generate a fake Twitter tweet!
 
+----
+
 -----------
 ``uncover``
 -----------
@@ -157,6 +183,8 @@ Commands
     Syntax: [p]uncover [user]
 
 **Description:** So this person was hiding behind the wall all the time?
+
+----
 
 ----------
 ``wanted``
@@ -168,6 +196,8 @@ Commands
 
 **Description:** Make a wanted poster!
 
+----
+
 ----------
 ``wasted``
 ----------
@@ -178,6 +208,8 @@ Commands
 
 **Description:** Wasted.
 
+----
+
 ---------------
 ``whowouldwin``
 ---------------
@@ -187,6 +219,8 @@ Commands
     Syntax: [p]whowouldwin <user_1> [user_2]
 
 **Description:** Who would win?
+
+----
 
 -------------
 ``ytcomment``
