@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from typing import Optional
+from typing import Literal, Optional
 
 import discord
 from redbot.core import commands
@@ -31,7 +31,11 @@ from translatepy import Translator
 from translatepy.exceptions import TranslatepyException
 from translatepy.translators import *
 
-from .utils import LanguageConverter, send_result
+from .converters import Lang
+
+Service = Literal[
+    "Auto", "DeepL", "Google", "Libre", "MyMemory", "Reverso", "Translate.com", "Yandex"
+]
 
 
 class Translate(commands.Cog):
@@ -39,14 +43,6 @@ class Translate(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.translator = Translator()
-        self.deepl = DeeplTranslate()
-        self.google = GoogleTranslate()
-        self.libre = LibreTranslate()
-        self.mymemory = MyMemoryTranslate()
-        self.reverso = ReversoTranslate()
-        self.translatecom = TranslateComTranslate()
-        self.yandex = YandexTranslate()
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "1.3.0"
@@ -65,8 +61,8 @@ class Translate(commands.Cog):
     async def translate(
         self,
         ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
+        to_language: Lang,
+        from_language: Optional[Lang] = "Auto",
         *,
         text: str,
     ):
@@ -79,16 +75,11 @@ class Translate(commands.Cog):
             - `[p]translate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Auto")
+        await self.send_result(ctx, text, from_language, to_language, "Auto")
 
     @commands.command(aliases=["dltranslate", "deepltranslate"])
     async def dtranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with DeepL!
@@ -99,16 +90,11 @@ class Translate(commands.Cog):
             - `[p]dtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "DeepL")
+        await self.send_result(ctx, text, from_language, to_language, "DeepL")
 
     @commands.command(aliases=["googletranslate"])
     async def gtranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with Google Translate!
@@ -119,16 +105,11 @@ class Translate(commands.Cog):
             - `[p]gtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Google")
+        await self.send_result(ctx, text, from_language, to_language, "Google")
 
     @commands.command(aliases=["libretranslate"])
     async def ltranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with LibreTranslate!
@@ -139,16 +120,11 @@ class Translate(commands.Cog):
             - `[p]ltranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Libre")
+        await self.send_result(ctx, text, from_language, to_language, "Libre")
 
     @commands.command(aliases=["mmtranslate", "mymemtranslate", "mymemorytranslate"])
     async def mtranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with MyMemory!
@@ -159,16 +135,11 @@ class Translate(commands.Cog):
             - `[p]mmtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "MyMemory")
+        await self.send_result(ctx, text, from_language, to_language, "MyMemory")
 
     @commands.command(aliases=["reversotranslate"])
     async def rtranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with Reverso!
@@ -179,16 +150,11 @@ class Translate(commands.Cog):
             - `[p]rtranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Reverso")
+        await self.send_result(ctx, text, from_language, to_language, "Reverso")
 
     @commands.command(aliases=["tctranslate", "translatecom"])
     async def ttranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with Translate.com!
@@ -199,16 +165,11 @@ class Translate(commands.Cog):
             - `[p]tctranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Translate.com")
+        await self.send_result(ctx, text, from_language, to_language, "Translate.com")
 
     @commands.command(aliases=["yandextranslate"])
     async def ytranslate(
-        self,
-        ctx,
-        to_language: LanguageConverter,
-        from_language: Optional[LanguageConverter] = "Auto",
-        *,
-        text: str,
+        self, ctx, to_language: Lang, from_language: Optional[Lang] = "Auto", *, text: str
     ):
         """
         Translates the given text with Yandex Translate!
@@ -219,20 +180,68 @@ class Translate(commands.Cog):
             - `[p]ytranslate es en Example of text` (Translates "Example of Text" from English to Español)
         """
 
-        await send_result(self, ctx, text, from_language, to_language, "Yandex")
+        await self.send_result(ctx, text, from_language, to_language, "Yandex")
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx, *, text: str):
         """Convert the given text to emojis!"""
 
         try:
+            # Make it async so it doesn't break the bot :p
             result = await self.bot.loop.run_in_executor(None, self.yandex.translate, text, "EMJ")
         except TranslatepyException as error:
             return await ctx.send(f"{error}.")
 
         if await ctx.embed_requested():
-            embed = discord.Embed(description=result, color=await ctx.embed_color())
+            embed = discord.Embed(description=str(result), color=await ctx.embed_color())
             embed.set_footer(text=f"Requested by: {ctx.author}")
             await ctx.send(embed=embed)
         else:
             await ctx.send(f"{result}\n\nRequested by: {ctx.author}")
+
+    async def send_result(
+        self,
+        ctx,
+        text: str,
+        from_language: Lang,
+        to_language: Lang,
+        service: Service,
+    ):
+        """Sends Translate Result"""
+
+        # Don't mind the long-ass ifs lol :v
+        if service == "Auto":
+            service = Translator()
+        elif service == "DeepL":
+            service = DeeplTranslate()
+        elif service == "Google":
+            service = GoogleTranslate()
+        elif service == "Libre":
+            service = LibreTranslate()
+        elif service == "MyMemory":
+            service = MyMemoryTranslate()
+        elif service == "Reverso":
+            service = ReversoTranslate()
+        elif service == "Translate.com":
+            service = TranslateComTranslate()
+        elif service == "Yandex":
+            service = YandexTranslate()
+
+        try:
+            # Make it async so it doesn't break the bot :p
+            result = await self.bot.loop.run_in_executor(
+                None, service.translate, text, to_language, from_language
+            )
+        except TranslatepyException as error:
+            return await ctx.send(f"{error}.")
+
+        footer = (
+            f"{result.source_language.name} to {result.destination_language.name} | "
+            f"Translated with {result.service}\nRequested by: {ctx.author}"
+        )
+        if await ctx.embed_requested():
+            embed = discord.Embed(description=str(result), color=await ctx.embed_color())
+            embed.set_footer(text=footer)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send(f"{result}\n\n{footer}")
