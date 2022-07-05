@@ -30,8 +30,11 @@ from translatepy.exceptions import UnknownLanguage
 class Lang(Converter):
     async def convert(self, ctx, argument):
         try:
-            return Language(argument)
+            lang = Language(argument)
+            if round(lang.similarity) < 100:
+                raise BadArgument(f"Couldn't recognize `{argument}` language.")
+            return lang
         except UnknownLanguage as ul:
             raise BadArgument(
-                f"Unable to find `{argument}`. Did you mean `{ul.guessed_language}`?"
+                f"Couldn't recognize `{argument}` language. Did you mean `{ul.guessed_language}`?"
             )
