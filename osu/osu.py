@@ -365,7 +365,7 @@ class Osu(commands.Cog):
             "▸ **Ranked Score:** {}\n"
             "▸ **Total Score:** {}"
         ).format(
-            f"<t:{datetime.strptime(player['join_date'], '%Y-%m-%d %H:%M:%S').timestamp()}:F>",
+            f"<t:{int(datetime.strptime(player['join_date'], '%Y-%m-%d %H:%M:%S').timestamp())}:F>",
             humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
             humanize_number(int(player["pp_country_rank"]))
