@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from typing import Union
+
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_number
@@ -36,7 +38,7 @@ class DankTax(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -48,7 +50,7 @@ class DankTax(commands.Cog):
         )
 
     @commands.command(aliases=["gettax"])
-    async def taxcalc(self, ctx, amount: int):
+    async def taxcalc(self, ctx, amount: Union[int, float]):
         """Calculate Dank Memer tax!"""
 
         q = humanize_number(amount)
