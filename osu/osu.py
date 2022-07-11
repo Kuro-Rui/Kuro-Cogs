@@ -365,13 +365,13 @@ class Osu(commands.Cog):
                 "▸ **Total Score:** {}"
             ).format(
                 player["join_date"][:10],
-                humanize_number(player["pp_rank"]),
+                humanize_number(int(player["pp_rank"])),
                 player["country"].lower(),
-                humanize_number(player["pp_country_rank"]),
+                humanize_number(int(player["pp_country_rank"])),
                 round(float(player["level"]), 2),
                 humanize_number(round(float(player["pp_raw"]))),
                 round(float(player["accuracy"]), 2),
-                humanize_number(player["playcount"]),
+                humanize_number(int(player["playcount"])),
                 humanize_timedelta(seconds=player["total_seconds_played"]),
                 ssh,
                 player["count_rank_ssh"],
@@ -383,8 +383,8 @@ class Osu(commands.Cog):
                 player["count_rank_s"],
                 a,
                 player["count_rank_a"],
-                humanize_number(player["ranked_score"]),
-                humanize_number(player["total_score"]),
+                humanize_number(int(player["ranked_score"])),
+                humanize_number(int(player["total_score"])),
             )
 
             if m == 0:
