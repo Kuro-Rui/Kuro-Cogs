@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import asyncio
+from datetime import datetime
 from io import BytesIO
 from typing import Optional
 
@@ -347,68 +348,68 @@ class Osu(commands.Cog):
     async def send_osu_user_info(self, ctx, username: str = None, m: int = 0):
         """osu! User Info Embed"""
         player = await self.get_osu_user(ctx, username, m)
-        if player:
-            avatar, filename = await self.get_osu_avatar(ctx, username)
-            ssh, ss, sh, s, a = await self.rank_emojis()
+        if not player:
+            return
+        avatar, filename = await self.get_osu_avatar(ctx, username)
+        ssh, ss, sh, s, a = await self.rank_emojis()
 
-            # Inspired by owo#0498 (Thanks Stevy 😹)
-            description = (
-                "▸ **Joined at:** {}\n"
-                "▸ **Rank:** #{} (:flag_{}: #{})\n"
-                "▸ **Level:** {}\n"
-                "▸ **PP:** {}\n"
-                "▸ **Accuracy:** {}%\n"
-                "▸ **Playcount:** {}\n"
-                "▸ **Playtime:** {}\n"
-                "▸ **Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
-                "▸ **Ranked Score:** {}\n"
-                "▸ **Total Score:** {}"
-            ).format(
-                player["join_date"][:10],
-                humanize_number(int(player["pp_rank"])),
-                player["country"].lower(),
-                humanize_number(int(player["pp_country_rank"])),
-                round(float(player["level"]), 2),
-                humanize_number(round(float(player["pp_raw"]))),
-                round(float(player["accuracy"]), 2),
-                humanize_number(int(player["playcount"])),
-                humanize_timedelta(seconds=player["total_seconds_played"]),
-                ssh,
-                player["count_rank_ssh"],
-                ss,
-                player["count_rank_ss"],
-                sh,
-                player["count_rank_sh"],
-                s,
-                player["count_rank_s"],
-                a,
-                player["count_rank_a"],
-                humanize_number(int(player["ranked_score"])),
-                humanize_number(int(player["total_score"])),
-            )
+        description = (
+            "▸ **Joined at:** {}\n"
+            "▸ **Rank:** #{} (:flag_{}: #{})\n"
+            "▸ **Level:** {}\n"
+            "▸ **PP:** {}\n"
+            "▸ **Accuracy:** {}%\n"
+            "▸ **Playcount:** {}\n"
+            "▸ **Playtime:** {}\n"
+            "▸ **Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
+            "▸ **Ranked Score:** {}\n"
+            "▸ **Total Score:** {}"
+        ).format(
+            f"<t:{datetime.strptime(player['join_date'], '%Y-%m-%d %H:%M:%S').timestamp()}:F>",
+            humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
+            player["country"].lower(),
+            humanize_number(int(player["pp_country_rank"])) if player["pp_country_rank"] else "Unknown",
+            round(float(player["level"]), 2) if player["level"] else 0,
+            humanize_number(round(float(player["pp_raw"]))) if player["pp_raw"] else 0,
+            round(float(player["accuracy"]), 2) if player["accuracy"] else 0,
+            humanize_number(int(player["playcount"])) if player["playcount"] else 0,
+            humanize_timedelta(seconds=int(player["total_seconds_played"])) if player["total_seconds_played"] else 0,
+            ssh,
+            player["count_rank_ssh"] if player["count_rank_ssh"] else 0,
+            ss,
+            player["count_rank_ss"] if player["count_rank_ss"] else 0,
+            sh,
+            player["count_rank_sh"] if player["count_rank_sh"] else 0,
+            s,
+            player["count_rank_s"] if player["count_rank_s"] else 0,
+            a,
+            player["count_rank_a"] if player["count_rank_a"] else 0,
+            humanize_number(int(player["ranked_score"])) if player["ranked_score"] else 0,
+            humanize_number(int(player["total_score"])) if player["total_score"] else 0,
+        )
 
-            if m == 0:
-                type = icon = "osu"
-                mode = "Standard"
-            elif m == 1:
-                type = icon = "taiko"
-                mode = "Taiko"
-            elif m == 2:
-                type = "fruits"
-                icon = "ctb"
-                mode = "Catch"
-            elif m == 3:
-                type = icon = "mania"
-                mode = "Mania"
+        if m == 0:
+            type = icon = "osu"
+            mode = "Standard"
+        elif m == 1:
+            type = icon = "taiko"
+            mode = "Taiko"
+        elif m == 2:
+            type = "fruits"
+            icon = "ctb"
+            mode = "Catch"
+        elif m == 3:
+            type = icon = "mania"
+            mode = "Mania"
 
-            embed = discord.Embed(description=description, color=await ctx.embed_color())
-            embed.set_author(
-                icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
-                url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], type),
-                name="osu! {} Profile for {}".format(mode, player["username"]),
-            )
-            embed.set_footer(
-                text="Powered by osu!", icon_url="https://img.icons8.com/color/48/000000/osu.png"
-            )
-            embed.set_thumbnail(url=f"attachment://{filename}")
-            await ctx.send(embed=embed, file=avatar)
+        embed = discord.Embed(description=description, color=await ctx.embed_color())
+        embed.set_author(
+            icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
+            url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], type),
+            name="osu! {} Profile for {}".format(mode, player["username"]),
+        )
+        embed.set_footer(
+            text="Powered by osu!", icon_url="https://img.icons8.com/color/48/000000/osu.png"
+        )
+        embed.set_thumbnail(url=f"attachment://{filename}")
+        await ctx.send(embed=embed, file=avatar)
