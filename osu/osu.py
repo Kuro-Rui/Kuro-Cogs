@@ -368,12 +368,16 @@ class Osu(commands.Cog):
             f"<t:{datetime.strptime(player['join_date'], '%Y-%m-%d %H:%M:%S').timestamp()}:F>",
             humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
-            humanize_number(int(player["pp_country_rank"])) if player["pp_country_rank"] else "Unknown",
+            humanize_number(int(player["pp_country_rank"]))
+            if player["pp_country_rank"]
+            else "Unknown",
             round(float(player["level"]), 2) if player["level"] else 0,
             humanize_number(round(float(player["pp_raw"]))) if player["pp_raw"] else 0,
             round(float(player["accuracy"]), 2) if player["accuracy"] else 0,
             humanize_number(int(player["playcount"])) if player["playcount"] else 0,
-            humanize_timedelta(seconds=int(player["total_seconds_played"])) if player["total_seconds_played"] else 0,
+            humanize_timedelta(seconds=int(player["total_seconds_played"]))
+            if player["total_seconds_played"]
+            else 0,
             ssh,
             player["count_rank_ssh"] if player["count_rank_ssh"] else 0,
             ss,
