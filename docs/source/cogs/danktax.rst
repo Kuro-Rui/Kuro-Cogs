@@ -23,3 +23,6 @@ Commands
     Alias : [p]gettax
 
 **Description:** Calculate Dank Memer tax!
+
+.. note::
+    You can use scientific notation (like ``2e3``, ``2e5``, etc.)

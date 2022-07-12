@@ -53,7 +53,7 @@ class DankTax(commands.Cog):
     async def taxcalc(self, ctx, amount: Union[int, float]):
         """Calculate Dank Memer tax!"""
 
-        amount = int(amount)
+        amount = round(amount)
         q = humanize_number(amount)
         tq1 = humanize_number(total(amount))
         tq2 = humanize_number(total(amount, False))
