@@ -49,7 +49,7 @@ class Osu(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "3.1.1"
+    __version__ = "3.1.2"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -330,7 +330,7 @@ class Osu(commands.Cog):
         ) as response:
             osu = await response.json()
         if osu:
-            osu[0]["join_date"] = int(
+            osu[0]["join_timestamp"] = int(
                 datetime.strptime(osu[0]["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
             )
             return osu[0]
@@ -368,7 +368,7 @@ class Osu(commands.Cog):
             "▸ **Ranked Score:** {}\n"
             "▸ **Total Score:** {}"
         ).format(
-            f"<t:{player['join_date']}:F>",
+            f"<t:{player['join_timestamp']}:F>",
             humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
             humanize_number(int(player["pp_country_rank"]))
