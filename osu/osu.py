@@ -330,6 +330,9 @@ class Osu(commands.Cog):
         ) as response:
             osu = await response.json()
         if osu:
+            osu[0]["join_date"] = int(
+                datetime.strptime(osu[0]["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
+            )
             return osu[0]
         else:
             await ctx.send("Player not found.")
@@ -365,7 +368,7 @@ class Osu(commands.Cog):
             "▸ **Ranked Score:** {}\n"
             "▸ **Total Score:** {}"
         ).format(
-            f"<t:{int(datetime.strptime(player['join_date'], '%Y-%m-%d %H:%M:%S').timestamp())}:F>",
+            f"<t:{player['join_date']}:F>",
             humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
             humanize_number(int(player["pp_country_rank"]))
