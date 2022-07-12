@@ -311,13 +311,11 @@ class Osu(commands.Cog):
         if not username:
             username = await self.config.user(ctx.author).username()
             if not username:
-                p = ctx.prefix
-                command = ctx.invoked_with
                 error_title = "Your username hasn't been set yet!"
                 error_desc = (
-                    f"You can set it with `{p}osuset username <username>`\n"
-                    f"You can also provide a username: `{p}{command} <username>`"
-                )
+                    "You can set it with `{p}osuset username <username>`\n"
+                    "You can also provide a username: `{p}{command} <username>`"
+                ).format(p=ctx.clean_prefix, command=ctx.invoked_with)
                 error_embed = discord.Embed(
                     title=error_title, description=error_desc, color=await ctx.embed_color()
                 )
@@ -328,12 +326,13 @@ class Osu(commands.Cog):
         async with self.session.post(
             f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
         ) as response:
-            osu = await response.json()
-        if osu:
-            osu[0]["join_timestamp"] = int(
-                datetime.strptime(osu[0]["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
+            players = await response.json()
+        if players:
+            player = players[0]
+            player["join_timestamp"] = str(
+                int(datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp())
             )
-            return osu[0]
+            return player
         else:
             await ctx.send("Player not found.")
             return
