@@ -24,6 +24,7 @@ SOFTWARE.
 
 import discord
 from redbot.core import commands
+from redbot.cogs.downloader.converters import InstalledCog
 from redbot.core.utils.chat_formatting import humanize_list
 
 
@@ -32,7 +33,7 @@ class CounterCog(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -71,7 +72,7 @@ class CounterCog(commands.Cog):
 
     @commands.is_owner()
     @count.command()
-    async def commands(self, ctx, cog: str = None):
+    async def commands(self, ctx, cog: InstalledCog = None):
         """
         Count your commands.
 
@@ -79,12 +80,8 @@ class CounterCog(commands.Cog):
         The commands count includes subcommands.
         """
         if cog:
-            if self.bot.get_cog(cog):
-                cog = self.bot.get_cog(cog)
-                cmds = len([c.qualified_name for c in cog.walk_commands()])
-                await ctx.send(f"I have `{cmds}` commands on that cog.")
-            else:
-                await ctx.send("Please provide a valid cog name. (Example: `CounterCog`)")
+            cmds = len(set(cog.walk_commands()))
+            await ctx.send(f"I have `{cmds}` commands on that cog.")
         else:
-            cmds = len(self.bot.commands)
+            cmds = len(set(self.bot.walk_commands()))
             await ctx.send(f"I have `{cmds}` commands.")
