@@ -326,6 +326,9 @@ class Osu(commands.Cog):
         async with self.session.post(
             f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
         ) as response:
+            if response.status != 200:
+                await ctx.send("You didn't set a valid API Key. Please set a valid one!")
+                return
             players = await response.json()
         if players:
             player = players[0]
