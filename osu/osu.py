@@ -231,7 +231,7 @@ class Osu(commands.Cog):
         Shows an osu! User Stats!
 
         You can use `--mode <mode>` argument (optional). Available modes are:
-        `std/standard`, `taiko`, `ctb/catch/catchthebeat`, and `mania`. 
+        `std/standard`, `taiko`, `ctb/catch/catchthebeat`, and `mania`.
         Defaults to `standard`.
         """
 
