@@ -23,11 +23,50 @@ SOFTWARE.
 """
 
 from emoji import UNICODE_EMOJI_ENGLISH
-from redbot.core import commands
+from redbot.core.commands import BadArgument, Context, Converter, EmojiConverter
+
+from .utils import NoExitParser
 
 
-class Emoji(commands.EmojiConverter):
-    async def convert(self, ctx: commands.Context, argument: str):
+class Emoji(EmojiConverter):
+    async def convert(self, ctx: Context, argument: str):
         if argument in UNICODE_EMOJI_ENGLISH:
             return argument
         return str(await super().convert(ctx, argument))
+
+
+# Thanks Flare (https://github.com/flaree/flare-cogs/blob/master/giveaways/converter.py#L15-L212)
+class Args(Converter):
+    async def convert(self, ctx: Context, argument: str) -> dict:
+        argument = argument.replace("—", "--")  # For iOS's weird smart punctuation
+
+        parser = NoExitParser(add_help=False)
+        parser.add_argument("username", nargs="?", default=None, type=str)
+        parser.add_argument("--mode", nargs=1, default="standard", type=str)
+
+        try:
+            values = vars(parser.parse_args(argument.split(" ")))
+        except Exception:
+            raise BadArgument()
+
+        username = await self.bot.get_cog("Osu").config.user(ctx.author).username()
+        if not values["username"]:
+            if username:
+                values["username"] = username
+            else:
+                values["username"] = None
+        values["username"] = " ".join(values["username"])
+
+        modes = ["std", "standard", "taiko", "ctb", "catch", "catchthebeat", "mania"]
+        if values["mode"] not in modes:
+            raise BadArgument()
+        if values["mode"] in ["std", "standard"]:
+            values["mode"] = 0
+        elif values["mode"] == "taiko":
+            values["mode"] = 1
+        elif values["mode"] in ["ctb", "catch", "catchthebeat"]:
+            values["mode"] = 2
+        elif values["mode"] == "mania":
+            values["mode"] = 3
+
+        return values

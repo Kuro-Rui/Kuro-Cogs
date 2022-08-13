@@ -206,19 +206,6 @@ Commands
 
 .. code-block:: yaml
 
-    Syntax : [p]standard [username]
-    Aliases: [p]osu and [p]std
+    Syntax: [p]osu [username] [--mode standard]
 
-**Description:** Shows an osu!std User Stats. If no username is given, it will show your own stats.
-
-----
-
----------
-``taiko``
----------
-
-.. code-block:: yaml
-
-    Syntax: [p]taiko [username]
-
-**Description:** Shows an osu!taiko User Stats. If no username is given, it will show your own stats.
+**Description:** Shows an osu! User Stats. If no username is given, it will show your own stats.
