@@ -42,20 +42,21 @@ class Args(Converter):
 
         parser = NoExitParser(add_help=False)
         parser.add_argument("username", nargs="?", default=None, type=str)
-        parser.add_argument("--mode", nargs=1, default="standard", type=str)
+        parser.add_argument("--mode", nargs="?", default="standard", type=str)
 
         try:
             values = vars(parser.parse_args(argument.split(" ")))
         except Exception:
             raise BadArgument()
 
-        username = await self.bot.get_cog("Osu").config.user(ctx.author).username()
+        username = await ctx.bot.get_cog("Osu").config.user(ctx.author).username()
         if not values["username"]:
             if username:
                 values["username"] = username
             else:
                 values["username"] = None
-        values["username"] = " ".join(values["username"])
+        if values["username"]:
+            values["username"] = " ".join(values["username"])
 
         modes = ["std", "standard", "taiko", "ctb", "catch", "catchthebeat", "mania"]
         if values["mode"] not in modes:

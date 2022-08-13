@@ -205,7 +205,7 @@ class Osu(commands.Cog):
     @api_is_set()
     @commands.command()
     @commands.bot_has_permissions(attach_files=True)
-    async def osuavatar(self, ctx, *, username: Optional[str]):
+    async def osuavatar(self, ctx, *, username: str = None):
         """Shows your/another user osu! Avatar"""
         if not username:
             username = await self.config.user(ctx.author).username()
