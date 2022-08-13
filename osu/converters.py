@@ -41,7 +41,7 @@ class Args(Converter):
         argument = argument.replace("—", "--")  # For iOS's weird smart punctuation
 
         parser = NoExitParser(add_help=False)
-        parser.add_argument("username", nargs="?", default=None, type=str)
+        parser.add_argument("username", nargs="*", default=None, type=str)
         parser.add_argument("--mode", nargs="?", default="standard", type=str)
 
         try:

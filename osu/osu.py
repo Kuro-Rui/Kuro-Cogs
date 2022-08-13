@@ -230,9 +230,9 @@ class Osu(commands.Cog):
         """
         Shows an osu! User Stats!
 
-        You can use `--mode <mode>` argument (optional). Available modes are:
+        You can use `--mode <mode>` argument (optional).
+        Available modes (defaults to `standard`):
         `std/standard`, `taiko`, `ctb/catch/catchthebeat`, and `mania`.
-        Defaults to `standard`.
         """
 
         if not args["username"]:
