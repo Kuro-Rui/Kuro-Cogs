@@ -13,40 +13,90 @@ Osu
 Commands
 ========
 
----------
-``catch``
----------
+-------
+``osu``
+-------
 
 .. code-block:: yaml
 
-    Syntax : [p]catch [username]
-    Aliases: [p]ctb and [p]catchthebeat
+    Syntax: [p]osu [username]
+
+**Description:** Shows an osu! User Stats. If no username is given, it will show your own stats.
+
+----
+
+~~~~~~~~~~~~~~
+``osu avatar``
+~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    Syntax: [p]osu avatar [username]
+
+**Description:** Shows a user's osu! Avatar. If no username is given, it will show your own osu! Avatar.
+
+----
+
+~~~~~~~~~~~~
+``osu card``
+~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    Syntax: [p]osu card [username]
+
+**Description:** Shows a user's osu!standard Card. If no username is given, it will show your own osu!standard Card.
+
+----
+
+~~~~~~~~~~~~~
+``osu catch``
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    Syntax : [p]osu catch [username]
+    Aliases: [p]osu ctb
 
 **Description:** Shows an osu!catch User Stats. If no username is given, it will show your own stats.
 
 ----
 
----------
-``mania``
----------
+~~~~~~~~~~~~~
+``osu mania``
+~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
-    Syntax: [p]mania [username]
+    Syntax: [p]osu mania [username]
 
 **Description:** Shows an osu!mania User Stats. If no username is given, it will show your own stats.
 
 ----
 
--------------
-``osuavatar``
--------------
+~~~~~~~~~~~~~~~~
+``osu standard``
+~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
-    Syntax: [p]osuavatar [username]
+    Syntax : [p]osu standard [username]
+    Aliases: [p]osu std
 
-**Description:** Shows a user's osu! avatar. If no username is given, it will show your osu! avatar.
+**Description:** Shows an osu!standard User Stats. If no username is given, it will show your own stats.
+
+----
+
+~~~~~~~~~~~~~
+``osu taiko``
+~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    Syntax : [p]osu catch [username]
+    Aliases: [p]osu ctb
+
+**Description:** Shows an osu!taiko User Stats. If no username is given, it will show your own stats.
 
 ----
 
@@ -197,15 +247,3 @@ Commands
     Syntax: [p]osuset username [username]
 
 **Description:** Set your osu! username. Empty to reset.
-
-----
-
-------------
-``standard``
-------------
-
-.. code-block:: yaml
-
-    Syntax: [p]osu [username] [--mode standard]
-
-**Description:** Shows an osu! User Stats. If no username is given, it will show your own stats.

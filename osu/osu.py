@@ -203,9 +203,20 @@ class Osu(commands.Cog):
         await ctx.send("All custom emojis for ranks has been cleared.")
 
     @api_is_set()
-    @commands.command()
+    @commands.group(invoke_without_command=True)
+    @commands.bot_has_permissions(attach_files=True, embed_links=True)
+    async def osu(self, ctx, *, username: str = None):
+        """Shows an osu! User Stats!"""
+
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                return await self.send_no_username_embed(ctx)
+        await self.send_osu_user_info(ctx, username, 0)
+
+    @osu.command()
     @commands.bot_has_permissions(attach_files=True)
-    async def osuavatar(self, ctx, *, username: str = None):
+    async def avatar(self, ctx, *, username: str = None):
         """Shows your/another user osu! Avatar"""
         if not username:
             username = await self.config.user(ctx.author).username()
@@ -223,27 +234,50 @@ class Osu(commands.Cog):
         embed.set_image(url=f"attachment://{filename}")
         await ctx.send(embed=embed, file=avatar)
 
-    @api_is_set()
-    @commands.command(usage="[username] [--mode standard]")
-    @commands.bot_has_permissions(attach_files=True, embed_links=True)
-    async def osu(self, ctx, *, args: Args):
-        """
-        Shows an osu! User Stats!
+    @osu.command(aliases=["std"])
+    async def standard(self, ctx, *, username: str = None):
+        """Shows an osu!standard User Stats!"""
 
-        You can use `--mode <mode>` argument (optional).
-        Available modes (defaults to `standard`):
-        `std/standard`, `taiko`, `ctb/catch/catchthebeat`, and `mania`.
-        """
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                return await self.send_no_username_embed(ctx)
+        await self.send_osu_user_info(ctx, username, 0)
 
-        if not args["username"]:
-            return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, args["username"], args["mode"])
+    @osu.command()
+    async def taiko(self, ctx, *, username: str = None):
+        """Shows an osu!taiko User Stats!"""
 
-    @api_is_set()
-    @commands.command(aliases=["osuc", "osuimage", "osuimg"])
-    @commands.cooldown(60, 60, commands.BucketType.default)
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                return await self.send_no_username_embed(ctx)
+        await self.send_osu_user_info(ctx, username, 1)
+
+    @osu.command(aliases=["ctb"])
+    async def catch(self, ctx, *, username: str = None):
+        """Shows an osu!catch User Stats!"""
+
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                return await self.send_no_username_embed(ctx)
+        await self.send_osu_user_info(ctx, username, 2)
+
+    @osu.command()
+    async def mania(self, ctx, *, username: str = None):
+        """Shows an osu!mania User Stats!"""
+
+        if not username:
+            username = await self.config.user(ctx.author).username()
+            if not username:
+                return await self.send_no_username_embed(ctx)
+        await self.send_osu_user_info(ctx, username, 3)
+
+    @osu.command(aliases=["osuc", "osuimage", "osuimg"])
     @commands.bot_has_permissions(attach_files=True)
-    async def osucard(self, ctx, *, username: Optional[str]):
+    @commands.cooldown(60, 60, commands.BucketType.default)
+    async def card(self, ctx, *, username: str = None):
         """Shows an osu!standard User Card!"""  # Thanks Epic, thanks Preda <3
         if not username:
             username = await self.config.user(ctx.author).username()

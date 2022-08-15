@@ -22,14 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from argparse import ArgumentParser
-
 from redbot.core import commands
-from redbot.core.commands import BadArgument, Context
 
 
 def api_is_set():
-    async def predicate(ctx: Context):
+    async def predicate(ctx: commands.Context):
         if not await osu_api_key(ctx):
             return False
         else:
@@ -38,10 +35,5 @@ def api_is_set():
     return commands.check(predicate)
 
 
-async def osu_api_key(ctx: Context):
+async def osu_api_key(ctx: commands.Context):
     return (await ctx.bot.get_shared_api_tokens("osu")).get("api_key")
-
-
-class NoExitParser(ArgumentParser):
-    def error(self, message: str) -> None:
-        raise BadArgument()
