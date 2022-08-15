@@ -32,7 +32,7 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_number, humanize_timedelta
 
-from .converters import Args, Emoji
+from .converters import Emoji
 from .utils import api_is_set, osu_api_key
 
 
