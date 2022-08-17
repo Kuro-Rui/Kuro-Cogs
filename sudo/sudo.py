@@ -84,7 +84,7 @@ class Sudo(commands.Cog):
         interval: TimedeltaConverter(
             minimum=timedelta(minutes=1),
             maximum=timedelta(days=1),
-            default_unit="minutes",
+            default_unit="minutes",  # noqa
         ) = timedelta(minutes=15),
     ):
         """Enable your bot owner privileges for the specified time.
