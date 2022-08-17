@@ -87,7 +87,8 @@ class Sudo(commands.Cog):
             default_unit="minutes",  # noqa
         ) = timedelta(minutes=15),
     ):
-        """Enable your bot owner privileges for the specified time.
+        """
+        Enable your bot owner privileges for the specified time.
 
         Should be between 1 minute and 1 day. Default is 15 minutes.
         """
@@ -105,7 +106,8 @@ class Sudo(commands.Cog):
     @is_owner(copied=True)
     @commands.command()
     async def sudo(self, ctx: commands.Context, *, command: str):
-        """Runs the specified command with bot owner permissions.
+        """
+        Runs the specified command with bot owner permissions.
 
         The prefix must not be entered.
         """
@@ -122,7 +124,8 @@ class Sudo(commands.Cog):
     @is_owner(copied=True)
     @commands.command()
     async def sudomsg(self, ctx: commands.Context, *, content: str = ""):
-        """Dispatch a message event as if it were sent by bot owner.
+        """
+        Dispatch a message event as if it were sent by bot owner.
 
         Current message is used as a base (including attachments, embeds, etc.)
 
