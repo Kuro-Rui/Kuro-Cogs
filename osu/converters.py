@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 try:
-    from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0 
+    from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0
 except:
     from emoji import EMOJI_DATA  # emoji>=2.0.0
 from redbot.core.commands import Context, EmojiConverter
