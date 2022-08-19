@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import contextlib
+from asyncio import TimeoutError
 
 import discord
 from redbot.core import checks, commands
@@ -41,7 +42,7 @@ class ReactTermino(commands.Cog):
         self.bot = bot
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -101,8 +102,13 @@ class ReactTermino(commands.Cog):
                 )
                 msg = await ctx.send(embed=emb)
                 start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
-                pred = ReactionPredicate.yes_or_no(msg, ctx.author)
-                await ctx.bot.wait_for("reaction_add", check=pred)
+                try:
+                    pred = ReactionPredicate.yes_or_no(msg, ctx.author)
+                    await ctx.bot.wait_for("reaction_add", check=pred)
+                except TimeoutError:
+                    emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
+                    await msg.edit(emb=emb)
+                    return
                 if pred.result is True:
                     emb = discord.Embed(title="Restarting...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
@@ -143,8 +149,13 @@ class ReactTermino(commands.Cog):
                 )
                 msg = await ctx.send(embed=emb)
                 start_adding_reactions(msg, ReactionPredicate.YES_OR_NO_EMOJIS)
-                pred = ReactionPredicate.yes_or_no(msg, ctx.author)
-                await ctx.bot.wait_for("reaction_add", check=pred)
+                try:
+                    pred = ReactionPredicate.yes_or_no(msg, ctx.author)
+                    await ctx.bot.wait_for("reaction_add", check=pred)
+                except TimeoutError:
+                    emb = discord.Embed(title="Cancelling...", color=await ctx.embed_color())
+                    await msg.edit(emb=emb)
+                    return
                 if pred.result is True:
                     emb = discord.Embed(title="Shutting Down...", color=await ctx.embed_color())
                     await msg.edit(embed=emb)
