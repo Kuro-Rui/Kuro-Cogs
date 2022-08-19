@@ -22,13 +22,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from redbot.core.commands import BadArgument, Converter
+try:
+    from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0 
+except:
+    from emoji import EMOJI_DATA  # emoji>=2.0.0
+from redbot.core.commands import BadArgument, Context, Converter, EmojiConverter
 
 
 class Action(Converter):
-    async def convert(self, ctx, argument):
+    async def convert(self, ctx: Context, argument):
         if argument.lower() not in ["warn", "mute", "kick", "ban"]:
             raise BadArgument(
                 "I can't find that action. You can choose either `warn`, `mute`, `kick`, and `ban`."
             )
         return argument.lower()
+
+
+class Emoji(EmojiConverter):
+    async def convert(self, ctx: Context, argument: str):
+        if argument in EMOJI_DATA:
+            return argument
+        return str(await super().convert(ctx, argument))

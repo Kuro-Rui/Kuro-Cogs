@@ -6,6 +6,7 @@
     "hidden": false,
     "install_msg": "Thanks for installing `FakeMod`!\nGet started with `[p]fakemodset`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/fakemod.html>.",
     "name": "FakeMod",
+    "requirements": ["emoji"],
     "short": "Fake moderation commands.",
     "tags": ["ben", "fake", "fakemod", "kik", "myut", "worn"],
     "type": "COG"

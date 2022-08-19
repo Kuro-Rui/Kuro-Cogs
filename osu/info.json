@@ -4,7 +4,8 @@
   "end_user_data_statement": "This cog does not store any end user data.",
   "hidden" : false,
   "install_msg" : "Thanks for installing `Osu`! Get started with `[p]osuset`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
-  "requirements": ["emoji==1.6.3"],
+  "name": "Osu",
+  "requirements": ["emoji"],
   "short" : "Display user information from osu!",
   "tags" : ["osu", "osu!"],
   "type": "COG"
