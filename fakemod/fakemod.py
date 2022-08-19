@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import datetime
+from asyncio import TimeoutError
 
 import discord
 from redbot.core import Config, commands
@@ -140,7 +140,7 @@ class FakeMod(commands.Cog):
         try:
             pred = MessagePredicate.yes_or_no(ctx, user=ctx.author)
             await ctx.bot.wait_for("message", check=pred, timeout=30)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             await ctx.send("You took too long to respond.")
             return
         if pred.result:
