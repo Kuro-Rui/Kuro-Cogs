@@ -24,7 +24,7 @@ SOFTWARE.
 
 try:
     from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0
-except:
+except ImportError:
     from emoji import EMOJI_DATA  # emoji>=2.0.0
 from redbot.core.commands import BadArgument, Context, Converter, EmojiConverter
 
