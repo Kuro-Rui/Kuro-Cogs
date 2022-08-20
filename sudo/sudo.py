@@ -84,7 +84,7 @@ class Sudo(commands.Cog):
         interval: TimedeltaConverter(
             minimum=timedelta(minutes=1),
             maximum=timedelta(days=1),
-            default_unit="minutes",  # noqa
+            default_unit="minutes",  # noqa: F821
         ) = timedelta(minutes=15),
     ):
         """
