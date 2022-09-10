@@ -350,7 +350,7 @@ class Osu(commands.Cog):
                 player["playcount"] = int(player["playcount"] or 0)
                 player["ranked_score"] = int(player["ranked_score"] or 0)
                 player["total_score"] = int(player["total_score"] or 0)
-                player["pp_rank"] = int(player["pp_rank"]) if player["pp_rank"] else None
+                player["pp_rank"] = int(player["pp_rank"] or 0)
                 player["level"] = round(float(player["level"] or 0.0), 2)
                 player["pp_raw"] = round(float(player["pp_raw"] or 0.0))
                 player["accuracy"] = round(float(player["accuracy"] or 0), 2)
@@ -360,9 +360,7 @@ class Osu(commands.Cog):
                 player["count_rank_sh"] = int(player["count_rank_sh"] or 0)
                 player["count_rank_a"] = int(player["count_rank_a"] or 0)
                 player["total_seconds_played"] = int(player["total_seconds_played"] or 0)
-                player["pp_country_rank"] = (
-                    int(player["pp_country_rank"]) if player["pp_country_rank"] else None
-                )
+                player["pp_country_rank"] = int(player["pp_country_rank"] or 0)
                 player["join_timestamp"] = int(
                     datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
                 )
@@ -403,24 +401,24 @@ class Osu(commands.Cog):
             "▸ **Total Score:** {}"
         ).format(
             f"<t:{player['join_timestamp']}:F>",
-            humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
+            humanize_number(player["pp_rank"]) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
             humanize_number(player["pp_country_rank"]) if player["pp_country_rank"] else "Unknown",
-            player["level"],
-            player["pp_raw"],
+            humanize_number(player["level"]),
+            humanize_number(player["pp_raw"]),
             player["accuracy"],
             humanize_number(player["playcount"]),
             humanize_timedelta(seconds=player["total_seconds_played"]),
             ssh,
-            player["count_rank_ssh"],
+            humanize_number(player["count_rank_ssh"]),
             ss,
-            player["count_rank_ss"],
+            humanize_number(player["count_rank_ss"]),
             sh,
-            player["count_rank_sh"],
+            humanize_number(player["count_rank_sh"]),
             s,
-            player["count_rank_s"],
+            humanize_number(player["count_rank_s"]),
             a,
-            player["count_rank_a"],
+            humanize_number(player["count_rank_a"]),
             humanize_number(player["ranked_score"]),
             humanize_number(player["total_score"]),
         )
