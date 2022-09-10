@@ -341,15 +341,35 @@ class Osu(commands.Cog):
                 await ctx.send("You didn't set a valid API Key. Please set a valid one!")
                 return
             players = await response.json()
-        if players:
-            player = players[0]
-            player["join_timestamp"] = str(
-                int(datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp())
-            )
-            return player
-        else:
-            await ctx.send("Player not found.")
-            return
+            if players:
+                player = players[0]
+                player["user_id"] = int(player.get("user_id"))
+                player["count300"] = int(player.get("count300", 0))
+                player["count100"] = int(player.get("count100", 0))
+                player["count50"] = int(player.get("count50", 0))
+                player["playcount"] = int(player.get("playcount", 0))
+                player["ranked_score"] = int(player.get("ranked_score", 0))
+                player["total_score"] = int(player.get("total_score", 0))
+                player["pp_rank"] = int(player["pp_rank"]) if player["pp_rank"] else None
+                player["level"] = round(float(player.get("level", 0.0)), 2)
+                player["pp_raw"] = round(float(player.get("pp_raw", 0.0)))
+                player["accuracy"] = round(float(player.get("accuracy", 0)), 2)
+                player["count_rank_ss"] = int(player.get("count_rank_ss", 0))
+                player["count_rank_ssh"] = int(player.get("count_rank_ssh", 0))
+                player["count_rank_s"] = int(player.get("count_rank_s", 0))
+                player["count_rank_sh"] = int(player.get("count_rank_sh", 0))
+                player["count_rank_a"] = int(player.get("count_rank_a", 0))
+                player["total_seconds_played"] = int(player.get("total_seconds_played", 0))
+                player["pp_country_rank"] = (
+                    int(player["pp_country_rank"]) if player["pp_country_rank"] else None
+                )
+                player["join_timestamp"] = (
+                    int(datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp())
+                )
+                return player
+            else:
+                await ctx.send("Player not found.")
+                return
 
     async def get_osu_avatar(self, ctx, username: str):
         """Get an osu! Avatar"""
@@ -385,48 +405,43 @@ class Osu(commands.Cog):
             f"<t:{player['join_timestamp']}:F>",
             humanize_number(int(player["pp_rank"])) if player["pp_rank"] else "Unknown",
             player["country"].lower(),
-            humanize_number(int(player["pp_country_rank"]))
-            if player["pp_country_rank"]
-            else "Unknown",
-            round(float(player["level"]), 2) if player["level"] else 0,
-            humanize_number(round(float(player["pp_raw"]))) if player["pp_raw"] else 0,
-            round(float(player["accuracy"]), 2) if player["accuracy"] else 0,
-            humanize_number(int(player["playcount"])) if player["playcount"] else 0,
-            humanize_timedelta(seconds=int(player["total_seconds_played"]))
-            if player["total_seconds_played"]
-            else 0,
+            humanize_number(player["pp_country_rank"]) if player["pp_country_rank"] else "Unknown",
+            player["level"],
+            player["pp_raw"],
+            player["accuracy"],
+            humanize_number(player["playcount"]),
+            humanize_timedelta(seconds=player["total_seconds_played"]),
             ssh,
-            player["count_rank_ssh"] if player["count_rank_ssh"] else 0,
+            player["count_rank_ssh"],
             ss,
-            player["count_rank_ss"] if player["count_rank_ss"] else 0,
+            player["count_rank_ss"],
             sh,
-            player["count_rank_sh"] if player["count_rank_sh"] else 0,
+            player["count_rank_sh"],
             s,
-            player["count_rank_s"] if player["count_rank_s"] else 0,
+            player["count_rank_s"],
             a,
-            player["count_rank_a"] if player["count_rank_a"] else 0,
-            humanize_number(int(player["ranked_score"])) if player["ranked_score"] else 0,
-            humanize_number(int(player["total_score"])) if player["total_score"] else 0,
+            player["count_rank_a"],
+            humanize_number(player["ranked_score"]),
+            humanize_number(player["total_score"]),
         )
 
-        if m == 0:
-            type = icon = "osu"
-            mode = "Standard"
-        elif m == 1:
-            type = icon = "taiko"
+        osu_type = icon = "osu"
+        mode = "Standard"
+        if m == 1:
+            osu_type = icon = "taiko"
             mode = "Taiko"
         elif m == 2:
-            type = "fruits"
+            osu_type = "fruits"
             icon = "ctb"
             mode = "Catch"
         elif m == 3:
-            type = icon = "mania"
+            osu_type = icon = "mania"
             mode = "Mania"
 
         embed = discord.Embed(description=description, color=await ctx.embed_color())
         embed.set_author(
             icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
-            url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], type),
+            url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], osu_type),
             name="osu! {} Profile for {}".format(mode, player["username"]),
         )
         embed.set_footer(
