@@ -363,8 +363,8 @@ class Osu(commands.Cog):
                 player["pp_country_rank"] = (
                     int(player["pp_country_rank"]) if player["pp_country_rank"] else None
                 )
-                player["join_timestamp"] = (
-                    int(datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp())
+                player["join_timestamp"] = int(
+                    datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
                 )
                 return player
             else:
