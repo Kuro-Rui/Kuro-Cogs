@@ -1,5 +1,5 @@
 {
-    "author": ["Kuro"],
+    "author": ["Kuro", "Draper", "jack1142 (Jackenmen#6607)"],
     "description": "Allows dropping and elevating owner permissions.",
     "end_user_data_statement": "This cog stores bot owner ids so the bot owners can elevate their owner permissions.",
     "short": "Allows to drop and elevate owner permissions.",
