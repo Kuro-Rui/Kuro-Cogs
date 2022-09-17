@@ -33,10 +33,6 @@ from translatepy.translators import *
 
 from .converters import Lang
 
-Service = Literal[
-    "Auto", "DeepL", "Google", "Libre", "MyMemory", "Reverso", "Translate.com", "Yandex"
-]
-
 
 class Translate(commands.Cog):
     """Translate everything!"""
@@ -188,7 +184,8 @@ class Translate(commands.Cog):
 
         try:
             # Make it async so it doesn't break the bot :p
-            result = await self.bot.loop.run_in_executor(None, self.yandex.translate, text, "EMJ")
+            translator = YandexTranslate()
+            result = await self.bot.loop.run_in_executor(None, translator.translate, text, "EMJ")
         except TranslatepyException as error:
             return await ctx.send(f"{error}.")
 
@@ -205,32 +202,27 @@ class Translate(commands.Cog):
         text: str,
         from_language: Lang,
         to_language: Lang,
-        service: Service,
+        service: Literal[
+            "Auto", "DeepL", "Google", "Libre", "MyMemory", "Reverso", "Translate.com", "Yandex"
+        ],
     ):
         """Sends Translate Result"""
-
-        # Don't mind the long-ass ifs lol :v
-        if service == "Auto":
-            service = Translator()
-        elif service == "DeepL":
-            service = DeeplTranslate()
-        elif service == "Google":
-            service = GoogleTranslate()
-        elif service == "Libre":
-            service = LibreTranslate()
-        elif service == "MyMemory":
-            service = MyMemoryTranslate()
-        elif service == "Reverso":
-            service = ReversoTranslate()
-        elif service == "Translate.com":
-            service = TranslateComTranslate()
-        elif service == "Yandex":
-            service = YandexTranslate()
+        services = {
+            "Auto": Translator(),
+            "DeepL": DeeplTranslate(),
+            "Google": GoogleTranslate(),
+            "Libre": LibreTranslate(),
+            "MyMemory": MyMemoryTranslate(),
+            "Reverso": ReversoTranslate(),
+            "Translate.com": TranslateComTranslate(),
+            "Yandex": YandexTranslate(),
+        }
+        translator = services[service]
 
         try:
             # Make it async so it doesn't break the bot :p
             result = await self.bot.loop.run_in_executor(
-                None, service.translate, text, to_language, from_language
+                None, translator.translate, text, to_language, from_language
             )
         except TranslatepyException as error:
             return await ctx.send(f"{error}.")
