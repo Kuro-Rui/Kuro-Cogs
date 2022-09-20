@@ -54,7 +54,7 @@ class Calendar(commands.Cog):
         )
 
     @commands.command(name="calendar")
-    async def _calendar(self, ctx, month: Month = NOW.month, year: Year = NOW.year):
+    async def _calendar(self, ctx, month: Month = str(NOW.month), year: Year = str(NOW.year)):
         """View the calendar!"""
         ordinal = lambda n: "%d%s" % (
             n,
