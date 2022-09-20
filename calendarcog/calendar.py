@@ -57,10 +57,6 @@ class Calendar(commands.Cog):
         """View the calendar!"""
         if not (0 < month < 13 and 0 < year < 9999):
             return await ctx.send("Invalid month or year provided.")
-        ordinal = lambda n: "%d%s" % (
-            n,
-            "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10 :: 4],
-        )
         cal = calendar.month(year, month, w=4 if ctx.author.is_on_mobile() else 5, l=2)
         if await ctx.embed_requested():
             embed = discord.Embed(
