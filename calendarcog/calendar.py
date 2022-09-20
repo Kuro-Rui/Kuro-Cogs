@@ -25,6 +25,7 @@ SOFTWARE.
 import calendar
 import random
 from datetime import datetime
+from typing import optional
 
 import discord
 from redbot.core import commands
@@ -54,8 +55,9 @@ class Calendar(commands.Cog):
         )
 
     @commands.command(name="calendar")
-    async def _calendar(self, ctx, month: Month = str(NOW.month), year: Year = str(NOW.year)):
+    async def _calendar(self, ctx, month: Optional[Month], year: Optional[Year]):
         """View the calendar!"""
+        month, year = month or NOW.month, year or NOW.year
         ordinal = lambda n: "%d%s" % (
             n,
             "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10 :: 4],
