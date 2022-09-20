@@ -28,6 +28,7 @@ Kuro-Cogs' Documentation
 
    cogs/avatarimgen
    cogs/botping
+   cogs/calendar
    cogs/countercog
    cogs/danktax
    cogs/fakemod

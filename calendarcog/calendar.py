@@ -31,8 +31,6 @@ import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import box, humanize_list
 
-from .converters import Month, Year
-
 NOW = datetime.utcnow()
 
 
@@ -55,20 +53,19 @@ class Calendar(commands.Cog):
         )
 
     @commands.command(name="calendar")
-    async def _calendar(self, ctx, month: Optional[Month], year: Optional[Year]):
+    async def _calendar(self, ctx, month: int = NOW.month, year: int = NOW.year):
         """View the calendar!"""
-        month, year = month or NOW.month, year or NOW.year
+        if not (0 < month < 13 and 0 < year < 9999):
+            return await ctx.send("Invalid month or year provided.")
         ordinal = lambda n: "%d%s" % (
             n,
             "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10 :: 4],
         )
-        d_m_y = f"{ordinal(NOW.day)} {NOW.strftime('%B')} {year}"
         cal = calendar.month(year, month, w=4 if ctx.author.is_on_mobile() else 5, l=2)
         if await ctx.embed_requested():
             embed = discord.Embed(
                 description=box(cal, lang="prolog"), color=await ctx.embed_color()
             )
             embed.set_image(url=f"https://picsum.photos/id/{random.randint(1, 1084)}/500/200")
-            embed.set_footer(text=f"Date: {d_m_y}")
             return await ctx.send(embed=embed)
         await ctx.send(box(cal, lang="prolog"))
