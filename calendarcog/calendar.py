@@ -25,7 +25,7 @@ SOFTWARE.
 import calendar
 import random
 from datetime import datetime
-from typing import optional
+from typing import Optional
 
 import discord
 from redbot.core import commands
