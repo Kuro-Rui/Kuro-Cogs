@@ -5,7 +5,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `Calendar`! To get started, do `[p]calendar [month] [year]`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/calendar.html>.",
+    "install_msg": "Thanks for installing `Calendar`! To get started, do `[p]calendar [month] [year]`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/calendarcog.html>.",
     "short": "See the calendar on Discord!",
     "tags": ["calendar", "date"],
     "type": "COG"
