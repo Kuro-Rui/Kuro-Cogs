@@ -55,7 +55,7 @@ class Calendar(commands.Cog):
     @commands.command(name="calendar")
     async def _calendar(self, ctx, month: int = NOW.month, year: int = NOW.year):
         """View the calendar!"""
-        if not (0 < month < 13 and 0 < year < 9999):
+        if not (0 < month < 13 and 0 < year < 10000):
             return await ctx.send("Invalid month or year provided.")
         cal = calendar.month(year, month, w=4 if ctx.author.is_on_mobile() else 5, l=2)
         if await ctx.embed_requested():

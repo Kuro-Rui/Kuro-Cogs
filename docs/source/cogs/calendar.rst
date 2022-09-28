@@ -1,4 +1,4 @@
-.. _danktax:
+.. _calendar:
 
 ********
 Calendar
@@ -24,4 +24,5 @@ Commands
 **Description:** View the calendar!
 
 .. note::
-    If month and year isn't passed, it defaults to current month and year.
+    * If month and year isn't passed, it defaults to current month and year.
+    * This probably looks best on Mobile.
