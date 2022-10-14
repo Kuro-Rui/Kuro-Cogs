@@ -22,15 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import logging
+import re
 from datetime import datetime
 
 import discord
-import logging
-import re
 from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import humanize_list
 
 log = logging.getLogger("red.kuro-cogs.reactlog")
+
 
 class ReactLog(commands.Cog):
     """Log when reactions are added or removed."""
@@ -137,9 +138,7 @@ class ReactLog(commands.Cog):
         if await ctx.embed_requested():
             embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
             embed.add_field(name="Log On Reaction Add?", value=react_add_status, inline=True)
-            embed.add_field(
-                name="Log On Reaction Remove?", value=react_remove_status, inline=True
-            )
+            embed.add_field(name="Log On Reaction Remove?", value=react_remove_status, inline=True)
             embed.add_field(name="Log All Reactions?", value=log_all_status, inline=True)
             embed.add_field(name="Channel", value=channel_mention, inline=True)
             embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
