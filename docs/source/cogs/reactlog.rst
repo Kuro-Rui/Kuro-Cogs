@@ -3,7 +3,7 @@
 ********
 ReactLog
 ********
-**Log when a reaction is added or removed.**
+**Log when reactions are added or removed.**
 
 .. important::
     To use this cog, you will need to install and load it first.
@@ -62,6 +62,22 @@ Commands
     Alias : [p]reactionlog reactdel
 
 **Description:** Enable/disable logging when reactions removed.
+
+----
+
+~~~~~~~~~~~~~~~~~~~
+``reactlog logall``
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    Syntax: [p]reactlog logall [toggle]
+    Alias : [p]reactionlog logall
+
+| **Description:**
+| Set whether to log all reactions or not.
+| If enabled, all reactions will be logged.
+| If disabled, only first added or last removed reactions will be logged.
 
 ----
 
