@@ -27,7 +27,6 @@ Kuro-Cogs' Documentation
    :caption: Cogs Documentation
 
    cogs/avatarimgen
-   cogs/botping
    cogs/calendar
    cogs/countercog
    cogs/danktax

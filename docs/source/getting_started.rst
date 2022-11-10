@@ -39,7 +39,6 @@ Cogs List
 Cog Name                          Description
 ================================= ==============================================================
 :ref:`AvatarImgen<avatarimgen>`   Make images from avatars!
-:ref:`BotPing<botping>`           Creates a ping embed to display latency statistics (with GIFs)
 :ref:`Calendar<calendar>`         See the calendar on Discord!
 :ref:`CounterCog<countercog>`     A cog that shows how many commands/cogs the bot has.
 :ref:`DankTax<danktax>`           Calculate your tax before giving money on Dank Memer!

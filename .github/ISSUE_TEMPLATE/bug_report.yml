@@ -10,7 +10,7 @@ body:
       description: In which cog was the bug occured in?
       options:
         - AvatarImgen
-        - BotPing
+        - Calendar
         - CounterCog
         - DankTax
         - FakeMod

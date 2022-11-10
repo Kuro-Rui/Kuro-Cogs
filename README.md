@@ -53,7 +53,6 @@
 |     Name     | Description                                                                                                                                                                        | Version |   Author    |
 |:------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|:-----------:|
 | AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  0.1.0  |    Kuro     |
-|   BotPing    | <details><summary>Creates a custom ping embed to display latency statistics (+ GIFs).</summary>Rewrite of https://github.com/phenom4n4n/phen-cogs/tree/master/customping</details> |  0.1.0  |    Kuro     |
 |   Calendar   | See the calendar on Discord!                                                                                                                                                       |  0.0.1  |    Kuro     |
 |  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  0.0.3  |    Kuro     |
  |   DankTax    | <details><summary>Calculate your tax before giving money on Dank Memer!</summary>Inspired by **Dank Memer**.</details>                                                             |  0.0.1  |    Kuro     |
@@ -69,7 +68,6 @@
 
 ## Credits
 **Special Thanks** to:
-- [**PhenoM4n4n**](https://github.com/phenom4n4n) for some base of [BotPing](botping) cog.
 - [**Jintaku**](https://github.com/Jintaku) for some base of [Osu](osu) cog.
 - **[Draper](https://github.com/Drapersniper) and [Jack](https://github.com/jack1142)** for some base of [Sudo](sudo) cog.
 - [**Fixator**](https://github.com/fixator10) for helping me in the making of [Translate](translate) cog.

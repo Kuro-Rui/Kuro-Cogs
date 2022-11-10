@@ -10,7 +10,7 @@ body:
       description: Which cog are you proposing a feature request for?
       options:
         - AvatarImgen
-        - BotPing
+        - Calendar
         - CounterCog
         - DankTax
         - FakeMod
