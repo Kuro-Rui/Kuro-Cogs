@@ -162,7 +162,7 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["itssostupid"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def sostupid(self, ctx, user: Optional[discord.User], message: str):
+    async def sostupid(self, ctx, user: Optional[discord.User], *, message: str):
         """Oh no, it's so stupid!"""
 
         user = user or ctx.author
@@ -185,7 +185,7 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def tweet(self, ctx, user: Optional[discord.User], message: str):
+    async def tweet(self, ctx, user: Optional[discord.User], *, message: str):
         """Generate a fake Twitter tweet!"""
 
         user = user or ctx.author
@@ -266,7 +266,7 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["youtubecomment"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def ytcomment(self, ctx, user: Optional[discord.User], comment: str):
+    async def ytcomment(self, ctx, user: Optional[discord.User], *, comment: str):
         """Generate a fake YouTube comment!"""
 
         user = user or ctx.author
