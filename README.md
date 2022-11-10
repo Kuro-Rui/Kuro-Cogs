@@ -52,7 +52,7 @@
 ## Cogs List
 |     Name     | Description                                                                                                                                                                        | Version |   Author    |
 |:------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|:-----------:|
-| AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  0.1.0  |    Kuro     |
+| AvatarImgen  | Make images from avatars using Pop Cat API!                                                                                                                                        |  0.1.1  |    Kuro     |
 |   Calendar   | See the calendar on Discord!                                                                                                                                                       |  0.0.1  |    Kuro     |
 |  CounterCog  | A cog that shows how many commands/cogs the bot has.                                                                                                                               |  0.0.3  |    Kuro     |
  |   DankTax    | <details><summary>Calculate your tax before giving money on Dank Memer!</summary>Inspired by **Dank Memer**.</details>                                                             |  0.0.1  |    Kuro     |

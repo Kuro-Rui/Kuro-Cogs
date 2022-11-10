@@ -41,7 +41,7 @@ class AvatarImgen(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -181,16 +181,6 @@ class AvatarImgen(commands.Cog):
             text="Powered by some-random-api.ml", icon_url="https://i.some-random-api.ml/logo.png"
         )
         await ctx.send(embed=embed, file=file)
-
-    @commands.bot_has_permissions(attach_files=True)
-    @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def triggered(self, ctx, user: discord.User = None):
-        """TRIGGERED"""
-
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
-        await self.send_embed(ctx, "sra", "triggered", avatar, "TRIGGERED", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
