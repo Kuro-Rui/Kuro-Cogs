@@ -24,15 +24,8 @@ SOFTWARE.
 
 import asyncio
 import functools
-<<<<<<< HEAD
-import json
-import random
-from datetime import datetime
-=======
->>>>>>> db03362 ([Fumo] Well... can't do anything with the image)
 from io import BytesIO
 
-import aiohttp
 import discord
 from PIL import Image
 from redbot.core.commands import Context
