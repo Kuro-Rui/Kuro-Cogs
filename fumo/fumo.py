@@ -22,9 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import aiohttp
+import asyncio
 import functools
 import random
 from datetime import datetime
+from typing import Literal
 
 import discord
 from redbot.core import commands
@@ -40,9 +43,10 @@ class Fumo(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro", "Glas"])
-    __version__ = "1.1.0"
+    __version__ = "1.2.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -53,51 +57,102 @@ class Fumo(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @commands.group()
+    def cog_unload(self):
+        asyncio.create_task(self.session.close())
+
+    @commands.group(invoke_without_command=True)
     async def fumo(self, ctx):
         """Generate a random Fumo ᗜˬᗜ"""
-        pass
+
+        await self.summon_fumo(ctx)
 
     @fumo.command()
     async def image(self, ctx):
         """Generates a random Fumo image ᗜˬᗜ"""
 
-        await summon_fumo(ctx, "Image")
+        await self.summon_fumo(ctx, "Image")
 
     @fumo.command()
     async def gif(self, ctx):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
-        await summon_fumo(ctx, "GIF")
-
-    @fumo.command()
-    async def meme(self, ctx):
-        """Generates a random Fumo meme ᗜˬᗜ"""
-
-        await summon_fumo(ctx, "Meme")
+        await self.summon_fumo(ctx, "GIF")
 
     @fumo.command()
     async def video(self, ctx):
-        """
-        Generates a random Fumo video ᗜˬᗜ
+        """Generates a random Fumo video ᗜˬᗜ"""
 
-        SPOILER: ||More videos on Fumo Funky Friday ᗜˬᗜ||
-        """
+        await self.summon_fumo(ctx, "Video")
 
-        if datetime.today().isoweekday() == 5:
-            choice = random.choice(["FUMO FRIDAY", "Video"])
+    @staticmethod
+    def get_fumo_type(url: str) -> Literal["Image", "GIF", "Video"]:
+        """Get the type of a Fumo."""
+        types = {"jpg": "Image", "png": "Image", "gif": "GIF", "mp4": "Video"}
+        type = types[url[-3:]]
+        return type
+
+    async def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
+        """Get Fumos by type."""
+        urls = []
+        async with self.session.get("https://fumo-api.nosesisaid.com/") as response:
+            if response.status == 200:
+                data = await response.json()
+                for dict in data:
+                    url = dict["URL"]
+                    type = self.get_fumo_type(url)
+                    if type == content_type:
+                        urls.append(url)
+        return urls
+
+    async def summon_fumo(
+        self, ctx: commands.Context, type: Literal["Image", "GIF", "Video"] = None
+    ):
+        """Summon a Fumo."""
+        error_msg = "Oh no! Gensokyo is on attack, so no Fumos. Try again later ᗜˬᗜ (API Issue)"
+        if not type:
+            async with self.session.get("https://fumo-api.nosesisaid.com/random") as response:
+                if response.status == 200:
+                    data = await response.json()
+                    url = data["URL"]
+                    type = self.get_fumo_type(url)
+                else:
+                    return await ctx.send(error_msg)
         else:
-            choice = "Video"
+            urls = await self.get_fumos_by_type(type)
+            if not urls:
+                return await ctx.send(error_msg)
+            url = random.choice(urls)
 
-        await summon_fumo(ctx, choice)
+        embed = discord.Embed(
+            title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color()
+        )
+        embed.set_image(url=url)
+        await ctx.send(embed=embed)
 
+    # Thanks Glas!
+    @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["fumopolaroid"])
-    async def fumoroid(self, ctx, user: discord.User = None):
-        """Generate a Fumo staring at your polaroid avatar."""  # Thanks Glas!
+    async def fumoroid(self, ctx, *, user: discord.User = None):
+        """Oh look! A Fumo staring at your polaroid avatar ᗜˬᗜ"""
         user = user or ctx.author
         async with ctx.typing():
             avatar = await get_avatar(user)
             task = functools.partial(generate_fumoroid, ctx, avatar)
+            image = await generate_image(ctx, task)
+        if isinstance(image, str):
+            await ctx.send(image)
+        else:
+            await ctx.send(file=image)
+
+    # Thanks Glas!
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(aliases=["marisaselfie"])
+    async def marisafie(self, ctx, *, user: discord.User = None):
+        """Take a selfie with Marisa. Say cheese! ᗜˬᗜ"""
+        user = user or ctx.author
+        async with ctx.typing():
+            avatar = await get_avatar(user)
+            task = functools.partial(generate_marisafie, ctx, avatar)
             image = await generate_image(ctx, task)
         if isinstance(image, str):
             await ctx.send(image)

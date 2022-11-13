@@ -22,7 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import aiohttp
 import asyncio
+from datetime import datetime
 import functools
 import json
 import random
@@ -31,22 +33,10 @@ from pathlib import Path
 
 import discord
 from PIL import Image
-from redbot.core.data_manager import bundled_data_path as image_folder
+from redbot.core.commands import Context
+from redbot.core.data_manager import bundled_data_path as data_path
 
-__all__ = ["generate_fumoroid", "generate_image", "get_avatar", "summon_fumo"]
-
-with open(Path(__file__).parent / "fumos.json") as fumos:
-    fumo = json.load(fumos)
-
-
-async def summon_fumo(ctx, type: str):
-    """Summon a Fumo."""
-    url = random.choice(fumo[type])
-    if type == "Video" or type == "FUMO FRIDAY":
-        return await ctx.send("**Here's a Random Fumo Video! ᗜˬᗜ**\n" + url)
-    embed = discord.Embed(title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color())
-    embed.set_image(url=url)
-    await ctx.send(embed=embed)
+__all__ = ["generate_fumoroid", "generate_marisafie", "generate_image", "get_avatar"]
 
 
 def bytes_to_image(image: BytesIO, size: int):
@@ -62,28 +52,6 @@ async def get_avatar(user: discord.User):
     return avatar
 
 
-# Thanks Phen & Glas
-def generate_fumoroid(ctx, member_avatar):
-    member_avatar = bytes_to_image(member_avatar, 300)
-    image = Image.new("RGBA", (451, 600), None)
-    fumoroid = Image.open(
-        f"{image_folder(ctx.bot.get_cog('Fumo'))}/fumoroid.png", mode="r"
-    ).convert("RGBA")
-    image.rotate(120, resample=0, expand=False, center=None, translate=None, fillcolor=None)
-    image.paste(member_avatar, (150, 200), member_avatar)
-    image.paste(fumoroid, (0, 0), fumoroid)
-    fumoroid.close()
-    member_avatar.close()
-    fp = BytesIO()
-    image.save(fp, "PNG")
-    fp.seek(0)
-    image.close()
-    file = discord.File(fp, "fumopic.png")
-    fp.close()
-    return file
-
-
-# Thanks Phen
 async def generate_image(ctx, task: functools.partial):
     task = ctx.bot.loop.run_in_executor(None, task)
     try:
@@ -92,3 +60,44 @@ async def generate_image(ctx, task: functools.partial):
         return "An error occurred while generating this image. Try again later."
     else:
         return image
+
+
+# Thanks Glas
+def generate_fumoroid(ctx: Context, avatar: BytesIO):
+    avatar = bytes_to_image(avatar, 300)
+    image = Image.new("RGBA", (451, 600), None)
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/fumoroid.png"
+    fumoroid = Image.open(path, mode="r").convert("RGBA")
+    image.rotate(120, resample=0, expand=False, center=None, translate=None, fillcolor=None)
+    image.paste(avatar, (150, 200), avatar)
+    image.paste(fumoroid, (0, 0), fumoroid)
+    fumoroid.close()
+    avatar.close()
+
+    fp = BytesIO()
+    image.save(fp, "PNG")
+    fp.seek(0)
+    image.close()
+    file = discord.File(fp, "fumoroid.png")
+    fp.close()
+    return file
+
+
+def generate_marisafie(ctx: Context, avatar: BytesIO):
+    avatar = bytes_to_image(avatar, 750)
+    image = Image.new("RGBA", (433, 577), None)
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/marisafie.png"
+    marisafie = Image.open(path, mode="r").convert("RGBA")
+    image.rotate(120, resample=0, expand=0, center=None, translate=None, fillcolor=None)
+    image.paste(avatar, (0, 0), avatar)
+    image.paste(marisafie, (0, 0), marisafie)
+    marisafie.close()
+    avatar.close()
+
+    fp = BytesIO()
+    image.save(fp, "PNG")
+    fp.seek(0)
+    image.close()
+    file = discord.File(fp, "marisafie.png")
+    fp.close()
+    return file
