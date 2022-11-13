@@ -25,13 +25,12 @@ SOFTWARE.
 import asyncio
 import functools
 import random
-from datetime import datetime
 from typing import Literal
 
 import aiohttp
 import discord
 from redbot.core import commands
-from redbot.core.utils.chat_formatting import humanize_list
+from redbot.core.utils.chat_formatting import bold, humanize_list
 
 from .utils import *
 
@@ -123,11 +122,13 @@ class Fumo(commands.Cog):
                 return await ctx.send(error_msg)
             url = random.choice(urls)
 
-        embed = discord.Embed(
-            title=f"Here's a Random Fumo {type}! ᗜˬᗜ", color=await ctx.embed_color()
-        )
-        embed.set_image(url=url)
-        await ctx.send(embed=embed)
+        title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
+        if await ctx.embed_requested() and type != "Video":
+            embed = discord.Embed(title=title, color=await ctx.embed_color())
+            embed.set_image(url=url)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send(f"{bold(title)}\n{url}")
 
     # Thanks Glas!
     @commands.bot_has_permissions(attach_files=True)

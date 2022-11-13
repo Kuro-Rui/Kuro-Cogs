@@ -24,11 +24,13 @@ SOFTWARE.
 
 import asyncio
 import functools
+<<<<<<< HEAD
 import json
 import random
 from datetime import datetime
+=======
+>>>>>>> db03362 ([Fumo] Well... can't do anything with the image)
 from io import BytesIO
-from pathlib import Path
 
 import aiohttp
 import discord
