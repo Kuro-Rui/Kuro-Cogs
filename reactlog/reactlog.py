@@ -44,7 +44,7 @@ class ReactLog(commands.Cog):
         )
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.3.0"
+    __version__ = "0.3.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -220,7 +220,7 @@ class ReactLog(commands.Cog):
                     chars.remove("fe0f")
             if "20e3" in chars:
                 chars.remove("fe0f")
-            url = f"https://twemoji.maxcdn.com/2/72x72/{'-'.join(chars)}.png"
+            url = f"https://twemoji.maxcdn.com/v/14.0.2/72x72/{'-'.join(chars)}.png"
         color = discord.Color.green() if added else discord.Color.red()
         embed = discord.Embed(description=description, color=color, timestamp=datetime.utcnow())
         embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
