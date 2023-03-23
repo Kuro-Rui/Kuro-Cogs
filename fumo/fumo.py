@@ -31,8 +31,8 @@ from typing import Literal
 import aiohttp
 import discord
 from redbot.core import commands
-from redbot.core.utils.chat_formatting import bold, humanize_list
 from redbot.core.data_manager import bundled_data_path
+from redbot.core.utils.chat_formatting import bold, humanize_list
 
 from .utils import *
 
