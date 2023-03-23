@@ -24,6 +24,7 @@ SOFTWARE.
 
 import asyncio
 import functools
+import json
 import random
 from typing import Literal
 
@@ -45,7 +46,7 @@ class Fumo(commands.Cog):
         self.session = aiohttp.ClientSession()
 
     __author__ = humanize_list(["Kuro", "Glas"])
-    __version__ = "1.2.0"
+    __version__ = "2.0.0"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -84,45 +85,22 @@ class Fumo(commands.Cog):
         await self.summon_fumo(ctx, "Video")
 
     @staticmethod
-    def get_fumo_type(url: str) -> Literal["Image", "GIF", "Video"]:
-        """Get the type of a Fumo."""
-        types = {"jpg": "Image", "png": "Image", "gif": "GIF", "mp4": "Video"}
-        type = types[url[-3:]]
-        return type
-
-    async def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
+    def get_fumos_by_type(content_type: Literal["Image", "GIF", "Video"] = None):
         """Get Fumos by type."""
-        urls = []
-        async with self.session.get("https://fumo-api.nosesisaid.com/") as response:
-            if response.status == 200:
-                data = await response.json()
-                for dict in data:
-                    url = dict["URL"]
-                    type = self.get_fumo_type(url)
-                    if type == content_type:
-                        urls.append(url)
-        return urls
+        with open("data/fumos.json") as f:
+            fumos = json.load(f)
+        if not content_type:
+            return fumos["Image"] + fumos["GIF"] + fumos["Video"]
+        return fumos[content_type]
 
     async def summon_fumo(
         self, ctx: commands.Context, type: Literal["Image", "GIF", "Video"] = None
     ):
         """Summon a Fumo."""
-        error_msg = "Oh no! Gensokyo is on attack, so no Fumos. Try again later ᗜˬᗜ (API Issue)"
-        if not type:
-            async with self.session.get("https://fumo-api.nosesisaid.com/random") as response:
-                if response.status == 200:
-                    data = await response.json()
-                    url = data["URL"]
-                    type = self.get_fumo_type(url)
-                else:
-                    return await ctx.send(error_msg)
-        else:
-            urls = await self.get_fumos_by_type(type)
-            if not urls:
-                return await ctx.send(error_msg)
-            url = random.choice(urls)
-
-        title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
+        url = random.choice(self.get_fumos_by_type(type))
+        title = f"Here's a Random Fumo! ᗜˬᗜ"
+        if type:
+            title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
         if await ctx.embed_requested() and type != "Video":
             embed = discord.Embed(title=title, color=await ctx.embed_color())
             embed.set_image(url=url)
@@ -130,7 +108,7 @@ class Fumo(commands.Cog):
         else:
             await ctx.send(f"{bold(title)}\n{url}")
 
-    # Thanks Glas!
+    # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["fumopolaroid"])
     async def fumoroid(self, ctx, *, user: discord.User = None):
@@ -145,7 +123,7 @@ class Fumo(commands.Cog):
         else:
             await ctx.send(file=image)
 
-    # Thanks Glas!
+    # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["marisaselfie"])
     async def marisafie(self, ctx, *, user: discord.User = None):

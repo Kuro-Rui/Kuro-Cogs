@@ -11,3 +11,7 @@ docs/build/
 
 # Visual Studio Code
 .vscode/
+
+# Fumo Scripts
+fumo/sort.py
+fumo/update.py
