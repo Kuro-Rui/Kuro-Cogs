@@ -32,6 +32,7 @@ import aiohttp
 import discord
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import bold, humanize_list
+from redbot.core.data_manager import bundled_data_path
 
 from .utils import *
 
@@ -61,33 +62,32 @@ class Fumo(commands.Cog):
         asyncio.create_task(self.session.close())
 
     @commands.group(invoke_without_command=True)
-    async def fumo(self, ctx):
+    async def fumo(self, ctx: commands.Context):
         """Generate a random Fumo ᗜˬᗜ"""
 
         await self.summon_fumo(ctx)
 
     @fumo.command()
-    async def image(self, ctx):
+    async def image(self, ctx: commands.Context):
         """Generates a random Fumo image ᗜˬᗜ"""
 
         await self.summon_fumo(ctx, "Image")
 
     @fumo.command()
-    async def gif(self, ctx):
+    async def gif(self, ctx: commands.Context):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
         await self.summon_fumo(ctx, "GIF")
 
     @fumo.command()
-    async def video(self, ctx):
+    async def video(self, ctx: commands.Context):
         """Generates a random Fumo video ᗜˬᗜ"""
 
         await self.summon_fumo(ctx, "Video")
 
-    @staticmethod
-    def get_fumos_by_type(content_type: Literal["Image", "GIF", "Video"] = None):
+    def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
         """Get Fumos by type."""
-        with open("data/fumos.json") as f:
+        with open(f"{bundled_data_path(self)}/fumos.json") as f:
             fumos = json.load(f)
         if not content_type:
             return fumos["Image"] + fumos["GIF"] + fumos["Video"]
@@ -111,7 +111,7 @@ class Fumo(commands.Cog):
     # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["fumopolaroid"])
-    async def fumoroid(self, ctx, *, user: discord.User = None):
+    async def fumoroid(self, ctx: commands.Context, *, user: discord.User = None):
         """Oh look! A Fumo staring at your polaroid avatar ᗜˬᗜ"""
         user = user or ctx.author
         async with ctx.typing():
@@ -126,7 +126,7 @@ class Fumo(commands.Cog):
     # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["marisaselfie"])
-    async def marisafie(self, ctx, *, user: discord.User = None):
+    async def marisafie(self, ctx: commands.Context, *, user: discord.User = None):
         """Take a selfie with Marisa. Say cheese! ᗜˬᗜ"""
         user = user or ctx.author
         async with ctx.typing():
