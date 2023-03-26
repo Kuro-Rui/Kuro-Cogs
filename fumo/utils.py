@@ -31,8 +31,6 @@ from PIL import Image
 from redbot.core.commands import Context
 from redbot.core.data_manager import bundled_data_path as data_path
 
-__all__ = ["generate_fumoroid", "generate_marisafie", "generate_image", "get_avatar"]
-
 
 def bytes_to_image(image: BytesIO, size: int):
     image = Image.open(image).convert("RGBA")
@@ -61,7 +59,7 @@ async def generate_image(ctx, task: functools.partial):
 def generate_fumoroid(ctx: Context, avatar: BytesIO):
     avatar = bytes_to_image(avatar, 300)
     image = Image.new("RGBA", (451, 600), None)
-    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/fumoroid.png"
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/Fumoroid.png"
     fumoroid = Image.open(path, mode="r").convert("RGBA")
     image.rotate(120, resample=0, expand=False, center=None, translate=None, fillcolor=None)
     image.paste(avatar, (150, 200), avatar)
@@ -81,7 +79,7 @@ def generate_fumoroid(ctx: Context, avatar: BytesIO):
 def generate_marisafie(ctx: Context, avatar: BytesIO):
     avatar = bytes_to_image(avatar, 750)
     image = Image.new("RGBA", (433, 577), None)
-    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/marisafie.png"
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/Marisafie.png"
     marisafie = Image.open(path, mode="r").convert("RGBA")
     image.rotate(120, resample=0, expand=0, center=None, translate=None, fillcolor=None)
     image.paste(avatar, (0, 0), avatar)
@@ -94,5 +92,24 @@ def generate_marisafie(ctx: Context, avatar: BytesIO):
     fp.seek(0)
     image.close()
     file = discord.File(fp, "marisafie.png")
+    fp.close()
+    return file
+
+
+def generate_marihat(ctx: Context, avatar: BytesIO):
+    avatar = bytes_to_image(avatar, 262)
+    image = Image.new("RGBA", (262, 262), None)
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/Marihat.png"
+    marihat = Image.open(path, mode="r").convert("RGBA")
+    image.paste(avatar, (0, 0), avatar)
+    image.paste(marihat, (0, 0), marihat)
+    marihat.close()
+    avatar.close()
+
+    fp = BytesIO()
+    image.save(fp, "PNG")
+    fp.seek(0)
+    image.close()
+    file = discord.File(fp, "marihat.png")
     fp.close()
     return file

@@ -137,3 +137,18 @@ class Fumo(commands.Cog):
             await ctx.send(image)
         else:
             await ctx.send(file=image)
+
+    # Thanks Glas <3
+    @commands.bot_has_permissions(attach_files=True)
+    @commands.command(aliases=["marisahat"])
+    async def marihat(self, ctx: commands.Context, *, user: discord.User = None):
+        """Let's see how do you look after wearing Marisa's hat ᗜˬᗜ"""
+        user = user or ctx.author
+        async with ctx.typing():
+            avatar = await get_avatar(user)
+            task = functools.partial(generate_marihat, ctx, avatar)
+            image = await generate_image(ctx, task)
+        if isinstance(image, str):
+            await ctx.send(image)
+        else:
+            await ctx.send(file=image)
