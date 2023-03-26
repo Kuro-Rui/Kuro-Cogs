@@ -22,13 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import functools
 import json
 import random
 from typing import Literal
 
-import aiohttp
 import discord
 from redbot.core import commands
 from redbot.core.data_manager import bundled_data_path
@@ -44,7 +42,8 @@ class Fumo(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
+        with open(f"{bundled_data_path(self)}/fumos.json") as f:
+            self.fumos = json.load(f)
 
     __author__ = humanize_list(["Kuro", "Glas"])
     __version__ = "2.0.1"
@@ -57,9 +56,6 @@ class Fumo(commands.Cog):
             f"`Cog Author  :` {self.__author__}\n"
             f"`Cog Version :` {self.__version__}"
         )
-
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
 
     @commands.group(invoke_without_command=True)
     async def fumo(self, ctx: commands.Context):
@@ -87,11 +83,9 @@ class Fumo(commands.Cog):
 
     def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
         """Get Fumos by type."""
-        with open(f"{bundled_data_path(self)}/fumos.json") as f:
-            fumos = json.load(f)
         if not content_type:
-            return fumos["Image"] + fumos["GIF"] + fumos["Video"]
-        return fumos[content_type]
+            return self.fumos["Image"] + self.fumos["GIF"] + self.fumos["Video"]
+        return self.fumos[content_type]
 
     async def summon_fumo(
         self, ctx: commands.Context, type: Literal["Image", "GIF", "Video"] = None
@@ -101,7 +95,8 @@ class Fumo(commands.Cog):
         title = f"Here's a Random Fumo! ᗜˬᗜ"
         if type:
             title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
-        if await ctx.embed_requested() and type != "Video":
+        types = {"jpg": "Image", "png": "Image", "gif": "GIF", "mp4": "Video", "mov": "Video"}
+        if await ctx.embed_requested() and types[url[-3:]] != "Video":
             embed = discord.Embed(title=title, color=await ctx.embed_color())
             embed.set_image(url=url)
             await ctx.send(embed=embed)
