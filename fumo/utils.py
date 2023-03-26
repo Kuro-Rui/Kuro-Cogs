@@ -99,7 +99,7 @@ def generate_marisafie(ctx: Context, avatar: BytesIO):
 def generate_marihat(ctx: Context, avatar: BytesIO):
     avatar = bytes_to_image(avatar, 262)
     image = Image.new("RGBA", (262, 262), None)
-    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/Marihat.png"
+    path = f"{data_path(ctx.bot.get_cog('Fumo'))}/MarisaHat.png"
     marihat = Image.open(path, mode="r").convert("RGBA")
     image.paste(avatar, (0, 0), avatar)
     image.paste(marihat, (0, 0), marihat)
