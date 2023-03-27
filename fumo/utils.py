@@ -96,7 +96,7 @@ def generate_marisafie(ctx: Context, avatar: BytesIO):
     return file
 
 
-def generate_marihat(ctx: Context, avatar: BytesIO):
+def generate_marisahat(ctx: Context, avatar: BytesIO):
     avatar = bytes_to_image(avatar, 262)
     image = Image.new("RGBA", (262, 262), None)
     path = f"{data_path(ctx.bot.get_cog('Fumo'))}/MarisaHat.png"
