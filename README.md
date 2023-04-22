@@ -30,13 +30,16 @@
   <img src="https://repository-images.githubusercontent.com/441140666/b86c0830-5577-4772-b350-d66018e29e06" alt="Kuro-Cogs"> <!--width=827 height=323-->
 </div>
 
+# Deprecation Warning
+This branch won't be maintained anymore since it's outdated due to Red-DiscordBot v3.5 being released. Therefore, there will be no more support for this branch.
+
 ## Installation
 <!-- So you can copy and paste it one by one :D -->
 ```md
 [p]load downloader
 ```
 ```md
-[p]repo add kuro-cogs https://github.com/Kuro-Rui/Kuro-Cogs
+[p]repo add kuro-cogs https://github.com/Kuro-Rui/Kuro-Cogs dpy1.7.3
 ```
 ```md
 [p]cog install kuro-cogs <cog_name>
@@ -45,9 +48,6 @@
 [p]load <installed_cog>
 ```
 ***Note**: `[p] is your bot's prefix, so replace it!`
-
-## Support
-**For support**, you can **find and ping me (K u r o#2740) in [*#support_othercogs*](https://discord.com/channels/240154543684321280/240212783503900673) on [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
 |     Name     | Description                                                                                                                                                                        | Version |   Author    |
