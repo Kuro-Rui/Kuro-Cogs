@@ -72,7 +72,7 @@ class Chairs(commands.Cog):
         """Chairs game configuration."""
         pass
 
-    @chairs_set.command(name="managers")
+    @chairs_set.command(name="managerrole")
     async def chairs_set_managerrole(self, ctx: commands.Context, role: discord.Role = None):
         """Set the manager role. Omit role to reset."""
         if not role:
