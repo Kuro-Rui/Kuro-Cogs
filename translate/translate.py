@@ -60,7 +60,7 @@ class Translate(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @commands.command(usage="<text> [flags...]")
+    @commands.hybrid_command(usage="<text> [flags...]")
     async def translate(
         self,
         ctx: commands.Context,
