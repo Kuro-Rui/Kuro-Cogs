@@ -77,14 +77,12 @@ class TranslatorConverter(commands.Converter):
 class TranslateFlags(commands.FlagConverter, case_insensitive=True, prefix="--", delimiter=" "):
     from_lang: str = commands.flag(
         name="from",
-        aliases=["from-lang", "from-language"],
         default=Language("auto"),
         converter=LanguageConverter,
         description="The language to translate from.",
     )
     to_lang: str = commands.flag(
         name="to",
-        aliases=["to-lang", "to-language"],
         default=Language("eng"),
         converter=LanguageConverter,
         description="The language to translate to.",
