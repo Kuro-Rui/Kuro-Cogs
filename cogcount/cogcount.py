@@ -24,15 +24,19 @@ SOFTWARE.
 
 import discord
 from redbot.core import commands
+from redbot.core.bot import Red
+from redbot.core.commands.converter import CogConverter
 from redbot.core.utils.chat_formatting import humanize_list
 
 
-class CounterCog(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+class CogCount(commands.Cog):
+    """Count [botname]'s cogs and commands."""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.3"
+    __version__ = "0.0.1"
+    
+    def __init__(self, bot: Red):
+        self.bot = bot
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -45,45 +49,44 @@ class CounterCog(commands.Cog):
 
     @commands.is_owner()
     @commands.group()
-    async def count(self, ctx):
-        """Count your cogs/commands."""
+    async def count(self, ctx: commands.Context):
+        """See how many cogs/commands [botname] has."""
         pass
 
     @commands.is_owner()
     @count.command()
-    async def cogs(self, ctx):
-        """Count your cogs."""
+    async def cogs(self, ctx: commands.Context):
+        """See how many cogs [botname] has."""
 
         total = len(set(await self.bot._cog_mgr.available_modules()))
         loaded = len(set(self.bot.extensions.keys()))
         unloaded = total - loaded
 
-        msg = (
+        description = (
             f"`Loaded   :` **{loaded}** Cogs.\n"
             f"`Unloaded :` **{unloaded}** Cogs.\n"
             f"`Total    :` **{total}** Cogs."
         )
-        if await ctx.embed_requested():
-            embed = discord.Embed(title="Cogs", description=msg, color=await ctx.embed_color())
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send(f"**Cogs**\n\n{msg}")
+        if not await ctx.embed_requested():
+            await ctx.send(f"**Cogs**\n\n{description}")
+            return
+        embed = discord.Embed(
+            title="Cogs Count", description=description, color=await ctx.embed_color()
+        )
+        await ctx.send(embed=embed)
 
     @commands.is_owner()
     @count.command()
-    async def commands(self, ctx, cog: str = None):
+    async def commands(self, ctx: commands.Context, cog: CogConverter = None):
         """
-        Count your commands.
+        See how many commands [botname] has.
 
         You can also provide a cog name to see how many commands is in that cog.
         The commands count includes subcommands.
         """
         if cog:
-            if not self.bot.get_cog(cog):
-                return await ctx.send("I can't find that cog.")
-            cog = self.bot.get_cog(cog)
-            cmds = len(set(cog.walk_commands()))
-            await ctx.send(f"I have `{cmds}` commands on that cog.")
-        else:
-            cmds = len(set(self.bot.walk_commands()))
-            await ctx.send(f"I have `{cmds}` commands.")
+            commands = len(set(cog.walk_commands()))
+            await ctx.send(f"I have `{commands}` commands on that cog.")
+            return
+        commands = len(set(self.bot.walk_commands()))
+        await ctx.send(f"I have `{commands}` commands.")

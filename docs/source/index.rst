@@ -28,15 +28,13 @@ Kuro-Cogs' Documentation
 
    cogs/avatarimgen
    cogs/calendar
-   cogs/countercog
-   cogs/danktax
+   cogs/chairs
+   cogs/cogcount
+   cogs/dankutils
    cogs/fakemod
    cogs/fumo
-   cogs/hack
-   cogs/imgbb
    cogs/osu
    cogs/reactlog
-   cogs/reacttermino
    cogs/sudo
    cogs/translate
 

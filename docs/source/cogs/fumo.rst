@@ -13,9 +13,9 @@ Fumo
 Commands
 ========
 
---------
-``fumo``
---------
+----
+fumo
+----
 
 .. code-block:: yaml
 
@@ -25,9 +25,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~
-``fumo gif``
-~~~~~~~~~~~~
+^^^^^^^^
+fumo gif
+^^^^^^^^
 
 .. code-block:: yaml
 
@@ -37,9 +37,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~
-``fumo image``
-~~~~~~~~~~~~~~
+^^^^^^^^^^
+fumo image
+^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -49,9 +49,21 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~
-``fumo video``
-~~~~~~~~~~~~~~
+^^^^^^^^^
+fumo meme
+^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]fumo meme
+
+**Description:** Generate a random Fumo meme ᗜˬᗜ
+
+----
+
+^^^^^^^^^^
+fumo video
+^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -59,11 +71,14 @@ Commands
 
 **Description:** Generate a random Fumo video ᗜˬᗜ
 
+.. tip::
+    There will be more Fumo videos on Fumo Funky Friday (UTC Time)
+
 ----
 
-~~~~~~~~~~~~
-``fumoroid``
-~~~~~~~~~~~~
+^^^^^^^^
+fumoroid
+^^^^^^^^
 
 .. code-block:: yaml
 
@@ -74,9 +89,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~
-``marisafie``
-~~~~~~~~~~~~~
+^^^^^^^^^
+marisafie
+^^^^^^^^^
 
 .. code-block:: yaml
 

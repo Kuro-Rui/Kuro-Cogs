@@ -1,0 +1,75 @@
+.. _chairs:
+
+******
+Chairs
+******
+**Game of Chairs on Discord!**
+
+.. important::
+    To use this cog, you will need to install and load it first.
+    See the :ref:`Getting Started<getting_started>` page.
+
+========
+Commands
+========
+
+------
+chairs
+------
+
+.. code-block:: yaml
+
+    Syntax: [p]chairs
+
+**Description:** Base command.
+
+----
+
+^^^^^^^^^^
+chairs set
+^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]chairs set
+
+**Description:** Chairs game configuration.
+
+----
+
+""""""""""""""""""""""
+chairs set managerrole
+""""""""""""""""""""""
+
+.. code-block:: yaml
+
+    Syntax: [p]chairs set managerrole [role]
+
+**Description:** Set the manager role. Omit role to reset.
+
+----
+
+^^^^^^^^^^^^
+chairs start
+^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]chairs start
+
+**Description:** Start the game of Chairs!
+
+----
+
+^^^^^^^^^^^
+chairs stop
+^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]chairs stop
+
+**Description:** Stop the game of Chairs.
+
+.. note::
+    Only the current host can stop the game.

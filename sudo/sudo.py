@@ -24,6 +24,7 @@ from copy import copy
 from datetime import timedelta
 
 from redbot.core import commands
+from redbot.core.bot import Red
 from redbot.core.commands import TimedeltaConverter
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
 
@@ -33,7 +34,10 @@ from .utils import is_owner
 class Sudo(commands.Cog):
     """Allows dropping and elevating owner permissions!"""
 
-    def __init__(self, bot):
+    __author__ = humanize_list(["Kuro", "Draper", "jack1142 (Jackenmen#6607)"])
+    __version__ = "0.0.1"
+
+    def __init__(self, bot: Red):
         self.bot = bot
         self.all_owner_ids = copy(self.bot.owner_ids)
         self.bot.owner_ids.clear()
@@ -41,9 +45,6 @@ class Sudo(commands.Cog):
     def cog_unload(self):
         self.bot.owner_ids.update(copy(self.all_owner_ids))
         self.all_owner_ids.clear()
-
-    __author__ = humanize_list(["Kuro", "Draper", "jack1142 (Jackenmen#6607)"])
-    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""

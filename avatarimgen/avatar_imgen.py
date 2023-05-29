@@ -22,26 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import random
 from io import BytesIO
-from typing import Literal, Optional
+from typing import Literal
 
 import aiohttp
 import discord
 from redbot.core import commands
+from redbot.core.bot import Red
+from redbot.core.commands import Author, parameter
 from redbot.core.utils.chat_formatting import humanize_list
 
 
 class AvatarImgen(commands.Cog):
     """Make images from avatars!"""
 
-    def __init__(self, bot):
+    __author__ = humanize_list(["Kuro"])
+    __version__ = "0.0.1"
+
+    def __init__(self, bot: Red):
         self.bot = bot
         self.session = aiohttp.ClientSession()
-
-    __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -56,117 +57,108 @@ class AvatarImgen(commands.Cog):
         """Nothing to delete"""
         return
 
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
+    async def cog_unload(self):
+        await self.session.close()
 
     @commands.bot_has_permissions(attach_files=True)
-    @commands.command(aliases=["ads"])
+    @commands.command(aliases=["ad", "ads"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def ad(self, ctx, user: discord.User = None):
+    async def advertisement(self, ctx: commands.Context, user: discord.User = Author):
         """Make an advertisement!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "ad", avatar, "Advertisement", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def clown(self, ctx, user: discord.User = None):
+    async def clown(self, ctx: commands.Context, user: discord.User = Author):
         """This person is a clown, Star."""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "clown", avatar, "Clown", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def communist(self, ctx, user: discord.User = None):
+    async def communist(self, ctx: commands.Context, user: discord.User = Author):
         """Generate a communist comrade avatar!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "comrade", avatar, "Communist", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def drip(self, ctx, user: discord.User = None):
+    async def drip(self, ctx: commands.Context, user: discord.User = Author):
         """Pretend to wear a rich jacket!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "drip", avatar, "Drip", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def gun(self, ctx, user: discord.User = None):
+    async def gun(self, ctx: commands.Context, user: discord.User = Author):
         """Add a gun overlay to your avatar!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "gun", avatar, "Gun", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def hornylicense(self, ctx, user: discord.User = None):
+    async def hornylicense(self, ctx: commands.Context, user: discord.User = Author):
         """Assign someone a horny license!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "horny", avatar, "You're Now Legally Horny", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def jail(self, ctx, user: discord.User = None):
+    async def jail(self, ctx: commands.Context, user: discord.User = Author):
         """Send someone to jail!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "jail", avatar, "Go to Jail", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(alias=["lolipolice"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def lolice(self, ctx, user: discord.User = None):
+    async def lolice(self, ctx: commands.Context, user: discord.User = Author):
         """Be a loli police and put lolicons to jail!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "lolice", avatar, "Lolice Chief", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(alias=["passed"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def missionpassed(self, ctx, user: discord.User = None):
+    async def missionpassed(self, ctx: commands.Context, user: discord.User = Author):
         """Mission passed, respect +100."""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "passed", avatar, "Mission Passed", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def simpcard(self, ctx, user: discord.User = None):
+    async def simpcard(self, ctx: commands.Context, user: discord.User = Author):
         """Assign someone a simp card!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "simpcard", avatar, "You're Now A Simp", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["itssostupid"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def sostupid(self, ctx, user: Optional[discord.User], *, message: str):
+    async def sostupid(
+        self, ctx: commands.Context, user: discord.User = Author, *, message: str = parameter()
+    ):
         """Oh no, it's so stupid!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         async with ctx.typing():
             async with self.session.get(
                 "https://some-random-api.ml/canvas/its-so-stupid",
@@ -185,11 +177,12 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def tweet(self, ctx, user: Optional[discord.User], *, message: str):
+    async def tweet(
+        self, ctx: commands.Context, user: discord.User = Author, *, message: str = parameter()
+    ):
         """Generate a fake Twitter tweet!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         async with ctx.typing():
             params = {
                 "avatar": avatar,
@@ -213,44 +206,45 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["wall"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def uncover(self, ctx, user: discord.User = None):
+    async def uncover(self, ctx: commands.Context, user: discord.User = Author):
         """So this person was hiding behind the wall all the time?"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "uncover", avatar, "Behind The Wall", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def wanted(self, ctx, user: discord.User = None):
+    async def wanted(self, ctx: commands.Context, user: discord.User = Author):
         """Make a wanted poster!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "popcat", "wanted", avatar, "WANTED", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def wasted(self, ctx, user: discord.User = None):
+    async def wasted(self, ctx: commands.Context, user: discord.User = Author):
         """Wasted."""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         await self.send_embed(ctx, "sra", "wasted", avatar, "Wasted", user.color)
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def whowouldwin(self, ctx, user_1: discord.User, user_2: discord.User = None):
+    async def whowouldwin(
+        self,
+        ctx: commands.Context,
+        user_1: discord.User = Author,
+        user_2: discord.User = parameter(),
+    ):
         """Who would win?"""
 
-        user_2 = user_2 or ctx.author
         if user_1 == user_2:
             return await ctx.send("Of course you would tie against yourself.")
-        avatar_1 = str(user_1.avatar_url_as(format="png"))
-        avatar_2 = str(user_2.avatar_url_as(format="png"))
+        avatar_1 = user_1.display_avatar.with_format("png").url
+        avatar_2 = user_2.display_avatar.with_format("png").url
         color = random.choice([user_1.color, user_2.color])
         async with ctx.typing():
             async with self.session.get(
@@ -266,11 +260,12 @@ class AvatarImgen(commands.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["youtubecomment"])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def ytcomment(self, ctx, user: Optional[discord.User], *, comment: str):
+    async def ytcomment(
+        self, ctx: commands.Context, user: discord.User = Author, *, comment: str = parameter()
+    ):
         """Generate a fake YouTube comment!"""
 
-        user = user or ctx.author
-        avatar = str(user.avatar_url_as(format="png"))
+        avatar = user.display_avatar.with_format("png").url
         async with ctx.typing():
             async with self.session.get(
                 "https://some-random-api.ml/canvas/youtube-comment",
@@ -287,7 +282,7 @@ class AvatarImgen(commands.Cog):
         await ctx.send(embed=embed, file=file)
 
     async def generate_image(
-        self, ctx, which: Literal["popcat", "sra"], endpoint: str, avatar: str
+        self, ctx: commands.Context, which: Literal["popcat", "sra"], endpoint: str, avatar: str
     ) -> discord.File:
         """Generate image and return a discord.File object."""
         async with ctx.typing():
@@ -303,7 +298,7 @@ class AvatarImgen(commands.Cog):
 
     async def send_embed(
         self,
-        ctx,
+        ctx: commands.Context,
         which: Literal["popcat", "sra"],
         endpoint: str,
         avatar: str,

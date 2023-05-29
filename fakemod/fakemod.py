@@ -27,6 +27,7 @@ from asyncio import TimeoutError
 
 import discord
 from redbot.core import Config, commands
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import MessagePredicate
 
@@ -35,9 +36,12 @@ from .converters import Action, Emoji
 
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
 class FakeMod(commands.Cog):
-    """Fake Moderation Tools."""
+    """Fake moderation tools to prank your friends!"""
 
-    def __init__(self, bot):
+    __author__ = humanize_list(["Kuro"])
+    __version__ = "0.0.1"
+
+    def __init__(self, bot: Red):
         self.bot = bot
         self.config = Config.get_conf(self, 9863948134, True)
         self.config.register_guild(
@@ -48,9 +52,6 @@ class FakeMod(commands.Cog):
             kick_emoji="\N{HIGH-HEELED SHOE}",
             ban_emoji="\N{COLLISION SYMBOL}",
         )
-
-    __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -64,14 +65,15 @@ class FakeMod(commands.Cog):
     @commands.guild_only()
     @commands.admin_or_permissions(manage_guild=True)
     @commands.group()
-    async def fakemodlogset(self, ctx):
+    async def fakemodlogset(self, ctx: commands.Context):
         """Manage fake modlog settings."""
         pass
 
     @fakemodlogset.command(aliases=["channel"])
-    async def modlog(self, ctx, channel: discord.TextChannel = None):
+    async def modlog(self, ctx: commands.Context, channel: discord.TextChannel = None):
         """
         Set a channel as the fake modlog.
+
         Omit [channel] to disable the fake modlog.
         """
         if channel:
@@ -85,56 +87,34 @@ class FakeMod(commands.Cog):
             await ctx.send("Fake mod log deactivated.")
 
     @fakemodlogset.command()
-    async def emoji(self, ctx, action: Action = None, emoji: Emoji = None):
+    async def emoji(self, ctx: commands.Context, action: Action = None, emoji: Emoji = None):
         """
         Set an emoji for a fake mod action.
 
-        `action` should be either `warn`, `mute`, `kick`, or `ban`.
+        The `action` should be either `warn`, `mute`, `kick`, or `ban`.
         """
 
-        warn_emoji = await self.config.guild(ctx.guild).warn_emoji()
-        mute_emoji = await self.config.guild(ctx.guild).mute_emoji()
-        kick_emoji = await self.config.guild(ctx.guild).kick_emoji()
-        ban_emoji = await self.config.guild(ctx.guild).ban_emoji()
-
+        config = await self.config.guild(ctx.guild).all()
         if not action:
-            await ctx.send_help()
-            return await ctx.send(
+            await ctx.send(
                 (
-                    "**__Current Settings__:**\n"
-                    "`Fake Warn :` {}\n"
-                    "`Fake Mute :` {}\n"
-                    "`Fake Kick :` {}\n"
-                    "`Fake Ban  :` {}\n"
-                ).format(warn_emoji, mute_emoji, kick_emoji, ban_emoji)
+                    f"**__Current Settings__:**\n"
+                    f"`Fake Warn :` {config['warn_emoji']}\n"
+                    f"`Fake Mute :` {config['mute_emoji']}\n"
+                    f"`Fake Kick :` {config['kick_emoji']}\n"
+                    f"`Fake Ban  :` {config['ban_emoji']}"
+                )
             )
-        if action == "warn":
-            if not emoji:
-                await self.config.guild(ctx.guild).warn_emoji.clear()
-                return await ctx.send("The emoji has been reset.")
-            await self.config.guild(ctx.guild).warn_emoji.set(emoji)
-            await ctx.send("Emoji for fake `warn` has been set.")
-        elif action == "mute":
-            if not emoji:
-                await self.config.guild(ctx.guild).mute_emoji.clear()
-                return await ctx.send("The emoji has been reset.")
-            await self.config.guild(ctx.guild).mute_emoji.set(emoji)
-            await ctx.send("Emoji for fake `mute` has been set.")
-        elif action == "kick":
-            if not emoji:
-                await self.config.guild(ctx.guild).kick_emoji.clear()
-                return await ctx.send("The emoji has been reset.")
-            await self.config.guild(ctx.guild).kick_emoji.set(emoji)
-            await ctx.send("Emoji for fake `kick` has been set.")
-        elif action == "ban":
-            if not emoji:
-                await self.config.guild(ctx.guild).ben_emoji.clear()
-                return await ctx.send("The emoji has been reset.")
-            await self.config.guild(ctx.guild).ban_emoji.set(emoji)
-            await ctx.send("Emoji for fake `ban` has been set.")
+            return
+        async with self.config.guild(ctx.guild).all() as guild_settings:
+            guild_settings[f"{action}_emoji"] = str(emoji) if emoji else None
+        if not emoji:
+            await ctx.send(f"The emoji for `fake {action}` has been reset.")
+            return
+        await ctx.send(f"Emoji for `fake {action}` has been set to {emoji}.")
 
     @fakemodlogset.command()
-    async def resetcases(self, ctx):
+    async def resetcases(self, ctx: commands.Context):
         """Reset all fake modlog cases in this server."""
         await ctx.send("Would you like to reset all fake modlog cases in this server? (yes/no)")
         try:
@@ -150,7 +130,9 @@ class FakeMod(commands.Cog):
             await ctx.send("No changes have been made.")
 
     @commands.command(name="worn")
-    async def fake_warn(self, ctx, member: discord.Member, reason: str = None):
+    async def fake_warn(
+        self, ctx: commands.Context, member: discord.Member, *, reason: str = None
+    ):
         """Fake warn a member for the specified reason."""
         if member == ctx.me:
             await ctx.send("You can't warn me.")
@@ -175,7 +157,9 @@ class FakeMod(commands.Cog):
                 await fake_modlog.send(embed=embed)
 
     @commands.command(name="myut", aliases=["moot"])
-    async def fake_mute(self, ctx, member: discord.Member, *, reason: str = None):
+    async def fake_mute(
+        self, ctx: commands.Context, member: discord.Member, *, reason: str = None
+    ):
         """Fake mute a member."""
         if member == ctx.me:
             await ctx.send("You can't mute me.")
@@ -200,7 +184,9 @@ class FakeMod(commands.Cog):
                 await fake_modlog.send(embed=embed)
 
     @commands.command(name="kik", aliases=["kek", "keck"])
-    async def fake_kick(self, ctx, member: discord.Member, *, reason: str = None):
+    async def fake_kick(
+        self, ctx: commands.Context, member: discord.Member, *, reason: str = None
+    ):
         """Fake kick a member."""
         if member == ctx.me:
             await ctx.send("You can't kick me.")
@@ -225,7 +211,7 @@ class FakeMod(commands.Cog):
                 await fake_modlog.send(embed=embed)
 
     @commands.command(name="bam", aliases=["ben", "bon", "bean"])
-    async def fake_ban(self, ctx, user: discord.User, *, reason: str = None):
+    async def fake_ban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
         """Fake ban a user."""
         if user == ctx.me:
             await ctx.send("You can't ban me.")

@@ -13,9 +13,9 @@ FakeMod
 Commands
 ========
 
--------
-``bam``
--------
+---
+bam
+---
 
 .. code-block:: yaml
 
@@ -26,9 +26,9 @@ Commands
 
 ----
 
------------------
-``fakemodlogset``
------------------
+-------------
+fakemodlogset
+-------------
 
 .. code-block:: yaml
 
@@ -38,9 +38,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~~~
-``fakemodlogset emoji``
-~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
+fakemodlogset emoji
+^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -51,9 +51,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~~~~
-``fakemodlogset modlog``
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^
+fakemodlogset modlog
+^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -63,9 +63,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-``fakemodlogset resetcases``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
+fakemodlogset resetcases
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -75,9 +75,9 @@ Commands
 
 ----
 
--------
-``kik``
--------
+---
+kik
+---
 
 .. code-block:: yaml
 
@@ -88,9 +88,9 @@ Commands
 
 ----
 
---------
-``myut``
---------
+----
+myut
+----
 
 .. code-block:: yaml
 
@@ -101,9 +101,9 @@ Commands
 
 ----
 
---------
-``worn``
---------
+----
+worn
+----
 
 .. code-block:: yaml
 

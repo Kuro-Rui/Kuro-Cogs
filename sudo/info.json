@@ -2,7 +2,10 @@
     "author": ["Kuro", "Draper", "jack1142 (Jackenmen#6607)"],
     "description": "Allows dropping and elevating owner permissions.",
     "end_user_data_statement": "This cog stores bot owner ids so the bot owners can elevate their owner permissions.",
-    "short": "Allows to drop and elevate owner permissions.",
     "install_msg" : "Thanks for installing `Sudo`! Get started with `[p]help Sudo`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/sudo.html>.",
-    "tags": ["owner", "perms", "permission", "utility"]
+    "min_bot_version": "3.5.0",
+    "name": "Sudo",
+    "short": "Allows to drop and elevate owner permissions.",
+    "tags": ["owner", "perms", "permission", "utility"],
+    "type": "COG"
 }

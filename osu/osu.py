@@ -22,36 +22,66 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
-from datetime import datetime
-from io import BytesIO
-from typing import Optional
+import logging
+from datetime import datetime, timezone
+from typing import Literal, Mapping, Optional
 
-import aiohttp
+import aiosu
 import discord
+from aiosu.exceptions import APIException
+from aiosu.models import OAuthToken
+from aiosu.utils import auth
 from redbot.core import Config, commands
-from redbot.core.utils.chat_formatting import humanize_list, humanize_number, humanize_timedelta
+from redbot.core.app_commands import ContextMenu
+from redbot.core.bot import Red
+from redbot.core.utils.chat_formatting import humanize_list
 
-from .converters import Emoji
-from .utils import api_is_set, osu_api_key
+from .abc import CompositeMetaClass
+from .commands import OsuCommands
+from .helpers import DEFAULT_RANK_EMOJIS
+
+try:
+    from .rpc import OsuDashboardRPC
+except ImportError:
+    DASHBOARD = False
+else:
+    DASHBOARD = True
+from .views import AuthenticationView, ProfileView
+
+log = logging.getLogger("red.kuro-cogs.osu")
 
 
-class Osu(commands.Cog):
-    """Show osu! user stats with osu! API"""
-
-    def __init__(self, bot):
-        self.bot = bot
-        self.config = Config.get_conf(self, identifier=842364413)
-        self.config.register_global(
-            ssh_emoji=None, ss_emoji=None, sh_emoji=None, s_emoji=None, a_emoji=None
-        )
-        self.config.register_user(username=None)
-        self.session = aiohttp.ClientSession()
+class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
+    """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "3.2.0"
+    __version__ = "0.0.1"
 
-    def format_help_for_context(self, ctx: commands.Context):
+    def __init__(self, bot: Red) -> None:
+        self.bot = bot
+        self.config = Config.get_conf(self, identifier=32142)
+        self.config.register_global(
+            auth_timeout=300,
+            menu_timeout=180,
+            mode_emojis={"std": None, "taiko": None, "ctb": None, "mania": None},
+            rank_emojis=DEFAULT_RANK_EMOJIS,
+            scopes=["public", "identify"],
+        )
+        self.config.register_user(tokens={})
+
+        self.authenticating_users = set()
+        self._client_storage = None
+        self._tokens = tuple()
+
+        self.profile_ctx = ContextMenu(name="Get osu! Profile", callback=self.osu_profile_callback)
+        self.bot.tree.add_command(self.profile_ctx)
+
+        # RPC
+        self.dashboard_authed = set()
+        if DASHBOARD:
+            self.rpc_extension = OsuDashboardRPC(self)
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
         """Thanks Sinbad!"""
         pre_processed = super().format_help_for_context(ctx)
         return (
@@ -60,403 +90,130 @@ class Osu(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    def cog_unload(self):
-        asyncio.create_task(self.session.close())
+    async def cog_load(self) -> None:
+        tokens = await self.bot.get_shared_api_tokens("osu")
+        if not tokens:
+            return
+        self._tokens = (
+            tokens.get("client_id"),
+            tokens.get("client_secret"),
+            tokens.get("redirect_uri", "http://localhost/"),
+        )
+        self._client_storage = aiosu.v2.ClientStorage(
+            client_secret=self._tokens[1], client_id=self._tokens[0]
+        )
+        all_users = await self.config.all_users()
+        if not all_users:
+            return
+        for i, config in all_users.items():
+            if not config["tokens"]:
+                continue
+            token = OAuthToken.parse_obj(config["tokens"])
+            await self._client_storage.add_client(token, id=i)
 
-    async def red_delete_data_for_user(self, *, requester, user_id: int):
+    async def cog_unload(self) -> None:
+        if DASHBOARD:
+            self.rpc_extension.unload()
+        if self._client_storage:
+            await self._client_storage.close()
+        self.bot.tree.remove_command(self.profile_ctx.name, type=self.profile_ctx.type)
+
+    async def red_delete_data_for_user(
+        self,
+        *,
+        requester: Literal["discord_deleted_user", "owner", "user", "user_strict"],
+        user_id: int,
+    ) -> None:
         await self.config.user_from_id(user_id).clear()
 
-    @commands.group()
-    async def osuset(self, ctx):
-        """Settings for osu!"""
-        pass
+    async def _check(self, ctx: commands.Context, user: discord.User) -> bool:
+        if not self._tokens:
+            content = (
+                "The bot owner needs to set osu! credentials before this command can be used.\n"
+            )
+            if await self.bot.is_owner(ctx.author):
+                content += f"See `{ctx.clean_prefix}osu set creds` for more details."
+            await ctx.send(content, ephemeral=True)
+            return False
+        if user.id in self.authenticating_users:
+            await ctx.send(
+                "Please complete your authorization first before using any commands.",
+                ephemeral=True,
+            )
+            return False
+        return True
 
-    @osuset.command()
-    @commands.is_owner()
-    async def creds(self, ctx):
-        """Instructions to set osu! API Key."""
-        embed = discord.Embed(color=await ctx.embed_color())
-        embed.description = (
-            "How to set osu! API key:\n"
-            "1. Go to https://osu.ppy.sh/p/api/ and login.\n"
-            "2. Set App Name ({app}) & App URL as https://osu.ppy.sh/api/v1\n(anything can do tho).\n"
-            "3. Copy the API Key and set it with `{p}set api osu api_key <API_Key>`.\n"
-            "4. Set emojis (SSH, SS, SH, S, A) for the osu! user info (except card) with\n`{p}osuset emoji`"
-        ).format(app=ctx.me.name, p=ctx.clean_prefix)
-        await ctx.send(embed=embed)
-
-    @api_is_set()
-    @osuset.command(aliases=["name"])
-    async def username(self, ctx, *, username: str = None):
-        """Set your osu! username."""
-        if not username:
-            if not await self.config.user(ctx.author).username():
-                return await ctx.send_help()
-            await self.config.user(ctx.author).username.clear()
-            await ctx.tick()
-            await ctx.send("Your username has been removed.")
-        else:
-            player = await self.get_osu_user(ctx, username)
-            if player:
-                username = player["username"]
-                await self.config.user(ctx.author).username.set(username)
-                await ctx.tick()
-                await ctx.send(f"Your username has been set to `{username}`.")
-
-    @api_is_set()
-    @osuset.group()
-    @commands.is_owner()
-    @commands.bot_has_permissions(use_external_emojis=True)
-    async def emoji(self, ctx):
-        """Set custom emoji for ranks."""
-        pass
-
-    @emoji.command()
-    async def ssh(self, ctx, ssh_emoji: Optional[Emoji]):
-        """Set custom emoji for SSH rank."""
-        if not ssh_emoji:
-            await self.config.ssh_emoji.clear()
-            await ctx.send("The custom emoji for SSH Rank has been removed.")
-        else:
-            await self.config.ssh_emoji.set(ssh_emoji)
-        await ctx.send(f"The custom emoji for SSH Rank has been set to: {ssh_emoji}")
-
-    @emoji.command()
-    async def ss(self, ctx, ss_emoji: Optional[Emoji]):
-        """Set custom emoji for SS rank."""
-        if not ss_emoji:
-            await self.config.ss_emoji.clear()
-            await ctx.send("The custom emoji for SS Rank has been removed.")
-        else:
-            await self.config.ss_emoji.set(ss_emoji)
-        await ctx.send(f"The custom emoji for SS Rank has been set to: {ss_emoji}")
-
-    @emoji.command()
-    async def sh(self, ctx, sh_emoji: Optional[Emoji]):
-        """Set custom emoji for SH rank."""
-        if not sh_emoji:
-            await self.config.sh_emoji.clear()
-            await ctx.send("The custom emoji for SH Rank has been removed.")
-        else:
-            await self.config.sh_emoji.set(sh_emoji)
-        await ctx.send(f"The custom emoji for SH Rank has been set to: {sh_emoji}")
-
-    @emoji.command()
-    async def s(self, ctx, s_emoji: Optional[Emoji]):
-        """Set custom emoji for S rank."""
-        if not s_emoji:
-            await self.config.s_emoji.clear()
-            await ctx.send("The custom emoji for S Rank has been removed.")
-        else:
-            await self.config.s_emoji.set(s_emoji)
-        await ctx.send(f"The custom emoji for S Rank has been set to: {s_emoji}")
-
-    @emoji.command()
-    async def a(self, ctx, a_emoji: Optional[Emoji]):
-        """Set custom emoji for A rank."""
-        if not a_emoji:
-            await self.config.a_emoji.clear()
-            await ctx.send("The custom emoji for A Rank has been removed.")
-        else:
-            await self.config.a_emoji.set(a_emoji)
-        await ctx.send(f"The custom emoji for A Rank has been set to: {a_emoji}")
-
-    @emoji.command()
-    async def multi(
-        self,
-        ctx,
-        ssh_emoji: Emoji,
-        ss_emoji: Emoji,
-        sh_emoji: Emoji,
-        s_emoji: Emoji,
-        a_emoji: Emoji,
-    ):
-        """Set custom emoji for all ranks at once!"""
-        await self.config.ssh_emoji.set(ssh_emoji)
-        await self.config.ss_emoji.set(ss_emoji)
-        await self.config.sh_emoji.set(sh_emoji)
-        await self.config.s_emoji.set(s_emoji)
-        await self.config.a_emoji.set(a_emoji)
-        await ctx.send("The custom emojis for all ranks has been set.")
-
-    @emoji.command()
-    async def current(self, ctx):
-        """Shows current set emojis."""
-        emojis = [e for e in (await self.config.all()).values()]
-        if not emojis:
-            return await ctx.send("You haven't set any emojis yet.")
-        embed = discord.Embed(title="Current Emojis", color=await ctx.embed_color())
-        embed.description = (
-            f"`SSH Emoji` : {emojis[0]}\n"
-            f"`SS  Emoji` : {emojis[1]}\n"
-            f"`SH  Emoji` : {emojis[2]}\n"
-            f"`S   Emoji` : {emojis[3]}\n"
-            f"`A   Emoji` : {emojis[4]}"
-        )
-        await ctx.send(embed=embed)
-
-    @emoji.command()
-    @commands.bot_has_permissions()
-    async def clear(self, ctx):
-        """Clear all set custom emojis for ranks."""
-        await self.config.clear()
-        await ctx.send("All custom emojis for ranks has been cleared.")
-
-    @api_is_set()
-    @commands.group(invoke_without_command=True)
-    @commands.bot_has_permissions(attach_files=True, embed_links=True)
-    async def osu(self, ctx, *, username: str = None):
-        """Shows an osu! User Stats!"""
-
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, username, 0)
-
-    @osu.command()
-    @commands.bot_has_permissions(attach_files=True)
-    async def avatar(self, ctx, *, username: str = None):
-        """Shows your/another user osu! Avatar"""
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        player = await self.get_osu_user(ctx, username)
-        if not player:
+    async def ask_for_auth(self, ctx: commands.Context, user: discord.User) -> None:
+        check = await self._check(ctx, user)
+        if not check:
             return
-        avatar, filename = await self.get_osu_avatar(ctx, player["username"])
-        embed = discord.Embed(color=await ctx.embed_color())
-        embed.set_author(
-            name="{}'s osu! Avatar".format(player["username"]),
-            url="https://a.ppy.sh/{}".format(player["user_id"]),
+        auth_url = auth.generate_url(*self._tokens[::2])
+        self.authenticating_users.add(user.id)
+        embed = discord.Embed(
+            color=await ctx.embed_color(),
+            description="Click on the buttons below to authenticate your osu! profile.",
         )
-        embed.set_image(url=f"attachment://{filename}")
-        await ctx.send(embed=embed, file=avatar)
+        view = AuthenticationView(self, auth_url, timeout=await self.config.auth_timeout())
+        if await ctx.embed_requested():
+            await view.start(ctx, embed=embed)
+        else:
+            await view.start(ctx, embed.description)
 
-    @osu.command(aliases=["std"])
-    async def standard(self, ctx, *, username: str = None):
-        """Shows an osu!standard User Stats!"""
+    async def save_token(self, user: discord.User, token: OAuthToken) -> None:
+        async with self.config.user(user).tokens() as tokens:
+            tokens["access_token"] = token.access_token
+            tokens["refresh_token"] = token.refresh_token
+            tokens["expires_on"] = int(token.expires_on.timestamp())
+            tokens["scopes"] = str(token.scopes).split(" ")
 
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, username, 0)
-
-    @osu.command()
-    async def taiko(self, ctx, *, username: str = None):
-        """Shows an osu!taiko User Stats!"""
-
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, username, 1)
-
-    @osu.command(aliases=["ctb"])
-    async def catch(self, ctx, *, username: str = None):
-        """Shows an osu!catch User Stats!"""
-
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, username, 2)
-
-    @osu.command()
-    async def mania(self, ctx, *, username: str = None):
-        """Shows an osu!mania User Stats!"""
-
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        await self.send_osu_user_info(ctx, username, 3)
-
-    @osu.command(aliases=["osuc", "osuimage", "osuimg"])
-    @commands.bot_has_permissions(attach_files=True)
-    @commands.cooldown(60, 60, commands.BucketType.default)
-    async def card(self, ctx, *, username: str = None):
-        """Shows an osu!standard User Card!"""  # Thanks Epic, thanks Preda <3
-        if not username:
-            username = await self.config.user(ctx.author).username()
-            if not username:
-                return await self.send_no_username_embed(ctx)
-        player = await self.get_osu_user(ctx, username)
-        if not player:
+    async def get_client(
+        self, ctx: commands.Context, user: discord.User = None
+    ) -> Optional[aiosu.v2.Client]:
+        user = user or ctx.author
+        check = await self._check(ctx, user)
+        if not check:
             return
-        async with self.session.get(
-            "https://api.martinebot.com/v1/imagesgen/osuprofile",
-            params={"player_username": player["username"]},
-        ) as response:
-            if response.status == 201:
-                card = await response.read()
-            elif response.status in [404, 410, 422]:
-                return await ctx.send((await response.json())["message"])
-            else:
-                return await ctx.send("API is currently down, please try again later.")
-        embed = discord.Embed(color=await ctx.embed_color())
-        embed.set_author(
-            name="{}'s osu! Standard Card:".format(player["username"]),
-            url="https://osu.ppy.sh/users/{}".format(player["user_id"]),
-        )
-        filename = player["username"].replace(" ", "_") + ".png"
-        file = discord.File(BytesIO(card), filename)
-        embed.set_image(url=f"attachment://{filename}")
-        embed.set_footer(
-            text="Powered by api.martinebot.com",
-            icon_url="https://img.icons8.com/color/48/000000/osu.png",
-        )
-        await ctx.send(embed=embed, file=file)
-
-    async def rank_emojis(self):
-        """Rank Emojis"""
-
-        ssh_emoji = await self.config.ssh_emoji()
-        ssh = f"{ssh_emoji} " if ssh_emoji else "**SSH** "
-
-        ss_emoji = await self.config.ss_emoji()
-        ss = f"{ss_emoji} " if ss_emoji else "**SS** "
-
-        sh_emoji = await self.config.sh_emoji()
-        sh = f"{sh_emoji} " if sh_emoji else "**SH** "
-
-        s_emoji = await self.config.s_emoji()
-        s = f"{s_emoji} " if s_emoji else "**S** "
-
-        a_emoji = await self.config.a_emoji()
-        a = f"{a_emoji} " if a_emoji else "**A** "
-
-        return ssh, ss, sh, s, a
-
-    async def get_osu_user(self, ctx, username: str, m: int = 0):
-        """osu! API Call"""
-
-        api_key = await osu_api_key(ctx)
-        async with self.session.post(
-            f"https://osu.ppy.sh/api/get_user?k={api_key}&u={username}&m={m}"
-        ) as response:
-            if response.status != 200:
-                await ctx.send("You didn't set a valid API Key. Please set a valid one!")
+        if not await self.config.user(user).tokens():
+            return aiosu.v2.Client(client_id=self._tokens[0], client_secret=self._tokens[1])
+        client = await self._client_storage.get_client(id=user.id)
+        user_token = await client.get_current_token()
+        expired = datetime.utcnow().timestamp() > user_token.expires_on.timestamp()
+        if expired:
+            try:
+                # Token refreshing is actually handled by client by default,
+                # but we need to handle so it's saved in the config and not just gone away.
+                await client._refresh()
+            except APIException:
+                await ctx.send("Your token has been revoked, clearing data.", ephemeral=True)
+                await self.config.user(user).tokens.clear()
                 return
-            players = await response.json()
-            if players:
-                player = players[0]
-                player["user_id"] = int(player["user_id"])
-                player["count300"] = int(player["count300"] or 0)
-                player["count100"] = int(player["count100"] or 0)
-                player["count50"] = int(player["count50"] or 0)
-                player["playcount"] = int(player["playcount"] or 0)
-                player["ranked_score"] = int(player["ranked_score"] or 0)
-                player["total_score"] = int(player["total_score"] or 0)
-                player["pp_rank"] = int(player["pp_rank"] or 0)
-                player["level"] = round(float(player["level"] or 0.0), 2)
-                player["pp_raw"] = round(float(player["pp_raw"] or 0.0))
-                player["accuracy"] = round(float(player["accuracy"] or 0), 2)
-                player["count_rank_ss"] = int(player["count_rank_ss"] or 0)
-                player["count_rank_ssh"] = int(player["count_rank_ssh"] or 0)
-                player["count_rank_s"] = int(player["count_rank_s"] or 0)
-                player["count_rank_sh"] = int(player["count_rank_sh"] or 0)
-                player["count_rank_a"] = int(player["count_rank_a"] or 0)
-                player["total_seconds_played"] = int(player["total_seconds_played"] or 0)
-                player["pp_country_rank"] = int(player["pp_country_rank"] or 0)
-                player["join_timestamp"] = int(
-                    datetime.strptime(player["join_date"], "%Y-%m-%d %H:%M:%S").timestamp()
-                )
-                return player
-            else:
-                await ctx.send("Player not found.")
-                return
+            await self.save_token(user, await client.get_current_token())
+        return client
 
-    async def get_osu_avatar(self, ctx, username: str):
-        """Get an osu! Avatar"""
-        player = await self.get_osu_user(ctx, username)
-        if not player:
+    async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
+        if not await self.config.user(user).tokens():
+            await interaction.response.send_message(
+                f"{user.mention} hasn't linked their osu! account yet.", ephemeral=True
+            )
             return
-        async with self.session.get(f"https://a.ppy.sh/{player['user_id']}") as image:
-            avatar = await image.read()
-        filename = player["username"].replace(" ", "_") + ".png"
-        avatar = discord.File(BytesIO(avatar), filename=filename)
-        return avatar, filename
-
-    async def send_osu_user_info(self, ctx, username: str, m: int = 0):
-        """osu! User Info Embed"""
-        player = await self.get_osu_user(ctx, username, m)
-        if not player:
+        ctx = await commands.Context.from_interaction(interaction)
+        client = await self.get_client(ctx, user)
+        if not client:
             return
-        avatar, filename = await self.get_osu_avatar(ctx, username)
-        ssh, ss, sh, s, a = await self.rank_emojis()
-
-        description = (
-            "▸ **Joined at:** {}\n"
-            "▸ **Rank:** #{} (:flag_{}: #{})\n"
-            "▸ **Level:** {}\n"
-            "▸ **PP:** {}\n"
-            "▸ **Accuracy:** {}%\n"
-            "▸ **Playcount:** {}\n"
-            "▸ **Playtime:** {}\n"
-            "▸ **Ranks:** {}`{}` {}`{}` {}`{}` {}`{}` {}`{}`\n"
-            "▸ **Ranked Score:** {}\n"
-            "▸ **Total Score:** {}"
-        ).format(
-            f"<t:{player['join_timestamp']}:F>",
-            humanize_number(player["pp_rank"]) if player["pp_rank"] else "Unknown",
-            player["country"].lower(),
-            humanize_number(player["pp_country_rank"]) if player["pp_country_rank"] else "Unknown",
-            humanize_number(player["level"]),
-            humanize_number(player["pp_raw"]),
-            player["accuracy"],
-            humanize_number(player["playcount"]),
-            humanize_timedelta(seconds=player["total_seconds_played"]),
-            ssh,
-            humanize_number(player["count_rank_ssh"]),
-            ss,
-            humanize_number(player["count_rank_ss"]),
-            sh,
-            humanize_number(player["count_rank_sh"]),
-            s,
-            humanize_number(player["count_rank_s"]),
-            a,
-            humanize_number(player["count_rank_a"]),
-            humanize_number(player["ranked_score"]),
-            humanize_number(player["total_score"]),
+        config = await self.config.all()
+        view = ProfileView(
+            client,
+            config["mode_emojis"],
+            config["rank_emojis"],
+            None,
+            "string",
+            timeout=config["menu_timeout"],
         )
+        await view.start(ctx)
 
-        osu_type = icon = "osu"
-        mode = "Standard"
-        if m == 1:
-            osu_type = icon = "taiko"
-            mode = "Taiko"
-        elif m == 2:
-            osu_type = "fruits"
-            icon = "ctb"
-            mode = "Catch"
-        elif m == 3:
-            osu_type = icon = "mania"
-            mode = "Mania"
-
-        embed = discord.Embed(description=description, color=await ctx.embed_color())
-        embed.set_author(
-            icon_url="https://lemmmy.pw/osusig/img/{}.png".format(icon),
-            url="https://osu.ppy.sh/users/{}/{}".format(player["user_id"], osu_type),
-            name="osu! {} Profile for {}".format(mode, player["username"]),
-        )
-        embed.set_footer(
-            text="Powered by osu!", icon_url="https://img.icons8.com/color/48/000000/osu.png"
-        )
-        embed.set_thumbnail(url=f"attachment://{filename}")
-        await ctx.send(embed=embed, file=avatar)
-
-    @staticmethod
-    async def send_no_username_embed(ctx):
-        """What's your name bitch?"""
-        error_title = "Your Username Hasn't Been Set Yet!"
-        error_desc = (
-            "You can set it with `{p}osuset username <username>`\n"
-            "You can also provide a username: `{p}{command} <username>`"
-        ).format(p=ctx.clean_prefix, command=ctx.invoked_with)
-        error_embed = discord.Embed(
-            title=error_title, description=error_desc, color=await ctx.embed_color()
-        )
-        await ctx.send(embed=error_embed)
+    @commands.Cog.listener()
+    async def on_red_api_tokens_update(
+        self, service_name: str, api_tokens: Mapping[str, str]
+    ) -> None:
+        if service_name == "osu":
+            await self.cog_load()

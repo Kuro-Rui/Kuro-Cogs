@@ -11,12 +11,11 @@ body:
       options:
         - AvatarImgen
         - Calendar
-        - CounterCog
-        - DankTax
+        - Chairs
+        - CogCount
+        - DankUtils
         - FakeMod
         - Fumo
-        - Hack
-        - ImgBB
         - Osu
         - ReactLog
         - ReactTermino

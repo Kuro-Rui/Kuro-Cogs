@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "Kuro-Cogs"
-copyright = "2021 - 2022, Kuro-Rui"
+copyright = "2021 - 2023, Kuro-Rui"
 author = "Kuro-Rui"
 
 
@@ -27,7 +27,7 @@ author = "Kuro-Rui"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx_copybutton"]  # "sphinx_rtd_dark_mode"
+extensions = ["sphinx_copybutton"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

@@ -1,11 +1,12 @@
 {
-    "title": "Calendar",
     "author": ["Kuro"],
     "description": "See the calendar on Discord!",
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
     "install_msg": "Thanks for installing `Calendar`! To get started, do `[p]calendar [month] [year]`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/calendar.html>.",
+    "min_bot_version": "3.5.0",
+    "name": "Calendar",
     "short": "See the calendar on Discord!",
     "tags": ["calendar", "date"],
     "type": "COG"

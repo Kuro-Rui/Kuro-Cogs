@@ -24,10 +24,10 @@ SOFTWARE.
 
 import logging
 import re
-from datetime import datetime
 
 import discord
-from redbot.core import Config, commands
+from redbot.core import Config, app_commands, commands
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
 
 log = logging.getLogger("red.kuro-cogs.reactlog")
@@ -36,15 +36,15 @@ log = logging.getLogger("red.kuro-cogs.reactlog")
 class ReactLog(commands.Cog):
     """Log when reactions are added or removed."""
 
-    def __init__(self, bot) -> None:
+    __author__ = humanize_list(["Kuro"])
+    __version__ = "0.0.1"
+
+    def __init__(self, bot: Red):
         self.bot = bot
         self.config = Config.get_conf(self, 9517306284, True)
         self.config.register_guild(
             channel=None, log_all=False, react_add=False, react_remove=False
         )
-
-    __author__ = humanize_list(["Kuro"])
-    __version__ = "0.3.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -55,15 +55,16 @@ class ReactLog(commands.Cog):
             f"`Cog Version :` {self.__version__}"
         )
 
-    @commands.group(aliases=["reactionlog"])
     @commands.admin()
     @commands.guild_only()
-    async def reactlog(self, ctx):
+    @commands.hybrid_group(aliases=["reactionlog"])
+    async def reactlog(self, ctx: commands.Context):
         """Reaction logging configuration commands."""
         pass
 
     @reactlog.command()
-    async def channel(self, ctx, channel: discord.TextChannel = None):
+    @app_commands.describe(channel="The channel to log reactions to.")
+    async def channel(self, ctx: commands.Context, channel: discord.TextChannel = None):
         """Set the reactions logging channel."""
         if not channel:
             await self.config.guild(ctx.guild).channel.clear()
@@ -76,7 +77,8 @@ class ReactLog(commands.Cog):
         await ctx.send(f"Reaction logging channel has been set to: {channel.mention}")
 
     @reactlog.command()
-    async def reactadd(self, ctx, toggle: bool = None):
+    @app_commands.describe(toggle="True or False")
+    async def reactadd(self, ctx: commands.Context, toggle: bool = None):
         """Enable/disable logging when reactions added."""
         current = await self.config.guild(ctx.guild).react_add()
         if toggle is None:
@@ -90,7 +92,8 @@ class ReactLog(commands.Cog):
         await ctx.send("I won't log when reactions added.")
 
     @reactlog.command()
-    async def reactdel(self, ctx, toggle: bool = None):
+    @app_commands.describe(toggle="True or False")
+    async def reactdel(self, ctx: commands.Context, toggle: bool = None):
         """Enable/disable logging when reactions removed."""
         current = await self.config.guild(ctx.guild).react_remove()
         if toggle is None:
@@ -104,7 +107,8 @@ class ReactLog(commands.Cog):
         await ctx.send("I won't log when reactions removed.")
 
     @reactlog.command()
-    async def logall(self, ctx, toggle: bool = None):
+    @app_commands.describe(toggle="True or False")
+    async def logall(self, ctx: commands.Context, toggle: bool = None):
         """
         Set whether to log all reactions or not.
 
@@ -125,7 +129,7 @@ class ReactLog(commands.Cog):
         await ctx.send("I won't log all reactions from now.")
 
     @reactlog.command()
-    async def settings(self, ctx):
+    async def settings(self, ctx: commands.Context):
         """Show current reaction log settings."""
         channel = await self.config.guild(ctx.guild).channel()
         if channel:
@@ -141,7 +145,7 @@ class ReactLog(commands.Cog):
             embed.add_field(name="Log On Reaction Remove?", value=react_remove_status, inline=True)
             embed.add_field(name="Log All Reactions?", value=log_all_status, inline=True)
             embed.add_field(name="Channel", value=channel_mention, inline=True)
-            embed.set_footer(text=ctx.guild.name, icon_url=ctx.guild.icon_url_as(format="png"))
+            embed.set_footer(text=ctx.guild.name, icon_url=getattr(ctx.guild.icon, "url", None))
             await ctx.send(embed=embed)
         else:
             await ctx.send(
@@ -222,8 +226,10 @@ class ReactLog(commands.Cog):
                 chars.remove("fe0f")
             url = f"https://twemoji.maxcdn.com/v/14.0.2/72x72/{'-'.join(chars)}.png"
         color = discord.Color.green() if added else discord.Color.red()
-        embed = discord.Embed(description=description, color=color, timestamp=datetime.utcnow())
-        embed.set_author(name=f"{user} ({user.id})", icon_url=user.avatar_url)
+        embed = discord.Embed(
+            description=description, color=color, timestamp=discord.utils.utcnow()
+        )
+        embed.set_author(name=f"{user} ({user.id})", icon_url=user.display_avatar.url)
         embed.set_thumbnail(url=url)
         added_or_removed = "Added" if added else "Removed"
         embed.set_footer(text=f"Reaction {added_or_removed} | #{message.channel.name}")

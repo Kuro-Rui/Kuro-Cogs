@@ -22,14 +22,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import json
-from pathlib import Path
+from typing import Optional
+from urllib.parse import parse_qs, urlparse
 
-from .hack import Hack
+import discord
+from aiosu.models import Gamemode
+from redbot.core.utils.chat_formatting import humanize_number
 
-with open(Path(__file__).parent / "info.json") as fp:
-    __red_end_user_data_statement__ = json.load(fp)["end_user_data_statement"]
+
+def maybe_humanize_number(number: Optional[int], alt: str) -> str:
+    if number:
+        return humanize_number(number)
+    return alt
 
 
-def setup(bot):
-    bot.add_cog(Hack(bot))
+def parse_code_from_url(url: str) -> str:
+    query = urlparse(url).query
+    code = parse_qs(query).get("code")
+    if code is None:
+        raise KeyError(f"Passed URL contains does not have 'code' parameter.")
+    if len(code) > 1:
+        raise ValueError(f"Passed URL contains multiple values for 'code' parameter.")
+    return code[0]
+
+
+DEFAULT_RANK_EMOJIS = {
+    "ssh": "**SSH** ",
+    "ss": " **SS** ",
+    "sh": " **SH** ",
+    "s": " **S** ",
+    "a": " **A** ",
+}
+
+GAME_MODES = [Gamemode.STANDARD, Gamemode.TAIKO, Gamemode.CTB, Gamemode.MANIA]

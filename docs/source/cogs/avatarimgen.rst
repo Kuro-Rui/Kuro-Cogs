@@ -16,22 +16,22 @@ Commands
 .. note::
     All the ``user`` argument defaults to you if not passed.
 
-------
-``ad``
-------
+-------------
+advertisement
+-------------
 
 .. code-block:: yaml
 
-    Syntax: [p]ad [user]
-    Alias : [p]ads
+    Syntax : [p]advertisement [user]
+    Aliases: [p]ad, [p]ads
 
 **Description:** Make an advertisement!
 
 ----
 
----------
-``clown``
----------
+-----
+clown
+-----
 
 .. code-block:: yaml
 
@@ -41,9 +41,9 @@ Commands
 
 ----
 
--------------
-``communist``
--------------
+---------
+communist
+---------
 
 .. code-block:: yaml
 
@@ -53,9 +53,9 @@ Commands
 
 ----
 
---------
-``drip``
---------
+----
+drip
+----
 
 .. code-block:: yaml
 
@@ -65,9 +65,9 @@ Commands
 
 ----
 
--------
-``gun``
--------
+---
+gun
+---
 
 .. code-block:: yaml
 
@@ -77,9 +77,9 @@ Commands
 
 ----
 
-----------------
-``hornylicense``
-----------------
+------------
+hornylicense
+------------
 
 .. code-block:: yaml
 
@@ -89,9 +89,9 @@ Commands
 
 ----
 
---------
-``jail``
---------
+----
+jail
+----
 
 .. code-block:: yaml
 
@@ -101,9 +101,9 @@ Commands
 
 ----
 
-----------
-``lolice``
-----------
+------
+lolice
+------
 
 .. code-block:: yaml
 
@@ -113,9 +113,9 @@ Commands
 
 ----
 
------------------
-``missionpassed``
------------------
+-------------
+missionpassed
+-------------
 
 .. code-block:: yaml
 
@@ -125,9 +125,9 @@ Commands
 
 ----
 
-------------
-``simpcard``
-------------
+--------
+simpcard
+--------
 
 .. code-block:: yaml
 
@@ -137,9 +137,9 @@ Commands
 
 ----
 
-------------
-``sostupid``
-------------
+--------
+sostupid
+--------
 
 .. code-block:: yaml
 
@@ -150,9 +150,9 @@ Commands
 
 ----
 
--------------
-``triggered``
--------------
+---------
+triggered
+---------
 
 .. code-block:: yaml
 
@@ -162,9 +162,9 @@ Commands
 
 ----
 
----------
-``tweet``
----------
+-----
+tweet
+-----
 
 .. code-block:: yaml
 
@@ -174,9 +174,9 @@ Commands
 
 ----
 
------------
-``uncover``
------------
+-------
+uncover
+-------
 
 .. code-block:: yaml
 
@@ -186,9 +186,9 @@ Commands
 
 ----
 
-----------
-``wanted``
-----------
+------
+wanted
+------
 
 .. code-block:: yaml
 
@@ -198,9 +198,9 @@ Commands
 
 ----
 
-----------
-``wasted``
-----------
+------
+wasted
+------
 
 .. code-block:: yaml
 
@@ -210,21 +210,21 @@ Commands
 
 ----
 
----------------
-``whowouldwin``
----------------
+-----------
+whowouldwin
+-----------
 
 .. code-block:: yaml
 
-    Syntax: [p]whowouldwin <user_1> [user_2]
+    Syntax: [p]whowouldwin [user_1] <user_2>
 
 **Description:** Who would win?
 
 ----
 
--------------
-``ytcomment``
--------------
+---------
+ytcomment
+---------
 
 .. code-block:: yaml
 

@@ -13,237 +13,186 @@ Osu
 Commands
 ========
 
--------
-``osu``
--------
+.. note::
+    All the ``user`` argument defaults to you if not passed
+    which requires you to link your osu! account first with ``[p]osu link``
+
+---
+osu
+---
 
 .. code-block:: yaml
 
-    Syntax: [p]osu [username]
+    Syntax: [p]osu
 
-**Description:** Shows an osu! User Stats. If no username is given, it will show your own stats.
+**Description:** osu! related commands.
+
+.. tip::
+    This command group is available as a slash command! Enable it with ``[p]slash enable osu``.
 
 ----
 
-~~~~~~~~~~~~~~
-``osu avatar``
-~~~~~~~~~~~~~~
+^^^^^^^^^^
+osu avatar
+^^^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax: [p]osu avatar [username]
+    Syntax : [p]osu avatar [user]
 
-**Description:** Shows a user's osu! Avatar. If no username is given, it will show your own osu! Avatar.
+**Description:** Get a user's current osu! Avatar.
 
 ----
 
-~~~~~~~~~~~~
-``osu card``
-~~~~~~~~~~~~
+^^^^^^^^
+osu card
+^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax: [p]osu card [username]
+    Syntax : [p]osu card [user]
 
-**Description:** Shows a user's osu!standard Card. If no username is given, it will show your own osu!standard Card.
+**Description:** Get a user's osu! Standard profile card.
 
 ----
 
-~~~~~~~~~~~~~
-``osu catch``
-~~~~~~~~~~~~~
+^^^^^^^^
+osu link
+^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax : [p]osu catch [username]
-    Aliases: [p]osu ctb
+    Syntax: [p]osu link
 
-**Description:** Shows an osu!catch User Stats. If no username is given, it will show your own stats.
+**Description:** Link your osu! account.
 
 ----
 
-~~~~~~~~~~~~~
-``osu mania``
-~~~~~~~~~~~~~
+^^^^^^^^^^^
+osu profile
+^^^^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax: [p]osu mania [username]
+    Syntax: [p]osu profile [user] [query_type]
 
-**Description:** Shows an osu!mania User Stats. If no username is given, it will show your own stats.
+**Description:** Link your osu! account. ``query_type`` should be either ``username`` or ``userid``.
 
 ----
 
-~~~~~~~~~~~~~~~~
-``osu standard``
-~~~~~~~~~~~~~~~~
+^^^^^^^
+osu set
+^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax : [p]osu standard [username]
-    Aliases: [p]osu std
-
-**Description:** Shows an osu!standard User Stats. If no username is given, it will show your own stats.
-
-----
-
-~~~~~~~~~~~~~
-``osu taiko``
-~~~~~~~~~~~~~
-
-.. code-block:: yaml
-
-    Syntax : [p]osu catch [username]
-    Aliases: [p]osu ctb
-
-**Description:** Shows an osu!taiko User Stats. If no username is given, it will show your own stats.
-
-----
-
-----------
-``osuset``
-----------
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset
+    Syntax: [p]osu set
 
 **Description:** Settings for osu!
 
+.. note::
+    This command is only available for the Bot Owner.
+
 ----
 
-~~~~~~~~~~~~~~~~
-``osuset creds``
-~~~~~~~~~~~~~~~~
+"""""""""""""""""""
+osu set authtimeout
+"""""""""""""""""""
+
+.. code-block:: yaml
+
+    Syntax: [p]osuset authtimeout <timeout>
+
+**Description:** Set the timeout for authentication. (Default is 5 minutes or 300 seconds)
+
+.. note::
+    This command is only available for the Bot Owner.
+
+----
+
+"""""""""""""
+osu set creds
+"""""""""""""
 
 .. code-block:: yaml
 
     Syntax: [p]osuset creds
 
-**Description:** Shows instructions to set osu! API Key.
+**Description:** Shows instructions on how to set osu! API credentials.
 
 .. note::
     This command is only available for the Bot Owner.
 
 ----
 
-~~~~~~~~~~~~~~~~
-``osuset emoji``
-~~~~~~~~~~~~~~~~
+"""""""""""""""""""
+osu set menutimeout
+"""""""""""""""""""
 
 .. code-block:: yaml
 
-    Syntax: [p]osuset emoji
+    Syntax: [p]osuset menutimeout <timeout>
 
-**Description:** Set custom emoji for ranks.
+**Description:** Set the timeout for menu. (Default is 3 minutes or 180 seconds)
 
 .. note::
     This command is only available for the Bot Owner.
 
 ----
 
-""""""""""""""""""
-``osuset emoji a``
-""""""""""""""""""
+"""""""""""""""""
+osu set modeemoji
+"""""""""""""""""
 
 .. code-block:: yaml
 
-    Syntax: [p]osuset emoji a [emoji]
+    Syntax: [p]osuset modeemoji <mode> [emoji]
 
-**Description:** Set custom emoji for A rank. Empty to reset.
+**Description:** Change an emoji used by the bot for showing modes. Omit ``emoji`` to reset a mode's emoji.
+
+.. note::
+    This command is only available for the Bot Owner.
 
 ----
 
-""""""""""""""""""""""
-``osuset emoji clear``
-""""""""""""""""""""""
+"""""""""""""""""
+osu set rankemoji
+"""""""""""""""""
 
 .. code-block:: yaml
 
-    Syntax: [p]osuset emoji clear
+    Syntax: [p]osuset rankemoji <rank> [emoji]
 
-**Description:** Clear all set custom emojis for ranks.
+**Description:** Change an emoji used by the bot for showing ranks. Omit ``emoji`` to reset a rank's emoji.
+
+.. note::
+    This command is only available for the Bot Owner.
 
 ----
 
-""""""""""""""""""""""""
-``osuset emoji current``
-""""""""""""""""""""""""
+""""""""""""""
+osu set scopes
+""""""""""""""
 
 .. code-block:: yaml
 
-    Syntax: [p]osuset emoji current
+    Syntax: [p]osuset scopes [scopes...]
 
-**Description:** Shows current set rank emojis.
+**Description:** Set customized scopes for what you want your bot to allow. Omit ``scopes`` to view current scopes.
+**Scopes:** ``public``, ``identify``, ``friends.read``, ``forum.write``, ``delegate``, ``chat.write``, ``lazer``.
+You can find information about scopes `here <https://osu.ppy.sh/docs/index.html#scopes>`_.
+
+.. note::
+    This command is only available for the Bot Owner.
 
 ----
 
-""""""""""""""""""""""
-``osuset emoji multi``
-""""""""""""""""""""""
+^^^^^^^^^^
+osu unlink
+^^^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax: [p]osuset emoji multi <ssh_emoji> <ss_emoji> <sh_emoji> <s_emoji> <a_emoji>
+    Syntax: [p]osu unlink
 
-**Description:** Set custom emoji for all ranks at once!
-
-----
-
-""""""""""""""""""
-``osuset emoji s``
-""""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset emoji s [emoji]
-
-**Description:** Set custom emoji for S rank. Empty to reset.
-
-----
-
-"""""""""""""""""""
-``osuset emoji sh``
-"""""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset emoji sh [emoji]
-
-**Description:** Set custom emoji for SH rank. Empty to reset.
-
-----
-
-"""""""""""""""""""
-``osuset emoji ss``
-"""""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset emoji ss [emoji]
-
-**Description:** Set custom emoji for SS rank. Empty to reset.
-
-----
-
-""""""""""""""""""""
-``osuset emoji ssh``
-""""""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset emoji ssh [emoji]
-
-**Description:** Set custom emoji for SSH rank. Empty to reset.
-
-----
-
-~~~~~~~~~~~~~~~~~~~
-``osuset username``
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset username [username]
-
-**Description:** Set your osu! username. Empty to reset.
+**Description:** Unlink your osu! account.

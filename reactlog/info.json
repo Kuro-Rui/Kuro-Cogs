@@ -1,9 +1,11 @@
 {
     "author": ["Kuro"],
     "description": "Log when reactions were added/removed! Inspired by Sx Bot#8364.",
+    "end_user_data_statement": "This cog does not store any end user data.",
     "install_msg": "Thanks for installing `ReactLog`! Get started with `[p]reactlog`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/reactlog.html>.",
+    "min_bot_version": "3.5.0",
+    "name": "ReactLog",
     "short": "Log added/removed reactions!",
     "tags": ["log", "react", "reaction", "reactlog", "reactionlog"],
-    "type": "COG",
-    "end_user_data_statement": "This cog does not store any end user data."
+    "type": "COG"
 }

@@ -22,19 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from redbot.core.commands import BadArgument, Converter
-from translatepy import Language
-from translatepy.exceptions import UnknownLanguage
+import json
+from pathlib import Path
+
+from redbot.core.bot import Red
+
+from .cogcount import CogCount
+
+with open(Path(__file__).parent / "info.json") as fp:
+    __red_end_user_data_statement__ = json.load(fp)["end_user_data_statement"]
 
 
-class Lang(Converter):
-    async def convert(self, ctx, argument):
-        try:
-            lang = Language(argument)
-            if round(lang.similarity) < 100:
-                raise BadArgument(f"Couldn't recognize `{argument}` language.")
-            return lang
-        except UnknownLanguage as ul:
-            raise BadArgument(
-                f"Couldn't recognize `{argument}` language. Did you mean `{ul.guessed_language}`?"
-            )
+async def setup(bot: Red):
+    await bot.add_cog(CogCount(bot))

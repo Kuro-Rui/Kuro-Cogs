@@ -22,12 +22,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from random import choice, shuffle
-from re import UNICODE, compile
+import random
 from string import ascii_letters, digits, punctuation
+from typing import Optional, Union
 
 import discord
+import emoji
 
+# Tax utils
+
+def percent(number: Union[int, float]):
+    """Change number to percent"""
+    return number / 100
+
+
+def tax(dmc: int):
+    """Tax = 1%"""
+    return round(dmc * percent(1))
+
+
+def total(amount: int, tax_included: Optional[bool] = True):
+    if tax_included:
+        return amount + tax(amount)
+    else:
+        # Math Moment:
+        # tax_included_amount = tax_unincluded_amount * 101%
+        # tax_unincluded_amount = tax_included_amount / 101%
+        return round(amount / percent(101))
+
+# Hack utils
 
 def loading(step: int):
     steps = ["▖", "▘", "▝", "▗"]
@@ -36,18 +59,12 @@ def loading(step: int):
 
 
 def remove_emoji(text: str):
-    compiled = compile(
-        (
-            "["
-            "\U0001F600-\U0001F64F"  # Emoticons
-            "\U0001F300-\U0001F5FF"  # Symbols & Pictographs
-            "\U0001F680-\U0001F6FF"  # Transport & Map Symbols
-            "\U0001F1E0-\U0001F1FF"  # Flags (iOS)
-            "]+"
-        ),
-        UNICODE,
-    )
-    return compiled.sub(r"", text)
+    emojis = emoji.distinct_emoji_list(text)
+    if not emojis:
+        return text
+    for e in emojis:
+        text = text.replace(e, "")
+    return text
 
 
 def remove_punctuations(text: str):
@@ -61,8 +78,21 @@ def remove_punctuations(text: str):
 
 def get_email_and_password(user: discord.Member):
     name = remove_emoji(remove_punctuations(user.name.lower()))
-    name = name.replace(" ", "").replace("'", "").replace('"', "")
-    domain = choice(
+    name = name.replace(" ", "")
+    if name == "":
+        name = random.choice(
+            [
+                "bitchass",
+                "femaledog",
+                "freeporn",
+                "ilovesluts",
+                "ineedbitches",
+                "smexyuser69",
+                "takingashit",
+                "waiting4u",
+            ]
+        )
+    domain = random.choice(
         [
             "@aol.com",
             "@disposablemail.com",
@@ -79,17 +109,17 @@ def get_email_and_password(user: discord.Member):
         ]
     )
     email = name + domain
-    letters = "".join(choice(ascii_letters) for letters in range(6))
-    numbers = "".join(choice(digits) for numbers in range(5))
-    puncts = "".join(choice(punctuation) for puncts in range(4))
+    letters = "".join(random.choice(ascii_letters) for _ in range(6))
+    numbers = "".join(random.choice(digits) for _ in range(5))
+    puncts = "".join(random.choice(punctuation) for _ in range(4))
     password = list(letters + numbers + puncts)
-    shuffle(password)
+    random.shuffle(password)
     password = "".join(password).replace("`", "'")
     return email, password
 
 
 def get_last_dm():
-    last_dm = choice(
+    return random.choice(
         [
             "I hope blueballs aren't real.",
             "I hope noone sees my nudes folder.",
@@ -105,4 +135,13 @@ def get_last_dm():
             "yeah she goes to another school.",
         ]
     )
-    return last_dm
+
+
+def format_doxx_info(email: str, password: str, ip: str, last_dm: str):
+    info = [
+        f"`Email      :` {email}",
+        f"`Password   :` {password}",
+        f"`IP Address :` {ip}",
+        f'`Last DM    :` "{last_dm}"',
+    ]
+    return "\n".join(info)

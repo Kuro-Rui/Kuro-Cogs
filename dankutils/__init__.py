@@ -22,18 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from redbot.core.commands import BadArgument, Converter
+import json
+from pathlib import Path
+
+from redbot.core.bot import Red
+
+from .dankutils import DankUtils
+
+with open(Path(__file__).parent / "info.json") as fp:
+    __red_end_user_data_statement__ = json.load(fp)["end_user_data_statement"]
 
 
-class Link(Converter):
-    async def convert(self, ctx, argument):
-        if not (argument.startswith("https://") or argument.startswith("http://")):
-            raise BadArgument("Please provide a valid link.")
-        return argument
-
-
-class NonLink(Converter):
-    async def convert(self, ctx, argument):
-        if argument.startswith("https://") or argument.startswith("http://"):
-            raise BadArgument("Link is not allowed for the image name.")
-        return argument
+async def setup(bot: Red):
+    await bot.add_cog(DankUtils(bot))

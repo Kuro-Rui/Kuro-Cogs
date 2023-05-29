@@ -14,11 +14,11 @@ Commands
 ========
 
 .. note::
-    This commands is only available for the Bot Owner.
+    All commands of this cog is only available for the Bot Owner.
 
-------
-``su``
-------
+---
+su
+---
 
 .. code-block:: yaml
 
@@ -28,9 +28,9 @@ Commands
 
 ----
 
---------
-``sudo``
---------
+----
+sudo
+----
 
 .. code-block:: yaml
 
@@ -40,9 +40,9 @@ Commands
 
 ----
 
------------
-``sudomsg``
------------
+-------
+sudomsg
+-------
 
 .. code-block:: yaml
 
@@ -58,9 +58,9 @@ Commands
 
 ----
 
--------------
-``sutimeout``
--------------
+---------
+sutimeout
+---------
 
 .. code-block:: yaml
 
@@ -72,9 +72,9 @@ Commands
 
 ----
 
---------
-``unsu``
---------
+----
+unsu
+----
 
 .. code-block:: yaml
 

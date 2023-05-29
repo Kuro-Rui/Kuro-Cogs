@@ -13,9 +13,9 @@ Calendar
 Commands
 ========
 
-------------
-``calendar``
-------------
+--------
+calendar
+--------
 
 .. code-block:: yaml
 
@@ -24,5 +24,4 @@ Commands
 **Description:** View the calendar!
 
 .. note::
-    * If month and year isn't passed, it defaults to current month and year.
-    * This probably looks best on Mobile.
+    If month and year isn't passed, it defaults to current month and year.

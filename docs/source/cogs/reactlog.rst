@@ -13,9 +13,9 @@ ReactLog
 Commands
 ========
 
-------------
-``reactlog``
-------------
+--------
+reactlog
+--------
 
 .. code-block:: yaml
 
@@ -26,9 +26,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~
-``reactlog channel``
-~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
+reactlog channel
+^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -39,9 +39,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~
-``reactlog reactadd``
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
+reactlog reactadd
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -52,9 +52,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~
-``reactlog reactdel``
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
+reactlog reactdel
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -65,25 +65,23 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~~
-``reactlog logall``
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
+reactlog logall
+^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
     Syntax: [p]reactlog logall [toggle]
     Alias : [p]reactionlog logall
 
-| **Description:**
-| Set whether to log all reactions or not.
-| If enabled, all reactions will be logged.
-| If disabled, only first added or last removed reactions will be logged.
+| **Description:** Set whether to log all reactions or not.
+| If enabled, all reactions will be logged. If disabled, only first added or last removed reactions will be logged.
 
 ----
 
-~~~~~~~~~~~~~~~~~~~~~
-``reactlog settings``
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
+reactlog settings
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 

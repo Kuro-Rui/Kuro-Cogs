@@ -22,15 +22,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import logging
+
 try:
     from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0
 except ImportError:
     from emoji import EMOJI_DATA  # emoji>=2.0.0
-from redbot.core.commands import Context, EmojiConverter
+from redbot.core import commands
+
+log = logging.getLogger("red.kuro-cogs.osu")
 
 
-class Emoji(EmojiConverter):
-    async def convert(self, ctx: Context, argument: str):
+class Emoji(commands.EmojiConverter):
+    async def convert(self, ctx: commands.Context, argument: str) -> str:
         if argument in EMOJI_DATA:
             return argument
         return str(await super().convert(ctx, argument))
+
+
+class Mode(commands.Converter):
+    async def convert(self, ctx: commands.Context, argument: str) -> str:
+        if argument.lower() in ("std", "standard", "osu"):
+            return "STD"
+        if argument.lower() == "taiko":
+            return "Taiko"
+        if argument.lower() in ("ctb", "catch", "fruits"):
+            return "CTB"
+        if argument.lower() == "mania":
+            return "Mania"
+        raise commands.BadArgument(
+            "Invalid mode type. Valid modes are either `std`, `taiko`, `ctb`, or `mania`."
+        )
+
+
+class QueryType(commands.Converter):
+    async def convert(self, ctx: commands.Context, argument: str) -> str:
+        if argument.lower() in ("string", "username"):
+            return "string"
+        if argument.lower() in ("id", "userid"):
+            return "id"
+        raise commands.BadArgument(
+            "Invalid query type. Valid types are either `username` or `userid`."
+        )
+
+
+class Rank(commands.Converter):
+    async def convert(self, ctx: commands.Context, argument: str) -> str:
+        if argument.lower() in ("ssh", "ss", "sh", "s", "a"):
+            return argument.lower()
+        raise commands.BadArgument(
+            "Invalid rank type. Valid ranks are either `ssh`, `ss`, `sh`, `s`, or `a`."
+        )

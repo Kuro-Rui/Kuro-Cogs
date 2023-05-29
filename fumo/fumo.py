@@ -36,17 +36,15 @@ from .utils import *
 
 
 class Fumo(commands.Cog):
-    """
-    Fumo Fumo. Fumo? Fumo! ᗜˬᗜ
-    """
+    """Fumo Fumo. Fumo? Fumo! ᗜˬᗜ"""
+
+    __author__ = humanize_list(["Kuro"])
+    __version__ = "0.0.1"
 
     def __init__(self, bot):
         self.bot = bot
         with open(f"{bundled_data_path(self)}/fumos.json") as f:
             self.fumos = json.load(f)
-
-    __author__ = humanize_list(["Kuro", "Glas"])
-    __version__ = "2.0.1"
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""

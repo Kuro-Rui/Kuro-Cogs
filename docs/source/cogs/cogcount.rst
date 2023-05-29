@@ -1,8 +1,8 @@
-.. _countercog:
+.. _cogcount:
 
-**********
-CounterCog
-**********
+********
+CogCount
+********
 **Count how many cogs and commands the bot has.**
 
 .. important::
@@ -14,11 +14,11 @@ Commands
 ========
 
 .. note::
-    This commands is only available for the Bot Owner.
+    All commands from this cog is only available for the Bot Owner.
 
----------
-``count``
----------
+-----
+count
+-----
 
 .. code-block:: yaml
 
@@ -28,9 +28,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~
-``count cogs``
-~~~~~~~~~~~~~~
+^^^^^^^^^^
+count cogs
+^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -40,10 +40,9 @@ Commands
 
 ----
 
-~~~~~~~~~~~~~~~~~~
-``count commands``
-~~~~~~~~~~~~~~~~~~
-
+^^^^^^^^^^^^^^
+count commands
+^^^^^^^^^^^^^^
 .. code-block:: yaml
 
     Syntax: [p]count commands [cog]

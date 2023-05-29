@@ -23,25 +23,22 @@ SOFTWARE.
 """
 
 import calendar
-import random
 from datetime import datetime
-from typing import Optional
 
 import discord
 from redbot.core import commands
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import box, humanize_list
-
-NOW = datetime.utcnow()
 
 
 class Calendar(commands.Cog):
     """See the calendar on Discord!"""
 
-    def __init__(self, bot):
-        self.bot = bot
-
     __author__ = humanize_list(["Kuro"])
     __version__ = "0.0.1"
+
+    def __init__(self, bot: Red):
+        self.bot = bot
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -53,15 +50,21 @@ class Calendar(commands.Cog):
         )
 
     @commands.command(name="calendar")
-    async def _calendar(self, ctx, month: int = NOW.month, year: int = NOW.year):
+    async def _calendar(
+        self,
+        ctx: commands.Context,
+        month: int = datetime.utcnow().month,
+        year: int = datetime.utcnow().year,
+    ):
         """View the calendar!"""
         if not (0 < month < 13 and 0 < year < 10000):
-            return await ctx.send("Invalid month or year provided.")
-        cal = calendar.month(year, month, w=4 if ctx.author.is_on_mobile() else 5, l=2)
+            await ctx.send("Invalid month or year provided.")
+            return
+        w = 4 if isinstance(ctx.author, discord.Member) and ctx.author.is_on_mobile() else 5
+        cal = calendar.month(year, month, w=w, l=2)
         if await ctx.embed_requested():
             embed = discord.Embed(
                 description=box(cal, lang="prolog"), color=await ctx.embed_color()
             )
-            embed.set_image(url=f"https://picsum.photos/id/{random.randint(1, 1084)}/500/200")
             return await ctx.send(embed=embed)
         await ctx.send(box(cal, lang="prolog"))
