@@ -26,7 +26,7 @@ import logging
 from typing import Union
 
 import discord
-from redbot.core import Config, commands
+from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
 from translatepy import Translator
@@ -61,6 +61,7 @@ class Translate(commands.Cog):
         )
 
     @commands.hybrid_command(usage="<text> [flags...]")
+    @app_commands.describe(text="The text to translate.")
     async def translate(
         self,
         ctx: commands.Context,
@@ -128,12 +129,16 @@ class Translate(commands.Cog):
         message = reaction.message
         if await self.bot.cog_disabled_in_guild(self, message.guild):
             return
+        ctx = await self.bot.get_context(message)
+        if await self.bot.ignored_channel_or_guild(ctx):
+            return
+        if not message.content:
+            return
         if not isinstance(reaction.emoji, str):
             return
         deflagized, success = deflagize(reaction.emoji)
         if not success:
             return
-        ctx = await self.bot.get_context(message)
         try:
             language = Language(deflagized, threshold=63)
             result = await self._translate(message.content, Translator(), str(language))
