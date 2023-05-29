@@ -18,7 +18,6 @@ body:
         - Fumo
         - Osu
         - ReactLog
-        - ReactTermino
         - Sudo
         - Translate
     validations:

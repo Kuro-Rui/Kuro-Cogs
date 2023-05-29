@@ -45,10 +45,8 @@ Cog Name                          Description
 :ref:`DankUtils<dankutils>`       Dank Memer utilities.
 :ref:`FakeMod<fakemod>`           Fake moderation commands made for fun.
 :ref:`Fumo<fumo>`                 Generates a random Fumo image!
-:ref:`Hack<hack>`                 Act like a professional hacker and hack anyone!
 :ref:`Osu<osu>`                   Show osu!user Stats with details/card!
 :ref:`ReactLog<reactlog>`         Log reactions when reactions were added/removed.
-:ref:`ReactTermino<reacttermino>` Restart/Shutdown your bot with reaction confirmation!
 :ref:`Sudo<sudo>`                 Allows dropping and elevating your owner permissions.
 :ref:`Translate<translate>`       Translates the given text.
 ================================= ==============================================================
