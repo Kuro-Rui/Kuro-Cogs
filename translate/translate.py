@@ -125,15 +125,15 @@ class Translate(commands.Cog):
     ):
         if user.bot:
             return
-        if await self.bot.cog_disabled_in_guild(self, reaction.guild):
-            return
         message = reaction.message
-        ctx = await self.bot.get_context(message)
+        if await self.bot.cog_disabled_in_guild(self, message.guild):
+            return
         if not isinstance(reaction.emoji, str):
             return
         deflagized, success = deflagize(reaction.emoji)
         if not success:
             return
+        ctx = await self.bot.get_context(message)
         try:
             language = Language(deflagized, threshold=63)
             result = await self._translate(message.content, Translator(), str(language))
