@@ -172,9 +172,10 @@ class Translate(commands.Cog):
             f"{result.source_language.name} to {result.destination_language.name} | "
             f"Translated with {result.service}\nRequested by: {author}"
         )
+        reference = ctx.message.to_reference(fail_if_not_exists=False)
         if not await ctx.embed_requested():
-            await ctx.send(f"{result}\n\n{footer}", reference=ctx.message, mention_author=False)
+            await ctx.send(f"{result}\n\n{footer}", reference=reference, mention_author=False)
             return
         embed = discord.Embed(description=str(result), color=await ctx.embed_color())
         embed.set_footer(text=footer)
-        await ctx.send(embed=embed, reference=ctx.message, mention_author=False)
+        await ctx.send(embed=embed, reference=reference, mention_author=False)
