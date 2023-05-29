@@ -96,7 +96,7 @@ class Translate(commands.Cog):
         text = " ".join(text)
         try:
             result = await self._translate(
-                text, flags["translator"], str(flags["to_lang"]), str(flags["from_lang"])
+                text, flags.translator, str(flags.to_lang), str(flags.from_lang)
             )
         except TranslatepyException as error:
             await ctx.send(f"{error}.")
