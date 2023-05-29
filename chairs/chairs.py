@@ -67,7 +67,7 @@ class Chairs(commands.Cog):
         await ctx.send("The game has been cancelled successfully.")
 
     @commands.admin_or_permissions(manage_guild=True)
-    @chairs.command(name="set", with_app_command=False)
+    @chairs.group(name="set", with_app_command=False)
     async def chairs_set(self, ctx: commands.Context):
         """Chairs game configuration."""
         pass
