@@ -103,7 +103,6 @@ class Translate(commands.Cog):
             await ctx.send(f"{error}.")
         else:
             await self.send_translation_result(ctx, result, ctx.author)
-            
 
     @commands.command(aliases=["tte"])
     async def texttoemoji(self, ctx: commands.Context, *, text: str):
@@ -142,7 +141,7 @@ class Translate(commands.Cog):
         except TranslatepyException as exc_info:
             log.exception(
                 f"Error while translating message (ID: {message.id}) with reaction.",
-                exc_info=exc_info
+                exc_info=exc_info,
             )
         else:
             await self.send_translation_result(ctx, result, user)

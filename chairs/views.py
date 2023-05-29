@@ -27,7 +27,7 @@ from typing import List
 
 import discord
 from redbot.core import commands
-from redbot.core.utils.chat_formatting import inline, humanize_list
+from redbot.core.utils.chat_formatting import humanize_list, inline
 
 # Believe it or not, all these views do the job :p
 
@@ -41,9 +41,7 @@ class StartingView(discord.ui.View):
     @discord.ui.button(label="Join", style=discord.ButtonStyle.blurple)
     async def join_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         if interaction.user in self.players:
-            await interaction.response.send_message(
-                "You already joined the game.", ephemeral=True
-            )
+            await interaction.response.send_message("You already joined the game.", ephemeral=True)
             return
         if len(self.players) >= 26:
             await interaction.response.send_message(
@@ -133,12 +131,10 @@ class ChairButton(discord.ui.Button):
         self.taken = False
 
     async def callback(self, interaction: discord.Interaction):
-        # We might need this to prevent the button thinks that 
+        # We might need this to prevent the button thinks that
         # all people clicking at the same time is eligible to take the chair.
         if self.taken:
-            await interaction.response.send_message(
-                "This chair is already taken.", ephemeral=True
-            )
+            await interaction.response.send_message("This chair is already taken.", ephemeral=True)
             return
         self.taken = True
         self.disabled = True
@@ -153,11 +149,11 @@ class ChairButton(discord.ui.Button):
 
 class ChairsView(discord.ui.View):
     def __init__(
-            self,
-            players: List[discord.Member],
-            losers: List[discord.Member] = [],
-            current_round: int = 1
-        ):
+        self,
+        players: List[discord.Member],
+        losers: List[discord.Member] = [],
+        current_round: int = 1,
+    ):
         self.cancelled = False
         self.round = current_round
         self.players = players

@@ -34,7 +34,7 @@ class CogCount(commands.Cog):
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "0.0.1"
-    
+
     def __init__(self, bot: Red):
         self.bot = bot
 

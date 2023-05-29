@@ -31,6 +31,7 @@ import emoji
 
 # Tax utils
 
+
 def percent(number: Union[int, float]):
     """Change number to percent"""
     return number / 100
@@ -50,7 +51,9 @@ def total(amount: int, tax_included: Optional[bool] = True):
         # tax_unincluded_amount = tax_included_amount / 101%
         return round(amount / percent(101))
 
+
 # Hack utils
+
 
 def loading(step: int):
     steps = ["▖", "▘", "▝", "▗"]

@@ -5,7 +5,7 @@ from redbot.core import Config, commands
 from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
 
-from .views import StartingView, ChairsView
+from .views import ChairsView, StartingView
 
 
 class Chairs(commands.Cog):
@@ -13,7 +13,7 @@ class Chairs(commands.Cog):
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "0.0.1"
-    
+
     def __init__(self, bot: Red):
         self.bot = bot
         self.cache: Dict[int, Union[StartingView, ChairsView]] = {}
@@ -28,7 +28,7 @@ class Chairs(commands.Cog):
             f"`Cog Author  :` {self.__author__}\n"
             f"`Cog Version :` {self.__version__}"
         )
-    
+
     @commands.hybrid_group()
     async def chairs(self, ctx: commands.Context):
         """Play the game of Chairs!"""
