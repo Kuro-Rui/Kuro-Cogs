@@ -97,7 +97,7 @@ class TranslateFlags(commands.FlagConverter, case_insensitive=True, prefix="--",
 
     async def convert(self, ctx: commands.Context, argument: str) -> TranslateFlags:
         argument = argument.replace("—", "--")  # For iOS' weird smart punctuation
-        await super().convert(ctx, argument)
+        return await super().convert(ctx, argument)
 
 
 def deflagize(text: str) -> Tuple[str, bool]:
