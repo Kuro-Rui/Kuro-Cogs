@@ -94,10 +94,9 @@ class Translate(commands.Cog):
             await ctx.send_help()
             return
         text = " ".join(text)
-        flags_dict = {key: getattr(flags, key) for key in flags.get_flags().keys()}
         try:
             result = await self._translate(
-                text, flags_dict["translator"], str(flags_dict["to"]), str(flags_dict["from"])
+                text, flags["translator"], str(flags["to_lang"]), str(flags["from_lang"])
             )
         except TranslatepyException as error:
             await ctx.send(f"{error}.")
