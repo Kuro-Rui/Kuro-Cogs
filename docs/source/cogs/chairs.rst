@@ -23,6 +23,9 @@ chairs
 
 **Description:** Base command.
 
+.. tip::
+    This command group is available as a slash command! Enable it with ``[p]slash enable chairs``.
+
 ----
 
 ^^^^^^^^^^

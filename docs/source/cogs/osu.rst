@@ -178,9 +178,9 @@ osu set scopes
 
     Syntax: [p]osuset scopes [scopes...]
 
-**Description:** Set customized scopes for what you want your bot to allow. Omit ``scopes`` to view current scopes.
-**Scopes:** ``public``, ``identify``, ``friends.read``, ``forum.write``, ``delegate``, ``chat.write``, ``lazer``.
-You can find information about scopes `here <https://osu.ppy.sh/docs/index.html#scopes>`_.
+| **Description:** Set customized scopes for what you want your bot to allow. Omit ``scopes`` to view current scopes.
+| **Scopes:** ``public``, ``identify``, ``friends.read``, ``forum.write``, ``delegate``, ``chat.write``, ``lazer``.
+| You can find information about scopes `here <https://osu.ppy.sh/docs/index.html#scopes>`_.
 
 .. note::
     This command is only available for the Bot Owner.

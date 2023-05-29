@@ -24,7 +24,8 @@ translate
 **Description:** Translates the given text!
 
 .. tip:: 
-    Use ``[p]help translate`` for more information on flags.
+    - Use ``[p]help translate`` for more information on flags.
+    - This command is available as a slash command! Enable it with ``[p]slash enable translate``.
 
 ----
 

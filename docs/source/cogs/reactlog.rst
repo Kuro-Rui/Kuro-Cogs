@@ -24,6 +24,9 @@ reactlog
 
 **Description:** Reaction logging configuration commands.
 
+.. tip::
+    This command group is available as a slash command! Enable it with ``[p]slash enable reactlog``.
+
 ----
 
 ^^^^^^^^^^^^^^^^
