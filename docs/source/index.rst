@@ -20,7 +20,9 @@ Kuro-Cogs' Documentation
    :maxdepth: 2
    :caption: Getting Started
 
-   getting_started
+   getting_started/cogs_list
+   getting_started/installation
+   getting_started/support
 
 .. toctree::
    :maxdepth: 1

@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "Kuro-Cogs"
-copyright = "2021 - 2023, Kuro-Rui"
+copyright = "2021, Kuro-Rui"
 author = "Kuro-Rui"
 
 
