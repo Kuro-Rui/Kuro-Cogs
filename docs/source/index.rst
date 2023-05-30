@@ -11,11 +11,6 @@ Kuro-Cogs' Documentation
    :target: https://github.com/Kuro-Rui/Kuro-Cogs
    :alt: Kuro-Cogs
 
-| First time? Take a look at the :ref:`Getting Started<getting_started>` page.
-| For support, go to `Red - Cog Support <https://discord.gg/GET4DVk>`_ server
-  in `#support_othercogs <https://discord.com/channels/240154543684321280/240212783503900673>`_.
-|
-
 .. toctree::
    :maxdepth: 2
    :caption: Getting Started
