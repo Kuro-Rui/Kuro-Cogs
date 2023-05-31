@@ -62,7 +62,7 @@
 |     Osu     | Commands for interacting with osu!                    |  0.0.1  |           Kuro           |
 |  ReactLog   | Log when reactions were added/removed!                |  0.0.1  |           Kuro           |
 |    Sudo     | Allows dropping and elevating your owner permissions! |  0.0.1  | Kuro, Draper & Jackenmen |
-|  Translate  | Translates the given text!                            |  0.0.1  |           Kuro           |
+|  Translate  | Translates the given text!                            |  0.0.2  |           Kuro           |
 
 ## Credits
 **Special Thanks** to:
