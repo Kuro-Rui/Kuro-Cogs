@@ -37,6 +37,22 @@ Kuro-Cogs' Documentation
 
 .. toctree::
    :maxdepth: 1
+   :caption: Changelog
+
+   changelog/avatarimgen
+   changelog/calendar
+   changelog/chairs
+   changelog/cogcount
+   changelog/dankutils
+   changelog/fakemod
+   changelog/fumo
+   changelog/osu
+   changelog/reactlog
+   changelog/sudo
+   changelog/translate
+
+.. toctree::
+   :maxdepth: 1
    :caption: Development
 
    license
