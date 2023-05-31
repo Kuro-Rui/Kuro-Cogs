@@ -9,7 +9,7 @@ from .views import ChairsView, StartingView
 
 
 class Chairs(commands.Cog):
-    """Game of Chairs on Discord!"""
+    """Game of Chairs in Discord!"""
 
     __author__ = humanize_list(["Kuro"])
     __version__ = "0.0.1"

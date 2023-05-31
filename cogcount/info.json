@@ -1,11 +1,11 @@
 {
-    "title": "CogCount",
     "author": ["Kuro"],
-    "description": "Have you ever wondered, how many commands/cogs does your bot have? Well this cog can help with that!",
+    "description": "Have you ever wondered, how many commands/cogs does your bot has? Well this cog can help with that!",
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `CogCount`!\nIf you think the number isn't accurate, remember that this also counts subcommands.\nTo get started, do `[p]count cogs` or `[p]count commands [Cog]`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/cogcount.html>.",
+    "install_msg": "Thanks for installing `CogCount`!\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/cogcount.html>.",
+    "name": "CogCount",
     "short": "A cog that shows how many commands/cogs the bot has.",
     "tags": ["cogs", "commands", "count"],
     "type": "COG"
