@@ -5,6 +5,14 @@ Translate
 *********
 
 =============
+Version 0.0.2
+=============
+
+2023-05-31
+
+- Fix error when checking ignored guild or channel
+
+=============
 Version 0.0.1
 =============
 
