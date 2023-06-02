@@ -5,6 +5,14 @@ Translate
 *********
 
 =============
+Version 0.1.0
+=============
+
+2023-06-02
+
+- Added ``translateset react`` command for enabling/disabling translation with flag emoji reaction
+
+=============
 Version 0.0.2
 =============
 

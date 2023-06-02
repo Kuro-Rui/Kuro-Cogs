@@ -29,6 +29,30 @@ translate
 
 ----
 
+------------
+translateset
+------------
+
+.. code-block:: yaml
+
+    Syntax: [p]translateset
+
+**Description:** Translate configuration.
+
+----
+
+^^^^^^^^^^^^^^^^^^
+translateset react
+^^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]translateset react [toggle]
+
+**Description:** Enable/disable translation with flag emoji reaction.
+
+----
+
 -----------
 texttoemoji
 -----------

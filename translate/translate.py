@@ -44,7 +44,7 @@ class Translate(commands.Cog):
     """Translate everything!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.2"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red):
         self.bot = bot
@@ -120,10 +120,30 @@ class Translate(commands.Cog):
         embed.set_footer(text=f"Requested by: {ctx.author}")
         await ctx.send(embed=embed)
 
+    @commands.guild_only()
+    @commands.admin_or_permissions(manage_guild=True)
+    @commands.group()
+    async def translateset(self, ctx: commands.Context):
+        """Translate configuration."""
+        pass
+
+    @translateset.command(name="react")
+    async def translateset_react(self, ctx: commands.Context, toggle: bool = None):
+        """Enable or disable translation with flag emoji reaction."""
+        if toggle is None:
+            toggle = not await self.config.guild(ctx.guild).react_flag()
+        await self.config.guild(ctx.guild).react_flag.set(toggle)
+        await ctx.send(
+            f"Translation with flag emoji reaction is now {'enabled' if toggle else 'disabled'}."
+        )
+        await ctx.tick()
+
     @commands.Cog.listener()
     async def on_reaction_add(
         self, reaction: discord.Reaction, user: Union[discord.Member, discord.User]
     ):
+        if not await self.config.guild(reaction.message.guild).react_flag():
+            return
         if user.bot:
             return
         message = reaction.message
