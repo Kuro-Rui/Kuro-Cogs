@@ -44,7 +44,7 @@ class Translate(commands.Cog):
     """Translate everything!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def __init__(self, bot: Red):
         self.bot = bot
@@ -149,9 +149,6 @@ class Translate(commands.Cog):
         message = reaction.message
         if await self.bot.cog_disabled_in_guild(self, message.guild):
             return
-        ctx = await self.bot.get_context(message)
-        if message.guild and not await self.bot.ignored_channel_or_guild(ctx):
-            return
         if not message.content:
             return
         if not isinstance(reaction.emoji, str):
@@ -168,6 +165,7 @@ class Translate(commands.Cog):
                 exc_info=exc_info,
             )
         else:
+            ctx = await self.bot.get_context(message)
             await self.send_translation_result(ctx, result, user)
 
     async def _translate(

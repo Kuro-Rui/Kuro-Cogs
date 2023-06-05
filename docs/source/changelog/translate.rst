@@ -5,6 +5,14 @@ Translate
 *********
 
 =============
+Version 0.1.1
+=============
+
+2023-06-05
+
+- Remove check for ignore since it errors if the user arg is a ``discord.User``
+
+=============
 Version 0.1.0
 =============
 
