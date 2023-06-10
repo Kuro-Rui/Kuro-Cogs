@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -118,6 +118,9 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
             await self._client_storage.close()
         self.bot.tree.remove_command(self.profile_ctx.name, type=self.profile_ctx.type)
 
+    async def cog_before_invoke(self, ctx: commands.Context):
+        pass
+
     async def red_delete_data_for_user(
         self,
         *,
@@ -127,7 +130,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         await self.config.user_from_id(user_id).clear()
 
     async def _check(self, ctx: commands.Context, user: discord.User) -> bool:
-        if not self._tokens:
+        if not all(self._tokens):
             content = (
                 "The bot owner needs to set osu! credentials before this command can be used.\n"
             )
