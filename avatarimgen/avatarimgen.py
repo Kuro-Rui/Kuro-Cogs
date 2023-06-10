@@ -38,7 +38,7 @@ class AvatarImgen(commands.Cog):
     """Make images from avatars!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     def __init__(self, bot: Red):
         self.bot = bot
@@ -52,10 +52,6 @@ class AvatarImgen(commands.Cog):
             f"`Cog Author  :` {self.__author__}\n"
             f"`Cog Version :` {self.__version__}"
         )
-
-    async def red_delete_data_for_user(self, **kwargs):
-        """Nothing to delete"""
-        return
 
     async def cog_unload(self):
         await self.session.close()
