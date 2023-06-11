@@ -54,7 +54,6 @@ class AuthenticationModal(discord.ui.Modal):
     async def on_submit(self, interaction: discord.Interaction) -> None:
         url = self.input.value.strip()
         if self.cog._tokens[-1] not in url:
-            self.cog.authenticating_users.remove(self.author.id)
             await interaction.response.send_message("Invalid URL provided.", ephemeral=True)
             return
         try:
