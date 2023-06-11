@@ -5,6 +5,15 @@ Osu
 ***
 
 =============
+Version 0.0.3
+=============
+
+2023-06-11
+
+- Fix view stopped after an invalid submission
+- Removed an unused cog method
+
+=============
 Version 0.0.2
 =============
 

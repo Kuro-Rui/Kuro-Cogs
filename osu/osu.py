@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -117,9 +117,6 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         if self._client_storage:
             await self._client_storage.close()
         self.bot.tree.remove_command(self.profile_ctx.name, type=self.profile_ctx.type)
-
-    async def cog_before_invoke(self, ctx: commands.Context):
-        pass
 
     async def red_delete_data_for_user(
         self,

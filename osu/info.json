@@ -3,7 +3,7 @@
   "description" : "Displays detailed user information about osu! users.",
   "end_user_data_statement": "This cog stores OAuth access and refresh tokens to interact with osu! API. This data can be deleted at any time by revoking client access from osu! settings, using `[p]osu unlink` command, or `[p]mydata forgetme` command.",
   "hidden" : false,
-  "install_msg" : "Thanks for installing `Osu`! Get started with `[p]osu set`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
+  "install_msg" : "Thanks for installing `Osu`! Get started with `[p]osu set`. You can join https://discord.gg/EycZ99Pm2t for the emojis.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/osu.html>.",
   "min_bot_version": "3.5.0",
   "name": "Osu",
   "requirements": ["git+https://github.com/NiceAesth/aiosu", "emoji"],

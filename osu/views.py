@@ -90,20 +90,16 @@ class AuthenticationView(discord.ui.View):
         modal = AuthenticationModal(self.cog, self.author, timeout=self.timeout)
         await interaction.response.send_modal(modal)
         timed_out = await modal.wait()
-        try:
-            self.cog.authenticating_users.remove(self.author.id)
-        except KeyError:
-            pass
-        if timed_out:
+        if not timed_out:
+            if self.author.id in self.cog.authenticating_users:
+                return
+        else:
             if self.author.id not in self.cog.dashboard_authed:
+                self.cog.authenticating_users.remove(self.author.id)
                 await interaction.followup.send(
                     "You did not authenticate in time.", ephemeral=True
                 )
-        for child in self.children:
-            child.disabled = True
-            if child.style != discord.ButtonStyle.link:
-                child.style = discord.ButtonStyle.gray
-        await interaction.followup.edit_message(interaction.message.id, view=self)
+        await self.disable_items()
         self.stop()
 
     async def start(self, ctx: Context, **kwargs) -> None:
@@ -122,12 +118,15 @@ class AuthenticationView(discord.ui.View):
             return False
         return True
 
-    async def on_timeout(self) -> None:
+    async def disable_items(self) -> None:
         for child in self.children:
             child.disabled = True
             if child.style != discord.ButtonStyle.link:
                 child.style = discord.ButtonStyle.gray
         await self.message.edit(view=self)
+
+    async def on_timeout(self) -> None:
+        await self.disable_items()
 
 
 class ModesSelect(discord.ui.Select):
