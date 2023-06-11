@@ -192,7 +192,7 @@ class ChairsView(discord.ui.View):
         for child in self.children:
             child.disabled = False
         embed.set_footer(text="Go! Each player have 10 seconds to pick a chair.")
-        await asyncio.sleep(2)  # Wait for 2 seconds before the game starts.
+        await asyncio.sleep(2.0)  # Wait for 2 seconds before the game starts.
         await self.message.edit(embed=embed, view=self)
         await asyncio.sleep(10.0)
         # Prevent from starting a new round twice since
