@@ -47,7 +47,7 @@
 ***Note**: `[p] is your bot's prefix, so replace it!`
 
 ## Support
-**For support**, you can **find and ping me (KuRui#5570) in my thread ([*Kuro-Cogs*](https://discord.com/channels/240154543684321280/1040316183422963782)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
+**For support**, you can **find and ping me (KuRui#7272) in my thread ([*Kuro-Cogs*](https://discord.com/channels/240154543684321280/1040316183422963782)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
 |    Name     | Description                                           |          Author          |
