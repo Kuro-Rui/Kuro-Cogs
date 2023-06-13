@@ -44,7 +44,7 @@ class Translate(commands.Cog):
     """Translate everything!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.1.1"
+    __version__ = "0.1.2"
 
     def __init__(self, bot: Red):
         self.bot = bot
@@ -142,11 +142,12 @@ class Translate(commands.Cog):
     async def on_reaction_add(
         self, reaction: discord.Reaction, user: Union[discord.Member, discord.User]
     ):
-        if not await self.config.guild(reaction.message.guild).react_flag():
+        message = reaction.message
+        guild = message.guild
+        if guild and not await self.config.guild(guild).react_flag():
             return
         if user.bot:
             return
-        message = reaction.message
         if await self.bot.cog_disabled_in_guild(self, message.guild):
             return
         if not message.content:

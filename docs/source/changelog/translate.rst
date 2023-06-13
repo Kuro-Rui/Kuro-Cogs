@@ -5,6 +5,14 @@ Translate
 *********
 
 =============
+Version 0.1.2
+=============
+
+2023-06-13
+
+- Fix possible AttributeError if someone adds a reaction in DM
+
+=============
 Version 0.1.1
 =============
 
