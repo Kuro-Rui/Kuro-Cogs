@@ -38,7 +38,7 @@ from redbot.core.utils.chat_formatting import humanize_list
 
 from .abc import CompositeMetaClass
 from .commands import OsuCommands
-from .helpers import DEFAULT_RANK_EMOJIS
+from .helpers import DEFAULT_MODE_EMOJIS, DEFAULT_RANK_EMOJIS
 
 try:
     from .rpc import OsuDashboardRPC
@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.3"
+    __version__ = "0.0.4"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -63,7 +63,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         self.config.register_global(
             auth_timeout=300,
             menu_timeout=180,
-            mode_emojis={"std": None, "taiko": None, "ctb": None, "mania": None},
+            mode_emojis=DEFAULT_MODE_EMOJIS,
             rank_emojis=DEFAULT_RANK_EMOJIS,
             scopes=["public", "identify"],
         )

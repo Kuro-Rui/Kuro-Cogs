@@ -30,7 +30,7 @@ from aiosu.models import Gamemode, User
 from aiosu.utils import auth
 from discord.utils import format_dt
 from redbot.core.commands import Context
-from redbot.core.utils.chat_formatting import humanize_timedelta, inline
+from redbot.core.utils.chat_formatting import bold, humanize_timedelta, inline
 
 from .helpers import GAME_MODES, maybe_humanize_number, parse_code_from_url
 
@@ -156,8 +156,8 @@ class ProfileView(discord.ui.View):
     def __init__(
         self,
         client: aiosu.v2.Client,
-        mode_emojis: Dict[str, str],
-        rank_emojis: Dict[str, str],
+        mode_emojis: Dict[str, Union[int, str]],
+        rank_emojis: Dict[str, Union[int, str]],
         user: Optional[Union[int, str]],
         query_type: str,
         *,
@@ -169,8 +169,14 @@ class ProfileView(discord.ui.View):
         self.embeds = []
         self.link_button = None
         self.mode_emojis = mode_emojis
+        for mode, emoji in self.mode_emojis.items():
+            if isinstance(emoji, int):
+                self.mode_emojis[mode] = self.client.get_emoji(emoji)
         self.query_type = query_type
         self.rank_emojis = rank_emojis
+        for rank, emoji in self.rank_emojis.items():
+            if isinstance(emoji, int):
+                self.rank_emojis[rank] = self.client.get_emoji(emoji) or bold(rank.upper())
         self.select_menu = None
         self.source = None
         self.user = user

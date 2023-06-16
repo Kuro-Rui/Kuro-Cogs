@@ -25,7 +25,6 @@ SOFTWARE.
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
 
-import discord
 from aiosu.models import Gamemode
 from redbot.core.utils.chat_formatting import humanize_number
 
@@ -46,12 +45,19 @@ def parse_code_from_url(url: str) -> str:
     return code[0]
 
 
+DEFAULT_MODE_EMOJIS = {
+    "std": 1102048785481338990,
+    "taiko": 1102048811595079680,
+    "ctb": 1102048833875222528,
+    "mania": 1102048854708330570,
+}
+
 DEFAULT_RANK_EMOJIS = {
-    "ssh": "**SSH** ",
-    "ss": " **SS** ",
-    "sh": " **SH** ",
-    "s": " **S** ",
-    "a": " **A** ",
+    "ssh": 1102049862624747631,
+    "ss": 1102049896720236556,
+    "sh": 1102049938319355924,
+    "s": 1102049963707486208,
+    "a": 1102049988873293915,
 }
 
 GAME_MODES = [Gamemode.STANDARD, Gamemode.TAIKO, Gamemode.CTB, Gamemode.MANIA]

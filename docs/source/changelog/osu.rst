@@ -5,6 +5,14 @@ Osu
 ***
 
 =============
+Version 0.0.4
+=============
+
+2023-06-16
+
+- Make emojis from emojis server as default
+
+=============
 Version 0.0.3
 =============
 
