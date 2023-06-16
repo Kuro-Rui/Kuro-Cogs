@@ -5,6 +5,14 @@ Osu
 ***
 
 =============
+Version 0.0.5
+=============
+
+2023-06-16
+
+- Handle when osu! user is not found
+
+=============
 Version 0.0.4
 =============
 

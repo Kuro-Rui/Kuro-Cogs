@@ -26,6 +26,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 import aiosu
 import discord
+from aiosu.exceptions import APIException
 from aiosu.models import Gamemode, User
 from aiosu.utils import auth
 from discord.utils import format_dt
@@ -286,7 +287,13 @@ class ProfileView(discord.ui.View):
 
     async def start(self, ctx: Context) -> None:
         await ctx.defer()
-        self.embeds = await self.make_modes_embeds(ctx)
+        try:
+            self.embeds = await self.make_modes_embeds(ctx)
+        except APIException as e:
+            if e.status == 404:
+                await ctx.send("User not found.", ephemeral=True)
+                return
+            raise e
         self.author = ctx.author
         self.select_menu = ModesSelect(self.user_playmode, self.mode_emojis)
         self.add_item(self.select_menu)

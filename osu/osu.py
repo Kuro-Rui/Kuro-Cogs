@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Literal, Mapping, Optional
 
 import aiosu
@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.4"
+    __version__ = "0.0.5"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -135,11 +135,14 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
                 content += f"See `{ctx.clean_prefix}osu set creds` for more details."
             await ctx.send(content, ephemeral=True)
             return False
-        if user.id in self.authenticating_users:
+        if ctx.author.id in self.authenticating_users:
             await ctx.send(
                 "Please complete your authorization first before using any commands.",
                 ephemeral=True,
             )
+            return False
+        if not await self.config.user(user).tokens():
+            await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
             return False
         return True
 
@@ -191,11 +194,6 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         return client
 
     async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
-        if not await self.config.user(user).tokens():
-            await interaction.response.send_message(
-                f"{user.mention} hasn't linked their osu! account yet.", ephemeral=True
-            )
-            return
         ctx = await commands.Context.from_interaction(interaction)
         client = await self.get_client(ctx, user)
         if not client:
