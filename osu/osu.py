@@ -187,10 +187,13 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
                 # but we need to handle so it's saved in the config and not just gone away.
                 await client._refresh()
             except APIException:
-                await ctx.send("Your token has been revoked, clearing data.", ephemeral=True)
+                await ctx.send(
+                    f"Your token has been revoked. Please do `{ctx.clean_prefix}osu link` again.",
+                    ephemeral=True,
+                )
                 await self.config.user(user).tokens.clear()
-                return
-            await self.save_token(user, await client.get_current_token())
+            else:
+                await self.save_token(user, await client.get_current_token())
         return client
 
     async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
