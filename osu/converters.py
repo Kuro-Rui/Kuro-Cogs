@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import logging
+from typing import Union
 
 try:
     from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0
@@ -34,10 +35,11 @@ log = logging.getLogger("red.kuro-cogs.osu")
 
 
 class Emoji(commands.EmojiConverter):
-    async def convert(self, ctx: commands.Context, argument: str) -> str:
+    async def convert(self, ctx: commands.Context, argument: str) -> Union[str, int]:
         if argument in EMOJI_DATA:
             return argument
-        return str(await super().convert(ctx, argument))
+        emoji = await super().convert(ctx, argument)
+        return emoji.id
 
 
 class Mode(commands.Converter):
