@@ -202,6 +202,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
             return
         config = await self.config.all()
         view = ProfileView(
+            self.bot,
             client,
             config["mode_emojis"],
             config["rank_emojis"],
