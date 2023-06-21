@@ -80,7 +80,7 @@ def remove_punctuations(text: str):
 
 
 def get_email_and_password(user: discord.Member):
-    name = remove_emoji(remove_punctuations(user.name.lower()))
+    name = remove_emoji(remove_punctuations(user.name))
     name = name.replace(" ", "")
     if name == "":
         name = random.choice(
