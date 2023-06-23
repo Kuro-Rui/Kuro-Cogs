@@ -126,7 +126,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     ) -> None:
         await self.config.user_from_id(user_id).clear()
 
-    async def _check(self, ctx: commands.Context, user: discord.User) -> bool:
+    async def _check(self, ctx: commands.Context) -> bool:
         if not all(self._tokens):
             content = (
                 "The bot owner needs to set osu! credentials before this command can be used.\n"
@@ -144,7 +144,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         return True
 
     async def ask_for_auth(self, ctx: commands.Context, user: discord.User) -> None:
-        check = await self._check(ctx, user)
+        check = await self._check(ctx)
         if not check:
             return
         auth_url = auth.generate_url(*self._tokens[::2])
@@ -170,7 +170,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         self, ctx: commands.Context, user: discord.User = None
     ) -> Optional[aiosu.v2.Client]:
         user = user or ctx.author
-        check = await self._check(ctx, user)
+        check = await self._check(ctx)
         if not check:
             return
         if not await self.config.user(user).tokens():
