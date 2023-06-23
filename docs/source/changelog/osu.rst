@@ -5,6 +5,14 @@ Osu
 ***
 
 =============
+Version 0.0.6
+=============
+
+2023-06-23
+
+- Fixed a bug where users can't link their osu! account
+
+=============
 Version 0.0.5
 =============
 

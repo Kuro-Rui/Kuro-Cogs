@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.5"
+    __version__ = "0.0.6"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -141,9 +141,6 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
                 ephemeral=True,
             )
             return False
-        if not await self.config.user(user).tokens():
-            await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
-            return False
         return True
 
     async def ask_for_auth(self, ctx: commands.Context, user: discord.User) -> None:
@@ -184,7 +181,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         if expired:
             try:
                 # Token refreshing is actually handled by client by default,
-                # but we need to handle so it's saved in the config and not just gone away.
+                # but we need to handle so it's saved in the config and not just go away.
                 await client._refresh()
             except APIException:
                 await ctx.send(
@@ -197,6 +194,9 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         return client
 
     async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
+        if not await self.config.user(user).tokens():
+            await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
+            return False
         ctx = await commands.Context.from_interaction(interaction)
         client = await self.get_client(ctx, user)
         if not client:
