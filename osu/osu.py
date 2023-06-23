@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.6"
+    __version__ = "0.0.7"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -194,10 +194,10 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         return client
 
     async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
+        ctx = await commands.Context.from_interaction(interaction)
         if not await self.config.user(user).tokens():
             await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
             return False
-        ctx = await commands.Context.from_interaction(interaction)
         client = await self.get_client(ctx, user)
         if not client:
             return

@@ -5,6 +5,14 @@ Osu
 ***
 
 =============
+Version 0.0.7
+=============
+
+2023-06-23
+
+- Fix a possible error from user context menu
+
+=============
 Version 0.0.6
 =============
 
