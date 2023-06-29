@@ -23,7 +23,6 @@ Kuro-Cogs' Documentation
    :maxdepth: 1
    :caption: Cogs Documentation
 
-   cogs/avatarimgen
    cogs/calendar
    cogs/chairs
    cogs/cogcount
@@ -33,13 +32,11 @@ Kuro-Cogs' Documentation
    cogs/osu
    cogs/reactlog
    cogs/sudo
-   cogs/translate
 
 .. toctree::
    :maxdepth: 1
    :caption: Changelog
 
-   changelog/avatarimgen
    changelog/calendar
    changelog/chairs
    changelog/cogcount
@@ -49,7 +46,6 @@ Kuro-Cogs' Documentation
    changelog/osu
    changelog/reactlog
    changelog/sudo
-   changelog/translate
 
 .. toctree::
    :maxdepth: 1

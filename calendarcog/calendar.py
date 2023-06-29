@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 import calendar
-from datetime import datetime
 
 import discord
 from redbot.core import commands
@@ -53,8 +52,8 @@ class Calendar(commands.Cog):
     async def _calendar(
         self,
         ctx: commands.Context,
-        month: int = datetime.utcnow().month,
-        year: int = datetime.utcnow().year,
+        month: int = discord.utils.utcnow().month,
+        year: int = discord.utils.utcnow().year,
     ):
         """View the calendar!"""
         if not (0 < month < 13 and 0 < year < 10000):
@@ -66,5 +65,6 @@ class Calendar(commands.Cog):
             embed = discord.Embed(
                 description=box(cal, lang="prolog"), color=await ctx.embed_color()
             )
-            return await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+            return
         await ctx.send(box(cal, lang="prolog"))

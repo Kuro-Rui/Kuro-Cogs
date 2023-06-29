@@ -77,6 +77,7 @@ class AuthenticationView(discord.ui.View):
         super().__init__(timeout=timeout)
         self.author = None
         self.cog = cog
+        self.ctx = None
         self.message = None
 
         self.link_button = discord.ui.Button(
@@ -86,7 +87,28 @@ class AuthenticationView(discord.ui.View):
         )
         self.add_item(self.link_button)
 
-    @discord.ui.button(label="Link Account", style=discord.ButtonStyle.blurple)
+    @discord.ui.button(label="How?", style=discord.ButtonStyle.blurple)
+    async def how_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        embed = discord.Embed(
+            title="How to Authenticate?",
+            description=(
+                "1. Click the button with the authoriation link\n"
+                "2. Make sure you are logged in to your osu! account\n"
+                "3. Click the `Authorize` button\n"
+                "4. Copy the URL of the page you are redirected to\n"
+                "5. Click on the `Link Account` button\n"
+                "6. Paste the URL in the blank box\n"
+            ),
+            color=await self.ctx.embed_color(),
+        )
+        if await self.ctx.embed_requested():
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
+        await interaction.response.send_message(
+            "\n".join([bold(embed.title), embed.description]), ephemeral=True
+        )
+
+    @discord.ui.button(label="Link Account", style=discord.ButtonStyle.green)
     async def auth_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         modal = AuthenticationModal(self.cog, self.author, timeout=self.timeout)
         await interaction.response.send_modal(modal)
@@ -105,6 +127,7 @@ class AuthenticationView(discord.ui.View):
 
     async def start(self, ctx: Context, **kwargs) -> None:
         self.author = ctx.author
+        self.ctx = ctx
         kwargs["ephemeral"] = True
         kwargs["reference"] = ctx.message.to_reference(fail_if_not_exists=False)
         kwargs["mention_author"] = False

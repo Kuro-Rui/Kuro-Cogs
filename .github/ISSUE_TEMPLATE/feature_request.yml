@@ -9,7 +9,6 @@ body:
       label: Cog
       description: Which cog are you proposing a feature request for?
       options:
-        - AvatarImgen
         - Calendar
         - Chairs
         - CogCount
@@ -19,7 +18,6 @@ body:
         - Osu
         - ReactLog
         - Sudo
-        - Translate
     validations:
       required: true
   - type: input

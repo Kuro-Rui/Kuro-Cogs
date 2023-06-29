@@ -161,7 +161,8 @@ class ReactLog(commands.Cog):
         message = reaction.message
         if not message.guild:
             return
-        await self.handle_ghost_channel(message.guild)
+        if not await self.channel_check(message.guild):
+            return
         if not await self.config.guild(message.guild).react_add():
             return
         log_all = await self.config.guild(message.guild).log_all()
@@ -174,7 +175,8 @@ class ReactLog(commands.Cog):
         message = reaction.message
         if not message.guild:
             return
-        await self.handle_ghost_channel(message.guild)
+        if not await self.channel_check(message.guild):
+            return
         if not await self.config.guild(message.guild).react_remove():
             return
         log_all = await self.config.guild(message.guild).log_all()
@@ -182,15 +184,13 @@ class ReactLog(commands.Cog):
             return
         await self.send_to_log(message, str(reaction.emoji), user, False)
 
-    async def handle_ghost_channel(self, guild: discord.Guild):
-        channel = await self.config.guild(guild).channel()
-        if not channel:
-            return
+    async def channel_check(self, guild: discord.Guild) -> bool:
+        if not (channel := await self.config.guild(guild).channel()):
+            return False
         if not self.bot.get_channel(channel):
-            log.info(
-                f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), clearing from guild config."
-            )
-            await self.config.guild(guild).channel.clear()
+            log.info(f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring.")
+            return False
+        return True
 
     async def send_to_log(
         self, message: discord.Message, emoji: str, user: discord.Member, added: bool

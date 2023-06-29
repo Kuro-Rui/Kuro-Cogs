@@ -47,25 +47,22 @@
 ***Note**: `[p] is your bot's prefix, so replace it!`
 
 ## Support
-**For support**, you can **find and ping me (kurokurorin) in my thread ([*Kuro-Cogs*](https://discord.com/channels/240154543684321280/1040316183422963782)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
+**For support**, you can **find and ping me (@kurokurorin) in my thread ([*Kuro-Cogs*](https://discord.com/channels/240154543684321280/1040316183422963782)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
-|    Name     | Description                                           |          Author          |
-|:-----------:|-------------------------------------------------------|:------------------------:|
-| AvatarImgen | Make images from avatars using Pop Cat API!           |           Kuro           |
-|  Calendar   | See the calendar on Discord!                          |           Kuro           |
-|   Chairs    | Play the game of chairs!                              |           Kuro           |
-|  CogCount   | A cog that shows how many commands/cogs the bot has.  |           Kuro           |
-|  DankUtils  | Dank Memer related commands and utilities!            |           Kuro           |
-|   FakeMod   | Fake moderation commands made for fun!                |           Kuro           |
-|    Fumo     | Generates a random Fumo image from an API.            |       Kuro & Glas        |
-|     Osu     | Commands for interacting with osu!                    |           Kuro           |
-|  ReactLog   | Log when reactions were added/removed!                |           Kuro           |
-|    Sudo     | Allows dropping and elevating your owner permissions! | Kuro, Draper & Jackenmen |
-|  Translate  | Translates the given text!                            |           Kuro           |
+|   Name    | Description                                           |          Author          |
+|:---------:|-------------------------------------------------------|:------------------------:|
+| Calendar  | See the calendar on Discord!                          |           Kuro           |
+|  Chairs   | Play the game of chairs!                              |           Kuro           |
+| CogCount  | A cog that shows how many commands/cogs the bot has.  |           Kuro           |
+| DankUtils | Dank Memer related commands and utilities!            |           Kuro           |
+|  FakeMod  | Fake moderation commands made for fun!                |           Kuro           |
+|   Fumo    | Generates a random Fumo image from an API.            |       Kuro & Glas        |
+|    Osu    | Commands for interacting with osu!                    |           Kuro           |
+| ReactLog  | Log when reactions were added/removed!                |           Kuro           |
+|   Sudo    | Allows dropping and elevating your owner permissions! | Kuro, Draper & Jackenmen |
 
 ## Credits
 **Special Thanks** to:
 - **[Draper](https://github.com/Drapersniper) and [Jack](https://github.com/jack1142)** for some base of [Sudo](sudo) cog.
-- **[Fixator](https://github.com/fixator10)** for helping me in the making of [Translate](translate) cog.
 - **Some nice peeps from [Red Community](https://discord.gg/red)** that helps me figure stuffs out and inspiring me to make cogs.

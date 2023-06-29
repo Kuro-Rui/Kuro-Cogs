@@ -10,7 +10,6 @@ Cogs List
 ================================= ==============================================================
 Cog Name                          Description
 ================================= ==============================================================
-:ref:`AvatarImgen<avatarimgen>`   Make images from avatars!
 :ref:`Calendar<calendar>`         See the calendar on Discord!
 :ref:`Chairs<chairs>`             Play the game of Chairs on Discord!
 :ref:`CogCount<cogcount>`         Shows how many commands/cogs the bot has.
@@ -20,5 +19,4 @@ Cog Name                          Description
 :ref:`Osu<osu>`                   Show osu!user Stats with details/card!
 :ref:`ReactLog<reactlog>`         Log reactions when reactions were added/removed.
 :ref:`Sudo<sudo>`                 Allows dropping and elevating your owner permissions.
-:ref:`Translate<translate>`       Translates the given text.
 ================================= ==============================================================

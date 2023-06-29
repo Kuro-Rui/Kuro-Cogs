@@ -9,7 +9,6 @@ body:
       label: Cog
       description: In which cog was the bug occured in?
       options:
-        - AvatarImgen
         - Calendar
         - Chairs
         - CogCount
@@ -19,7 +18,6 @@ body:
         - Osu
         - ReactLog
         - Sudo
-        - Translate
     validations:
       required: true
   - type: input

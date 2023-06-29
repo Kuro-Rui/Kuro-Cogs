@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 from abc import ABC, abstractmethod
-from typing import Literal, Mapping, Optional
+from typing import Literal, Mapping, Optional, Set, Tuple
 
 import aiosu
 import discord
 from aiosu.models import OAuthToken
-from redbot.core import Config, commands
+from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
 from .converters import Emoji, Mode, Rank
@@ -40,8 +40,18 @@ class CompositeMetaClass(type(commands.Cog), type(ABC)):
 
 class OsuMixin(ABC):
     def __init__(self, *_args) -> None:
+        super().__init__()
         self.bot: Red
         self.config: Config
+        self.authenticating_users: Set[int]
+        self._client_storage: aiosu.v2.ClientStorage
+        self._tokens = Tuple[str]
+        self.profile_ctx: app_commands.ContextMenu
+        self.dashboard_authed = Set[int]
+
+    @abstractmethod
+    async def format_help_for_context(self, ctx: commands.Context) -> str:
+        raise NotImplementedError()
 
     @abstractmethod
     async def cog_load(self) -> None:
