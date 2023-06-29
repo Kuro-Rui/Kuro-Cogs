@@ -5,6 +5,14 @@ Fumo
 ****
 
 =============
+Version 0.0.2
+=============
+
+2023-06-29
+
+- Fixed some old discord.py methods that I somehow forgot to migrate
+
+=============
 Version 0.0.1
 =============
 

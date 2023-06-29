@@ -55,7 +55,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = humanize_list(["Kuro"])
-    __version__ = "0.0.7"
+    __version__ = "0.0.8"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
