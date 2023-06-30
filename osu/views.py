@@ -94,7 +94,7 @@ class AuthenticationView(discord.ui.View):
             description=(
                 "1. Click the button with the authoriation link\n"
                 "2. Make sure you are logged in to your osu! account\n"
-                "3. Click on `Authorize`\n"
+                "3. Click on `Authorise`\n"
                 "4. Copy the URL of the page you are redirected to\n"
                 "5. Click on the `Link Account` button\n"
                 "6. Paste the URL in the blank box\n"
