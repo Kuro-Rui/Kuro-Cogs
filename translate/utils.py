@@ -29,7 +29,6 @@ from pathlib import Path
 from typing import Optional, Union
 
 from redbot.core import commands
-from redbot.core.data_manager import bundled_data_path
 from translatepy import Translator
 from translatepy.exceptions import UnknownLanguage
 from translatepy.language import Language
