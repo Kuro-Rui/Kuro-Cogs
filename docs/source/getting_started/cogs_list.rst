@@ -19,4 +19,5 @@ Cog Name                          Description
 :ref:`Osu<osu>`                   Show osu!user Stats with details/card!
 :ref:`ReactLog<reactlog>`         Log reactions when reactions were added/removed.
 :ref:`Sudo<sudo>`                 Allows dropping and elevating your owner permissions.
+:ref:`Translate<translate>`       Translates the given text with commands or flags.
 ================================= ==============================================================

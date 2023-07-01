@@ -32,6 +32,7 @@ Kuro-Cogs' Documentation
    cogs/osu
    cogs/reactlog
    cogs/sudo
+   cogs/translate
 
 .. toctree::
    :maxdepth: 1
@@ -46,6 +47,7 @@ Kuro-Cogs' Documentation
    changelog/osu
    changelog/reactlog
    changelog/sudo
+   changelog/translate
 
 .. toctree::
    :maxdepth: 1
