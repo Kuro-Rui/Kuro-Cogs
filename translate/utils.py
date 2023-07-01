@@ -25,9 +25,11 @@ SOFTWARE.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Optional, Union
 
 from redbot.core import commands
+from redbot.core.data_manager import bundled_data_path
 from translatepy import Translator
 from translatepy.exceptions import UnknownLanguage
 from translatepy.language import Language
@@ -101,7 +103,7 @@ class TranslateFlags(commands.FlagConverter, case_insensitive=True, prefix="--",
 
 
 def get_language_from_flag(flag: str) -> Optional[str]:
-    with open("flags.json", "r") as f:
+    with open(Path(__file__).parent / "data" / "flags.json", "r") as f:
         flags = json.load(f)
     if flag not in flags:
         return
