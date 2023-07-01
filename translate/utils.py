@@ -52,11 +52,11 @@ class LanguageConverter(commands.Converter):
 
 TRANSLATORS = {
     "auto": Translator(),
-  # "bing": BingTranslate(), -> Bad translator tbh, often returning errors
+    # "bing": BingTranslate(), -> Bad translator tbh, often returning errors
     "deepl": DeeplTranslate(),
     "google": GoogleTranslate(),
     "libre": LibreTranslate(),
-  # "microsoft": MicrosoftTranslate(), -> Same as Bing, don't ask me why
+    # "microsoft": MicrosoftTranslate(), -> Same as Bing, don't ask me why
     "mymemory": MyMemoryTranslate(),
     "reverso": ReversoTranslate(),
     "translatecom": TranslateComTranslate(),
