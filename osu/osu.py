@@ -49,8 +49,6 @@ else:
     DASHBOARD = True
 from .views import AuthenticationView, ProfileView
 
-log: RedTraceLogger = getLogger("red.kuro-cogs.osu")
-
 
 class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
@@ -76,8 +74,6 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
 
         self.profile_ctx = ContextMenu(name="Get osu! Profile", callback=self.osu_profile_callback)
         self.bot.tree.add_command(self.profile_ctx)
-
-        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(log, {"version": self.__version__})
 
         # RPC
         self.dashboard_authed = set()
