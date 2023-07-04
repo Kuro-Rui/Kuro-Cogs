@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import logging
 from typing import Union
 
 try:
@@ -30,8 +29,6 @@ try:
 except ImportError:
     from emoji import EMOJI_DATA  # emoji>=2.0.0
 from redbot.core import commands
-
-log = logging.getLogger("red.kuro-cogs.osu")
 
 
 class Emoji(commands.EmojiConverter):
