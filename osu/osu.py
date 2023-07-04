@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import logging
+from logging import LoggerAdapter
 from datetime import datetime
 from typing import Literal, Mapping, Optional
 
@@ -35,6 +35,7 @@ from redbot.core import Config, commands
 from redbot.core.app_commands import ContextMenu
 from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
+from red_commons.logging import RedTraceLogger, getLogger
 
 from .abc import CompositeMetaClass
 from .commands import OsuCommands
@@ -48,7 +49,7 @@ else:
     DASHBOARD = True
 from .views import AuthenticationView, ProfileView
 
-log = logging.getLogger("red.kuro-cogs.osu")
+log: RedTraceLogger = getLogger("red.kuro-cogs.osu")
 
 
 class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
@@ -75,6 +76,8 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
 
         self.profile_ctx = ContextMenu(name="Get osu! Profile", callback=self.osu_profile_callback)
         self.bot.tree.add_command(self.profile_ctx)
+        
+        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(log, {"version": self.__version__})
 
         # RPC
         self.dashboard_authed = set()

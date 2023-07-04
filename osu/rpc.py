@@ -24,7 +24,6 @@ SOFTWARE.
 
 # Taken from https://github.com/TrustyJAID/Trusty-cogs/blob/dpy-2.0/spotify/rpc.py
 
-import logging
 from typing import TYPE_CHECKING
 
 from aiosu.utils import auth
@@ -33,8 +32,6 @@ from redbot.core.bot import Red
 
 if TYPE_CHECKING:
     from .osu import Osu
-
-log = logging.getLogger("red.kuro-cogs.osu")
 
 
 class OsuDashboardRPC:

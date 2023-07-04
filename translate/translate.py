@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import logging
+from logging import LoggerAdapter
 from typing import Union
 
 import discord
@@ -34,10 +34,11 @@ from translatepy.exceptions import TranslatepyException
 from translatepy.language import Language
 from translatepy.models import TranslationResult
 from translatepy.translators import BaseTranslator, YandexTranslate
+from red_commons.logging import RedTraceLogger, getLogger
 
 from .utils import NotFlag, TranslateFlags, get_language_from_flag
 
-log = logging.getLogger("red.kuro-cogs.translate")
+log: RedTraceLogger = getLogger("red.kuro-cogs.translate")
 
 
 class Translate(commands.Cog):
@@ -50,6 +51,10 @@ class Translate(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=83951226315266)
         self.config.register_guild(react_flag=False)
+        
+        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(
+            log, {"version": self.__version__}
+        )
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
@@ -161,7 +166,7 @@ class Translate(commands.Cog):
             language = Language(lang)
             result = await self._translate(message.content, Translator(), str(language))
         except TranslatepyException as exc_info:
-            log.exception(
+            self.log.exception(
                 f"Error while translating message (ID: {message.id}) with reaction.",
                 exc_info=exc_info,
             )
