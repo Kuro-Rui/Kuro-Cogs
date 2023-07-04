@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from logging import LoggerAdapter
 from datetime import datetime
+from logging import LoggerAdapter
 from typing import Literal, Mapping, Optional
 
 import aiosu
@@ -31,11 +31,11 @@ import discord
 from aiosu.exceptions import APIException
 from aiosu.models import OAuthToken
 from aiosu.utils import auth
+from red_commons.logging import RedTraceLogger, getLogger
 from redbot.core import Config, commands
 from redbot.core.app_commands import ContextMenu
 from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
-from red_commons.logging import RedTraceLogger, getLogger
 
 from .abc import CompositeMetaClass
 from .commands import OsuCommands
@@ -76,7 +76,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
 
         self.profile_ctx = ContextMenu(name="Get osu! Profile", callback=self.osu_profile_callback)
         self.bot.tree.add_command(self.profile_ctx)
-        
+
         self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(log, {"version": self.__version__})
 
         # RPC

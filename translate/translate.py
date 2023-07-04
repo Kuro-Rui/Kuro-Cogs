@@ -26,6 +26,7 @@ from logging import LoggerAdapter
 from typing import Union
 
 import discord
+from red_commons.logging import RedTraceLogger, getLogger
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_list
@@ -34,7 +35,6 @@ from translatepy.exceptions import TranslatepyException
 from translatepy.language import Language
 from translatepy.models import TranslationResult
 from translatepy.translators import BaseTranslator, YandexTranslate
-from red_commons.logging import RedTraceLogger, getLogger
 
 from .utils import NotFlag, TranslateFlags, get_language_from_flag
 
@@ -51,10 +51,8 @@ class Translate(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=83951226315266)
         self.config.register_guild(react_flag=False)
-        
-        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(
-            log, {"version": self.__version__}
-        )
+
+        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(log, {"version": self.__version__})
 
     def format_help_for_context(self, ctx: commands.Context):
         """Thanks Sinbad!"""
