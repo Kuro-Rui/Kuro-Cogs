@@ -41,7 +41,7 @@ def bytes_to_image(image: BytesIO, size: int):
 # Thanks Phen
 async def get_avatar(user: discord.User):
     avatar = BytesIO()
-    await user.avatar_url_as(static_format="png").save(avatar, seek_begin=True)
+    await user.avatar.with_static_format("png").save(avatar, seek_begin=True)
     return avatar
 
 
