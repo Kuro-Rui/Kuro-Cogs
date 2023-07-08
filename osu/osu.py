@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 from datetime import datetime
-from logging import LoggerAdapter
 from typing import Literal, Mapping, Optional
 
 import aiosu
@@ -31,7 +30,6 @@ import discord
 from aiosu.exceptions import APIException
 from aiosu.models import OAuthToken
 from aiosu.utils import auth
-from red_commons.logging import RedTraceLogger, getLogger
 from redbot.core import Config, commands
 from redbot.core.app_commands import ContextMenu
 from redbot.core.bot import Red
