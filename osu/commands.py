@@ -26,6 +26,7 @@ from io import BytesIO
 
 import aiohttp
 import discord
+from aiosu.exceptions import APIException
 from aiosu.models import Gamemode, Scopes
 from redbot.core import app_commands, commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
@@ -152,16 +153,21 @@ class OsuCommands(OsuMixin):
         client = await self.get_client(ctx)
         if not client:
             return
-        if not user:
-            if not await client._token_exists():
-                await ctx.send(
-                    f"Please provide a username or link yourself with `{ctx.clean_prefix}osu link`",
-                    ephemeral=True,
-                )
+        try:
+            if not user:
+                if not await client._token_exists():
+                    await ctx.send(
+                        f"Please provide a username or link yourself with `{ctx.clean_prefix}osu link`",
+                        ephemeral=True,
+                    )
+                    return
+                user_obj = await client.get_me()
+            else:
+                user_obj = await client.get_user(user)
+        except APIException as e:
+            if e.status == 404:
+                await ctx.send("User not found.", ephemeral=True)
                 return
-            user_obj = await client.get_me()
-        else:
-            user_obj = await client.get_user(user)
         embed = discord.Embed(
             colour=user_obj.profile_colour or 14456996,
             title=f"{user_obj.username}'s osu! Avatar",
