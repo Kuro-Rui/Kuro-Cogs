@@ -50,10 +50,6 @@ class OsuMixin(ABC):
         self.dashboard_authed = Set[int]
 
     @abstractmethod
-    async def format_help_for_context(self, ctx: commands.Context) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
     async def cog_load(self) -> None:
         raise NotImplementedError()
 
