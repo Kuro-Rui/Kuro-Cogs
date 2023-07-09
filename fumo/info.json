@@ -7,7 +7,7 @@
     "install_msg": "Thanks for installing `Fumo`! Please enjoy it ᗜˬᗜ\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/fumo.html>.",
     "min_bot_version": "3.5.0",
     "name": "Fumo",
-    "requirements": ["pillow"],
+    "requirements": ["pillow<10.0.0"],
     "short": "Generates a random Fumo image ᗜˬᗜ",
     "tags": ["image", "fumo", "touhou"],
     "type": "COG"
