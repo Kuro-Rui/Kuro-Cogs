@@ -5,4 +5,4 @@ Support
 *******
 
 For support, join `Red - Cog Support <https://discord.gg/GET4DVk>`_ server, and find me (@kuro.rui)
-in `my thread <https://discord.com/channels/240154543684321280/1040316183422963782>`_ in #support_othercogs.
+in `my support channel <https://discord.com/channels/240154543684321280/1127392093648728074>`_ (#support_kuro-cogs).

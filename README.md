@@ -11,8 +11,8 @@
   <a href="https://discord.gg/GET4DVk">
     <img src="https://img.shields.io/badge/Red%20--%20Cog%20Support-Join-cb533f?style=for-the-badge&logo=discord&link=https://discord.gg/GET4DVk" alt="Red - Cog Support">
   </a>
-  <a href="https://discord.com/channels/240154543684321280/240212783503900673">
-    <img src="https://img.shields.io/badge/%23Kuro−Cogs-Go%20To%20Thread-cb533f?style=for-the-badge&logo=discord&link=https://discord.com/channels/240154543684321280/1040316183422963782" alt="Kuro-Cogs Thread">
+  <a href="https://discord.com/channels/240154543684321280/1127392093648728074">
+    <img src="https://img.shields.io/badge/%23support_kuro%E2%88%92cogs-Go%20To%20Channel-cb533f?style=for-the-badge&logo=discord&link=https://discord.com/channels/240154543684321280/1127392093648728074" alt="Kuro-Cogs Support Channel">
   </a>
   <br>
   <a href="https://www.python.org">
@@ -47,7 +47,7 @@
 ***Note**: `[p] is your bot's prefix, so replace it!`
 
 ## Support
-**For support**, you can **find and ping me (@kuro.rui) in my thread ([*Kuro-Cogs*](https://discord.com/channels/240154543684321280/1040316183422963782)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
+**For support**, you can **find and ping me (@kuro.rui) in my support channel ([*#support_kuro-cogs*](https://discord.com/channels/240154543684321280/1127392093648728074)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
 
 ## Cogs List
 |   Name    | Description                                           |          Author          |
