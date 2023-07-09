@@ -34,7 +34,7 @@ from redbot.core.data_manager import bundled_data_path as data_path
 
 def bytes_to_image(image: BytesIO, size: int):
     image = Image.open(image).convert("RGBA")
-    image = image.resize((size, size), Image.ANTIALIAS)
+    image = image.resize((size, size), Image.Resampling.LANCZOS)
     return image
 
 
