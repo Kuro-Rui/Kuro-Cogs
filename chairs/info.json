@@ -4,7 +4,7 @@
     "disabled": false,
     "end_user_data_statement": "This cog does not store any end user data.",
     "hidden": false,
-    "install_msg": "Thanks for installing `Chairs`!\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/chairs.html>.",
+    "install_msg": "Thanks for installing `Chairs`! Get started with `[p]chairs set`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/chairs.html>.",
     "min_bot_version": "3.5.0",
     "name": "Chairs",
     "short": "Play the game of Chairs in Discord!",
