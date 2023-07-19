@@ -176,7 +176,9 @@ class ReactLog(kuroutils.Cog):
         if not (channel := await self._config.guild(guild).channel()):
             return False
         if not self.bot.get_channel(channel):
-            self._log.info(f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring.")
+            self._log.info(
+                f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
+            )
             return False
         return True
 
