@@ -104,7 +104,7 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
         await self._init_tokens()
 
     async def cog_unload(self) -> None:
-        super().cog_unload()
+        await super().cog_unload()
         if DASHBOARD:
             self.rpc_extension.unload()
         if self._client_storage:
