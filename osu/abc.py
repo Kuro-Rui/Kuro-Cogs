@@ -29,6 +29,7 @@ import aiosu
 import discord
 from aiosu.models import OAuthToken
 from kuroutils.converters import Emoji
+from red_commons.logging import RedTraceLogger
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
@@ -44,6 +45,7 @@ class OsuMixin(ABC):
         super().__init__(*_args)
         self.bot: Red
         self._config: Config
+        self._log: RedTraceLogger
         self.authenticating_users: Set[int]
         self._client_storage: aiosu.v2.ClientStorage
         self._tokens = Tuple[str]
