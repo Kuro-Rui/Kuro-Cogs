@@ -40,7 +40,8 @@ class CompositeMetaClass(type(commands.Cog), type(ABC)):
 
 
 class OsuMixin(ABC):
-    def __init__(self, *_args) -> None:
+    def __init__(self, bot: Red) -> None:
+        super().__init__(bot)
         self.bot: Red
         self._config: Config
         self.authenticating_users: Set[int]
