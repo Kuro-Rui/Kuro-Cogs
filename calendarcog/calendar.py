@@ -25,28 +25,20 @@ SOFTWARE.
 import calendar
 
 import discord
+import kuroutils
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import box, humanize_list
+from redbot.core.utils.chat_formatting import box
 
 
-class Calendar(commands.Cog):
+class Calendar(kuroutils.Cog):
     """See the calendar on Discord!"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
+        super().__init__(bot)
 
     @commands.command(name="calendar")
     async def _calendar(

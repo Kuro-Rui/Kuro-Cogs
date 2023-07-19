@@ -28,12 +28,13 @@ import aiohttp
 import discord
 from aiosu.exceptions import APIException
 from aiosu.models import Gamemode, Scopes
+from kuroutils.converters import Emoji
 from redbot.core import app_commands, commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
 from redbot.core.utils.views import SetApiView
 
 from .abc import OsuMixin
-from .converters import Emoji, Mode, QueryType, Rank
+from .converters import Mode, QueryType, Rank
 from .views import ProfileView
 
 
@@ -46,7 +47,7 @@ class OsuCommands(OsuMixin):
     @osu.command(name="link")
     async def osu_link(self, ctx: commands.Context):
         """Link your osu! account."""
-        if not await self.config.user(ctx.author).tokens():
+        if not await self._config.user(ctx.author).tokens():
             await self.ask_for_auth(ctx, ctx.author)
             return
         await ctx.send(
@@ -57,8 +58,8 @@ class OsuCommands(OsuMixin):
     @osu.command(name="unlink")
     async def osu_unlink(self, ctx: commands.Context):
         """Unlink your osu! account."""
-        if await self.config.user(ctx.author).tokens():
-            await self.config.user(ctx.author).tokens.clear()
+        if await self._config.user(ctx.author).tokens():
+            await self._config.user(ctx.author).tokens.clear()
             await self._client_storage.revoke_client(ctx.author.id)
             await ctx.send("Your osu! account has been unlinked.", ephemeral=True)
             return
@@ -89,7 +90,7 @@ class OsuCommands(OsuMixin):
                 ephemeral=True,
             )
             return
-        config = await self.config.all()
+        config = await self._config.all()
         view = ProfileView(
             self.bot,
             client,
@@ -219,7 +220,7 @@ class OsuCommands(OsuMixin):
 
         The default authentication timeout is 5 minutes (300 seconds)
         """
-        await self.config.auth_timeout.set(timeout)
+        await self._config.auth_timeout.set(timeout)
         await ctx.tick(
             message=f"Authentication timeout set to {humanize_timedelta(seconds=timeout)}."
         )
@@ -231,7 +232,7 @@ class OsuCommands(OsuMixin):
 
         The default menu timeout is 3 minutes (180 seconds)
         """
-        await self.config.menu_timeout.set(timeout)
+        await self._config.menu_timeout.set(timeout)
         await ctx.tick(message=f"Menu timeout set to {humanize_timedelta(seconds=timeout)}.")
 
     @osu_set.command(name="scopes", with_app_command=False)
@@ -252,7 +253,7 @@ class OsuCommands(OsuMixin):
         You can find more information here: https://osu.ppy.sh/docs/index.html#scopes
         """
         if not scopes:
-            scopes = await self.config.scopes()
+            scopes = await self._config.scopes()
             await ctx.send(f"Current scopes: {humanize_list(scopes)}")
             return
         try:
@@ -261,7 +262,7 @@ class OsuCommands(OsuMixin):
             await ctx.send(f"Invalid scope: {e}")
             return
         new_scopes = str(scopes_obj).split(" ")
-        async with self.config.scopes() as current_scopes:
+        async with self._config.scopes() as current_scopes:
             current_scopes.clear()
             current_scopes.extend(new_scopes)
         await ctx.tick(message=f"Scopes has been set to: {humanize_list(new_scopes)}")
@@ -269,7 +270,7 @@ class OsuCommands(OsuMixin):
     @osu_set.command(name="modeemoji", with_app_command=False)
     async def set_mode_emoji(self, ctx: commands.Context, mode: Mode, *, emoji: Emoji = None):
         """Change an emoji used by the bot for showing modes."""
-        async with self.config.mode_emojis() as mode_emojis:
+        async with self._config.mode_emojis() as mode_emojis:
             mode_emojis[mode.lower()] = emoji
         gm = Gamemode.from_type(mode)
         await ctx.tick()
@@ -278,7 +279,7 @@ class OsuCommands(OsuMixin):
     @osu_set.command(name="rankemoji", with_app_command=False)
     async def set_rank_emoji(self, ctx: commands.Context, rank: Rank, *, emoji: Emoji = None):
         """Change an emoji used by the bot for showing ranks."""
-        async with self.config.rank_emojis() as rank_emojis:
+        async with self._config.rank_emojis() as rank_emojis:
             rank_emojis[rank] = emoji
         await ctx.tick()
         await ctx.send(f"Emoji for {rank.upper()} rank has been {'' if emoji else 're'}set.")

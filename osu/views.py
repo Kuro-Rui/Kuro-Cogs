@@ -26,6 +26,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 import aiosu
 import discord
+import kuroutils
 from aiosu.exceptions import APIException
 from aiosu.models import Gamemode, User
 from aiosu.utils import auth
@@ -213,7 +214,7 @@ class ProfileView(discord.ui.View):
     @discord.ui.button(style=discord.ButtonStyle.red, emoji="✖️", row=1)
     async def close_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.stop()
-        await interaction.message.delete()
+        await kuroutils.delete_message(interaction.message)
 
     async def get_user(self, mode: Gamemode) -> User:
         if not self.user:

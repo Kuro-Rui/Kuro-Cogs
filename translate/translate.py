@@ -22,14 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from logging import LoggerAdapter
 from typing import Union
 
 import discord
-from red_commons.logging import RedTraceLogger, getLogger
+import kuroutils
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import humanize_list
 from translatepy import Translator
 from translatepy.exceptions import TranslatepyException
 from translatepy.language import Language
@@ -38,30 +36,17 @@ from translatepy.translators import BaseTranslator, YandexTranslate
 
 from .utils import NotFlag, TranslateFlags, get_language_from_flag
 
-log: RedTraceLogger = getLogger("red.kuro-cogs.translate")
 
-
-class Translate(commands.Cog):
+class Translate(kuroutils.Cog):
     """Translate everything!"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.2.0"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-        self.config = Config.get_conf(self, identifier=83951226315266)
-        self.config.register_guild(react_flag=False)
-
-        self.log: LoggerAdapter[RedTraceLogger] = LoggerAdapter(log, {"version": self.__version__})
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
+        super().__init__(bot)
+        self._config = Config.get_conf(self, 83951226315266, True)
+        self._config.register_guild(react_flag=False)
 
     @commands.hybrid_command(usage="<text> [flags...]")
     @app_commands.describe(text="The text to translate.")
@@ -134,8 +119,8 @@ class Translate(commands.Cog):
     async def translateset_react(self, ctx: commands.Context, toggle: bool = None):
         """Enable or disable translation with flag emoji reaction."""
         if toggle is None:
-            toggle = not await self.config.guild(ctx.guild).react_flag()
-        await self.config.guild(ctx.guild).react_flag.set(toggle)
+            toggle = not await self._config.guild(ctx.guild).react_flag()
+        await self._config.guild(ctx.guild).react_flag.set(toggle)
         await ctx.send(
             f"Translation with flag emoji reaction is now {'enabled' if toggle else 'disabled'}."
         )
@@ -147,7 +132,7 @@ class Translate(commands.Cog):
     ):
         message = reaction.message
         guild = message.guild
-        if guild and not await self.config.guild(guild).react_flag():
+        if guild and not await self._config.guild(guild).react_flag():
             return
         if user.bot:
             return
@@ -164,7 +149,7 @@ class Translate(commands.Cog):
             language = Language(lang)
             result = await self._translate(message.content, Translator(), str(language))
         except TranslatepyException as exc_info:
-            self.log.exception(
+            self._log.exception(
                 f"Error while translating message (ID: {message.id}) with reaction.",
                 exc_info=exc_info,
             )

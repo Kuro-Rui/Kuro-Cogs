@@ -22,37 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import logging
 import re
 
 import discord
+import kuroutils
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import humanize_list
-
-log = logging.getLogger("red.kuro-cogs.reactlog")
 
 
-class ReactLog(commands.Cog):
+class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.2"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-        self.config = Config.get_conf(self, 9517306284, True)
-        self.config.register_guild(
+        super().__init__(bot)
+        self._config = Config.get_conf(self, 9517306284, True)
+        self._config.register_guild(
             channel=None, log_all=False, react_add=False, react_remove=False
-        )
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
         )
 
     @commands.admin()
@@ -67,26 +55,26 @@ class ReactLog(commands.Cog):
     async def channel(self, ctx: commands.Context, channel: discord.TextChannel = None):
         """Set the reactions logging channel."""
         if not channel:
-            await self.config.guild(ctx.guild).channel.clear()
+            await self._config.guild(ctx.guild).channel.clear()
             await ctx.send("Reaction logging channel has been unset.")
             return
         if not ctx.channel.permissions_for(channel.guild.me).send_messages:
             await ctx.send("Please grant me permission to send message in that channel first.")
             return
-        await self.config.guild(ctx.guild).channel.set(channel.id)
+        await self._config.guild(ctx.guild).channel.set(channel.id)
         await ctx.send(f"Reaction logging channel has been set to: {channel.mention}")
 
     @reactlog.command()
     @app_commands.describe(toggle="True or False")
     async def reactadd(self, ctx: commands.Context, toggle: bool = None):
         """Enable/disable logging when reactions added."""
-        current = await self.config.guild(ctx.guild).react_add()
+        current = await self._config.guild(ctx.guild).react_add()
         if toggle is None:
-            await self.config.guild(ctx.guild).react_add.set(not current)
+            await self._config.guild(ctx.guild).react_add.set(not current)
         else:
-            await self.config.guild(ctx.guild).react_add.set(toggle)
+            await self._config.guild(ctx.guild).react_add.set(toggle)
 
-        if await self.config.guild(ctx.guild).react_add():
+        if await self._config.guild(ctx.guild).react_add():
             await ctx.send("I will log when reactions added.")
             return
         await ctx.send("I won't log when reactions added.")
@@ -95,13 +83,13 @@ class ReactLog(commands.Cog):
     @app_commands.describe(toggle="True or False")
     async def reactdel(self, ctx: commands.Context, toggle: bool = None):
         """Enable/disable logging when reactions removed."""
-        current = await self.config.guild(ctx.guild).react_remove()
+        current = await self._config.guild(ctx.guild).react_remove()
         if toggle is None:
-            await self.config.guild(ctx.guild).react_remove.set(not current)
+            await self._config.guild(ctx.guild).react_remove.set(not current)
         else:
-            await self.config.guild(ctx.guild).react_remove.set(toggle)
+            await self._config.guild(ctx.guild).react_remove.set(toggle)
 
-        if await self.config.guild(ctx.guild).react_remove():
+        if await self._config.guild(ctx.guild).react_remove():
             await ctx.send("I will log when reactions removed.")
             return
         await ctx.send("I won't log when reactions removed.")
@@ -117,13 +105,13 @@ class ReactLog(commands.Cog):
 
         Just a gentle reminder, it would be spammy if enabled.
         """
-        current = await self.config.guild(ctx.guild).log_all()
+        current = await self._config.guild(ctx.guild).log_all()
         if toggle is None:
-            await self.config.guild(ctx.guild).log_all.set(not current)
+            await self._config.guild(ctx.guild).log_all.set(not current)
         else:
-            await self.config.guild(ctx.guild).log_all.set(toggle)
+            await self._config.guild(ctx.guild).log_all.set(toggle)
 
-        if await self.config.guild(ctx.guild).log_all():
+        if await self._config.guild(ctx.guild).log_all():
             await ctx.send("I will log all reactions from now.")
             return
         await ctx.send("I won't log all reactions from now.")
@@ -131,14 +119,14 @@ class ReactLog(commands.Cog):
     @reactlog.command()
     async def settings(self, ctx: commands.Context):
         """Show current reaction log settings."""
-        channel = await self.config.guild(ctx.guild).channel()
+        channel = await self._config.guild(ctx.guild).channel()
         if channel:
             channel_mention = self.bot.get_channel(channel).mention
         else:
             channel_mention = "Not Set"
-        react_add_status = await self.config.guild(ctx.guild).react_add()
-        react_remove_status = await self.config.guild(ctx.guild).react_remove()
-        log_all_status = await self.config.guild(ctx.guild).log_all()
+        react_add_status = await self._config.guild(ctx.guild).react_add()
+        react_remove_status = await self._config.guild(ctx.guild).react_remove()
+        log_all_status = await self._config.guild(ctx.guild).log_all()
         if await ctx.embed_requested():
             embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
             embed.add_field(name="Log On Reaction Add?", value=react_add_status, inline=True)
@@ -163,9 +151,9 @@ class ReactLog(commands.Cog):
             return
         if not await self.channel_check(message.guild):
             return
-        if not await self.config.guild(message.guild).react_add():
+        if not await self._config.guild(message.guild).react_add():
             return
-        log_all = await self.config.guild(message.guild).log_all()
+        log_all = await self._config.guild(message.guild).log_all()
         if not log_all and reaction.count != 1:
             return
         await self.send_to_log(message, str(reaction.emoji), user, True)
@@ -177,18 +165,18 @@ class ReactLog(commands.Cog):
             return
         if not await self.channel_check(message.guild):
             return
-        if not await self.config.guild(message.guild).react_remove():
+        if not await self._config.guild(message.guild).react_remove():
             return
-        log_all = await self.config.guild(message.guild).log_all()
+        log_all = await self._config.guild(message.guild).log_all()
         if not log_all and reaction.count != 0:
             return
         await self.send_to_log(message, str(reaction.emoji), user, False)
 
     async def channel_check(self, guild: discord.Guild) -> bool:
-        if not (channel := await self.config.guild(guild).channel()):
+        if not (channel := await self._config.guild(guild).channel()):
             return False
         if not self.bot.get_channel(channel):
-            log.info(f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring.")
+            self._log.info(f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring.")
             return False
         return True
 
@@ -197,11 +185,11 @@ class ReactLog(commands.Cog):
     ) -> discord.Message:
         if user.bot:
             return
-        channel_id = await self.config.guild(message.guild).channel()
+        channel_id = await self._config.guild(message.guild).channel()
         if not channel_id:
             return
 
-        # https://github.com/Rapptz/discord.py/blob/462ba84809/discord/ext/commands/converter.py#L700
+        # https://github.com/Rapptz/discord.py/blob/462ba84/discord/ext/commands/converter.py#L700
         match = re.match(r"<a?:([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>$", emoji)
         if match:
             description = (

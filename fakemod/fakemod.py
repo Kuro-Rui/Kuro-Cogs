@@ -26,40 +26,32 @@ import datetime
 from asyncio import TimeoutError
 
 import discord
+import kuroutils
+from kuroutils.converters import Emoji
 from redbot.core import Config, commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import humanize_list
 from redbot.core.utils.predicates import MessagePredicate
 
-from .converters import Action, Emoji
+from .converters import Action
 
 
 # Inspired by Jeff (https://github.com/Noa-DiscordBot/Noa-Cogs/blob/main/fakemod/fakemod.py)
-class FakeMod(commands.Cog):
+class FakeMod(kuroutils.Cog):
     """Fake moderation tools to prank your friends!"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-        self.config = Config.get_conf(self, 9863948134, True)
-        self.config.register_guild(
+        super().__init__(bot)
+        self._config = Config.get_conf(self, 9863948134, True)
+        self._config.register_guild(
             channel=None,
             case_id=1,
             warn_emoji="\N{HEAVY HEART EXCLAMATION MARK ORNAMENT}\N{VARIATION SELECTOR-16}",
             mute_emoji="\N{FACE WITH FINGER COVERING CLOSED LIPS}",
             kick_emoji="\N{HIGH-HEELED SHOE}",
             ban_emoji="\N{COLLISION SYMBOL}",
-        )
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
         )
 
     @commands.guild_only()
@@ -78,12 +70,12 @@ class FakeMod(commands.Cog):
         """
         if channel:
             if ctx.channel.permissions_for(channel.guild.me).send_messages:
-                await self.config.guild(ctx.guild).channel.set(channel.id)
+                await self._config.guild(ctx.guild).channel.set(channel.id)
                 await ctx.send(f"Fake mod events will be sent to {channel.mention}.")
             else:
                 await ctx.send("Please grant me permission to send message in that channel first.")
         else:
-            await self.config.guild(ctx.guild).channel.clear()
+            await self._config.guild(ctx.guild).channel.clear()
             await ctx.send("Fake mod log deactivated.")
 
     @fakemodlogset.command()
@@ -94,7 +86,7 @@ class FakeMod(commands.Cog):
         The `action` should be either `warn`, `mute`, `kick`, or `ban`.
         """
 
-        config = await self.config.guild(ctx.guild).all()
+        config = await self._config.guild(ctx.guild).all()
         if not action:
             await ctx.send(
                 (
@@ -106,7 +98,7 @@ class FakeMod(commands.Cog):
                 )
             )
             return
-        async with self.config.guild(ctx.guild).all() as guild_settings:
+        async with self._config.guild(ctx.guild).all() as guild_settings:
             guild_settings[f"{action}_emoji"] = str(emoji) if emoji else None
         if not emoji:
             await ctx.send(f"The emoji for `fake {action}` has been reset.")
@@ -124,7 +116,7 @@ class FakeMod(commands.Cog):
             await ctx.send("You took too long to respond.")
             return
         if pred.result:
-            await self.config.guild(ctx.guild).case_id.set(1)
+            await self._config.guild(ctx.guild).case_id.set(1)
             await ctx.send("Cases have been reset.")
         else:
             await ctx.send("No changes have been made.")
@@ -140,12 +132,12 @@ class FakeMod(commands.Cog):
             await ctx.send("You can't warn yourself.")
         else:
             await ctx.tick()
-            channel = await self.config.guild(ctx.guild).channel()
+            channel = await self._config.guild(ctx.guild).channel()
             if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self.config.guild(ctx.guild).case_id()
-                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).warn_emoji()
+                case_id: int = await self._config.guild(ctx.guild).case_id()
+                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self._config.guild(ctx.guild).warn_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
                     title=f"Case #{case_id} | Warn {emoji}", description=f"**Reason:** {reason}"
@@ -167,12 +159,12 @@ class FakeMod(commands.Cog):
             await ctx.send("You can't mute yourself.")
         else:
             await ctx.send(f"{member} has been muted in this server.")
-            channel = await self.config.guild(ctx.guild).channel()
+            channel = await self._config.guild(ctx.guild).channel()
             if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self.config.guild(ctx.guild).case_id()
-                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).mute_emoji()
+                case_id: int = await self._config.guild(ctx.guild).case_id()
+                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self._config.guild(ctx.guild).mute_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
                     title=f"Case #{case_id} | Mute {emoji}", description=f"**Reason:** {reason}"
@@ -194,12 +186,12 @@ class FakeMod(commands.Cog):
             await ctx.send("You can't kick yourself.")
         else:
             await ctx.send(f"**{member}** has been kicked from the server.")
-            channel = await self.config.guild(ctx.guild).channel()
+            channel = await self._config.guild(ctx.guild).channel()
             if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self.config.guild(ctx.guild).case_id()
-                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).kick_emoji()
+                case_id: int = await self._config.guild(ctx.guild).case_id()
+                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self._config.guild(ctx.guild).kick_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
                     title=f"Case #{case_id} | Kick {emoji}", description=f"**Reason:** {reason}"
@@ -219,12 +211,12 @@ class FakeMod(commands.Cog):
             await ctx.send("You can't ban yourself.")
         else:
             await ctx.send(f"**{user}** has been banned from the server.")
-            channel = await self.config.guild(ctx.guild).channel()
+            channel = await self._config.guild(ctx.guild).channel()
             if channel and self.bot.get_channel(channel):
                 fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self.config.guild(ctx.guild).case_id()
-                await self.config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self.config.guild(ctx.guild).ban_emoji()
+                case_id: int = await self._config.guild(ctx.guild).case_id()
+                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
+                emoji = await self._config.guild(ctx.guild).ban_emoji()
                 reason = reason if reason else "Not provided."
                 embed = discord.Embed(
                     title=f"Case #{case_id} | Ban {emoji}", description=f"**Reason:** {reason}"

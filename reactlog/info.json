@@ -5,6 +5,7 @@
     "install_msg": "Thanks for installing `ReactLog`! Get started with `[p]reactlog`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/reactlog.html>.",
     "min_bot_version": "3.5.0",
     "name": "ReactLog",
+    "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils"],
     "short": "Log added/removed reactions!",
     "tags": ["log", "react", "reaction", "reactlog", "reactionlog"],
     "type": "COG"

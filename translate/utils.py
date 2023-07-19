@@ -102,7 +102,7 @@ class TranslateFlags(commands.FlagConverter, case_insensitive=True, prefix="--",
 
 
 def get_language_from_flag(flag: str) -> Optional[str]:
-    with open(Path(__file__).parent / "data" / "flags.json", "r") as f:
+    with open(Path(__file__).parent / "flags.json", "r") as f:
         flags = json.load(f)
     if flag not in flags:
         return

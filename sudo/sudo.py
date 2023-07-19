@@ -20,40 +20,33 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 # Credits to Draper & Jack for the idea. (https://github.com/Cog-Creators/Red-DiscordBot/pull/5419)
 
 import asyncio
+import datetime
 from copy import copy
-from datetime import timedelta
 
+import kuroutils
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands import TimedeltaConverter
-from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
+from redbot.core.utils.chat_formatting import humanize_timedelta
 
 from .utils import is_owner
 
 
-class Sudo(commands.Cog):
+class Sudo(kuroutils.Cog):
     """Allows dropping and elevating owner permissions!"""
 
-    __author__ = humanize_list(["Kuro", "Draper", "jack1142 (Jackenmen#6607)"])
+    __author__ = ["Kuro", "Draper", "jack1142 (Jackenmen#6607)"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):
-        self.bot = bot
+        super().__init__(bot)
         self.all_owner_ids = copy(self.bot.owner_ids)
         self.bot.owner_ids.clear()
 
     def cog_unload(self):
+        super().cog_unload()
         self.bot.owner_ids.update(copy(self.all_owner_ids))
         self.all_owner_ids.clear()
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
 
     @is_owner(copied=True)
     @commands.command()
@@ -78,10 +71,10 @@ class Sudo(commands.Cog):
         ctx: commands.Context,
         *,
         interval: TimedeltaConverter(
-            minimum=timedelta(minutes=1),
-            maximum=timedelta(days=1),
+            minimum=datetime.timedelta(minutes=1),
+            maximum=datetime.timedelta(days=1),
             default_unit="minutes",  # noqa: F821
-        ) = timedelta(minutes=15),
+        ) = datetime.timedelta(minutes=15),
     ):
         """
         Enable your bot owner privileges for the specified time.

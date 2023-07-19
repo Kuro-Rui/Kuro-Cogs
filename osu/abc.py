@@ -28,10 +28,11 @@ from typing import Literal, Mapping, Optional, Set, Tuple
 import aiosu
 import discord
 from aiosu.models import OAuthToken
+from kuroutils.converters import Emoji
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
-from .converters import Emoji, Mode, Rank
+from .converters import Mode, Rank
 
 
 class CompositeMetaClass(type(commands.Cog), type(ABC)):
@@ -42,7 +43,7 @@ class OsuMixin(ABC):
     def __init__(self, *_args) -> None:
         super().__init__()
         self.bot: Red
-        self.config: Config
+        self._config: Config
         self.authenticating_users: Set[int]
         self._client_storage: aiosu.v2.ClientStorage
         self._tokens = Tuple[str]

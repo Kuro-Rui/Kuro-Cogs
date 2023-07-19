@@ -7,6 +7,7 @@
     "install_msg": "Thanks for installing `Calendar`! Get started with `[p]calendar`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/calendar.html>.",
     "min_bot_version": "3.5.0",
     "name": "Calendar",
+    "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils"],
     "short": "See the calendar on Discord!",
     "tags": ["calendar", "date"],
     "type": "COG"

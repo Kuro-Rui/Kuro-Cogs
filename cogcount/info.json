@@ -6,6 +6,7 @@
     "hidden": false,
     "install_msg": "Thanks for installing `CogCount`! Get started with `[p]count`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/cogcount.html>.",
     "name": "CogCount",
+    "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils"],
     "short": "A cog that shows how many commands/cogs the bot has.",
     "tags": ["cogs", "commands", "count"],
     "type": "COG"

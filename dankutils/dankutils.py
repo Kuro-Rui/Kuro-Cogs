@@ -27,31 +27,23 @@ from random import randint
 from typing import Union
 
 import discord
+import kuroutils
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import humanize_list, humanize_number
+from redbot.core.utils.chat_formatting import humanize_number
 
 from .utils import *
 from .views import DoxxView
 
 
-class DankUtils(commands.Cog):
+class DankUtils(kuroutils.Cog):
     """Dank Memer related commands and utilities!"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
+        super().__init__(bot)
 
     @commands.command(aliases=["danktax"])
     async def taxcalc(self, ctx: commands.Context, amount: Union[int, float]):

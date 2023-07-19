@@ -23,29 +23,20 @@ SOFTWARE.
 """
 
 import discord
+import kuroutils
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import CogConverter
-from redbot.core.utils.chat_formatting import humanize_list
 
 
-class CogCount(commands.Cog):
+class CogCount(kuroutils.Cog):
     """Count [botname]'s cogs and commands."""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):
-        self.bot = bot
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
+        super().__init__(bot)
 
     @commands.is_owner()
     @commands.group()

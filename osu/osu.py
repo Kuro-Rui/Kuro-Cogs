@@ -23,17 +23,17 @@ SOFTWARE.
 """
 
 from datetime import datetime
-from typing import Literal, Mapping, Optional
+from typing import Dict, Literal, Mapping, Optional, Union
 
 import aiosu
 import discord
+import kuroutils
 from aiosu.exceptions import APIException
 from aiosu.models import OAuthToken
 from aiosu.utils import auth
 from redbot.core import Config, commands
 from redbot.core.app_commands import ContextMenu
 from redbot.core.bot import Red
-from redbot.core.utils.chat_formatting import humanize_list
 
 from .abc import CompositeMetaClass
 from .commands import OsuCommands
@@ -48,23 +48,23 @@ else:
 from .views import AuthenticationView, ProfileView
 
 
-class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
+class Osu(OsuCommands, kuroutils.Cog, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro"]
     __version__ = "0.0.8"
 
     def __init__(self, bot: Red) -> None:
-        self.bot = bot
-        self.config = Config.get_conf(self, identifier=32142)
-        self.config.register_global(
+        super().__init__(bot)
+        self._config = Config.get_conf(self, 32142, True)
+        self._config.register_global(
             auth_timeout=300,
             menu_timeout=180,
             mode_emojis=DEFAULT_MODE_EMOJIS,
             rank_emojis=DEFAULT_RANK_EMOJIS,
             scopes=["public", "identify"],
         )
-        self.config.register_user(tokens={})
+        self._config.register_user(tokens={})
 
         self.authenticating_users = set()
         self._client_storage = None
@@ -78,16 +78,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         if DASHBOARD:
             self.rpc_extension = OsuDashboardRPC(self)
 
-    def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
-
-    async def cog_load(self) -> None:
+    async def _init_tokens(self):
         tokens = await self.bot.get_shared_api_tokens("osu")
         if not tokens:
             return
@@ -99,7 +90,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         self._client_storage = aiosu.v2.ClientStorage(
             client_secret=self._tokens[1], client_id=self._tokens[0]
         )
-        all_users = await self.config.all_users()
+        all_users = await self._config.all_users()
         if not all_users:
             return
         for i, config in all_users.items():
@@ -108,7 +99,12 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
             token = OAuthToken.parse_obj(config["tokens"])
             await self._client_storage.add_client(token, id=i)
 
+    async def cog_load(self) -> None:
+        await super().cog_load()
+        await self._init_tokens()
+
     async def cog_unload(self) -> None:
+        super().cog_unload()
         if DASHBOARD:
             self.rpc_extension.unload()
         if self._client_storage:
@@ -121,7 +117,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         requester: Literal["discord_deleted_user", "owner", "user", "user_strict"],
         user_id: int,
     ) -> None:
-        await self.config.user_from_id(user_id).clear()
+        await self._config.user_from_id(user_id).clear()
 
     async def _check(self, ctx: commands.Context) -> bool:
         if not all(self._tokens):
@@ -150,14 +146,14 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
             color=await ctx.embed_color(),
             description="Click on the buttons below to authenticate your osu! profile.",
         )
-        view = AuthenticationView(self, auth_url, timeout=await self.config.auth_timeout())
+        view = AuthenticationView(self, auth_url, timeout=await self._config.auth_timeout())
         if await ctx.embed_requested():
             await view.start(ctx, embed=embed)
         else:
             await view.start(ctx, embed.description)
 
     async def save_token(self, user: discord.User, token: OAuthToken) -> None:
-        async with self.config.user(user).tokens() as tokens:
+        async with self._config.user(user).tokens() as tokens:
             tokens["access_token"] = token.access_token
             tokens["refresh_token"] = token.refresh_token
             tokens["expires_on"] = int(token.expires_on.timestamp())
@@ -170,7 +166,7 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         check = await self._check(ctx)
         if not check:
             return
-        if not await self.config.user(user).tokens():
+        if not await self._config.user(user).tokens():
             return aiosu.v2.Client(client_id=self._tokens[0], client_secret=self._tokens[1])
         client = await self._client_storage.get_client(id=user.id)
         user_token = await client.get_current_token()
@@ -185,20 +181,20 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
                     f"Your token has been revoked. Please do `{ctx.clean_prefix}osu link` again.",
                     ephemeral=True,
                 )
-                await self.config.user(user).tokens.clear()
+                await self._config.user(user).tokens.clear()
             else:
                 await self.save_token(user, await client.get_current_token())
         return client
 
     async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
         ctx = await commands.Context.from_interaction(interaction)
-        if not await self.config.user(user).tokens():
+        if not await self._config.user(user).tokens():
             await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
             return False
         client = await self.get_client(ctx, user)
         if not client:
             return
-        config = await self.config.all()
+        config = await self._config.all()
         view = ProfileView(
             self.bot,
             client,
@@ -215,4 +211,4 @@ class Osu(OsuCommands, commands.Cog, metaclass=CompositeMetaClass):
         self, service_name: str, api_tokens: Mapping[str, str]
     ) -> None:
         if service_name == "osu":
-            await self.cog_load()
+            await self._init_tokens()

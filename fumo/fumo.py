@@ -28,32 +28,23 @@ import random
 from typing import Literal
 
 import discord
+import kuroutils
 from redbot.core import commands
+from redbot.core.bot import Red
 from redbot.core.data_manager import bundled_data_path
-from redbot.core.utils.chat_formatting import bold, humanize_list
+from redbot.core.utils.chat_formatting import bold
 
 from .utils import *
 
 
-class Fumo(commands.Cog):
+class Fumo(kuroutils.Cog):
     """Fumo Fumo. Fumo? Fumo! ᗜˬᗜ"""
 
-    __author__ = humanize_list(["Kuro"])
+    __author__ = ["Kuro", "Glas"]
     __version__ = "0.0.2"
 
-    def __init__(self, bot):
-        self.bot = bot
-        with open(f"{bundled_data_path(self)}/fumos.json") as f:
-            self.fumos = json.load(f)
-
-    def format_help_for_context(self, ctx: commands.Context):
-        """Thanks Sinbad!"""
-        pre_processed = super().format_help_for_context(ctx)
-        return (
-            f"{pre_processed}\n\n"
-            f"`Cog Author  :` {self.__author__}\n"
-            f"`Cog Version :` {self.__version__}"
-        )
+    def __init__(self, bot: Red):
+        super().__init__(bot)
 
     @commands.group(invoke_without_command=True)
     async def fumo(self, ctx: commands.Context):
@@ -81,9 +72,11 @@ class Fumo(commands.Cog):
 
     def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
         """Get Fumos by type."""
+        with open(f"{bundled_data_path(self)}/fumos.json") as f:
+            fumos = json.load(f)
         if not content_type:
-            return self.fumos["Image"] + self.fumos["GIF"] + self.fumos["Video"]
-        return self.fumos[content_type]
+            return fumos["Image"] + fumos["GIF"] + fumos["Video"]
+        return fumos[content_type]
 
     async def summon_fumo(
         self, ctx: commands.Context, type: Literal["Image", "GIF", "Video"] = None

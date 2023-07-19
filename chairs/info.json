@@ -7,6 +7,7 @@
     "install_msg": "Thanks for installing `Chairs`! Get started with `[p]chairs set`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/chairs.html>.",
     "min_bot_version": "3.5.0",
     "name": "Chairs",
+    "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils"],
     "short": "Play the game of Chairs in Discord!",
     "tags": ["chairs", "fun", "game", "minigame"],
     "type": "COG"

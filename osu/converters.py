@@ -22,21 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from typing import Union
-
-try:
-    from emoji import UNICODE_EMOJI_ENGLISH as EMOJI_DATA  # emoji<2.0.0
-except ImportError:
-    from emoji import EMOJI_DATA  # emoji>=2.0.0
 from redbot.core import commands
-
-
-class Emoji(commands.EmojiConverter):
-    async def convert(self, ctx: commands.Context, argument: str) -> Union[str, int]:
-        if argument in EMOJI_DATA:
-            return argument
-        emoji = await super().convert(ctx, argument)
-        return emoji.id
 
 
 class Mode(commands.Converter):

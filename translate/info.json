@@ -7,7 +7,7 @@
   "install_msg": "Thanks for installing `Translate`! Get started with `[p]translate` and `[p]translateset`.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/translate.html>.",
   "min_bot_version": "3.5.0",
   "name": "Translate",
-  "requirements": ["git+https://github.com/Animenosekai/translate"],
+  "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils", "git+https://github.com/Animenosekai/translate"],
   "short": "Translate the given text!",
   "tags": ["bing", "deepl", "google", "libre", "mymemory", "translate", "yandex"],
   "type": "COG"

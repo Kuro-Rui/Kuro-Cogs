@@ -94,7 +94,7 @@ class StartingView(discord.ui.View):
             "view": self,
         }
         self.message = await ctx.send(**kwargs)
-        self.ctx.cog.cache[ctx.channel.id] = self
+        self.ctx.cog._cache[ctx.channel.id] = self
         await asyncio.sleep(60.0)
         await self.maybe_start_game()
 
@@ -106,7 +106,7 @@ class StartingView(discord.ui.View):
         for child in self.children:
             child.disabled = True
         await self.message.edit(view=self)
-        self.ctx.cog.cache.pop(self.ctx.channel.id)
+        self.ctx.cog._cache.pop(self.ctx.channel.id)
 
     async def maybe_start_game(self) -> discord.Message:
         if self.cancelled:
@@ -116,7 +116,7 @@ class StartingView(discord.ui.View):
             child.disabled = True
         await self.message.edit(view=self)
         if len(self.players) < 2:
-            self.ctx.cog.cache.pop(self.ctx.channel.id)
+            self.ctx.cog._cache.pop(self.ctx.channel.id)
             await self.message.reply(
                 "The game was cancelled because there aren't enough players to start the game."
             )
@@ -188,7 +188,7 @@ class ChairsView(discord.ui.View):
         embed.set_footer(text="Ready... Set...")
         kwargs = {"content": humanize_list(mentions), "embed": embed, "view": self}
         self.message = await ctx.send(**kwargs)
-        self.ctx.cog.cache[ctx.channel.id] = self
+        self.ctx.cog._cache[ctx.channel.id] = self
         for child in self.children:
             child.disabled = False
         embed.set_footer(text="Go! Each player have 10 seconds to pick a chair.")
@@ -234,7 +234,7 @@ class ChairsView(discord.ui.View):
         for child in self.children:
             child.disabled = True
         await self.message.edit(view=self)
-        self.ctx.cog.cache.pop(self.ctx.channel.id)
+        self.ctx.cog._cache.pop(self.ctx.channel.id)
 
     async def announce_winners(self):
         mentions = [p.mention for p in self.players]
@@ -269,4 +269,4 @@ class ChairsView(discord.ui.View):
             )
             await self.message.reply(embed=embed)
             return
-        self.ctx.cog.cache.pop(self.ctx.channel.id)
+        self.ctx.cog._cache.pop(self.ctx.channel.id)
