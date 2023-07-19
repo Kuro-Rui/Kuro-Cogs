@@ -48,7 +48,7 @@ else:
 from .views import AuthenticationView, ProfileView
 
 
-class Osu(OsuCommands, kuroutils.Cog, metaclass=CompositeMetaClass):
+class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = ["Kuro"]
