@@ -11,6 +11,7 @@ Version 0.0.9
 2023-07-29
 
 - Updated aiosu version
+- Locked bot version to 3.5.3 or higher to prevent dependency issues
 
 =============
 Version 0.0.8
