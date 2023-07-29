@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 from datetime import datetime
-from typing import Dict, Literal, Mapping, Optional, Union
+from typing import Literal, Mapping, Optional
 
 import aiosu
 import discord
