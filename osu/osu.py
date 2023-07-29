@@ -52,7 +52,7 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.8"
+    __version__ = "0.0.9"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -96,7 +96,7 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
         for i, config in all_users.items():
             if not config["tokens"]:
                 continue
-            token = OAuthToken.parse_obj(config["tokens"])
+            token = OAuthToken.model_validate(config["tokens"])
             await self._client_storage.add_client(token, id=i)
 
     async def cog_load(self) -> None:
