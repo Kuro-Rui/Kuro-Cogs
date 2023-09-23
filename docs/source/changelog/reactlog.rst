@@ -5,6 +5,14 @@ ReactLog
 ********
 
 =============
+Version 0.0.3
+=============
+
+2023-23-09
+
+- Added blacklist for members and ignore list for channels
+
+=============
 Version 0.0.2
 =============
 
