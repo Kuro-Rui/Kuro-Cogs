@@ -58,7 +58,7 @@ class ReactLog(kuroutils.Cog):
         """Reaction logging configuration commands."""
         pass
 
-    @reactlog.group(aliases=["bl"])
+    @reactlog.group(aliases=["bl"], invoke_without_command=True)
     @commands.mod_or_permissions(administrator=True)
     async def blacklist(self, ctx: commands.Context):
         """Add/remove a member from reactlog blacklist."""
