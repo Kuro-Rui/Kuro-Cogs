@@ -269,9 +269,9 @@ class ReactLog(kuroutils.Cog):
         guild = channel.guild
         if not (channel := await self._config.guild(guild).channel()):
             return False
-        if not guild.get_channel(channel):
+        if not guild.get_channel_or_thread(channel):
             self._log.info(
-                f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
+                f"Channel or Thread with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
             return False
         if channel in await self._config.guild(guild).ignored():
@@ -320,5 +320,5 @@ class ReactLog(kuroutils.Cog):
         added_or_removed = "Added" if added else "Removed"
         embed.set_footer(text=f"Reaction {added_or_removed} | #{message.channel.name}")
 
-        log_channel = self.bot.get_channel(channel_id)
+        log_channel = message.guild.get_channel_or_thread(channel_id)
         await log_channel.send(embed=embed)

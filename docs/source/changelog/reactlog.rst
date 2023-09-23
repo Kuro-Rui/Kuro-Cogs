@@ -11,6 +11,7 @@ Version 0.0.3
 2023-23-09
 
 - Added blacklist for members and ignore list for channels
+- Added support for thread to be a reactlog channel.
 
 =============
 Version 0.0.2
