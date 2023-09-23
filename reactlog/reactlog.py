@@ -23,24 +23,32 @@ SOFTWARE.
 """
 
 import re
+from typing import Union
 
 import discord
 import kuroutils
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
+Channel = Union[discord.TextChannel, discord.VoiceChannel, discord.Thread]
+
 
 class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
         self._config = Config.get_conf(self, 9517306284, True)
         self._config.register_guild(
-            channel=None, log_all=False, react_add=False, react_remove=False
+            blacklist=[],
+            channel=None,
+            ignored=[],
+            log_all=False,
+            react_add=False,
+            react_remove=False,
         )
 
     @commands.admin()
@@ -49,6 +57,46 @@ class ReactLog(kuroutils.Cog):
     async def reactlog(self, ctx: commands.Context):
         """Reaction logging configuration commands."""
         pass
+
+    @reactlog.group(aliases=["bl"])
+    @commands.mod_or_permissions(administrator=True)
+    async def blacklist(self, ctx: commands.Context):
+        """Add/remove a member from reactlog blacklist."""
+        embed = discord.Embed(title="Reactlog Blacklist", color=await ctx.embed_color())
+        async with self._config.guild(ctx.guild).blacklist() as blacklist:
+            if not blacklist:
+                embed.description = "No member is being blacklisted."
+            else:
+                embed.description = "\n".join(
+                    f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
+                )
+        embed.set_footer(
+            text=f"To add/remove member from blacklist, use {ctx.clean_prefix}reactlog blacklist add/remove <member>",
+            icon_url=getattr(ctx.guild.icon, "url", None),
+        )
+        await ctx.send(embed=embed)
+
+    @blacklist.command(name="add")
+    @app_commands.describe(member="The member to add to reactlog blacklist.")
+    async def blacklist_add(self, ctx: commands.Context, member: discord.Member):
+        """Add a member to reactlog blacklist."""
+        async with self._config.guild(ctx.guild).blacklist() as blacklist:
+            if member.id in blacklist:
+                await ctx.send(f"{member} is already in the blacklist.")
+                return
+            blacklist.append(member.id)
+        await ctx.send(f"{member} has been added to the blacklist.")
+
+    @blacklist.command(name="remove")
+    @app_commands.describe(member="The member to remove from reactlog blacklist.")
+    async def blacklist_remove(self, ctx: commands.Context, member: discord.Member):
+        """Remove a member from reactlog blacklist."""
+        async with self._config.guild(ctx.guild).blacklist() as blacklist:
+            if member.id not in blacklist:
+                await ctx.send(f"{member} is not in the blacklist.")
+                return
+            blacklist.remove(member.id)
+        await ctx.send(f"{member} has been removed from the blacklist.")
 
     @reactlog.command()
     @app_commands.describe(channel="The channel to log reactions to.")
@@ -63,6 +111,47 @@ class ReactLog(kuroutils.Cog):
             return
         await self._config.guild(ctx.guild).channel.set(channel.id)
         await ctx.send(f"Reaction logging channel has been set to: {channel.mention}")
+
+    @reactlog.group(invoke_without_command=True)
+    @commands.mod_or_permissions(administrator=True)
+    async def ignore(self, ctx: commands.Context):
+        """Add/remove a channel from reactlog ignore list."""
+        embed = discord.Embed(title="Reactlog Ignore List", color=await ctx.embed_color())
+        async with self._config.guild(ctx.guild).ignored() as ignored:
+            if not ignored:
+                embed.description = "No channel is being ignored."
+            else:
+                embed.description = "\n".join(
+                    f"{self.bot.get_channel(channel_id).mention} (ID: {channel_id})"
+                    for channel_id in ignored
+                )
+        embed.set_footer(
+            text=f"To add/remove channel from ignore list, use {ctx.clean_prefix}reactlog ignore add/remove <channel>",
+            icon_url=getattr(ctx.guild.icon, "url", None),
+        )
+        await ctx.send(embed=embed)
+
+    @ignore.command(name="add")
+    @app_commands.describe(channel="The channel to add to reactlog ignore list.")
+    async def ignore_add(self, ctx: commands.Context, channel: Channel):
+        """Add a channel to reactlog ignore list."""
+        async with self._config.guild(ctx.guild).ignored() as ignored:
+            if channel.id in ignored:
+                await ctx.send(f"{channel.mention} is already in the ignore list.")
+                return
+            ignored.append(channel.id)
+        await ctx.send(f"{channel.mention} has been added to the ignore list.")
+
+    @ignore.command(name="remove")
+    @app_commands.describe(channel="The channel to remove from reactlog ignore list.")
+    async def ignore_remove(self, ctx: commands.Context, channel: Channel):
+        """Remove a channel from reactlog ignore list."""
+        async with self._config.guild(ctx.guild).ignored() as ignored:
+            if channel.id not in ignored:
+                await ctx.send(f"{channel.mention} is not in the ignore list.")
+                return
+            ignored.remove(channel.id)
+        await ctx.send(f"{channel.mention} has been removed from the ignore list.")
 
     @reactlog.command()
     @app_commands.describe(toggle="True or False")
@@ -151,6 +240,8 @@ class ReactLog(kuroutils.Cog):
             return
         if not await self.channel_check(message.guild):
             return
+        if user.id in await self._config.guild(message.guild).blacklist():
+            return
         if not await self._config.guild(message.guild).react_add():
             return
         log_all = await self._config.guild(message.guild).log_all()
@@ -165,6 +256,8 @@ class ReactLog(kuroutils.Cog):
             return
         if not await self.channel_check(message.guild):
             return
+        if user.id in await self._config.guild(message.guild).blacklist():
+            return
         if not await self._config.guild(message.guild).react_remove():
             return
         log_all = await self._config.guild(message.guild).log_all()
@@ -172,13 +265,16 @@ class ReactLog(kuroutils.Cog):
             return
         await self.send_to_log(message, str(reaction.emoji), user, False)
 
-    async def channel_check(self, guild: discord.Guild) -> bool:
+    async def channel_check(self, channel: Channel) -> bool:
+        guild = channel.guild
         if not (channel := await self._config.guild(guild).channel()):
             return False
         if not self.bot.get_channel(channel):
             self._log.info(
                 f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
+            return False
+        if channel in await self._config.guild(guild).ignored():
             return False
         return True
 
