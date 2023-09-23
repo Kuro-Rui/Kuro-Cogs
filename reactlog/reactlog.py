@@ -100,7 +100,9 @@ class ReactLog(kuroutils.Cog):
 
     @reactlog.command()
     @app_commands.describe(channel="The channel to log reactions to.")
-    async def channel(self, ctx: commands.Context, channel: discord.TextChannel = None):
+    async def channel(
+        self, ctx: commands.Context, channel: Union[discord.TextChannel, discord.Thread] = None
+    ):
         """Set the reactions logging channel."""
         if not channel:
             await self._config.guild(ctx.guild).channel.clear()
@@ -238,7 +240,7 @@ class ReactLog(kuroutils.Cog):
         message = reaction.message
         if not message.guild:
             return
-        if not await self.channel_check(message.guild):
+        if not await self.channel_check(message.channel):
             return
         if user.id in await self._config.guild(message.guild).blacklist():
             return
@@ -254,7 +256,7 @@ class ReactLog(kuroutils.Cog):
         message = reaction.message
         if not message.guild:
             return
-        if not await self.channel_check(message.guild):
+        if not await self.channel_check(message.channel):
             return
         if user.id in await self._config.guild(message.guild).blacklist():
             return
@@ -269,7 +271,7 @@ class ReactLog(kuroutils.Cog):
         guild = channel.guild
         if not (channel := await self._config.guild(guild).channel()):
             return False
-        if not self.bot.get_channel(channel):
+        if not guild.get_channel(channel):
             self._log.info(
                 f"Channel with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
