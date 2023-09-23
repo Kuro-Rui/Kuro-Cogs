@@ -71,8 +71,7 @@ class ReactLog(kuroutils.Cog):
                     f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
                 )
         embed.set_footer(
-            text=f"To add/remove member from blacklist, use {ctx.clean_prefix}reactlog blacklist add/remove <member>",
-            icon_url=getattr(ctx.guild.icon, "url", None),
+            text=f"To add/remove member from blacklist, use {ctx.clean_prefix}reactlog blacklist add/remove <member>"
         )
         await ctx.send(embed=embed)
 
@@ -128,8 +127,7 @@ class ReactLog(kuroutils.Cog):
                     for channel_id in ignored
                 )
         embed.set_footer(
-            text=f"To add/remove channel from ignore list, use {ctx.clean_prefix}reactlog ignore add/remove <channel>",
-            icon_url=getattr(ctx.guild.icon, "url", None),
+            text=f"To add/remove channel from ignore list, use {ctx.clean_prefix}reactlog ignore add/remove <channel>"
         )
         await ctx.send(embed=embed)
 
