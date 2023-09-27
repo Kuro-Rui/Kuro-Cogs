@@ -5,10 +5,18 @@ ReactLog
 ********
 
 =============
+Version 0.0.4
+=============
+
+2023-09-27
+
+- Added grouped logging
+
+=============
 Version 0.0.3
 =============
 
-2023-23-09
+2023-09-23
 
 - Added blacklist for members and ignore list for channels
 - Added support for thread to be a reactlog channel.

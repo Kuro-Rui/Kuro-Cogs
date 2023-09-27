@@ -22,26 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import re
 from typing import Union
 
 import discord
 import kuroutils
+from discord.ext import tasks
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
-Channel = Union[discord.TextChannel, discord.VoiceChannel, discord.Thread]
+from .events import Channel, Events
 
 
-class ReactLog(kuroutils.Cog):
+class ReactLog(Events, kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.3"
+    __version__ = "0.0.4"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
         self._config = Config.get_conf(self, 9517306284, True)
+        self._config.register_global(grouped=False)
         self._config.register_guild(
             blacklist=[],
             channel=None,
@@ -50,6 +51,31 @@ class ReactLog(kuroutils.Cog):
             react_add=False,
             react_remove=False,
         )
+        self.cache = kuroutils.DefaultDict(lambda: [])
+        self.send_grouped_reaction_embeds.start()
+
+    @tasks.loop(seconds=10)
+    async def send_grouped_reaction_embeds(self):
+        if not await self._config.grouped():
+            return
+        for guild_id, embeds in self.cache.items():
+            if not embeds:
+                del self.cache[guild_id]
+                continue
+            if not (guild := self.bot.get_guild(guild_id)):
+                del self.cache[guild_id]
+                continue
+            if not (channel_id := await self._config.guild(guild).channel()):
+                continue
+            if not (channel := guild.get_channel_or_thread(channel_id)):
+                continue
+            embeds = self.cache[guild_id][:10]
+            self.cache[guild_id] = self.cache[guild_id][10:]
+            await channel.send(embeds=embeds)
+
+    @send_grouped_reaction_embeds.before_loop
+    async def before_send_grouped_embeds(self):
+        await self.bot.wait_until_ready()
 
     @commands.admin()
     @commands.guild_only()
@@ -57,6 +83,25 @@ class ReactLog(kuroutils.Cog):
     async def reactlog(self, ctx: commands.Context):
         """Reaction logging configuration commands."""
         pass
+
+    @reactlog.command(with_app_command=False)
+    @app_commands.describe(time="The time in seconds to group reactions.")
+    async def grouped(self, ctx: commands.Context, toggle: bool = None):
+        """
+        Set whether to group reaction logging embeds.
+
+        This is useful if your bot is in many servers and has a lot of users.
+        """
+        current = await self._config.grouped()
+        if toggle is None:
+            await self._config.grouped.set(not current)
+        else:
+            await self._config.grouped.set(toggle)
+
+        if await self._config.grouped():
+            await ctx.send("I will group reaction logging embeds from now.")
+            return
+        await ctx.send("I won't group reaction logging embeds from now.")
 
     @reactlog.group(aliases=["bl"], invoke_without_command=True)
     @commands.mod_or_permissions(administrator=True)
@@ -232,93 +277,3 @@ class ReactLog(kuroutils.Cog):
                 f"Log On Reaction Remove: {react_remove_status}\n"
                 f"Log All Reactions: {log_all_status}"
             )
-
-    @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
-        message = reaction.message
-        if not message.guild:
-            return
-        if not await self.channel_check(message.channel):
-            return
-        if user.id in await self._config.guild(message.guild).blacklist():
-            return
-        if not await self._config.guild(message.guild).react_add():
-            return
-        log_all = await self._config.guild(message.guild).log_all()
-        if not log_all and reaction.count != 1:
-            return
-        await self.send_to_log(message, str(reaction.emoji), user, True)
-
-    @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
-        message = reaction.message
-        if not message.guild:
-            return
-        if not await self.channel_check(message.channel):
-            return
-        if user.id in await self._config.guild(message.guild).blacklist():
-            return
-        if not await self._config.guild(message.guild).react_remove():
-            return
-        log_all = await self._config.guild(message.guild).log_all()
-        if not log_all and reaction.count != 0:
-            return
-        await self.send_to_log(message, str(reaction.emoji), user, False)
-
-    async def channel_check(self, channel: Channel) -> bool:
-        guild = channel.guild
-        if not (channel := await self._config.guild(guild).channel()):
-            return False
-        if not guild.get_channel_or_thread(channel):
-            self._log.info(
-                f"Channel or Thread with ID {channel} not found in {guild} (ID: {guild.id}), ignoring."
-            )
-            return False
-        if channel in await self._config.guild(guild).ignored():
-            return False
-        return True
-
-    async def send_to_log(
-        self, message: discord.Message, emoji: str, user: discord.Member, added: bool
-    ) -> discord.Message:
-        if user.bot:
-            return
-        channel_id = await self._config.guild(message.guild).channel()
-        if not channel_id:
-            return
-
-        # https://github.com/Rapptz/discord.py/blob/462ba84/discord/ext/commands/converter.py#L700
-        match = re.match(r"<a?:([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>$", emoji)
-        if match:
-            description = (
-                f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {match.group(1)} (ID: {match.group(2)})\n"
-                f"**Message:** [Jump to Message ►]({message.jump_url})"
-            )
-            url = f"https://cdn.discordapp.com/emojis/{match.group(2)}"
-            url += ".gif" if emoji.startswith("<a") else ".png"
-        else:  # Default Emoji
-            description = (
-                f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {emoji.strip(':')}\n"
-                f"**Message:** [Jump to Message ►]({message.jump_url})"
-            )
-            # https://github.com/flapjax/FlapJack-Cogs/blob/red-v3-rewrites/bigmoji/bigmoji.py#L69-L93
-            chars = [str(hex(ord(c)))[2:] for c in emoji]
-            if len(chars) == 2:
-                if "fe0f" in chars:
-                    chars.remove("fe0f")
-            if "20e3" in chars:
-                chars.remove("fe0f")
-            url = f"https://twemoji.maxcdn.com/v/14.0.2/72x72/{'-'.join(chars)}.png"
-        color = discord.Color.green() if added else discord.Color.red()
-        embed = discord.Embed(
-            description=description, color=color, timestamp=discord.utils.utcnow()
-        )
-        embed.set_author(name=f"{user} ({user.id})", icon_url=user.display_avatar.url)
-        embed.set_thumbnail(url=url)
-        added_or_removed = "Added" if added else "Removed"
-        embed.set_footer(text=f"Reaction {added_or_removed} | #{message.channel.name}")
-
-        log_channel = message.guild.get_channel_or_thread(channel_id)
-        await log_channel.send(embed=embed)
