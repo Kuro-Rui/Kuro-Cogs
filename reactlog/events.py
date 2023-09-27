@@ -33,6 +33,7 @@ from redbot.core.bot import Red
 
 Channel = Union[discord.TextChannel, discord.VoiceChannel, discord.Thread]
 
+
 class Events:
     def __init__(self):
         self.bot: Red
