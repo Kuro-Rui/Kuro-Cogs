@@ -5,6 +5,14 @@ ReactLog
 ********
 
 =============
+Version 0.0.5
+=============
+
+2023-09-28
+
+- Added message jump url link button for non-grouped logging embeds
+
+=============
 Version 0.0.4
 =============
 

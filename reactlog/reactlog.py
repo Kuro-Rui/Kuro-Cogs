@@ -38,7 +38,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.4"
+    __version__ = "0.0.5"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -306,17 +306,12 @@ class ReactLog(kuroutils.Cog):
         if match:
             description = (
                 f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {match.group(1)} (ID: {match.group(2)})\n"
-                f"**Message:** [Jump to Message ►]({message.jump_url})"
+                f"**Emoji:** {match.group(1)} (ID: {match.group(2)})"
             )
             url = f"https://cdn.discordapp.com/emojis/{match.group(2)}"
             url += ".gif" if emoji.startswith("<a") else ".png"
         else:  # Default Emoji
-            description = (
-                f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {emoji.strip(':')}\n"
-                f"**Message:** [Jump to Message ►]({message.jump_url})"
-            )
+            description = f"**Channel:** {message.channel.mention}\n**Emoji:** {emoji.strip(':')}"
             # https://github.com/flapjax/FlapJack-Cogs/blob/red-v3-rewrites/bigmoji/bigmoji.py#L69-L93
             chars = [str(hex(ord(c)))[2:] for c in emoji]
             if len(chars) == 2:
@@ -334,11 +329,17 @@ class ReactLog(kuroutils.Cog):
         added_or_removed = "Added" if added else "Removed"
         embed.set_footer(text=f"Reaction {added_or_removed} | #{message.channel.name}")
         if await self._config.grouped():
+            embed.description += f"\n**Message:** [Jump to Message ►]({message.jump_url})"
             self.cache[message.guild.id].append(embed)
             return
+        view = discord.ui.View()
+        button = discord.ui.Button(
+            style=discord.ButtonStyle.link, label="Jump to Message", url=message.jump_url
+        )
+        view.add_item(button)
         channel_id = await self._config.guild(message.guild).channel()
         channel = message.guild.get_channel_or_thread(channel_id)
-        await channel.send(embed=embed)
+        await channel.send(embed=embed, view=view)
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
