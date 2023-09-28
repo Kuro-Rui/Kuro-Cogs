@@ -281,21 +281,22 @@ class ReactLog(kuroutils.Cog):
 
     async def _check(self, member: discord.Member, message: discord.Message) -> bool:
         if member.bot:
-            return
+            return False
         if not (guild := message.guild):
-            return
+            return False
         if not (log_channel := await self._config.guild(guild).channel()):
-            return
+            return False
         channel = message.channel
         if channel.id in await self._config.guild(guild).ignored():
-            return
+            return False
         if member.id in await self._config.guild(message.guild).blacklist():
-            return
+            return False
         if not guild.get_channel_or_thread(log_channel):
             self._log.info(
                 f"Channel or Thread with ID {log_channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
-            return
+            return False
+        return True
 
     async def make_or_send_embed(
         self, message: discord.Message, emoji: str, user: discord.Member, *, added: bool
