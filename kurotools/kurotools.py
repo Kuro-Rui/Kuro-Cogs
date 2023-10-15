@@ -58,14 +58,17 @@ class KuroTools(kuroutils.Cog):
         You can either reply to a message or provide a message ID/Link.
         """
         if not message and not ctx.message.reference:
-            return await ctx.send_help()
+            await ctx.send_help()
+            return
         if ctx.message.reference:
             content = ctx.message.reference.resolved.content
             ctx.message.reference = None
-            return await ctx.send(escape(content, mass_mentions=True, formatting=True))
+            await ctx.send(escape(content, mass_mentions=True, formatting=True))
+            return
         if message:
             if not message.content:
-                return await ctx.send("Cannot send an empty message.")
+                await ctx.send("Cannot send an empty message.")
+                return
             await ctx.send(escape(message.content, mass_mentions=True, formatting=True))
 
     # Thanks AAA3A!
@@ -92,7 +95,7 @@ class KuroTools(kuroutils.Cog):
         else:
             await ctx.send("Cancelled.")
 
-    @commands.group(aliases=["wof"])
+    @commands.group(aliases=["wof"], invoke_without_command=True)
     @commands.cooldown(3, 1, commands.BucketType.default)
     async def wheeloffortune(self, ctx: commands.Context, arguments: str):
         """
