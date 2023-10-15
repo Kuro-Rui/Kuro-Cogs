@@ -34,7 +34,7 @@ reloadmodule
 
 .. code-block:: yaml
 
-    Syntax: [p]reloadmodule <module> [all]
+    Syntax: [p]reloadmodule <module>
 
 **Description:** Force reload a module from `sys.modules`.
 

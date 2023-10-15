@@ -70,17 +70,14 @@ class KuroTools(kuroutils.Cog):
 
     # Thanks AAA3A!
     @commands.is_owner()
-    @commands.command(usage="<module> [all]")
-    async def reloadmodule(self, ctx: commands.Context, module: str, _all: bool = False):
+    @commands.command()
+    async def reloadmodule(self, ctx: commands.Context, module: str):
         """
         Force reload a module from `sys.modules`.
 
         Please only use this if you know what you're doing :p
         """
-        if not _all:
-            modules = [m for m in sys.modules if m == module]
-        else:
-            modules = sorted([m for m in sys.modules if m.split(".")[0] == module], reverse=True)
+        modules = sorted([m for m in sys.modules if m.split(".")[0] == module], reverse=True)
         if not modules:
             await ctx.send("I couldn't find a module with that name.")
             return
