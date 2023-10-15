@@ -24,7 +24,6 @@ SOFTWARE.
 
 import asyncio
 import importlib
-import inspect
 import sys
 from pathlib import Path
 from typing import Optional
