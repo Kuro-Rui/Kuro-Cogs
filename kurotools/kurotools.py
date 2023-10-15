@@ -38,7 +38,7 @@ from redbot.core.utils.views import ConfirmView, SetApiView
 
 class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
-    
+
     __author__ = ["Kuro"]
     __version__ = "0.0.1"
 
@@ -116,7 +116,9 @@ class KuroTools(kuroutils.Cog):
         headers = {"Authorization": f"Bearer {key}"}
         params = {"args": args}
         async with self.session.get(
-            "https://api.jeyy.xyz/v2/discord/wheel", headers=headers, params=params,
+            "https://api.jeyy.xyz/v2/discord/wheel",
+            headers=headers,
+            params=params,
         ) as response:
             if response.status != 200:
                 await ctx.send("Something went wrong, try again later.")
