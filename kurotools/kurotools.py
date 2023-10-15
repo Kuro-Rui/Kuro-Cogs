@@ -104,7 +104,7 @@ class KuroTools(kuroutils.Cog):
         """KuroUtils management commands."""
         pass
 
-    @kuroutils.command(name="reload")
+    @kuroutils.command(name="update")
     async def kuroutils_update(self, ctx: commands.Context):
         """Update KuroUtils."""
         if not (downloader := self.bot.get_cog("Downloader")):
@@ -113,7 +113,9 @@ class KuroTools(kuroutils.Cog):
         old_version = kuroutils.__version__
         repo = Repo("", "", "", "", Path.cwd())
         lib_path = cog_data_path(downloader) / "lib"
-        successful = await repo.install_raw_requirements(["kuroutils"], lib_path)
+        successful = await repo.install_raw_requirements(
+            ["git+https://github.com/Kuro-Rui/Kuro-Utils"], lib_path
+        )
         if not successful:
             await ctx.send("Something went wrong, please check your logs for a complete list.")
             return
