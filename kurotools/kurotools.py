@@ -110,14 +110,15 @@ class KuroTools(kuroutils.Cog):
         if not (downloader := self.bot.get_cog("Downloader")):
             await ctx.send("Downloader cog is not loaded.")
             return
-        repo = Repo("", "", "", "", Path.cwd())
-        lib_path = cog_data_path(downloader) / "lib"
-        successful = await repo.install_raw_requirements(
-            ["git+https://github.com/Kuro-Rui/Kuro-Utils"], lib_path
-        )
-        if not successful:
-            await ctx.send("Something went wrong, please check your logs for a complete list.")
-            return
+        async with ctx.typing():
+            repo = Repo("", "", "", "", Path.cwd())
+            lib_path = cog_data_path(downloader) / "lib"
+            successful = await repo.install_raw_requirements(
+                ["git+https://github.com/Kuro-Rui/Kuro-Utils"], lib_path
+            )
+            if not successful:
+                await ctx.send("Something went wrong, please check your logs for a complete list.")
+                return
         modules = sorted([m for m in sys.modules if m.split(".")[0] == "kuroutils"], reverse=True)
         for module in modules:
             importlib.reload(sys.modules[module])
