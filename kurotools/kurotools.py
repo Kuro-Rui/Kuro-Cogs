@@ -86,14 +86,12 @@ class KuroTools(kuroutils.Cog):
             return
         formatted = humanize_list([inline(m) for m in modules])
         view = ConfirmView(ctx.author)
-        view.message = await ctx.send(
-            f"Are you sure you want to reload {humanize_list(formatted)}?", view=view
-        )
+        view.message = await ctx.send(f"Are you sure you want to reload {formatted}?", view=view)
         await view.wait()
         if view.result:
             for module in modules:
                 importlib.reload(sys.modules[module])
-            await ctx.send(f"Reloaded {humanize_list(formatted)}.")
+            await ctx.send(f"Reloaded {formatted}.")
         else:
             await ctx.send("Cancelled.")
 
