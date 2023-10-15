@@ -43,6 +43,42 @@ reloadmodule
 
 ----
 
+---------
+kuroutils
+---------
+
+.. code-block:: yaml
+
+    Syntax: [p]kuroutils
+
+**Description:** KuroUtils management commands.
+
+----
+
+^^^^^^^^^^^^^^^^
+kuroutils update
+^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]kuroutils reload
+
+**Description:** Update KuroUtils.
+
+----
+
+^^^^^^^^^^^^^^^^^
+kuroutils version
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]kuroutils version
+
+**Description:** Shows KuroUtils version.
+
+----
+
 --------------
 wheeloffortune
 --------------

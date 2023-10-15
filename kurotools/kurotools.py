@@ -24,14 +24,18 @@ SOFTWARE.
 
 import asyncio
 import importlib
+import inspect
 import sys
+from pathlib import Path
 from typing import Optional
 
 import aiohttp
 import discord
 import kuroutils
+from redbot.cogs.downloader.repo_manager import Repo
 from redbot.core import commands
 from redbot.core.bot import Red
+from redbot.core.data_manager import cog_data_path
 from redbot.core.utils.chat_formatting import bold, escape, humanize_list, inline
 from redbot.core.utils.views import ConfirmView, SetApiView
 
@@ -40,7 +44,7 @@ class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -94,6 +98,39 @@ class KuroTools(kuroutils.Cog):
             await ctx.send(f"Reloaded {formatted}.")
         else:
             await ctx.send("Cancelled.")
+
+    @commands.is_owner()
+    @commands.group(invoke_without_command=True)
+    async def kuroutils(self, ctx: commands.Context):
+        """KuroUtils management commands."""
+        pass
+
+    @kuroutils.command(name="reload")
+    async def kuroutils_update(self, ctx: commands.Context):
+        """Update KuroUtils."""
+        if not (downloader := self.bot.get_cog("Downloader")):
+            await ctx.send("Downloader cog is not loaded.")
+            return
+        old_version = kuroutils.__version__
+        repo = Repo("", "", "", "", Path.cwd())
+        lib_path = cog_data_path(downloader) / "lib"
+        successful = await repo.install_raw_requirements(["kuroutils"], lib_path)
+        if not successful:
+            await ctx.send("Something went wrong, please check your logs for a complete list.")
+            return
+        modules = sorted([m for m in sys.modules if m.split(".")[0] == "kuroutils"], reverse=True)
+        for module in modules:
+            importlib.reload(sys.modules[module])
+        new_version = kuroutils.__version__
+        await ctx.send(
+            f"KuroUtils has been updated successfully!\n"
+            f"{inline(old_version)} → {inline(new_version)}"
+        )
+
+    @kuroutils.command(name="version")
+    async def kuroutils_version(self, ctx: commands.Context):
+        """Get the version of KuroUtils."""
+        await ctx.send(f"KuroUtils v{kuroutils.__version__}")
 
     @commands.group(aliases=["wof"], invoke_without_command=True)
     @commands.cooldown(3, 1, commands.BucketType.default)
