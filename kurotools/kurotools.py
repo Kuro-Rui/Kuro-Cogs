@@ -101,7 +101,7 @@ class KuroTools(kuroutils.Cog):
         You can provide either 2, 3, 4, or 6 arguments. (Split the arguments with |)
         """
         args = arguments.split("|")
-        if len(arguments) not in (2, 3, 4, 6):
+        if len(args) not in (2, 3, 4, 6):
             await ctx.send_help()
             return
         key = (await self.bot.get_shared_api_tokens("jeyyapi")).get("api_key")
