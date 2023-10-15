@@ -29,6 +29,7 @@ Kuro-Cogs' Documentation
    cogs/dankutils
    cogs/fakemod
    cogs/fumo
+   cogs/kurotools
    cogs/osu
    cogs/reactlog
    cogs/sudo
@@ -44,6 +45,7 @@ Kuro-Cogs' Documentation
    changelog/dankutils
    changelog/fakemod
    changelog/fumo
+   changelog/kurotools
    changelog/osu
    changelog/reactlog
    changelog/sudo
