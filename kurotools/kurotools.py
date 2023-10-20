@@ -99,7 +99,7 @@ class KuroTools(kuroutils.Cog):
             await ctx.send("Cancelled.")
 
     @commands.is_owner()
-    @commands.group(invoke_without_command=True)
+    @commands.group()
     async def kuroutils(self, ctx: commands.Context):
         """KuroUtils management commands."""
         pass
