@@ -31,7 +31,6 @@ import kuroutils
 from PIL import Image
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.config import Config
 from redbot.core.data_manager import bundled_data_path
 
 
