@@ -5,6 +5,7 @@ from pathlib import Path
 with open(Path(__file__).parent / "cogs.json", "r") as fp:
     COGS = json.load(fp)
 
+
 def sort(cog_name: str):
     if cog_name == "calendar":
         path = Path(__file__).parent.parent / "calendarcog" / "info.json"
@@ -15,6 +16,7 @@ def sort(cog_name: str):
     _sorted = dict(sorted(data.items(), key=lambda x: x[0]))
     with open(path, "w") as f:
         json.dump(_sorted, f, indent=4)
+
 
 args = sys.argv
 if len(args) != 2 or args[1] not in COGS:

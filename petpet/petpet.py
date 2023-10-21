@@ -86,9 +86,7 @@ class PetPet(kuroutils.Cog):
         avatar.close()
 
         fp = BytesIO()
-        images[0].save(
-            fp, "GIF", save_all=True, append_images=images[1:], loop=0, disposal=2
-        )
+        images[0].save(fp, "GIF", save_all=True, append_images=images[1:], loop=0, disposal=2)
         fp.seek(0)
         for im in images:
             im.close()
