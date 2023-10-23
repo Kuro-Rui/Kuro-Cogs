@@ -31,6 +31,7 @@ Kuro-Cogs' Documentation
    cogs/fumo
    cogs/kurotools
    cogs/osu
+   cogs/petpet
    cogs/reactlog
    cogs/sudo
    cogs/translate
@@ -47,6 +48,7 @@ Kuro-Cogs' Documentation
    changelog/fumo
    changelog/kurotools
    changelog/osu
+   changelog/petpet
    changelog/reactlog
    changelog/sudo
    changelog/translate
