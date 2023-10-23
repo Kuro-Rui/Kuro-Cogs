@@ -170,7 +170,7 @@ class KuroTools(kuroutils.Cog):
         embed.color = data["result_color"]
         embed.description = bold("WE HAVE A WINNER!") + "\n\n" + data["result"]
         embed.set_thumbnail(url=data["result_img"])
-        await asyncio.sleep(math.ceil(data["time"]) + 1)
+        await asyncio.sleep(math.ceil(data["time"]) + 0.5)
         message = await kuroutils.edit_message(message, embed=embed)
         if not message:
             await ctx.send(embed=embed)
