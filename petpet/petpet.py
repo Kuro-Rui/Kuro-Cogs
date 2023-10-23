@@ -83,7 +83,11 @@ class PetPet(kuroutils.Cog):
             # Calculate the horizontal scale to create the squishy effect
             horizontal_scale = 1.0 + 0.1 * math.sin(2 * math.pi * index / 5)
             avatar_squished = avatar.resize((int(75 * horizontal_scale), 75))
-            im.paste(avatar_squished, (25 - (avatar_squished.width - 75) // 2, 25 - patting_offset), avatar_squished)
+            im.paste(
+                avatar_squished,
+                (25 - (avatar_squished.width - 75) // 2, 25 - patting_offset),
+                avatar_squished,
+            )
             im.paste(sprite, (0 - (112 * index), 0), sprite)
             images.append(im)
         sprite.close()
@@ -92,7 +96,13 @@ class PetPet(kuroutils.Cog):
         durations = [50] * len(images)
         fp = BytesIO()
         images[0].save(
-            fp, "GIF", save_all=True, append_images=images[1:], loop=0, disposal=2, duration=durations
+            fp,
+            "GIF",
+            save_all=True,
+            append_images=images[1:],
+            loop=0,
+            disposal=2,
+            duration=durations,
         )
         fp.seek(0)
         for im in images:
