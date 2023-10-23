@@ -24,6 +24,7 @@ SOFTWARE.
 
 import asyncio
 import importlib
+import math
 import sys
 from pathlib import Path
 from typing import Optional
@@ -43,7 +44,7 @@ class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -136,6 +137,7 @@ class KuroTools(kuroutils.Cog):
 
     @commands.group(aliases=["wof"], invoke_without_command=True)
     @commands.cooldown(3, 1, commands.BucketType.default)
+    @commands.max_concurrency(1, commands.BucketType.channel)
     async def wheeloffortune(self, ctx: commands.Context, arguments: str):
         """
         Play a Wheel of Fortune game!
@@ -168,7 +170,7 @@ class KuroTools(kuroutils.Cog):
         embed.color = data["result_color"]
         embed.description = bold("WE HAVE A WINNER!") + "\n\n" + data["result"]
         embed.set_thumbnail(url=data["result_img"])
-        await asyncio.sleep(data["time"])
+        await asyncio.sleep(math.ceil(data["time"]) + 1)
         message = await kuroutils.edit_message(message, embed=embed)
         if not message:
             await ctx.send(embed=embed)
