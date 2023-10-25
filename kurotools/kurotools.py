@@ -44,7 +44,7 @@ class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.3"
+    __version__ = "0.0.4"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -95,9 +95,12 @@ class KuroTools(kuroutils.Cog):
         if view.result:
             for module in modules:
                 importlib.reload(sys.modules[module])
-            await ctx.send(f"Reloaded {formatted}.")
+            content = f"Reloaded {formatted}."
         else:
-            await ctx.send("Cancelled.")
+            content = f"Cancelled."
+        message = await kuroutils.edit_message(view.message, content=content)
+        if not message:
+            await ctx.send(content)
 
     @commands.is_owner()
     @commands.group()

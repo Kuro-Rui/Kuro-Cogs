@@ -5,6 +5,14 @@ KuroTools
 *********
 
 =============
+Version 0.0.4
+=============
+
+2023-10-25
+
+- Edit reloadmodule message instead of sending a new one
+
+=============
 Version 0.0.3
 =============
 
