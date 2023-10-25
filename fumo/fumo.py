@@ -97,9 +97,8 @@ class Fumo(kuroutils.Cog):
     # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["fumopolaroid"])
-    async def fumoroid(self, ctx: commands.Context, *, user: discord.User = None):
+    async def fumoroid(self, ctx: commands.Context, *, user: discord.User = commands.Author):
         """Oh look! A Fumo staring at your polaroid avatar ᗜˬᗜ"""
-        user = user or ctx.author
         async with ctx.typing():
             avatar = await get_avatar(user)
             task = functools.partial(generate_fumoroid, ctx, avatar)
@@ -112,9 +111,8 @@ class Fumo(kuroutils.Cog):
     # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command(aliases=["marisaselfie"])
-    async def marisafie(self, ctx: commands.Context, *, user: discord.User = None):
+    async def marisafie(self, ctx: commands.Context, *, user: discord.User = commands.Author):
         """Take a selfie with Marisa. Say cheese! ᗜˬᗜ"""
-        user = user or ctx.author
         async with ctx.typing():
             avatar = await get_avatar(user)
             task = functools.partial(generate_marisafie, ctx, avatar)
@@ -127,9 +125,8 @@ class Fumo(kuroutils.Cog):
     # Thanks Glas <3
     @commands.bot_has_permissions(attach_files=True)
     @commands.command()
-    async def marisahat(self, ctx: commands.Context, *, user: discord.User = None):
+    async def marisahat(self, ctx: commands.Context, *, user: discord.User = commands.Author):
         """Let's see how do you look after wearing Marisa's hat ᗜˬᗜ"""
-        user = user or ctx.author
         async with ctx.typing():
             avatar = await get_avatar(user)
             task = functools.partial(generate_marisahat, ctx, avatar)
