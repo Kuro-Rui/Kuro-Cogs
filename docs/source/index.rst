@@ -35,6 +35,7 @@ Kuro-Cogs' Documentation
    cogs/reactlog
    cogs/sudo
    cogs/translate
+   cogs/typeracer
 
 .. toctree::
    :maxdepth: 1
@@ -52,6 +53,7 @@ Kuro-Cogs' Documentation
    changelog/reactlog
    changelog/sudo
    changelog/translate
+   changelog/typeracer
 
 .. toctree::
    :maxdepth: 1

@@ -47,9 +47,8 @@ class PetPet(kuroutils.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(cooldown_after_parsing=True)
-    async def petpet(self, ctx, *, user: discord.User = None):
+    async def petpet(self, ctx, *, user: discord.User = commands.Author):
         """PetPet someone."""
-        user = user or ctx.author
         async with ctx.typing():
             avatar = await self.get_avatar(user)
             task = functools.partial(self.gen_petpet, avatar)

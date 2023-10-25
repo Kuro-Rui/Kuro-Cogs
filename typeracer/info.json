@@ -1,0 +1,14 @@
+{
+    "author": ["Cats3153", "PhenoM4n4n", "Kuro"],
+    "description": "Race to see who can type the fastest!",
+    "disabled": false,
+    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
+    "hidden": false,
+    "install_msg": "Thanks for installing TypeRacer! The original credits for this cog go to Cats3153.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/typeracer.html>.",
+    "min_bot_version": "3.5.0",
+    "name": "TypeRacer",
+    "requirements": ["Pillow"],
+    "short": "Race to see who can type the fastest!",
+    "tags": ["fun", "game", "race", "type", "typerace"],
+    "type": "COG"
+}
