@@ -5,6 +5,14 @@ KuroTools
 *********
 
 =============
+Version 0.0.5
+=============
+
+2023-10-26
+
+- Add git commit to ``[p]kuroutils update``
+
+=============
 Version 0.0.4
 =============
 
