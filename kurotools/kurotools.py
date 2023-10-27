@@ -26,7 +26,6 @@ import asyncio
 import importlib
 import math
 import sys
-from importlib.metadata import version
 from pathlib import Path
 from typing import Optional
 
@@ -115,7 +114,7 @@ class KuroTools(kuroutils.Cog):
         if not (downloader := self.bot.get_cog("Downloader")):
             await ctx.send("Downloader cog is not loaded.")
             return
-        old_version = version("Kuro-Utils")
+        old_version = importlib.metadata.version("Kuro-Utils")
         async with ctx.typing():
             repo = Repo("", "", "", "", Path.cwd())
             lib_path = cog_data_path(downloader) / "lib"
@@ -128,7 +127,7 @@ class KuroTools(kuroutils.Cog):
         modules = sorted([m for m in sys.modules if m.split(".")[0] == "kuroutils"], reverse=True)
         for module in modules:
             importlib.reload(sys.modules[module])
-        new_version = version("Kuro-Utils")
+        new_version = importlib.metadata.version("Kuro-Utils")
         await ctx.send(
             "KuroUtils has been updated successfully!\n"
             f"{inline(old_version)} → {inline(new_version)}"
