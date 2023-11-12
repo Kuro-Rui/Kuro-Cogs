@@ -96,7 +96,7 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
         for i, config in all_users.items():
             if not config["tokens"]:
                 continue
-            token = OAuthToken.model_validate(config["tokens"])
+            token = OAuthToken.parse_obj(config["tokens"])
             await self._client_storage.add_client(token, id=i)
 
     async def cog_load(self) -> None:
