@@ -5,6 +5,14 @@ PetPet
 ******
 
 =============
+Version 0.0.3
+=============
+
+2023-11-17
+
+- Allow to petpet attachments
+
+=============
 Version 0.0.2
 =============
 

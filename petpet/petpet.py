@@ -27,6 +27,7 @@ import functools
 import math
 from io import BytesIO
 
+import aiohttp
 import discord
 import kuroutils
 from PIL import Image
@@ -39,7 +40,7 @@ class PetPet(kuroutils.Cog):
     """Make PetPet GIFs!"""
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "0.0.2"
+    __version__ = "0.0.3"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -47,10 +48,15 @@ class PetPet(kuroutils.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(cooldown_after_parsing=True)
-    async def petpet(self, ctx, *, user: discord.User = commands.Author):
+    async def petpet(self, ctx: commands.Context, *, user: discord.User = commands.Author):
         """PetPet someone."""
-        async with ctx.typing():
+        if ctx.message.attachments:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(ctx.message.attachments[0].url) as resp:
+                    avatar = BytesIO(await resp.read())
+        else:
             avatar = await self.get_avatar(user)
+        async with ctx.typing():
             task = functools.partial(self.gen_petpet, avatar)
             image = await self.generate_image(task)
         if isinstance(image, str):
