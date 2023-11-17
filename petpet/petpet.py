@@ -26,6 +26,7 @@ import asyncio
 import functools
 import math
 from io import BytesIO
+from typing import Union
 
 import aiohttp
 import discord
@@ -48,12 +49,25 @@ class PetPet(kuroutils.Cog):
     @commands.bot_has_permissions(attach_files=True)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(cooldown_after_parsing=True)
-    async def petpet(self, ctx: commands.Context, *, user: discord.User = commands.Author):
+    async def petpet(
+        self, ctx: commands.Context, *, user: Union[discord.User, str] = commands.Author
+    ):
         """PetPet someone."""
         if ctx.message.attachments:
             async with aiohttp.ClientSession() as session:
                 async with session.get(ctx.message.attachments[0].url) as resp:
                     avatar = BytesIO(await resp.read())
+        elif isinstance(user, str):
+            image_formats = ("image/png", "image/jpeg", "image/jpg")
+            async with aiohttp.ClientSession() as session:
+                try:
+                    async with session.get(user) as resp:
+                        if resp.headers["content-type"] not in image_formats:
+                            await ctx.send("Invalid image URL.")
+                            return
+                        avatar = BytesIO(await resp.read())
+                except aiohttp.InvalidURL:
+                    await ctx.send("Invalid image URL.")
         else:
             avatar = await self.get_avatar(user)
         async with ctx.typing():
