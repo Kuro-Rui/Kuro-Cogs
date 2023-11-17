@@ -68,6 +68,7 @@ class PetPet(kuroutils.Cog):
                         avatar = BytesIO(await resp.read())
                 except aiohttp.InvalidURL:
                     await ctx.send("Invalid image URL.")
+                    return
         else:
             avatar = await self.get_avatar(user)
         async with ctx.typing():
