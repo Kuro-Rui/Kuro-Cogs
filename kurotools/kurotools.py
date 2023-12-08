@@ -136,7 +136,8 @@ class KuroTools(kuroutils.Cog):
     @kuroutils.command(name="version")
     async def kuroutils_version(self, ctx: commands.Context):
         """Get the version of KuroUtils."""
-        await ctx.send(f"KuroUtils v{version('Kuro-Utils')}")
+        version = importlib.metadata.version("Kuro-Utils")
+        await ctx.send(f"KuroUtils {version}")
 
     @commands.group(aliases=["wof"], invoke_without_command=True)
     @commands.cooldown(3, 1, commands.BucketType.default)
