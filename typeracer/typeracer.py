@@ -139,7 +139,8 @@ class TypeRacer(kuroutils.Cog):
         wrapped = textwrap.wrap(text, width=35)
         text = "\n".join(line.strip() for line in wrapped)
 
-        img_width = self.font.getlength(max(wrapped, key=len)) + 2 * margin
+        left, right = self.font.getbbox(max(wrapped, key=len))[::2]
+        img_width = (right - left) + 2 * margin
         img_height = 30 * len(wrapped) + (len(wrapped) - 1) * newline + 2 * margin
 
         with Image.new("RGBA", (img_width, img_height)) as im:
