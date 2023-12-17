@@ -61,22 +61,20 @@ class ReactLog(kuroutils.Cog):
             return
         # This is to prevent RuntimeError
         # Since you can't assign to a dictionary during iteration
-        cache = self.cache.copy()
-        for guild_id, embeds in cache.items():
+        for guild_id, embeds in self.cache.copy().items():
             if not embeds:
-                del cache[guild_id]
+                del self.cache[guild_id]
                 continue
             if not (guild := self.bot.get_guild(guild_id)):
-                del cache[guild_id]
+                del self.cache[guild_id]
                 continue
             if not (channel_id := await self._config.guild(guild).channel()):
                 continue
             if not (channel := guild.get_channel_or_thread(channel_id)):
                 continue
-            embeds = cache[guild_id][:10]
-            self.cache[guild_id] = cache[guild_id][10:]
+            embeds = self.cache[guild_id][:10]
+            self.cache[guild_id] = self.cache[guild_id][10:]
             await channel.send(embeds=embeds)
-        self.cache = cache
 
     @send_grouped_reaction_embeds.before_loop
     async def before_send_grouped_embeds(self):
