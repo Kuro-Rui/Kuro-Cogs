@@ -74,7 +74,7 @@ class ReactLog(kuroutils.Cog):
             if not (channel := guild.get_channel_or_thread(channel_id)):
                 continue
             embeds = cache[guild_id][:10]
-            cache[guild_id] = self.cache[guild_id][10:]
+            self.cache[guild_id] = cache[guild_id][10:]
             await channel.send(embeds=embeds)
         self.cache = cache
 
