@@ -38,7 +38,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.5"
+    __version__ = "0.0.6"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -59,20 +59,24 @@ class ReactLog(kuroutils.Cog):
     async def send_grouped_reaction_embeds(self):
         if not await self._config.grouped():
             return
-        for guild_id, embeds in self.cache.items():
+        # This is to prevent RuntimeError
+        # Since you can't assign to a dictionary during iteration
+        cache = self.cache.copy()
+        for guild_id, embeds in cache.items():
             if not embeds:
-                del self.cache[guild_id]
+                del cache[guild_id]
                 continue
             if not (guild := self.bot.get_guild(guild_id)):
-                del self.cache[guild_id]
+                del cache[guild_id]
                 continue
             if not (channel_id := await self._config.guild(guild).channel()):
                 continue
             if not (channel := guild.get_channel_or_thread(channel_id)):
                 continue
-            embeds = self.cache[guild_id][:10]
-            self.cache[guild_id] = self.cache[guild_id][10:]
+            embeds = cache[guild_id][:10]
+            cache[guild_id] = self.cache[guild_id][10:]
             await channel.send(embeds=embeds)
+        self.cache = cache
 
     @send_grouped_reaction_embeds.before_loop
     async def before_send_grouped_embeds(self):

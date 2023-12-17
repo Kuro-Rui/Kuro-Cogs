@@ -5,6 +5,14 @@ ReactLog
 ********
 
 =============
+Version 0.0.6
+=============
+
+2023-12-17
+
+- Fix possible RuntimeError
+
+=============
 Version 0.0.5
 =============
 
