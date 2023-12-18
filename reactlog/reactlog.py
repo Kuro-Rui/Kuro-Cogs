@@ -60,7 +60,7 @@ class ReactLog(kuroutils.Cog):
         if not await self._config.grouped():
             return
         # This is to prevent RuntimeError
-        # Since you can't assign to a dictionary during iteration
+        # Since you can't assign to the dictionary being iterated, we have to copy it.
         for guild_id, embeds in self.cache.copy().items():
             if not embeds:
                 del self.cache[guild_id]
