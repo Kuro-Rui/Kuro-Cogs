@@ -80,7 +80,9 @@ class PermissionsLocker(kuroutils.Cog):
         my_perms = ctx.channel.permissions_for(me)
         if not my_perms.is_superset(required_perms):
             missing_perms = self.humanize_perms(
-                discord.Permissions((my_perms.value ^ required_perms.value) & required_perms.value),
+                discord.Permissions(
+                    (my_perms.value ^ required_perms.value) & required_perms.value
+                ),
                 True,
             )
             await ctx.send(
