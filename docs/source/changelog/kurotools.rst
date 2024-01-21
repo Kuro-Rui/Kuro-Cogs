@@ -5,6 +5,15 @@ KuroTools
 *********
 
 =============
+Version 0.1.0
+=============
+
+2024-01-21
+
+- New ``[p]timediff`` and ``[p]when`` command
+- Removed ``[p]wheeloffortune`` due to lots of API issues
+
+=============
 Version 0.0.5
 =============
 

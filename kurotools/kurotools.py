@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import importlib
-import math
 import sys
 from pathlib import Path
 from typing import Optional
@@ -36,15 +34,15 @@ from redbot.cogs.downloader.repo_manager import Repo
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.data_manager import cog_data_path
-from redbot.core.utils.chat_formatting import bold, escape, humanize_list, inline
-from redbot.core.utils.views import ConfirmView, SetApiView
+from redbot.core.utils.chat_formatting import escape, humanize_list, humanize_timedelta, inline
+from redbot.core.utils.views import ConfirmView
 
 
 class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.5"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -53,6 +51,43 @@ class KuroTools(kuroutils.Cog):
     async def cog_unload(self) -> None:
         super().cog_unload()
         await self.session.close()
+
+    @commands.is_owner()
+    @commands.group()
+    async def kuroutils(self, ctx: commands.Context):
+        """KuroUtils management commands."""
+        pass
+
+    @kuroutils.command(name="update")
+    async def kuroutils_update(self, ctx: commands.Context):
+        """Update KuroUtils."""
+        if not (downloader := self.bot.get_cog("Downloader")):
+            await ctx.send("Downloader cog is not loaded.")
+            return
+        old_version = importlib.metadata.version("Kuro-Utils")
+        async with ctx.typing():
+            repo = Repo("", "", "", "", Path.cwd())
+            lib_path = cog_data_path(downloader) / "lib"
+            successful = await repo.install_raw_requirements(
+                ["git+https://github.com/Kuro-Rui/Kuro-Utils"], lib_path
+            )
+            if not successful:
+                await ctx.send("Something went wrong, please check your logs for a complete list.")
+                return
+        modules = sorted([m for m in sys.modules if m.split(".")[0] == "kuroutils"], reverse=True)
+        for module in modules:
+            importlib.reload(sys.modules[module])
+        new_version = importlib.metadata.version("Kuro-Utils")
+        await ctx.send(
+            "KuroUtils has been updated successfully!\n"
+            f"{inline(old_version)} → {inline(new_version)}"
+        )
+
+    @kuroutils.command(name="version")
+    async def kuroutils_version(self, ctx: commands.Context):
+        """Get the version of KuroUtils."""
+        version = importlib.metadata.version("Kuro-Utils")
+        await ctx.send(f"KuroUtils {version}")
 
     @commands.command()
     async def raw(self, ctx: commands.Context, message: Optional[discord.Message] = None):
@@ -102,97 +137,17 @@ class KuroTools(kuroutils.Cog):
         if not message:
             await ctx.send(content)
 
-    @commands.is_owner()
-    @commands.group()
-    async def kuroutils(self, ctx: commands.Context):
-        """KuroUtils management commands."""
-        pass
+    @commands.command()
+    async def timediff(self, ctx: commands.Context, id1: int, id2: int):
+        """Get the time difference between 2 Discord object IDs."""
+        obj1, obj2 = discord.Object(id1), discord.Object(id2)
+        timedelta = abs(obj1.created_at - obj2.created_at)
+        await ctx.send(humanize_timedelta(timedelta=timedelta))
 
-    @kuroutils.command(name="update")
-    async def kuroutils_update(self, ctx: commands.Context):
-        """Update KuroUtils."""
-        if not (downloader := self.bot.get_cog("Downloader")):
-            await ctx.send("Downloader cog is not loaded.")
-            return
-        old_version = importlib.metadata.version("Kuro-Utils")
-        async with ctx.typing():
-            repo = Repo("", "", "", "", Path.cwd())
-            lib_path = cog_data_path(downloader) / "lib"
-            successful = await repo.install_raw_requirements(
-                ["git+https://github.com/Kuro-Rui/Kuro-Utils"], lib_path
-            )
-            if not successful:
-                await ctx.send("Something went wrong, please check your logs for a complete list.")
-                return
-        modules = sorted([m for m in sys.modules if m.split(".")[0] == "kuroutils"], reverse=True)
-        for module in modules:
-            importlib.reload(sys.modules[module])
-        new_version = importlib.metadata.version("Kuro-Utils")
-        await ctx.send(
-            "KuroUtils has been updated successfully!\n"
-            f"{inline(old_version)} → {inline(new_version)}"
-        )
-
-    @kuroutils.command(name="version")
-    async def kuroutils_version(self, ctx: commands.Context):
-        """Get the version of KuroUtils."""
-        version = importlib.metadata.version("Kuro-Utils")
-        await ctx.send(f"KuroUtils {version}")
-
-    @commands.group(aliases=["wof"], invoke_without_command=True)
-    @commands.cooldown(3, 1, commands.BucketType.default)
-    @commands.max_concurrency(1, commands.BucketType.channel)
-    async def wheeloffortune(self, ctx: commands.Context, arguments: str):
-        """
-        Play a Wheel of Fortune game!
-
-        You can provide either 2, 3, 4, or 6 arguments. (Split the arguments with |)
-        """
-        args = arguments.split("|")
-        if len(args) not in (2, 3, 4, 6):
-            await ctx.send_help()
-            return
-        key = (await self.bot.get_shared_api_tokens("jeyyapi")).get("api_key")
-        if not key:
-            await ctx.send("The API key for JeyyAPI is not set.")
-            return
-        headers = {"Authorization": f"Bearer {key}"}
-        params = {"args": args}
-        async with self.session.get(
-            "https://api.jeyy.xyz/v2/discord/wheel",
-            headers=headers,
-            params=params,
-        ) as response:
-            if response.status != 200:
-                await ctx.send("Something went wrong, try again later.")
-                return
-            data = await response.json()
-        embed = discord.Embed(title="Wheel of Fortune", description="Spinning...")
-        embed.set_thumbnail(url=data["gif_wheel"])
-        embed.add_field(name="Description", value=data["desc"].replace("\t\t", " "))
-        message = await ctx.send(embed=embed)
-        embed.color = data["result_color"]
-        embed.description = bold("WE HAVE A WINNER!") + "\n\n" + data["result"]
-        embed.set_thumbnail(url=data["result_img"])
-        await asyncio.sleep(math.ceil(data["time"]) + 0.5)
-        message = await kuroutils.edit_message(message, embed=embed)
-        if not message:
-            await ctx.send(embed=embed)
-
-    @commands.is_owner()
-    @wheeloffortune.command(name="creds")
-    async def wof_creds(self, ctx: commands.Context):
-        """Instructions to set wheel of fortune API key."""
-        description = (
-            "1. Go to https://api.jeyy.xyz/dashboard/landing and login with your account\n"
-            "2. Go to https://api.jeyy.xyz/dashboard\n"
-            '3. Click on "Create an app"\n'
-            "4. Fill the label with an application name and ID of your choice\n"
-            "5. Copy your api key into:\n`{prefix}set api jeyyapi api_key <your_api_key_here>`"
-        ).format(prefix=ctx.prefix)
-        view = SetApiView("jeyyapi", {"api_key": ""})
-        if await ctx.embed_requested():
-            embed = discord.Embed(description=description)
-            await ctx.send(embed=embed, view=view)
-        else:
-            await ctx.send(description, view=view)
+    @commands.command(usage="<id>")
+    async def when(self, ctx: commands.Context, _id: int):
+        """Get when a Discord object was created."""
+        obj = discord.Object(_id)
+        long_date_time = discord.utils.format_dt(obj.created_at, "F")
+        relative_time = discord.utils.format_dt(obj.created_at, "R")
+        await ctx.send(f"{long_date_time} ({relative_time})")

@@ -79,28 +79,22 @@ kuroutils version
 
 ----
 
---------------
-wheeloffortune
---------------
+--------
+timediff
+--------
 
 .. code-block:: yaml
 
-    Syntax: [p]wheeloffortune <arguments>
+    Syntax: [p]timediff <id1> <id2>
 
-**Description:** Play a Wheel of Fortune game!
-
-.. note::
-    - You can provide either 2, 3, 4, or 6 arguments
-    - Split the arguments with |
+**Description:** Get the time difference between two Discord objects.
 
 ----
-
-^^^^^^^^^^^^^^^^^^^^
-wheeloffortune creds
-^^^^^^^^^^^^^^^^^^^^
+when
+----
 
 .. code-block:: yaml
 
-    Syntax : [p]wheeloffortune creds
+    Syntax: [p]when <id>
 
-**Description:** Shows instructions to set wheel of fortune API key.
+**Description:** Get when a Discord object was created.
