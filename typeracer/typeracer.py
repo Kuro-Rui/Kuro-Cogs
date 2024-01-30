@@ -86,6 +86,7 @@ class TypeRacer(kuroutils.Cog):
 
         winners_cache = []
         messages: List[Tuple[discord.Message, float, float, float]] = []
+
         def check(message: discord.Message) -> bool:
             nonlocal start, messages
             if message.channel != ctx.channel or message.author.bot or not message.content:
