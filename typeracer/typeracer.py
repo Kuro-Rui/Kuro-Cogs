@@ -119,7 +119,7 @@ class TypeRacer(kuroutils.Cog):
                     "No one typed the sentence in time.", reference=reference, view=view
                 )
                 return
-        messages.sort(key=lambda x: x[3])
+        messages.sort(key=lambda x: x[3], reverse=True)
 
         descriptions = ["The race ends with the following results:"]
         for n, msgs in enumerate(messages, start=1):

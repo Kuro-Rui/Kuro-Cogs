@@ -19,6 +19,6 @@ typerace
 
 .. code-block:: yaml
 
-    Syntax: [p]typerace
+    Syntax: [p]typerace [winners=1]
 
-**Description:** Begin a typing race!
+**Description:** Start a typing race!
