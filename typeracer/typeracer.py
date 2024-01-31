@@ -24,6 +24,7 @@ SOFTWARE.
 
 import asyncio
 import functools
+import math
 import textwrap
 from difflib import SequenceMatcher
 from io import BytesIO
@@ -75,7 +76,7 @@ class TypeRacer(kuroutils.Cog):
             await ctx.send("Could not fetch quote. Please try again later.")
             return
         words = quote.split()
-        word_length = sum(len(word) for word in words) / len(words)
+        word_length = math.ceil(sum(len(word) for word in words) / len(words))
         color = discord.Color.random()
         fp = await self.render_typerace(quote, color)
         embed = discord.Embed(color=color)
