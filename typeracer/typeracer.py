@@ -99,9 +99,10 @@ class TypeRacer(kuroutils.Cog):
                 return False
             winners_cache.append(message.author)
             seconds = (message.created_at - start.created_at).total_seconds()
-            wpm = (word_length / (seconds / 60)) * accuracy
+            wpm = (len(quote) * accuracy / word_length) / (seconds / 60)
             messages.append((message, seconds, accuracy, wpm))
-            if not len(messages) == winners:
+            message.add_reaction("\N{WHITE HEAVY CHECK MARK}")
+            if len(messages) != winners:
                 return False
             return True
 
