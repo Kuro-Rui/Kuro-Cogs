@@ -85,11 +85,10 @@ class TypeRacer(kuroutils.Cog):
             embed.set_footer(text=f"~ {author}")
         start = await ctx.send(file=discord.File(fp, "typerace.png"), embed=embed)
 
-        winners_cache = []
+        winners_cache: List[discord.Member] = []
         messages: List[Tuple[discord.Message, float, float, float]] = []
 
         def check(message: discord.Message) -> bool:
-            nonlocal start, messages
             if message.channel != ctx.channel or message.author.bot or not message.content:
                 return False
             if message.author in winners_cache:
