@@ -31,7 +31,7 @@ permlock perms
 
 .. code-block:: yaml
 
-    Syntax: [p]permlock perms <permissions>
+    Syntax: [p]permlock perms <value>
 
 **Description:** Set the permissions value that is required for the bot to work.
 

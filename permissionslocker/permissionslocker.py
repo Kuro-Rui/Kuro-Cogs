@@ -36,14 +36,14 @@ class PermissionsLocker(kuroutils.Cog):
     """Force permissions for the bot."""
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.3.0"
+    __version__ = "1.3.1"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
         self._config = Config.get_conf(
             self, identifier=4235969345783789456, force_registration=True
         )
-        default_global = {"permissions": 387136, "whitelisted": []}
+        default_global = {"permissions": 0, "whitelisted": []}
         self._config.register_global(**default_global)
 
         self.perms: Optional[discord.Permissions] = None
@@ -106,14 +106,17 @@ class PermissionsLocker(kuroutils.Cog):
         pass
 
     @permlock.command()
-    async def perms(self, ctx: commands.Context, permissions: int):
+    async def perms(self, ctx: commands.Context, value: int):
         """Set the permissions value that is required for the bot to work."""
-        permissions = discord.Permissions(permissions)
+        permissions = discord.Permissions(value)
         await self._config.permissions.set(permissions.value)
-        await ctx.send(
-            "I will now require these permissions on commands:\n"
-            f"{box(self.humanize_perms(permissions, True), 'diff')}"
-        )
+        if value:
+            await ctx.send(
+                "I will now require these permissions on commands:\n"
+                f"{box(self.humanize_perms(permissions, True), 'diff')}"
+            )
+        else:
+            await ctx.send("Permissions requirement has been disabled.")
         self.perms = permissions
 
     @permlock.command(aliases=["wl"])
