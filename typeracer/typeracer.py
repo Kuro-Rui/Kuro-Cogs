@@ -47,7 +47,7 @@ class TypeRacer(kuroutils.Cog):
     """
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.1.0"
+    __version__ = "1.1.1"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -135,13 +135,15 @@ class TypeRacer(kuroutils.Cog):
         await ctx.send(embed=embed, reference=reference, view=view)
 
     async def get_quote(self) -> Tuple[str, Optional[str]]:
+        data = {}
         async with self.session.get("https://api.quotable.io/random") as resp:
-            data = await resp.json()
+            if resp.status == 200:
+                data = await resp.json()
+        if not data:
+            async with self.session.get("https://zenquotes.io/api/random") as resp:
+                quotes = await resp.json()
+                data = {"content": quotes[0]["q"], "author": quotes[0]["a"]}
         return data["content"], data["author"]
-        # Backup API just in case the one above goes down
-        # async with self.session.get("https://zenquotes.io/api/random") as resp:
-        #    data = await resp.json(content_type=None)[0]
-        # return data["q"], data["a"]
 
     async def render_typerace(self, text: str, color: discord.Color) -> BytesIO:
         func = functools.partial(self.generate_image, text, color)
