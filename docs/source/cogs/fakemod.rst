@@ -20,7 +20,7 @@ bam
 .. code-block:: yaml
 
     Syntax : [p]bam <user> [reason]
-    Aliases: [p]ben, [p]bon, [p]bean
+    Aliases: [p]ben, [p]bon, [p]beam, [p]bean
 
 **Description:** Fake ban a user.
 

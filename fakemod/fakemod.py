@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import datetime
-from asyncio import TimeoutError
+import asyncio
+from typing import Literal, Optional
 
 import discord
 import kuroutils
@@ -40,7 +40,7 @@ class FakeMod(kuroutils.Cog):
     """Fake moderation tools to prank your friends!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -112,7 +112,7 @@ class FakeMod(kuroutils.Cog):
         try:
             pred = MessagePredicate.yes_or_no(ctx, user=ctx.author)
             await ctx.bot.wait_for("message", check=pred, timeout=30)
-        except TimeoutError:
+        except asyncio.TimeoutError:
             await ctx.send("You took too long to respond.")
             return
         if pred.result:
@@ -121,6 +121,30 @@ class FakeMod(kuroutils.Cog):
         else:
             await ctx.send("No changes have been made.")
 
+    async def send_fake_modlog(
+        self,
+        guild: discord.Guild,
+        action: Literal["warn", "mute", "kick", "ban"],
+        member: discord.Member,
+        moderator: discord.Member,
+        reason: Optional[str],
+    ):
+        config = await self._config.guild(guild).all()
+        if config["channel"] and (fake_modlog := self.bot.get_channel(config["channel"])):
+            case_id: int = config["case_id"]
+            await self._config.guild(guild).case_id.set(case_id + 1)
+            emoji = config[f"{action}_emoji"]
+            reason = reason or "Not provided."
+            embed = discord.Embed(
+                title=f"Case #{case_id} | {action.capitalize()} {emoji}",
+                description=f"**Reason:** {reason}",
+                timestamp=discord.utils.utcnow(),
+            )
+            embed.set_author(name=f"{member} ({member.id})")
+            embed.add_field(name="Moderator", value=f"{moderator} ({moderator.id})")
+            embed.set_footer(text="just kidding lol")
+            await fake_modlog.send(embed=embed)
+
     @commands.command(name="worn")
     async def fake_warn(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -128,25 +152,12 @@ class FakeMod(kuroutils.Cog):
         """Fake warn a member for the specified reason."""
         if member == ctx.me:
             await ctx.send("You can't warn me.")
-        elif member == ctx.author:
+            return
+        if member == ctx.author:
             await ctx.send("You can't warn yourself.")
-        else:
-            await ctx.tick()
-            channel = await self._config.guild(ctx.guild).channel()
-            if channel and self.bot.get_channel(channel):
-                fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self._config.guild(ctx.guild).case_id()
-                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self._config.guild(ctx.guild).warn_emoji()
-                reason = reason if reason else "Not provided."
-                embed = discord.Embed(
-                    title=f"Case #{case_id} | Warn {emoji}", description=f"**Reason:** {reason}"
-                )
-                embed.set_author(name=f"{member} ({member.id})")
-                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-                embed.set_footer(text="just kidding lol")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await fake_modlog.send(embed=embed)
+            return
+        await ctx.send(f"**{member}** has been warned.")
+        await self.send_fake_modlog(ctx.guild, "warn", member, ctx.author, reason)
 
     @commands.command(name="myut", aliases=["moot"])
     async def fake_mute(
@@ -155,25 +166,12 @@ class FakeMod(kuroutils.Cog):
         """Fake mute a member."""
         if member == ctx.me:
             await ctx.send("You can't mute me.")
-        elif member == ctx.author:
+            return
+        if member == ctx.author:
             await ctx.send("You can't mute yourself.")
-        else:
-            await ctx.send(f"{member} has been muted in this server.")
-            channel = await self._config.guild(ctx.guild).channel()
-            if channel and self.bot.get_channel(channel):
-                fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self._config.guild(ctx.guild).case_id()
-                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self._config.guild(ctx.guild).mute_emoji()
-                reason = reason if reason else "Not provided."
-                embed = discord.Embed(
-                    title=f"Case #{case_id} | Mute {emoji}", description=f"**Reason:** {reason}"
-                )
-                embed.set_author(name=f"{member} ({member.id})")
-                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-                embed.set_footer(text="just kidding lol")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await fake_modlog.send(embed=embed)
+            return
+        await ctx.send(f"**{member}** has been muted in this server.")
+        await self.send_fake_modlog(ctx.guild, "mute", member, ctx.author, reason)
 
     @commands.command(name="kik", aliases=["kek", "keck"])
     async def fake_kick(
@@ -182,47 +180,21 @@ class FakeMod(kuroutils.Cog):
         """Fake kick a member."""
         if member == ctx.me:
             await ctx.send("You can't kick me.")
-        elif member == ctx.author:
+            return
+        if member == ctx.author:
             await ctx.send("You can't kick yourself.")
-        else:
-            await ctx.send(f"**{member}** has been kicked from the server.")
-            channel = await self._config.guild(ctx.guild).channel()
-            if channel and self.bot.get_channel(channel):
-                fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self._config.guild(ctx.guild).case_id()
-                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self._config.guild(ctx.guild).kick_emoji()
-                reason = reason if reason else "Not provided."
-                embed = discord.Embed(
-                    title=f"Case #{case_id} | Kick {emoji}", description=f"**Reason:** {reason}"
-                )
-                embed.set_author(name=f"{member} ({member.id})")
-                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-                embed.set_footer(text="just kidding lol")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await fake_modlog.send(embed=embed)
+            return
+        await ctx.send(f"**{member}** has been kicked from the server.")
+        await self.send_fake_modlog(ctx.guild, "kick", member, ctx.author, reason)
 
-    @commands.command(name="bam", aliases=["ben", "bon", "bean"])
+    @commands.command(name="bam", aliases=["ben", "bon", "beam", "bean"])
     async def fake_ban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
         """Fake ban a user."""
         if user == ctx.me:
             await ctx.send("You can't ban me.")
-        elif user == ctx.author:
+            return
+        if user == ctx.author:
             await ctx.send("You can't ban yourself.")
-        else:
-            await ctx.send(f"**{user}** has been banned from the server.")
-            channel = await self._config.guild(ctx.guild).channel()
-            if channel and self.bot.get_channel(channel):
-                fake_modlog = self.bot.get_channel(channel)
-                case_id: int = await self._config.guild(ctx.guild).case_id()
-                await self._config.guild(ctx.guild).case_id.set(case_id + 1)
-                emoji = await self._config.guild(ctx.guild).ban_emoji()
-                reason = reason if reason else "Not provided."
-                embed = discord.Embed(
-                    title=f"Case #{case_id} | Ban {emoji}", description=f"**Reason:** {reason}"
-                )
-                embed.set_author(name=f"{user} ({user.id})")
-                embed.add_field(name="Moderator", value=f"{ctx.author} ({ctx.author.id})")
-                embed.set_footer(text="just kidding lol")
-                embed.timestamp = datetime.datetime.now(datetime.timezone.utc)
-                await fake_modlog.send(embed=embed)
+            return
+        await ctx.send(f"**{user}** has been banned from the server.")
+        await self.send_fake_modlog(ctx.guild, "ban", user, ctx.author, reason)
