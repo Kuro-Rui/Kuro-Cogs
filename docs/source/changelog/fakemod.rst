@@ -5,6 +5,14 @@ FakeMod
 *******
 
 =============
+Version 0.1.0
+=============
+
+2024-03-22
+
+- Add fake unwarn, unmute, and unban
+
+=============
 Version 0.0.2
 =============
 

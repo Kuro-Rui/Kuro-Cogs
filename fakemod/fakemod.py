@@ -40,7 +40,7 @@ class FakeMod(kuroutils.Cog):
     """Fake moderation tools to prank your friends!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.2"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -110,12 +110,12 @@ class FakeMod(kuroutils.Cog):
         """Reset all fake modlog cases in this server."""
         await ctx.send("Would you like to reset all fake modlog cases in this server? (yes/no)")
         try:
-            pred = MessagePredicate.yes_or_no(ctx, user=ctx.author)
-            await ctx.bot.wait_for("message", check=pred, timeout=30)
+            check = MessagePredicate.yes_or_no(ctx, user=ctx.author)
+            await ctx.bot.wait_for("message", check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("You took too long to respond.")
             return
-        if pred.result:
+        if check.result:
             await self._config.guild(ctx.guild).case_id.set(1)
             await ctx.send("Cases have been reset.")
         else:
@@ -124,7 +124,7 @@ class FakeMod(kuroutils.Cog):
     async def send_fake_modlog(
         self,
         guild: discord.Guild,
-        action: Literal["warn", "mute", "kick", "ban"],
+        action: Literal["warn", "unwarn", "mute", "unmute", "kick", "ban", "unban"],
         member: discord.Member,
         moderator: discord.Member,
         reason: Optional[str],
@@ -133,6 +133,7 @@ class FakeMod(kuroutils.Cog):
         if config["channel"] and (fake_modlog := self.bot.get_channel(config["channel"])):
             case_id: int = config["case_id"]
             await self._config.guild(guild).case_id.set(case_id + 1)
+            action = action.replace("un", "")
             emoji = config[f"{action}_emoji"]
             reason = reason or "Not provided."
             embed = discord.Embed(
@@ -159,6 +160,17 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been warned.")
         await self.send_fake_modlog(ctx.guild, "warn", member, ctx.author, reason)
 
+    @commands.command(name="unworn")
+    async def fake_unwarn(
+        self, ctx: commands.Context, member: discord.Member, *, reason: str = None
+    ):
+        """Fake unwarn a member for the specified reason."""
+        if member == ctx.author:
+            await ctx.send("You can't unwarn yourself.")
+            return
+        await ctx.send(f"**{member}** has been unwarned.")
+        await self.send_fake_modlog(ctx.guild, "unwarn", member, ctx.author, reason)
+
     @commands.command(name="myut", aliases=["moot"])
     async def fake_mute(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -172,6 +184,17 @@ class FakeMod(kuroutils.Cog):
             return
         await ctx.send(f"**{member}** has been muted in this server.")
         await self.send_fake_modlog(ctx.guild, "mute", member, ctx.author, reason)
+
+    @commands.command(name="unmyut", aliases=["unmoot"])
+    async def fake_unmute(
+        self, ctx: commands.Context, member: discord.Member, *, reason: str = None
+    ):
+        """Fake unmute a member."""
+        if member == ctx.author:
+            await ctx.send("You can't unmute yourself.")
+            return
+        await ctx.send(f"**{member}** has been unmuted in this server.")
+        await self.send_fake_modlog(ctx.guild, "unmute", member, ctx.author, reason)
 
     @commands.command(name="kik", aliases=["kek", "keck"])
     async def fake_kick(
@@ -187,7 +210,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been kicked from the server.")
         await self.send_fake_modlog(ctx.guild, "kick", member, ctx.author, reason)
 
-    @commands.command(name="bam", aliases=["ben", "bon", "beam", "bean"])
+    @commands.command(name="ben", aliases=["bam", "bon", "beam", "bean"])
     async def fake_ban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
         """Fake ban a user."""
         if user == ctx.me:
@@ -198,3 +221,12 @@ class FakeMod(kuroutils.Cog):
             return
         await ctx.send(f"**{user}** has been banned from the server.")
         await self.send_fake_modlog(ctx.guild, "ban", user, ctx.author, reason)
+
+    @commands.command(name="unben", aliases=["unbam", "unbon", "unbeam", "unbean"])
+    async def fake_unban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
+        """Fake unban a user."""
+        if user == ctx.author:
+            await ctx.send("You can't unban yourself.")
+            return
+        await ctx.send(f"**{user}** has been unbanned from the server.")
+        await self.send_fake_modlog(ctx.guild, "unban", user, ctx.author, reason)

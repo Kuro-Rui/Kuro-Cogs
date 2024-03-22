@@ -14,13 +14,13 @@ Commands
 ========
 
 ---
-bam
+ben
 ---
 
 .. code-block:: yaml
 
-    Syntax : [p]bam <user> [reason]
-    Aliases: [p]ben, [p]bon, [p]beam, [p]bean
+    Syntax : [p]ben <user> [reason]
+    Aliases: [p]bam, [p]bon, [p]beam, [p]bean
 
 **Description:** Fake ban a user.
 
@@ -98,6 +98,44 @@ myut
     Alias : [p]moot
 
 **Description:** Fake mute a member.
+
+----
+
+-----
+unben
+-----
+
+.. code-block:: yaml
+
+    Syntax : [p]unben <user> [reason]
+    Aliases: [p]unbam, [p]unbon, [p]unbeam, [p]unbean
+
+**Description:** Fake unban a user.
+
+----
+
+------
+unmyut
+------
+
+.. code-block:: yaml
+
+    Syntax: [p]unmyut <member> [reason]
+    Alias : [p]unmoot
+
+**Description:** Fake unmute a member.
+
+----
+
+------
+unworn
+------
+
+.. code-block:: yaml
+
+    Syntax: [p]unworn <user> [reason]
+
+**Description:** Fake unwarn a member.
 
 ----
 
