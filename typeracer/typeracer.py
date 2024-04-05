@@ -101,7 +101,7 @@ class TypeRacer(kuroutils.Cog):
             seconds = (message.created_at - start.created_at).total_seconds()
             wpm = (len(quote) * accuracy / word_length) / (seconds / 60)
             messages.append((message, seconds, accuracy, wpm))
-            asyncio.create_task(message.add_reaction("\N{WHITE HEAVY CHECK MARK}"))
+            asyncio.create_task(message.add_reaction(commands.context.TICK))
             if len(messages) != winners:
                 return False
             return True
