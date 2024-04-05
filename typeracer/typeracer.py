@@ -137,16 +137,16 @@ class TypeRacer(kuroutils.Cog):
     async def get_quote(self) -> Tuple[str, Optional[str]] | None:
         data = {}
         try:
-            async with self.session.get("https://api.quotable.io/random") as resp:
-                if resp.status == 200:
-                    data = await resp.json()
+            async with self.session.get("https://zenquotes.io/api/random") as resp:
+                quotes = await resp.json()
+                data = {"content": quotes[0]["q"], "author": quotes[0]["a"]}
         except aiohttp.ClientConnectionError:
             pass
         if not data:
             try:
-                async with self.session.get("https://zenquotes.io/api/random") as resp:
-                    quotes = await resp.json()
-                    data = {"content": quotes[0]["q"], "author": quotes[0]["a"]}
+                async with self.session.get("https://api.quotable.io/random") as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
             except aiohttp.ClientConnectionError:
                 return None
         return data["content"], data["author"]
