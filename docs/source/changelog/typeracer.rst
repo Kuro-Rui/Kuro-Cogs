@@ -5,6 +5,14 @@ TypeRacer
 *********
 
 =============
+Version 1.1.2
+=============
+
+2024-04-05
+
+- Handle API error properly
+
+=============
 Version 1.1.1
 =============
 

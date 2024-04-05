@@ -47,7 +47,7 @@ class TypeRacer(kuroutils.Cog):
     """
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.1.1"
+    __version__ = "1.1.2"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -134,15 +134,21 @@ class TypeRacer(kuroutils.Cog):
         embed = discord.Embed(color=color, description="\n".join(descriptions))
         await ctx.send(embed=embed, reference=reference, view=view)
 
-    async def get_quote(self) -> Tuple[str, Optional[str]]:
+    async def get_quote(self) -> Tuple[str, Optional[str]] | None:
         data = {}
-        async with self.session.get("https://api.quotable.io/random") as resp:
-            if resp.status == 200:
-                data = await resp.json()
+        try:
+            async with self.session.get("https://api.quotable.io/random") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+        except aiohttp.ClientConnectionError:
+            pass
         if not data:
-            async with self.session.get("https://zenquotes.io/api/random") as resp:
-                quotes = await resp.json()
-                data = {"content": quotes[0]["q"], "author": quotes[0]["a"]}
+            try:
+                async with self.session.get("https://zenquotes.io/api/random") as resp:
+                    quotes = await resp.json()
+                    data = {"content": quotes[0]["q"], "author": quotes[0]["a"]}
+            except aiohttp.ClientConnectionError:
+                return None
         return data["content"], data["author"]
 
     async def render_typerace(self, text: str, color: discord.Color) -> BytesIO:
