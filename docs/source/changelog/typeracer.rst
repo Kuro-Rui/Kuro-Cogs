@@ -11,6 +11,8 @@ Version 1.1.2
 2024-04-05
 
 - Handle API error properly
+- Use new API first
+- Use bot's tick emoji
 
 =============
 Version 1.1.1
