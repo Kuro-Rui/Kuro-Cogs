@@ -36,7 +36,7 @@ class PermissionsLocker(kuroutils.Cog):
     """Force permissions for the bot."""
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.3.1"
+    __version__ = "1.3.2"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -50,7 +50,7 @@ class PermissionsLocker(kuroutils.Cog):
         self.whitelist: Set[int] = set()
 
     async def cog_load(self):
-        super().cog_load()
+        await super().cog_load()
         data = await self._config.all()
         self.perms = discord.Permissions(data["permissions"])
         self.whitelist.update(data["whitelisted"])
