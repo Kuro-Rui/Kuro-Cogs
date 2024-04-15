@@ -5,6 +5,14 @@ FakeMod
 *******
 
 =============
+Version 0.1.1
+=============
+
+2024-04-15
+
+- Actually make the commands only invokeable in servers
+
+=============
 Version 0.1.0
 =============
 

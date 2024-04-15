@@ -40,7 +40,7 @@ class FakeMod(kuroutils.Cog):
     """Fake moderation tools to prank your friends!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -146,6 +146,7 @@ class FakeMod(kuroutils.Cog):
             embed.set_footer(text="just kidding lol")
             await fake_modlog.send(embed=embed)
 
+    @commands.guild_only()
     @commands.command(name="worn")
     async def fake_warn(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -160,6 +161,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been warned.")
         await self.send_fake_modlog(ctx.guild, "warn", member, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="unworn")
     async def fake_unwarn(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -171,6 +173,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been unwarned.")
         await self.send_fake_modlog(ctx.guild, "unwarn", member, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="myut", aliases=["moot"])
     async def fake_mute(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -185,6 +188,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been muted in this server.")
         await self.send_fake_modlog(ctx.guild, "mute", member, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="unmyut", aliases=["unmoot"])
     async def fake_unmute(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -196,6 +200,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been unmuted in this server.")
         await self.send_fake_modlog(ctx.guild, "unmute", member, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="kik", aliases=["kek", "keck"])
     async def fake_kick(
         self, ctx: commands.Context, member: discord.Member, *, reason: str = None
@@ -210,6 +215,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{member}** has been kicked from the server.")
         await self.send_fake_modlog(ctx.guild, "kick", member, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="ben", aliases=["bam", "bon", "beam", "bean"])
     async def fake_ban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
         """Fake ban a user."""
@@ -222,6 +228,7 @@ class FakeMod(kuroutils.Cog):
         await ctx.send(f"**{user}** has been banned from the server.")
         await self.send_fake_modlog(ctx.guild, "ban", user, ctx.author, reason)
 
+    @commands.guild_only()
     @commands.command(name="unben", aliases=["unbam", "unbon", "unbeam", "unbean"])
     async def fake_unban(self, ctx: commands.Context, user: discord.User, *, reason: str = None):
         """Fake unban a user."""
