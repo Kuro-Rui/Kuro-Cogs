@@ -5,6 +5,15 @@ ReactLog
 ********
 
 =============
+Version 0.0.7
+=============
+
+2024-04-25
+
+- Menuify ``[p]reactlog blacklist`` and ``[p]reactlog ignore``
+- Some other bugfixes
+
+=============
 Version 0.0.6
 =============
 

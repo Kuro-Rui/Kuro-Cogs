@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import copy
 import re
 from typing import Union
 
@@ -30,6 +31,8 @@ import kuroutils
 from discord.ext import tasks
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
+from redbot.core.utils.chat_formatting import pagify
+from redbot.core.utils.menus import menu
 
 Channel = Union[discord.TextChannel, discord.VoiceChannel, discord.Thread]
 
@@ -38,7 +41,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.6"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -60,7 +63,7 @@ class ReactLog(kuroutils.Cog):
         if not await self._config.grouped():
             return
         # This is to prevent RuntimeError
-        # Since you can't assign to the dictionary being iterated, we have to copy it.
+        # Since we can't assign to the dictionary while being iterated, we have to copy it.
         for guild_id, embeds in self.cache.copy().items():
             if not embeds:
                 del self.cache[guild_id]
@@ -80,6 +83,10 @@ class ReactLog(kuroutils.Cog):
     async def before_send_grouped_embeds(self):
         await self.bot.wait_until_ready()
 
+    def cog_unload(self):
+        super().cog_unload()
+        self.send_grouped_reaction_embeds.stop()
+
     @commands.admin()
     @commands.guild_only()
     @commands.hybrid_group(aliases=["reactionlog"])
@@ -87,6 +94,7 @@ class ReactLog(kuroutils.Cog):
         """Reaction logging configuration commands."""
         pass
 
+    @commands.is_owner()
     @reactlog.command(with_app_command=False)
     @app_commands.describe(time="The time in seconds to group reactions.")
     async def grouped(self, ctx: commands.Context, toggle: bool = None):
@@ -111,17 +119,25 @@ class ReactLog(kuroutils.Cog):
     async def blacklist(self, ctx: commands.Context):
         """Add/remove a member from reactlog blacklist."""
         embed = discord.Embed(title="Reactlog Blacklist", color=await ctx.embed_color())
-        async with self._config.guild(ctx.guild).blacklist() as blacklist:
-            if not blacklist:
-                embed.description = "No member is being blacklisted."
-            else:
-                embed.description = "\n".join(
-                    f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
-                )
         embed.set_footer(
-            text=f"To add/remove member from blacklist, use {ctx.clean_prefix}reactlog blacklist add/remove <member>"
+            text=(
+                "To add/remove member from blacklist, "
+                f"run {ctx.clean_prefix}reactlog blacklist add/remove <member>"
+            )
         )
-        await ctx.send(embed=embed)
+        blacklist = await self._config.guild(ctx.guild).blacklist()
+        if not blacklist:
+            description = "No member is being blacklisted."
+        else:
+            description = "\n".join(
+                f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
+            )
+        embeds = []
+        for page in pagify(description, page_length=2000):
+            e = copy.deepcopy(embed)
+            e.description = page
+            embeds.append(e)
+        await menu(ctx, embeds, timeout=60)
 
     @blacklist.command(name="add")
     @app_commands.describe(member="The member to add to reactlog blacklist.")
@@ -165,19 +181,27 @@ class ReactLog(kuroutils.Cog):
     @commands.mod_or_permissions(administrator=True)
     async def ignore(self, ctx: commands.Context):
         """Add/remove a channel from reactlog ignore list."""
-        embed = discord.Embed(title="Reactlog Ignore List", color=await ctx.embed_color())
-        async with self._config.guild(ctx.guild).ignored() as ignored:
-            if not ignored:
-                embed.description = "No channel is being ignored."
-            else:
-                embed.description = "\n".join(
-                    f"{self.bot.get_channel(channel_id).mention} (ID: {channel_id})"
-                    for channel_id in ignored
-                )
+        embed = discord.Embed(title="ReactLog Ignore List", color=await ctx.embed_color())
         embed.set_footer(
-            text=f"To add/remove channel from ignore list, use {ctx.clean_prefix}reactlog ignore add/remove <channel>"
+            text=(
+                "To add/remove a channel from ignore list, "
+                f"run {ctx.clean_prefix}reactlog ignore add/remove <channel>"
+            )
         )
-        await ctx.send(embed=embed)
+        ignored = await self._config.guild(ctx.guild).ignored()
+        if not ignored:
+            description = "No channel is being ignored."
+        else:
+            description = "\n".join(
+                f"{self.bot.get_channel(channel_id).mention} (ID: {channel_id})"
+                for channel_id in ignored
+            )
+        embeds = []
+        for page in pagify(description, page_length=2000):
+            e = copy.deepcopy(embed)
+            e.description = page
+            embeds.append(e)
+        await menu(ctx, embeds, timeout=60)
 
     @ignore.command(name="add")
     @app_commands.describe(channel="The channel to add to reactlog ignore list.")
