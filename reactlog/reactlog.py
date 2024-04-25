@@ -133,7 +133,7 @@ class ReactLog(kuroutils.Cog):
                 f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
             )
         embeds = []
-        for page in pagify(description, page_length=2000):
+        for page in pagify(description, page_length=1024):
             e = copy.deepcopy(embed)
             e.description = page
             embeds.append(e)
@@ -197,7 +197,7 @@ class ReactLog(kuroutils.Cog):
                 for channel_id in ignored
             )
         embeds = []
-        for page in pagify(description, page_length=2000):
+        for page in pagify(description, page_length=1024):
             e = copy.deepcopy(embed)
             e.description = page
             embeds.append(e)
