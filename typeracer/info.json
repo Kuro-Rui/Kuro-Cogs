@@ -7,7 +7,7 @@
     "install_msg": "Thanks for installing TypeRacer! The original credits for this cog go to Cats3153.\nThis cog has docs! Check it out at <https://kuro-cogs.readthedocs.io/en/latest/cogs/typeracer.html>.",
     "min_bot_version": "3.5.0",
     "name": "TypeRacer",
-    "requirements": ["Pillow"],
+    "requirements": ["git+https://github.com/Kuro-Rui/Kuro-Utils", "Pillow"],
     "short": "Race to see who can type the fastest!",
     "tags": ["fun", "game", "race", "type", "typerace"],
     "type": "COG"
