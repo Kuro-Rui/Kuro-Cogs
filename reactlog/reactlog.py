@@ -41,7 +41,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -55,7 +55,7 @@ class ReactLog(kuroutils.Cog):
             react_add=False,
             react_remove=False,
         )
-        self.cache = kuroutils.DefaultDict(lambda: [])
+        self.cache = kuroutils.DefaultDict([])
         self.send_grouped_reaction_embeds.start()
 
     @tasks.loop(seconds=10)
