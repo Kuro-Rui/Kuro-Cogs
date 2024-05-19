@@ -5,6 +5,14 @@ TypeRacer
 *********
 
 =============
+Version 1.1.3
+=============
+
+2024-05-19
+
+- Use Optional typehint for now
+
+=============
 Version 1.1.2
 =============
 

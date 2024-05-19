@@ -47,7 +47,7 @@ class TypeRacer(kuroutils.Cog):
     """
 
     __author__ = ["PhenoM4n4n", "Kuro"]
-    __version__ = "1.1.2"
+    __version__ = "1.1.3"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
