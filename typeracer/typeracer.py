@@ -134,7 +134,7 @@ class TypeRacer(kuroutils.Cog):
         embed = discord.Embed(color=color, description="\n".join(descriptions))
         await ctx.send(embed=embed, reference=reference, view=view)
 
-    async def get_quote(self) -> Tuple[str, Optional[str]] | None:
+    async def get_quote(self) -> Optional[Tuple[str, Optional[str]]]:
         data = {}
         try:
             async with self.session.get("https://zenquotes.io/api/random") as resp:
