@@ -5,6 +5,16 @@ Chairs
 ******
 
 =============
+Version 0.1.0
+=============
+
+2024-05-30
+
+- Bugfix
+- Reply for some cases instead of send
+- Make every reply ephemeral
+
+=============
 Version 0.0.1
 =============
 

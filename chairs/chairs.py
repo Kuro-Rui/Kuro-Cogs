@@ -36,7 +36,7 @@ class Chairs(kuroutils.Cog):
     """Game of Chairs in Discord!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.1"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -53,14 +53,16 @@ class Chairs(kuroutils.Cog):
     async def chairs_start(self, ctx: commands.Context):
         """Start the game of Chairs!"""
         if not (manager_role := await self._config.guild(ctx.guild).manager_role()):
-            await ctx.send("The manager role hasn't been set yet.")
+            await ctx.reply("The manager role hasn't been set yet.", ephemeral=True)
             return
         manager_role = ctx.guild.get_role(manager_role)
         if manager_role not in ctx.author.roles:
-            await ctx.send("You are not a manager.")
+            await ctx.reply("You are not a manager.", ephemeral=True)
             return
         if self._cache.get(ctx.channel.id):
-            await ctx.send("There is already a game of Chairs in this channel.")
+            await ctx.reply(
+                "There is a game of chairs already running in this channel.", ephemeral=True
+            )
             return
         view = StartingView()
         await view.start(ctx)
@@ -69,16 +71,19 @@ class Chairs(kuroutils.Cog):
     async def chairs_stop(self, ctx: commands.Context):
         """Stop the game of Chairs."""
         if not (manager_role := await self._config.guild(ctx.guild).manager_role()):
-            await ctx.send("The manager role hasn't been set yet.")
+            await ctx.reply("The manager role hasn't been set yet.", ephemeral=True)
             return
         manager_role = ctx.guild.get_role(manager_role)
         if manager_role not in ctx.author.roles:
-            await ctx.send("You are not a manager.")
+            await ctx.reply("You are not a manager.", ephemeral=True)
             return
         if not (view := self._cache.get(ctx.channel.id)):
-            await ctx.send("There is no game of Chairs in this channel.")
+            await ctx.reply("There is no game of chairs running in this channel.", ephemeral=True)
             return
-        await view.stop_game(ctx.author)
+        if ctx.author != view.host:
+            await ctx.reply("You're not the host of this game.", ephemeral=True)
+            return
+        await view.stop_game()
         await ctx.send("The game has been cancelled successfully.")
 
     @commands.admin_or_permissions(manage_guild=True)

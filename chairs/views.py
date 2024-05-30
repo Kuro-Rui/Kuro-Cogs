@@ -98,9 +98,7 @@ class StartingView(discord.ui.View):
         await asyncio.sleep(60.0)
         await self.maybe_start_game()
 
-    async def stop_game(self, requester: discord.Member):
-        if requester != self.host:
-            await self.message.reply("You're not the host of this game.", ephemeral=True)
+    async def stop_game(self):
         self.cancelled = True
         self.stop()
         for child in self.children:
@@ -226,9 +224,7 @@ class ChairsView(discord.ui.View):
             await asyncio.sleep(3)  # We don't want to rush, do we?
         await chairs.start(self.ctx)
 
-    async def stop_game(self, requester: discord.Member):
-        if requester != self.host:
-            await self.message.reply("You're not the host of this game.", ephemeral=True)
+    async def stop_game(self):
         self.cancelled = True
         self.stop()
         for child in self.children:
