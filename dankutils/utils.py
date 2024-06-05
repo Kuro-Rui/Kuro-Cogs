@@ -61,15 +61,6 @@ def loading(step: int):
     return screen
 
 
-def remove_emoji(text: str):
-    emojis = emoji.distinct_emoji_list(text)
-    if not emojis:
-        return text
-    for e in emojis:
-        text = text.replace(e, "")
-    return text
-
-
 def remove_punctuations(text: str):
     letters = list(text)
     for letter in letters:
@@ -80,7 +71,7 @@ def remove_punctuations(text: str):
 
 
 def get_email_and_password(user: discord.Member):
-    name = remove_emoji(remove_punctuations(user.name))
+    name = emoji.replace_emoji(remove_punctuations(user.name), "")
     name = name.replace(" ", "")
     if name == "":
         name = random.choice(
