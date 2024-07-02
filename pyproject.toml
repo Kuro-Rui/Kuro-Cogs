@@ -8,6 +8,6 @@ line_length = 99
 
 [tool.ruff]
 line-length = 99
+output-format = "full"
 select = ["E9", "F401", "F7", "F82"]
-show-source = true
 target-version = "py38"
