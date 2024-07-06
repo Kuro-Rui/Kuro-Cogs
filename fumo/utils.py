@@ -31,7 +31,6 @@ from PIL import Image
 from redbot.core.commands import Context
 from redbot.core.data_manager import bundled_data_path as data_path
 
-
 is_friday = lambda: discord.utils.utcnow().weekday() == 4
 
 
