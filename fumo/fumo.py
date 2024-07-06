@@ -23,17 +23,18 @@ SOFTWARE.
 """
 
 import functools
-import json
 import random
-from typing import Literal
+from typing import Literal, Optional
 
+import aiohttp
 import discord
 import kuroutils
+from discord.ext import tasks
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.data_manager import bundled_data_path
 from redbot.core.utils.chat_formatting import bold
 
+from .object import Fumos
 from .utils import *
 
 
@@ -41,10 +42,33 @@ class Fumo(kuroutils.Cog):
     """Fumo Fumo. Fumo? Fumo! ᗜˬᗜ"""
 
     __author__ = ["Kuro", "Glas"]
-    __version__ = "0.0.2"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
+        self.fumos: Optional[Fumos] = None
+        self.session = aiohttp.ClientSession()
+
+    async def cog_load(self):
+        await super().cog_load()
+        self.fetch_fumos_loop.start()
+
+    async def cog_unload(self):
+        super().cog_unload()
+        self.fetch_fumos_loop.stop()
+        await self.session.close()
+
+    @tasks.loop(hours=1)
+    async def fetch_fumos_loop(self):
+        await self.fetch_fumos()
+
+    async def fetch_fumos(self):
+        async with self.session.get("https://kuro-rui.github.io/fumo/all.json") as resp:
+            if resp.status != 200:
+                self._log.debug("Failed to fetch Fumos.")
+                return
+            self.fumos = Fumos(**await resp.json())
+            self._log.debug("Successfully fetched Fumos.")
 
     @commands.group(invoke_without_command=True)
     async def fumo(self, ctx: commands.Context):
@@ -52,42 +76,43 @@ class Fumo(kuroutils.Cog):
 
         await self.summon_fumo(ctx)
 
+    @commands.check(lambda ctx: discord.utils.utcnow().weekday() == 4)
     @fumo.command()
-    async def image(self, ctx: commands.Context):
-        """Generates a random Fumo image ᗜˬᗜ"""
+    async def friday(self, ctx: commands.Context):
+        """Generates a random Fumo Friday video ᗜˬᗜ"""
 
-        await self.summon_fumo(ctx, "Image")
+        await self.summon_fumo(ctx, "friday")
 
     @fumo.command()
     async def gif(self, ctx: commands.Context):
         """Generates a random Fumo GIF ᗜˬᗜ"""
 
-        await self.summon_fumo(ctx, "GIF")
+        await self.summon_fumo(ctx, "gif")
+
+    @fumo.command()
+    async def image(self, ctx: commands.Context):
+        """Generates a random Fumo image ᗜˬᗜ"""
+
+        await self.summon_fumo(ctx, "image")
 
     @fumo.command()
     async def video(self, ctx: commands.Context):
         """Generates a random Fumo video ᗜˬᗜ"""
 
-        await self.summon_fumo(ctx, "Video")
-
-    def get_fumos_by_type(self, content_type: Literal["Image", "GIF", "Video"] = None):
-        """Get Fumos by type."""
-        with open(f"{bundled_data_path(self)}/fumos.json") as f:
-            fumos = json.load(f)
-        if not content_type:
-            return fumos["Image"] + fumos["GIF"] + fumos["Video"]
-        return fumos[content_type]
+        await self.summon_fumo(ctx, "video")
 
     async def summon_fumo(
-        self, ctx: commands.Context, type: Literal["Image", "GIF", "Video"] = None
+        self,
+        ctx: commands.Context,
+        fumo_type: Literal["all", "friday", "gif", "image", "video"] = "all",
     ):
         """Summon a Fumo."""
-        url = random.choice(self.get_fumos_by_type(type))
-        title = f"Here's a Random Fumo! ᗜˬᗜ"
-        if type:
-            title = f"Here's a Random Fumo {type}! ᗜˬᗜ"
-        types = {"jpg": "Image", "png": "Image", "gif": "GIF", "mp4": "Video", "mov": "Video"}
-        if await ctx.embed_requested() and types[url[-3:]] != "Video":
+        url = random.choice(getattr(self.fumos, fumo_type))
+        title = "Here's a Random Fumo! ᗜˬᗜ"
+        if fumo_type != "all":
+            fumo_type = "GIF" if fumo_type == "gif" else fumo_type.capitalize()
+            title = f"Here's a Random Fumo {fumo_type}! ᗜˬᗜ"
+        if await ctx.embed_requested() and url[-3:] not in ("mp4", "mov"):
             embed = discord.Embed(title=title, color=await ctx.embed_color())
             embed.set_image(url=url)
             await ctx.send(embed=embed)

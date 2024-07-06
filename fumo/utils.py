@@ -32,6 +32,9 @@ from redbot.core.commands import Context
 from redbot.core.data_manager import bundled_data_path as data_path
 
 
+is_friday = lambda: discord.utils.utcnow().weekday() == 4
+
+
 def bytes_to_image(image: BytesIO, size: int):
     image = Image.open(image).convert("RGBA")
     image = image.resize((size, size), Image.Resampling.LANCZOS)
