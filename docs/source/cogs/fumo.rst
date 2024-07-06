@@ -25,6 +25,21 @@ fumo
 
 ----
 
+^^^^^^^^^^^
+fumo friday
+^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    Syntax: [p]fumo friday
+
+**Description:** Generate a random Fumo Friday video ᗜˬᗜ
+
+.. tip::
+    This command will only unlock on Fumo Friday! (UTC Time)
+
+----
+
 ^^^^^^^^
 fumo gif
 ^^^^^^^^
@@ -49,18 +64,6 @@ fumo image
 
 ----
 
-^^^^^^^^^
-fumo meme
-^^^^^^^^^
-
-.. code-block:: yaml
-
-    Syntax: [p]fumo meme
-
-**Description:** Generate a random Fumo meme ᗜˬᗜ
-
-----
-
 ^^^^^^^^^^
 fumo video
 ^^^^^^^^^^
@@ -70,9 +73,6 @@ fumo video
     Syntax: [p]fumo video
 
 **Description:** Generate a random Fumo video ᗜˬᗜ
-
-.. tip::
-    There will be more Fumo videos on Fumo Funky Friday (UTC Time)
 
 ----
 
