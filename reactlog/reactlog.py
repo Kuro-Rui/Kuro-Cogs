@@ -308,17 +308,18 @@ class ReactLog(kuroutils.Cog):
         if user.bot:
             return False
         guild = message.guild
-        if not (log_channel := await self._config.guild(guild).channel()):
-            return False
-        channel = message.channel
-        if channel.id in await self._config.guild(guild).ignored():
-            return False
-        if user.id in await self._config.guild(guild).blacklist():
+        config = await self._config.guild(guild).all()
+        if not (log_channel := config["channel"]):
             return False
         if not guild.get_channel_or_thread(log_channel):
             self._log.info(
                 f"Channel or Thread with ID {log_channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
+            return False
+        channel = message.channel
+        if channel.id in config["ignored"]:
+            return False
+        if user.id in config["blacklist"]:
             return False
         return True
 
@@ -370,12 +371,12 @@ class ReactLog(kuroutils.Cog):
         message = reaction.message
         if not (guild := message.guild):
             return
-        if not await self._config.guild(guild).react_add():
-            return
-        if not await self._check(user, message):
-            return
-        log_all = await self._config.guild(guild).log_all()
-        if not log_all and reaction.count != 1:
+        config = await self._config.guild(guild).all()
+        if (
+            not config["react_add"]
+            or not await self._check(user, message)
+            or not (config["log_all"] or reaction.count == 1)
+        ):
             return
         await self.make_reaction_embed(str(reaction.emoji), message, user, added=True)
 
@@ -384,11 +385,11 @@ class ReactLog(kuroutils.Cog):
         message = reaction.message
         if not (guild := message.guild):
             return
-        if not await self._config.guild(guild).react_remove():
-            return
-        if not await self._check(user, message):
-            return
-        log_all = await self._config.guild(guild).log_all()
-        if not log_all and reaction.count != 0:
+        config = await self._config.guild(guild).all()
+        if (
+            not config["react_remove"]
+            or not await self._check(user, message)
+            or not (config["log_all"] or reaction.count == 0)
+        ):
             return
         await self.make_reaction_embed(str(reaction.emoji), message, user, added=False)
