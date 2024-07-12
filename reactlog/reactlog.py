@@ -24,7 +24,7 @@ SOFTWARE.
 
 import copy
 import re
-from typing import Union
+from typing import Optional, Union
 
 import discord
 import kuroutils
@@ -41,7 +41,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.1"
+    __version__ = "0.2.0"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -87,7 +87,7 @@ class ReactLog(kuroutils.Cog):
         super().cog_unload()
         self.send_grouped_reaction_embeds.stop()
 
-    @commands.admin()
+    @commands.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @commands.hybrid_group(aliases=["reactionlog"])
     async def reactlog(self, ctx: commands.Context):
@@ -97,7 +97,7 @@ class ReactLog(kuroutils.Cog):
     @commands.is_owner()
     @reactlog.command(with_app_command=False)
     @app_commands.describe(time="The time in seconds to group reactions.")
-    async def grouped(self, ctx: commands.Context, toggle: bool = None):
+    async def grouped(self, ctx: commands.Context, toggle: Optional[bool] = None):
         """
         Set whether to group reaction logging embeds.
 
@@ -115,7 +115,6 @@ class ReactLog(kuroutils.Cog):
         await ctx.send("I won't group reaction logging embeds from now.")
 
     @reactlog.group(aliases=["bl"], invoke_without_command=True)
-    @commands.mod_or_permissions(administrator=True)
     async def blacklist(self, ctx: commands.Context):
         """Add/remove a member from reactlog blacklist."""
         embed = discord.Embed(title="Reactlog Blacklist", color=await ctx.embed_color())
@@ -164,7 +163,9 @@ class ReactLog(kuroutils.Cog):
     @reactlog.command()
     @app_commands.describe(channel="The channel to log reactions to.")
     async def channel(
-        self, ctx: commands.Context, channel: Union[discord.TextChannel, discord.Thread] = None
+        self,
+        ctx: commands.Context,
+        channel: Optional[Union[discord.TextChannel, discord.Thread]] = None,
     ):
         """Set the reactions logging channel."""
         if not channel:
@@ -178,7 +179,6 @@ class ReactLog(kuroutils.Cog):
         await ctx.send(f"Reaction logging channel has been set to: {channel.mention}")
 
     @reactlog.group(invoke_without_command=True)
-    @commands.mod_or_permissions(administrator=True)
     async def ignore(self, ctx: commands.Context):
         """Add/remove a channel from reactlog ignore list."""
         embed = discord.Embed(title="ReactLog Ignore List", color=await ctx.embed_color())
@@ -227,7 +227,7 @@ class ReactLog(kuroutils.Cog):
 
     @reactlog.command()
     @app_commands.describe(toggle="True or False")
-    async def reactadd(self, ctx: commands.Context, toggle: bool = None):
+    async def reactadd(self, ctx: commands.Context, toggle: Optional[bool] = None):
         """Enable/disable logging when reactions added."""
         current = await self._config.guild(ctx.guild).react_add()
         if toggle is None:
@@ -242,7 +242,7 @@ class ReactLog(kuroutils.Cog):
 
     @reactlog.command()
     @app_commands.describe(toggle="True or False")
-    async def reactdel(self, ctx: commands.Context, toggle: bool = None):
+    async def reactdel(self, ctx: commands.Context, toggle: Optional[bool] = None):
         """Enable/disable logging when reactions removed."""
         current = await self._config.guild(ctx.guild).react_remove()
         if toggle is None:
@@ -257,7 +257,7 @@ class ReactLog(kuroutils.Cog):
 
     @reactlog.command()
     @app_commands.describe(toggle="True or False")
-    async def logall(self, ctx: commands.Context, toggle: bool = None):
+    async def logall(self, ctx: commands.Context, toggle: Optional[bool] = None):
         """
         Set whether to log all reactions or not.
 
@@ -280,19 +280,18 @@ class ReactLog(kuroutils.Cog):
     @reactlog.command()
     async def settings(self, ctx: commands.Context):
         """Show current reaction log settings."""
-        channel = await self._config.guild(ctx.guild).channel()
-        if channel:
+        config = await self._config.guild(ctx.guild).all()
+        if channel := config["channel"]:
             channel_mention = self.bot.get_channel(channel).mention
         else:
             channel_mention = "Not Set"
-        react_add_status = await self._config.guild(ctx.guild).react_add()
-        react_remove_status = await self._config.guild(ctx.guild).react_remove()
-        log_all_status = await self._config.guild(ctx.guild).log_all()
         if await ctx.embed_requested():
             embed = discord.Embed(title="Reaction Log Settings", color=await ctx.embed_color())
-            embed.add_field(name="Log On Reaction Add?", value=react_add_status, inline=True)
-            embed.add_field(name="Log On Reaction Remove?", value=react_remove_status, inline=True)
-            embed.add_field(name="Log All Reactions?", value=log_all_status, inline=True)
+            embed.add_field(name="Log On Reaction Add?", value=config["react_add"], inline=True)
+            embed.add_field(
+                name="Log On Reaction Remove?", value=config["react_remove"], inline=True
+            )
+            embed.add_field(name="Log All Reactions?", value=config["log_all"], inline=True)
             embed.add_field(name="Channel", value=channel_mention, inline=True)
             embed.set_footer(text=ctx.guild.name, icon_url=getattr(ctx.guild.icon, "url", None))
             await ctx.send(embed=embed)
@@ -300,22 +299,21 @@ class ReactLog(kuroutils.Cog):
             await ctx.send(
                 f"**Reaction Log Settings for {ctx.guild.name}**\n"
                 f"Channel: {channel_mention}\n"
-                f"Log On Reaction Add: {react_add_status}\n"
-                f"Log On Reaction Remove: {react_remove_status}\n"
-                f"Log All Reactions: {log_all_status}"
+                f"Log On Reaction Add: {config['react_add']}\n"
+                f"Log On Reaction Remove: {config['react_add']}\n"
+                f"Log All Reactions: {config['log_all']}"
             )
 
-    async def _check(self, member: discord.Member, message: discord.Message) -> bool:
-        if member.bot:
+    async def _check(self, user: discord.Member, message: discord.Message) -> bool:
+        if user.bot:
             return False
-        if not (guild := message.guild):
-            return False
+        guild = message.guild
         if not (log_channel := await self._config.guild(guild).channel()):
             return False
         channel = message.channel
         if channel.id in await self._config.guild(guild).ignored():
             return False
-        if member.id in await self._config.guild(message.guild).blacklist():
+        if user.id in await self._config.guild(guild).blacklist():
             return False
         if not guild.get_channel_or_thread(log_channel):
             self._log.info(
@@ -324,17 +322,15 @@ class ReactLog(kuroutils.Cog):
             return False
         return True
 
-    async def make_or_send_embed(
-        self, message: discord.Message, emoji: str, user: discord.Member, *, added: bool
-    ) -> discord.Embed:
-        # https://github.com/Rapptz/discord.py/blob/462ba84/discord/ext/commands/converter.py#L700
-        match = re.match(r"<a?:([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>$", emoji)
-        if match:
+    async def make_reaction_embed(
+        self, emoji: str, message: discord.Message, user: discord.Member, *, added: bool
+    ) -> None:
+        if ce_match := re.match(r"<a?:([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>", emoji):
             description = (
                 f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {match.group(1)} (ID: {match.group(2)})"
+                f"**Emoji:** {ce_match.group(1)} (ID: {ce_match.group(2)})"
             )
-            url = f"https://cdn.discordapp.com/emojis/{match.group(2)}"
+            url = f"https://cdn.discordapp.com/emojis/{ce_match.group(2)}"
             url += ".gif" if emoji.startswith("<a") else ".png"
         else:  # Default Emoji
             description = f"**Channel:** {message.channel.mention}\n**Emoji:** {emoji.strip(':')}"
@@ -345,15 +341,17 @@ class ReactLog(kuroutils.Cog):
                     chars.remove("fe0f")
             if "20e3" in chars:
                 chars.remove("fe0f")
-            url = f"https://twemoji.maxcdn.com/v/14.0.2/72x72/{'-'.join(chars)}.png"
+            url = f"https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{'-'.join(chars)}.png"
+
         color = discord.Color.green() if added else discord.Color.red()
         embed = discord.Embed(
-            description=description, color=color, timestamp=discord.utils.utcnow()
+            color=color, description=description, timestamp=discord.utils.utcnow()
         )
         embed.set_author(name=f"{user} ({user.id})", icon_url=user.display_avatar.url)
         embed.set_thumbnail(url=url)
-        added_or_removed = "Added" if added else "Removed"
-        embed.set_footer(text=f"Reaction {added_or_removed} | #{message.channel.name}")
+        embed.set_footer(
+            text=f"Reaction {'Added' if added else 'Removed'} | #{message.channel.name}"
+        )
         if await self._config.grouped():
             embed.description += f"\n**Message:** [Jump to Message ►]({message.jump_url})"
             self.cache[message.guild.id].append(embed)
@@ -370,23 +368,27 @@ class ReactLog(kuroutils.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
         message = reaction.message
-        if not await self._config.guild(message.guild).react_add():
+        if not (guild := message.guild):
+            return
+        if not await self._config.guild(guild).react_add():
             return
         if not await self._check(user, message):
             return
-        log_all = await self._config.guild(message.guild).log_all()
+        log_all = await self._config.guild(guild).log_all()
         if not log_all and reaction.count != 1:
             return
-        await self.make_or_send_embed(message, str(reaction.emoji), user, added=True)
+        await self.make_reaction_embed(str(reaction.emoji), message, user, added=True)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
         message = reaction.message
-        if not await self._config.guild(message.guild).react_remove():
+        if not (guild := message.guild):
+            return
+        if not await self._config.guild(guild).react_remove():
             return
         if not await self._check(user, message):
             return
-        log_all = await self._config.guild(message.guild).log_all()
+        log_all = await self._config.guild(guild).log_all()
         if not log_all and reaction.count != 0:
             return
-        await self.make_or_send_embed(message, str(reaction.emoji), user, added=False)
+        await self.make_reaction_embed(str(reaction.emoji), message, user, added=False)
