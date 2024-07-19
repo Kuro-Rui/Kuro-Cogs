@@ -44,7 +44,7 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)

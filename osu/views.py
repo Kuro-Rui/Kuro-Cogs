@@ -211,7 +211,7 @@ class ProfileView(discord.ui.View):
         # Why are we doing this? Because this will throw a ValueError if a kwarg's value is None.
         if mode:
             kwargs["mode"] = mode
-        if not self.user:
+        if not self.player:
             return await self.client.get_me(**kwargs)
         kwargs["qtype"] = self.query_type
         return await self.client.get_user(self.player, **kwargs)
