@@ -38,8 +38,8 @@ from redbot.core.utils.chat_formatting import bold, humanize_number, humanize_ti
 from .constants import GAME_MODES, MODE_EMOJIS, RANK_EMOJIS
 from .helpers import *
 
-
 # Authentication Views
+
 
 class AuthenticationModal(discord.ui.Modal):
     def __init__(self, *, timeout: int) -> None:
@@ -84,7 +84,7 @@ class AuthenticationView(discord.ui.View):
         super().__init__(timeout=timeout)
         self.author: Optional[discord.User] = None
         self.message: Optional[discord.Message] = None
-        
+
         self.authenticated = False
         self.user_token: Optional[OAuthToken] = None
 
@@ -125,7 +125,7 @@ class AuthenticationView(discord.ui.View):
             "ephemeral": True,
             "reference": ctx.message.to_reference(fail_if_not_exists=False),
             "mention_author": False,
-            "view": self
+            "view": self,
         }
         if await ctx.embed_requested():
             kwargs["embed"] = embed
@@ -153,6 +153,7 @@ class AuthenticationView(discord.ui.View):
 
 
 # Profile Views
+
 
 class ProfileModeSelect(discord.ui.Select["ProfileView"]):
     def __init__(self, *, default: Gamemode) -> None:
