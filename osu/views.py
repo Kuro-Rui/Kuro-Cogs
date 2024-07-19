@@ -157,7 +157,6 @@ class AuthenticationView(discord.ui.View):
 
 class ProfileModeSelect(discord.ui.Select["ProfileView"]):
     def __init__(self, *, default: Gamemode) -> None:
-        self.embeds = self.view.embeds
         options = [
             discord.SelectOption(label="Standard", value="0"),
             discord.SelectOption(label="Taiko", value="1"),
@@ -177,7 +176,7 @@ class ProfileModeSelect(discord.ui.Select["ProfileView"]):
             option.default = False
         value = int(self.values[0])
         self.options[value].default = True
-        await interaction.response.edit_message(embed=self.embeds[value], view=self.view)
+        await interaction.response.edit_message(embed=self.view.embeds[value], view=self.view)
 
 
 class ProfileView(discord.ui.View):
