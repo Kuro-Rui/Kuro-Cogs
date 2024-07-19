@@ -80,24 +80,36 @@ osu profile
 
 ----
 
-^^^^^^^
-osu set
-^^^^^^^
+^^^^^^^^^^
+osu unlink
+^^^^^^^^^^
 
 .. code-block:: yaml
 
-    Syntax: [p]osu set
+    Syntax: [p]osu unlink
 
-**Description:** Settings for osu!
+**Description:** Unlink your osu! account.
+
+----
+
+------
+osuset
+------
+
+.. code-block:: yaml
+
+    Syntax: [p]osuset
+
+**Description:** osu! settings.
 
 .. note::
     This command is only available for the Bot Owner.
 
 ----
 
-"""""""""""""""""""
-osu set authtimeout
-"""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
+osuset authtimeout
+^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -110,9 +122,9 @@ osu set authtimeout
 
 ----
 
-"""""""""""""
-osu set creds
-"""""""""""""
+^^^^^^^^^^^^
+osuset creds
+^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -125,9 +137,9 @@ osu set creds
 
 ----
 
-"""""""""""""""""""
-osu set menutimeout
-"""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
+osuset menutimeout
+^^^^^^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -140,39 +152,9 @@ osu set menutimeout
 
 ----
 
-"""""""""""""""""
-osu set modeemoji
-"""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset modeemoji <mode> [emoji]
-
-**Description:** Change an emoji used by the bot for showing modes. Omit ``emoji`` to reset a mode's emoji.
-
-.. note::
-    This command is only available for the Bot Owner.
-
-----
-
-"""""""""""""""""
-osu set rankemoji
-"""""""""""""""""
-
-.. code-block:: yaml
-
-    Syntax: [p]osuset rankemoji <rank> [emoji]
-
-**Description:** Change an emoji used by the bot for showing ranks. Omit ``emoji`` to reset a rank's emoji.
-
-.. note::
-    This command is only available for the Bot Owner.
-
-----
-
-""""""""""""""
-osu set scopes
-""""""""""""""
+^^^^^^^^^^^^^
+osuset scopes
+^^^^^^^^^^^^^
 
 .. code-block:: yaml
 
@@ -184,15 +166,3 @@ osu set scopes
 
 .. note::
     This command is only available for the Bot Owner.
-
-----
-
-^^^^^^^^^^
-osu unlink
-^^^^^^^^^^
-
-.. code-block:: yaml
-
-    Syntax: [p]osu unlink
-
-**Description:** Unlink your osu! account.

@@ -22,17 +22,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from typing import Optional
+from typing import Literal, Optional
 from urllib.parse import parse_qs, urlparse
 
-from aiosu.models import Gamemode
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import humanize_number
+
+from .constants import DIFFICULTY_EMOJIS, MODE_EMOJIS
 
 
 def maybe_humanize_number(number: Optional[int], alt: str) -> str:
-    if number:
-        return humanize_number(number)
-    return alt
+    return humanize_number(number) if number else alt
+
+
+def maybe_get_emoji(bot: Red, emoji_id: int, alt: str) -> Optional[str]:
+    emoji = bot.get_emoji(emoji_id)
+    return str(emoji) if emoji else alt
+
+
+def get_difficulty_emoji(mode: Literal["std", "taiko", "ctb", "mania"], star_rating: float) -> str:
+    emojis = DIFFICULTY_EMOJIS[mode]
+    # https://osu.ppy.sh/wiki/en/Beatmap/Difficulty#difficulty-and-star-rating
+    if star_rating < 2:
+        return str(emojis["easy"])
+    elif star_rating < 2.7:
+        return str(emojis["normal"])
+    elif star_rating < 4:
+        return str(emojis["hard"])
+    elif star_rating < 5.3:
+        return str(emojis["insane"])
+    elif star_rating < 6.5:
+        return str(emojis["expert"])
+    elif star_rating < 8:
+        return str(emojis["expert+"])
+    elif star_rating < 9:
+        return str(emojis["extreme"])
+    elif star_rating >= 9:
+        return str(emojis["black"])
+    else:
+        return str(MODE_EMOJIS[mode])
 
 
 def parse_code_from_url(url: str) -> str:
@@ -43,21 +71,3 @@ def parse_code_from_url(url: str) -> str:
     if len(code) > 1:
         raise ValueError(f"Passed URL contains multiple values for 'code' parameter.")
     return code[0]
-
-
-DEFAULT_MODE_EMOJIS = {
-    "std": 1102048785481338990,
-    "taiko": 1102048811595079680,
-    "ctb": 1102048833875222528,
-    "mania": 1102048854708330570,
-}
-
-DEFAULT_RANK_EMOJIS = {
-    "ssh": 1102049862624747631,
-    "ss": 1102049896720236556,
-    "sh": 1102049938319355924,
-    "s": 1102049963707486208,
-    "a": 1102049988873293915,
-}
-
-GAME_MODES = [Gamemode.STANDARD, Gamemode.TAIKO, Gamemode.CTB, Gamemode.MANIA]

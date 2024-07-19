@@ -23,32 +23,35 @@ SOFTWARE.
 """
 
 from io import BytesIO
+from typing import Literal, Optional
 
 import aiohttp
 import discord
 from aiosu.exceptions import APIException
-from aiosu.models import Gamemode, Scopes
-from kuroutils.converters import Emoji
+from aiosu.models import Scopes
 from redbot.core import app_commands, commands
 from redbot.core.utils.chat_formatting import humanize_list, humanize_timedelta
 from redbot.core.utils.views import SetApiView
 
 from .abc import OsuMixin
-from .converters import Mode, QueryType, Rank
 from .views import ProfileView
 
 
-class OsuCommands(OsuMixin):
+class Commands(OsuMixin):
+    """All the commands should be found here."""
+
     @commands.hybrid_group(name="osu")
     async def osu(self, ctx: commands.Context):
-        """Osu commands."""
+        """osu! related commands."""
         pass
+
+    # Authentication commands
 
     @osu.command(name="link")
     async def osu_link(self, ctx: commands.Context):
         """Link your osu! account."""
         if not await self._config.user(ctx.author).tokens():
-            await self.ask_for_auth(ctx, ctx.author)
+            await self.ask_for_auth(ctx)
             return
         await ctx.send(
             f"You already linked your osu! account. Use `{ctx.clean_prefix}osu unlink` to unlink your account.",
@@ -68,60 +71,45 @@ class OsuCommands(OsuMixin):
             ephemeral=True,
         )
 
+    # User profile commands
+
     @commands.bot_has_permissions(embed_links=True)
     @osu.command(name="profile")
-    @app_commands.describe(user="An osu! user", query_type="The type of your query.")
+    @app_commands.describe(
+        player="An osu! player username/id", query_type="The type of your query."
+    )
     async def osu_profile(
-        self, ctx: commands.Context, user: str = None, query_type: QueryType = None
+        self,
+        ctx: commands.Context,
+        player: Optional[str] = None,
+        query_type: Optional[Literal["id", "username"]] = "id",
     ):
-        """Send a user's osu! profile in an embed."""
+        """Send a player's osu! profile in an embed."""
         client = await self.get_client(ctx)
         if not client:
             return
-        if user and not query_type:
-            try:
-                user = int(user)
-                query_type = "id"
-            except ValueError:
-                query_type = "string"
-        if not user and not await client._token_exists():
+
+        if not (player or await client._token_exists()):
             await ctx.send(
                 f"Please provide a username or link yourself with `{ctx.clean_prefix}osu link`",
                 ephemeral=True,
             )
             return
-        config = await self._config.all()
         view = ProfileView(
-            self.bot,
-            client,
-            config["mode_emojis"],
-            config["rank_emojis"],
-            user,
-            query_type,
-            timeout=config["menu_timeout"],
+            self.bot, client, player, query_type, timeout=await self._config.menu_timeout()
         )
         await view.start(ctx)
 
-    @osu_profile.autocomplete("query_type")
-    async def query_type_autocomplete(self, interaction: discord.Interaction, current: str):
-        if not await interaction.client.allowed_by_whitelist_blacklist(interaction.user):
-            return []
-
-        choices = [
-            app_commands.Choice(name="Username", value="string"),
-            app_commands.Choice(name="User ID", value="id"),
-        ]
-        if current == "":
-            return choices
-        return [c for c in choices if current.lower() in c.name.lower()]
+        if not await client._token_exists():
+            await client.aclose()
 
     @commands.bot_has_permissions(attach_files=True)
     @commands.cooldown(60, 60, commands.BucketType.default)
     @osu.command(name="card")
-    async def osu_card(self, ctx: commands.Context, user: str = None):
-        """Get a user's osu! Standard profile card."""
-        await ctx.defer()
-        if not user:
+    @app_commands.describe(player="An osu! player username")
+    async def osu_card(self, ctx: commands.Context, player: Optional[str] = None):
+        """Get a player's osu! Standard profile card."""
+        if not player:
             client = await self.get_client(ctx)
             if not client:
                 return
@@ -132,47 +120,50 @@ class OsuCommands(OsuMixin):
                 )
                 return
             user_obj = await client.get_me()
-            user = user_obj.username
+            player = user_obj.username
+
         session = aiohttp.ClientSession()
-        async with session.get(
-            f"https://api.martinebot.com/v1/imagesgen/osuprofile",
-            params={"player_username": user},
-        ) as response:
-            if response.status == 201:
-                result = await response.read()
-                await ctx.send(file=discord.File(BytesIO(result), "card.png"))
-            else:
-                result = await response.json()
-                await ctx.send(result["message"], ephemeral=True)
+        async with ctx.typing():
+            async with session.get(
+                "https://api.martinebot.com/v1/imagesgen/osuprofile",
+                params={"player_username": player},
+            ) as response:
+                if response.status == 201:
+                    result = await response.read()
+                    await ctx.send(file=discord.File(BytesIO(result), "card.png"))
+                else:
+                    result = await response.json()
+                    await ctx.send(result["message"], ephemeral=True)
         await session.close()
 
     @commands.bot_has_permissions(embed_links=True)
     @osu.command(name="avatar")
-    async def osu_avatar(self, ctx: commands.Context, user: str = None):
-        """Get a user's current osu! avatar."""
+    @app_commands.describe(player="An osu! player username/id")
+    async def osu_avatar(self, ctx: commands.Context, player: Optional[str] = None):
+        """Get a player's current osu! avatar."""
         await ctx.defer()
         client = await self.get_client(ctx)
         if not client:
             return
-        try:
-            if not user:
-                if not await client._token_exists():
-                    await ctx.send(
-                        f"Please provide a username or link yourself with `{ctx.clean_prefix}osu link`",
-                        ephemeral=True,
-                    )
+
+        if player:
+            try:
+                user_obj = await client.get_user(player)
+            except APIException as e:
+                if e.status == 404:
+                    await ctx.send("User not found.", ephemeral=True)
                     return
-                user_obj = await client.get_me()
-            else:
-                user_obj = await client.get_user(user)
-        except APIException as e:
-            if e.status == 404:
-                await ctx.send("User not found.", ephemeral=True)
+        else:
+            if not await client._token_exists():
+                await ctx.send(
+                    f"Please provide a username or link yourself with `{ctx.clean_prefix}osu link`",
+                    ephemeral=True,
+                )
                 return
+            user_obj = await client.get_me()
+
         embed = discord.Embed(
-            colour=user_obj.profile_colour or 14456996,
-            title=f"{user_obj.username}'s osu! Avatar",
-            timestamp=discord.utils.utcnow(),
+            colour=user_obj.profile_colour or 14456996, title=f"{user_obj.username}'s osu! Avatar"
         )
         embed.set_image(url=user_obj.avatar_url)
         view = discord.ui.View()
@@ -185,14 +176,16 @@ class OsuCommands(OsuMixin):
         )
         await ctx.send(embed=embed, view=view)
 
+    # Settings commands
+
     @commands.is_owner()
-    @osu.group(name="set")
-    async def osu_set(self, ctx: commands.Context):
-        """Settings for Osu."""
+    @commands.group()
+    async def osuset(self, ctx: commands.Context):
+        """osu! settings."""
         pass
 
-    @osu_set.command(name="creds", with_app_command=False)
-    async def set_creds(self, ctx: commands.Context):
+    @osuset.command(name="creds")
+    async def osuset_creds(self, ctx: commands.Context):
         """Instructions to set osu! API credentials."""
         description = (
             "1. Log in to your osu! account and go to https://osu.ppy.sh/home/account/edit\n"
@@ -213,8 +206,8 @@ class OsuCommands(OsuMixin):
         else:
             await ctx.send(description, view=view)
 
-    @osu_set.command(name="authtimeout", with_app_command=False)
-    async def set_auth_timeout(self, ctx: commands.Context, timeout: int):
+    @osuset.command(name="authtimeout")
+    async def osuset_auth_timeout(self, ctx: commands.Context, timeout: int):
         """
         Set the timeout for authentication.
 
@@ -225,8 +218,8 @@ class OsuCommands(OsuMixin):
             message=f"Authentication timeout set to {humanize_timedelta(seconds=timeout)}."
         )
 
-    @osu_set.command(name="menutimeout", with_app_command=False)
-    async def set_menu_timeout(self, ctx: commands.Context, timeout: int):
+    @osuset.command(name="menutimeout")
+    async def osuset_menu_timeout(self, ctx: commands.Context, timeout: int):
         """
         Set the timeout for the menu.
 
@@ -235,8 +228,8 @@ class OsuCommands(OsuMixin):
         await self._config.menu_timeout.set(timeout)
         await ctx.tick(message=f"Menu timeout set to {humanize_timedelta(seconds=timeout)}.")
 
-    @osu_set.command(name="scopes", with_app_command=False)
-    async def set_scopes(self, ctx: commands.Context, *scopes: str):
+    @osuset.command(name="scopes")
+    async def osuset_scopes(self, ctx: commands.Context, *scopes: str):
         """
         Set customized scopes for what you want your bot to allow.
         This will send current scopes if no scopes are provided.
@@ -266,20 +259,3 @@ class OsuCommands(OsuMixin):
             current_scopes.clear()
             current_scopes.extend(new_scopes)
         await ctx.tick(message=f"Scopes has been set to: {humanize_list(new_scopes)}")
-
-    @osu_set.command(name="modeemoji", with_app_command=False)
-    async def set_mode_emoji(self, ctx: commands.Context, mode: Mode, *, emoji: Emoji = None):
-        """Change an emoji used by the bot for showing modes."""
-        async with self._config.mode_emojis() as mode_emojis:
-            mode_emojis[mode.lower()] = emoji
-        gm = Gamemode.from_type(mode)
-        await ctx.tick()
-        await ctx.send(f"Emoji for {gm.name_full} mode has been {'' if emoji else 're'}set.")
-
-    @osu_set.command(name="rankemoji", with_app_command=False)
-    async def set_rank_emoji(self, ctx: commands.Context, rank: Rank, *, emoji: Emoji = None):
-        """Change an emoji used by the bot for showing ranks."""
-        async with self._config.rank_emojis() as rank_emojis:
-            rank_emojis[rank] = emoji
-        await ctx.tick()
-        await ctx.send(f"Emoji for {rank.upper()} rank has been {'' if emoji else 're'}set.")

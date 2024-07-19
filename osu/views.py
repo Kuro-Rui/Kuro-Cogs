@@ -22,30 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 import aiosu
 import discord
 import kuroutils
 from aiosu.exceptions import APIException
-from aiosu.models import Gamemode, User
+from aiosu.models import Gamemode, OAuthToken, User
 from aiosu.utils import auth
 from discord.utils import format_dt
 from redbot.core.bot import Red
 from redbot.core.commands import Context
-from redbot.core.utils.chat_formatting import bold, humanize_timedelta, inline
+from redbot.core.utils.chat_formatting import bold, humanize_number, humanize_timedelta, inline
 
-from .helpers import GAME_MODES, maybe_humanize_number, parse_code_from_url
+from .constants import GAME_MODES, MODE_EMOJIS, RANK_EMOJIS
+from .helpers import *
 
-if TYPE_CHECKING:
-    from .osu import Osu
 
+# Authentication Views
 
 class AuthenticationModal(discord.ui.Modal):
-    def __init__(self, cog: "Osu", author: discord.User, *, timeout: int) -> None:
-        super().__init__(title=f"Link Your osu! Account", timeout=timeout)
-        self.author = author
-        self.cog = cog
+    def __init__(self, *, timeout: int) -> None:
+        super().__init__(title="Link Your osu! Account", timeout=timeout)
+        self.authenticated = False
+        self.user_token: Optional[OAuthToken] = None
+
         self.input = discord.ui.TextInput(
             label="Link",
             style=discord.TextStyle.paragraph,
@@ -55,31 +56,37 @@ class AuthenticationModal(discord.ui.Modal):
         self.add_item(self.input)
 
     async def on_submit(self, interaction: discord.Interaction) -> None:
+        osu_tokens = await interaction.client.get_shared_api_tokens("osu")
+        tokens = (
+            osu_tokens.get("client_id"),
+            osu_tokens.get("client_secret"),
+            osu_tokens.get("redirect_uri", "http://localhost/"),
+        )
         url = self.input.value.strip()
-        if self.cog._tokens[-1] not in url:
+        if tokens[-1] not in url:
             await interaction.response.send_message("Invalid URL provided.", ephemeral=True)
             return
         try:
             code = parse_code_from_url(url)
-            user_token = await auth.process_code(*self.cog._tokens, code)
+            self.user_token = await auth.process_code(*tokens, code)
         except Exception as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
-        await self.cog.save_token(self.author, user_token)
-        self.cog.authenticating_users.remove(self.author.id)
-        await self.cog._client_storage.add_client(user_token, id=self.author.id)
+        self.authenticated = True
         await interaction.response.send_message(
             "Your osu! account has been linked.", ephemeral=True
         )
+        self.stop()
 
 
 class AuthenticationView(discord.ui.View):
-    def __init__(self, cog: "Osu", auth_url: str, *, timeout: int) -> None:
+    def __init__(self, auth_url: str, *, timeout: int) -> None:
         super().__init__(timeout=timeout)
-        self.author = None
-        self.cog = cog
-        self.ctx = None
-        self.message = None
+        self.author: Optional[discord.User] = None
+        self.message: Optional[discord.Message] = None
+        
+        self.authenticated = False
+        self.user_token: Optional[OAuthToken] = None
 
         self.link_button = discord.ui.Button(
             style=discord.ButtonStyle.link,
@@ -88,51 +95,42 @@ class AuthenticationView(discord.ui.View):
         )
         self.add_item(self.link_button)
 
-    @discord.ui.button(label="How?", style=discord.ButtonStyle.blurple)
-    async def how_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(
-            title="How to Authenticate?",
-            description=(
-                "1. Click the button with the authoriation link\n"
+    @discord.ui.button(label="Link Account", style=discord.ButtonStyle.blurple)
+    async def auth_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        modal = AuthenticationModal(timeout=self.timeout)
+        await interaction.response.send_modal(modal)
+        timed_out = await modal.wait()
+        self.authenticated = modal.authenticated
+        if not (timed_out or self.authenticated):
+            return
+        self.user_token = modal.user_token
+        await self.disable_items()
+        self.stop()
+
+    async def start(self, ctx: Context, **kwargs) -> None:
+        self.author = ctx.author
+        embed = discord.Embed(color=await ctx.embed_color(), title="Link Your osu! Account")
+        embed.add_field(
+            name="How to Authenticate?",
+            value=(
+                "1. Click the button with the authentication link\n"
                 "2. Make sure you are logged in to your osu! account\n"
                 "3. Click on `Authorise`\n"
                 "4. Copy the URL of the page you are redirected to\n"
                 "5. Click on the `Link Account` button\n"
                 "6. Paste the URL in the blank box\n"
             ),
-            color=await self.ctx.embed_color(),
         )
-        if await self.ctx.embed_requested():
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            return
-        await interaction.response.send_message(
-            "\n".join([bold(embed.title), embed.description]), ephemeral=True
-        )
-
-    @discord.ui.button(label="Link Account", style=discord.ButtonStyle.green)
-    async def auth_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        modal = AuthenticationModal(self.cog, self.author, timeout=self.timeout)
-        await interaction.response.send_modal(modal)
-        timed_out = await modal.wait()
-        if not timed_out:
-            if self.author.id in self.cog.authenticating_users:
-                return
+        kwargs = {
+            "ephemeral": True,
+            "reference": ctx.message.to_reference(fail_if_not_exists=False),
+            "mention_author": False,
+            "view": self
+        }
+        if await ctx.embed_requested():
+            kwargs["embed"] = embed
         else:
-            if self.author.id not in self.cog.dashboard_authed:
-                self.cog.authenticating_users.remove(self.author.id)
-                await interaction.followup.send(
-                    "You did not authenticate in time.", ephemeral=True
-                )
-        await self.disable_items()
-        self.stop()
-
-    async def start(self, ctx: Context, **kwargs) -> None:
-        self.author = ctx.author
-        self.ctx = ctx
-        kwargs["ephemeral"] = True
-        kwargs["reference"] = ctx.message.to_reference(fail_if_not_exists=False)
-        kwargs["mention_author"] = False
-        kwargs["view"] = self
+            kwargs["content"] = f"## {embed.fields[0].name}\n{embed.fields[0].value}"
         self.message = await ctx.send(**kwargs)
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
@@ -154,9 +152,11 @@ class AuthenticationView(discord.ui.View):
         await self.disable_items()
 
 
-class ModesSelect(discord.ui.Select):
-    def __init__(self, default: Gamemode, emojis: Dict[str, str]) -> None:
-        self.default = default
+# Profile Views
+
+class ProfileModeSelect(discord.ui.Select["ProfileView"]):
+    def __init__(self, *, default: Gamemode) -> None:
+        self.embeds = self.view.embeds
         options = [
             discord.SelectOption(label="Standard", value="0"),
             discord.SelectOption(label="Taiko", value="1"),
@@ -166,16 +166,17 @@ class ModesSelect(discord.ui.Select):
         options[default.id].default = True
         for option in options:
             mode = Gamemode.from_type(int(option.value))
-            option.emoji = emojis[mode.name_short.lower()]
+            option.emoji = discord.PartialEmoji(
+                name=mode.name_full.split(" ")[0], id=MODE_EMOJIS[mode.name_short.lower()]
+            )
         super().__init__(min_values=1, max_values=1, options=options, row=0)
 
     async def callback(self, interaction: discord.Interaction):
         for option in self.options:
             option.default = False
-        index = int(self.values[0])
-        self.options[index].default = True
-        self.view: ProfileView
-        await interaction.response.edit_message(embed=self.view.embeds[index], view=self.view)
+        value = int(self.values[0])
+        self.options[value].default = True
+        await interaction.response.edit_message(embed=self.embeds[value], view=self.view)
 
 
 class ProfileView(discord.ui.View):
@@ -183,54 +184,46 @@ class ProfileView(discord.ui.View):
         self,
         bot: Red,
         client: aiosu.v2.Client,
-        mode_emojis: Dict[str, Union[int, str]],
-        rank_emojis: Dict[str, Union[int, str]],
-        user: Optional[Union[int, str]],
-        query_type: str,
+        player: Optional[Union[int, str]] = None,
+        query_type: Literal["id", "username"] = "id",
         *,
         timeout: int,
     ):
         super().__init__(timeout=timeout)
-        self.author = None
-        self.bot = bot
+        self.author: Optional[discord.User] = None
         self.client = client
-        self.embeds = []
-        self.link_button = None
-        self.mode_emojis = mode_emojis
-        for mode, emoji in self.mode_emojis.items():
-            if isinstance(emoji, int):
-                self.mode_emojis[mode] = self.bot.get_emoji(emoji)
+        self.embeds: List[discord.Embed] = []  # [standard, taiko, ctb, mania]
+        self.player = player
         self.query_type = query_type
-        self.rank_emojis = rank_emojis
+
+        self.rank_emojis = RANK_EMOJIS
         for rank, emoji in self.rank_emojis.items():
-            if isinstance(emoji, int):
-                self.rank_emojis[rank] = self.bot.get_emoji(emoji) or bold(rank.upper())
-        self.select_menu = None
-        self.source = None
-        self.user = user
-        self.user_playmode = None
-        self.user_url = None
+            self.rank_emojis[rank] = maybe_get_emoji(bot, emoji, bold(rank.upper()))
 
     @discord.ui.button(style=discord.ButtonStyle.red, emoji="✖️", row=1)
     async def close_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.stop()
         await kuroutils.delete_message(interaction.message)
 
-    async def get_user(self, mode: Gamemode) -> User:
+    async def get_player(self, *, mode: Optional[Gamemode] = None) -> User:
+        kwargs = {}
+        # Why are we doing this? Because this will throw a ValueError if a kwarg's value is None.
+        if mode:
+            kwargs["mode"] = mode
         if not self.user:
-            return await self.client.get_me(mode=mode)
-        return await self.client.get_user(self.user, mode=mode, qtype=self.query_type)
+            return await self.client.get_me(**kwargs)
+        kwargs["qtype"] = self.query_type
+        return await self.client.get_user(self.player, **kwargs)
 
     # Might need defer before executing this since this will probably take a while :/
-    async def make_modes_embeds(self, ctx: Context) -> Optional[List[discord.Embed]]:
+    async def make_modes_embeds(self) -> Optional[List[discord.Embed]]:
         embeds = []
         for mode in GAME_MODES:
-            user = await self.get_user(mode)
-            self.user_playmode = user.playmode
-            self.user_url = user.url
+            user = await self.get_player(mode=mode)
             stats = user.statistics
+            color = int(user.profile_colour.lstrip("#"), 16) if user.profile_colour else None
 
-            embed = discord.Embed(color=user.profile_colour or 14456996, timestamp=user.join_date)
+            embed = discord.Embed(color=color or 14456996, timestamp=user.join_date)
             embed.set_author(
                 name=f"{user.username}'s osu! {mode.name_full} Profile",
                 url=f"{user.url}/{mode.name_api}",
@@ -242,13 +235,10 @@ class ProfileView(discord.ui.View):
                 name="Global Rank",
                 value=f"#{maybe_humanize_number(stats.global_rank, 'Unknown')}",
             )
-            if user.rank_highest:
+            if hr := user.rank_highest:
                 embed.add_field(
                     name="Peak Rank",
-                    value=(
-                        f"#{maybe_humanize_number(user.rank_highest.rank, 'Unknown')}\n"
-                        f"({format_dt(user.rank_highest.updated_at, 'R')})"
-                    ),
+                    value=f"#{humanize_number(hr.rank)}\n({format_dt(hr.updated_at, 'R')})",
                 )
             else:
                 embed.add_field(name="Peak Rank", value="#Unknown")
@@ -305,28 +295,29 @@ class ProfileView(discord.ui.View):
             embed.set_image(url=user.cover.url)
             embed.set_footer(text="Joined osu! on")
             embeds.append(embed)
-        if not await self.client._token_exists():
-            await self.client.close()
+
         return embeds
 
     async def start(self, ctx: Context) -> None:
-        await ctx.defer()
-        try:
-            self.embeds = await self.make_modes_embeds(ctx)
-        except APIException as e:
-            if e.status == 404:
-                await ctx.send("User not found.", ephemeral=True)
-                return
-            raise e
+        async with ctx.typing():
+            try:
+                player = await self.get_player()
+            except APIException as e:
+                if e.status == 404:
+                    await ctx.send("User not found.", ephemeral=True)
+                    return
+
+            self.embeds = await self.make_modes_embeds()
+
         self.author = ctx.author
-        self.select_menu = ModesSelect(self.user_playmode, self.mode_emojis)
-        self.add_item(self.select_menu)
-        self.link_button = discord.ui.Button(
-            style=discord.ButtonStyle.link, label="View osu! Profile", url=self.user_url, row=1
+        self.add_item(ProfileModeSelect(default=player.playmode))
+        self.add_item(
+            discord.ui.Button(
+                style=discord.ButtonStyle.link, label="View osu! Profile", url=player.url
+            )
         )
-        self.add_item(self.link_button)
         self.message = await ctx.send(
-            embed=self.embeds[self.select_menu.default.id],
+            embed=self.embeds[player.playmode.value],
             reference=ctx.message.to_reference(fail_if_not_exists=False),
             mention_author=False,
             view=self,

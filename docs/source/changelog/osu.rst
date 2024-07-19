@@ -5,6 +5,15 @@ Osu
 ***
 
 =============
+Version 0.1.0
+=============
+
+2024-07-19
+
+- A bit of rewriting
+- Fix some stuff
+
+=============
 Version 0.0.9
 =============
 

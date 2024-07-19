@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from datetime import datetime
-from typing import Literal, Mapping, Optional
+from typing import Literal, Optional
 
 import aiosu
 import discord
@@ -36,47 +35,42 @@ from redbot.core.app_commands import ContextMenu
 from redbot.core.bot import Red
 
 from .abc import CompositeMetaClass
-from .commands import OsuCommands
-from .helpers import DEFAULT_MODE_EMOJIS, DEFAULT_RANK_EMOJIS
-
-try:
-    from .rpc import OsuDashboardRPC
-except ImportError:
-    DASHBOARD = False
-else:
-    DASHBOARD = True
+from .commands import Commands
+from .events import Events
 from .views import AuthenticationView, ProfileView
 
 
-class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
+class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.0.9"
+    __version__ = "0.1.0"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
         self._config = Config.get_conf(self, 32142, True)
         self._config.register_global(
-            auth_timeout=300,
-            menu_timeout=180,
-            mode_emojis=DEFAULT_MODE_EMOJIS,
-            rank_emojis=DEFAULT_RANK_EMOJIS,
-            scopes=["public", "identify"],
+            auth_timeout=300, menu_timeout=180, scopes=["public", "identify"]
         )
-        self._config.register_user(tokens={})
+        self._config.register_user(tokens={}, user_id=None)
 
         self.authenticating_users = set()
         self._client_storage = None
         self._tokens = tuple()
 
         self.profile_ctx = ContextMenu(name="Get osu! Profile", callback=self.osu_profile_callback)
-        self.bot.tree.add_command(self.profile_ctx)
 
-        # RPC
-        self.dashboard_authed = set()
-        if DASHBOARD:
-            self.rpc_extension = OsuDashboardRPC(self)
+    async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
+        ctx = await commands.Context.from_interaction(interaction)
+        if not await self._config.user(user).tokens():
+            await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
+            return False
+        client = await self.get_client(ctx, user)
+        if not client:
+            return
+        config = await self._config.all()
+        view = ProfileView(self.bot, client, timeout=config["menu_timeout"])
+        await view.start(ctx)
 
     async def _init_tokens(self):
         tokens = await self.bot.get_shared_api_tokens("osu")
@@ -88,27 +82,26 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
             tokens.get("redirect_uri", "http://localhost/"),
         )
         self._client_storage = aiosu.v2.ClientStorage(
-            client_secret=self._tokens[1], client_id=self._tokens[0]
+            client_id=self._tokens[0], client_secret=self._tokens[1]
         )
         all_users = await self._config.all_users()
         if not all_users:
             return
-        for i, config in all_users.items():
+        for user_id, config in all_users.items():
             if not config["tokens"]:
                 continue
-            token = OAuthToken.parse_obj(config["tokens"])
-            await self._client_storage.add_client(token, id=i)
+            token = OAuthToken.model_validate(config["tokens"])
+            await self._client_storage.add_client(token, id=user_id)
 
     async def cog_load(self) -> None:
         await super().cog_load()
         await self._init_tokens()
+        self.bot.tree.add_command(self.profile_ctx)
 
     async def cog_unload(self) -> None:
-        await super().cog_unload()
-        if DASHBOARD:
-            self.rpc_extension.unload()
+        super().cog_unload()
         if self._client_storage:
-            await self._client_storage.close()
+            await self._client_storage.aclose()
         self.bot.tree.remove_command(self.profile_ctx.name, type=self.profile_ctx.type)
 
     async def red_delete_data_for_user(
@@ -119,96 +112,86 @@ class Osu(kuroutils.Cog, OsuCommands, metaclass=CompositeMetaClass):
     ) -> None:
         await self._config.user_from_id(user_id).clear()
 
-    async def _check(self, ctx: commands.Context) -> bool:
+    async def _check(self, author: discord.User) -> bool:
+        if not all(self._tokens) or author.id in self.authenticating_users:
+            return False
+        return True
+
+    async def _send_check(self, ctx: commands.Context) -> None:
         if not all(self._tokens):
             content = (
-                "The bot owner needs to set osu! credentials before this command can be used.\n"
+                "The bot owner needs to set osu! credentials before this command can be used."
             )
             if await self.bot.is_owner(ctx.author):
-                content += f"See `{ctx.clean_prefix}osu set creds` for more details."
+                content += f" See `{ctx.clean_prefix}osuset creds` for more details."
             await ctx.send(content, ephemeral=True)
-            return False
+            return
         if ctx.author.id in self.authenticating_users:
             await ctx.send(
                 "Please complete your authorization first before using any commands.",
                 ephemeral=True,
             )
-            return False
-        return True
 
-    async def ask_for_auth(self, ctx: commands.Context, user: discord.User) -> None:
-        check = await self._check(ctx)
+    async def ask_for_auth(self, ctx: commands.Context) -> None:
+        check = await self._check(ctx.author)
         if not check:
+            await self._send_check(ctx)
             return
-        auth_url = auth.generate_url(*self._tokens[::2])
-        self.authenticating_users.add(user.id)
-        embed = discord.Embed(
-            color=await ctx.embed_color(),
-            description="Click on the buttons below to authenticate your osu! profile.",
-        )
-        view = AuthenticationView(self, auth_url, timeout=await self._config.auth_timeout())
-        if await ctx.embed_requested():
-            await view.start(ctx, embed=embed)
-        else:
-            await view.start(ctx, embed.description)
 
-    async def save_token(self, user: discord.User, token: OAuthToken) -> None:
+        auth_url = auth.generate_url(*self._tokens[::2])
+        self.authenticating_users.add(ctx.author.id)
+        view = AuthenticationView(auth_url, timeout=await self._config.auth_timeout())
+        await view.start(ctx)
+        timed_out = await view.wait()
+        if not (timed_out or view.authenticated):
+            return
+        await self._save_token(ctx.author, view.user_token)
+        self.authenticating_users.remove(ctx.author.id)
+        await self._client_storage.add_client(view.user_token, id=ctx.author.id)
+
+    async def _save_token(self, user: discord.User, token: OAuthToken) -> None:
         async with self._config.user(user).tokens() as tokens:
             tokens["access_token"] = token.access_token
             tokens["refresh_token"] = token.refresh_token
             tokens["expires_on"] = int(token.expires_on.timestamp())
             tokens["scopes"] = str(token.scopes).split(" ")
 
+    async def _refresh_and_save_token(self, user: discord.User) -> None:
+        client = await self._client_storage.get_client(id=user.id)
+        await client._refresh()
+        await self._save_token(user, await client.get_current_token())
+
     async def get_client(
-        self, ctx: commands.Context, user: discord.User = None
+        self,
+        ctx: commands.Context,
+        user: Optional[discord.User] = None,
+        *,
+        send_check: bool = True,
+        use_token: bool = True,
     ) -> Optional[aiosu.v2.Client]:
-        user = user or ctx.author
-        check = await self._check(ctx)
+        check = await self._check(ctx.author)
         if not check:
+            if send_check:
+                await self._send_check(ctx)
             return
-        if not await self._config.user(user).tokens():
+
+        user = user or ctx.author
+        if not (use_token and await self._config.user(user).tokens()):
             return aiosu.v2.Client(client_id=self._tokens[0], client_secret=self._tokens[1])
+
         client = await self._client_storage.get_client(id=user.id)
         user_token = await client.get_current_token()
-        expired = datetime.utcnow().timestamp() > user_token.expires_on.timestamp()
+        expired = discord.utils.utcnow().timestamp() > user_token.expires_on.timestamp()
         if expired:
             try:
-                # Token refreshing is actually handled by client by default,
-                # but we need to handle so it's saved in the config and not just go away.
-                await client._refresh()
+                # Token refreshing is actually handled by the client by default,
+                # but we need to make sure it's saved in the config and don't just go away.
+                await self._refresh_and_save_token(user)
             except APIException:
                 await ctx.send(
                     f"Your token has been revoked. Please do `{ctx.clean_prefix}osu link` again.",
                     ephemeral=True,
                 )
                 await self._config.user(user).tokens.clear()
-            else:
-                await self.save_token(user, await client.get_current_token())
+                return
         return client
-
-    async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
-        ctx = await commands.Context.from_interaction(interaction)
-        if not await self._config.user(user).tokens():
-            await ctx.send(f"{user} hasn't linked their osu! account yet.", ephemeral=True)
-            return False
-        client = await self.get_client(ctx, user)
-        if not client:
-            return
-        config = await self._config.all()
-        view = ProfileView(
-            self.bot,
-            client,
-            config["mode_emojis"],
-            config["rank_emojis"],
-            None,
-            "string",
-            timeout=config["menu_timeout"],
-        )
-        await view.start(ctx)
-
-    @commands.Cog.listener()
-    async def on_red_api_tokens_update(
-        self, service_name: str, api_tokens: Mapping[str, str]
-    ) -> None:
-        if service_name == "osu":
-            await self._init_tokens()

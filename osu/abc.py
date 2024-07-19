@@ -28,12 +28,9 @@ from typing import Literal, Mapping, Optional, Set, Tuple
 import aiosu
 import discord
 from aiosu.models import OAuthToken
-from kuroutils.converters import Emoji
 from red_commons.logging import RedTraceLogger
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
-
-from .converters import Mode, Rank
 
 
 class CompositeMetaClass(type(commands.Cog), type(ABC)):
@@ -50,107 +47,38 @@ class OsuMixin(ABC):
         self._client_storage: aiosu.v2.ClientStorage
         self._tokens = Tuple[str]
         self.profile_ctx: app_commands.ContextMenu
-        self.dashboard_authed = Set[int]
 
     @abstractmethod
-    async def cog_load(self) -> None:
+    async def _init_tokens(self):
         raise NotImplementedError()
 
-    @abstractmethod
-    async def cog_unload(self) -> None:
-        raise NotImplementedError()
+    # @abstractmethod
+    # async def _check(self, author: discord.User, *, authenticating: bool = True) -> bool:
+    #     raise NotImplementedError()
+
+    # @abstractmethod
+    # async def _send_check(self, ctx: commands.Context, *, authenticating: bool = True) -> None:
+    #     raise NotImplementedError()
 
     @abstractmethod
-    async def red_delete_data_for_user(
-        self,
-        *,
-        requester: Literal["discord_deleted_user", "owner", "user", "user_strict"],
-        user_id: int,
-    ) -> None:
+    async def ask_for_auth(self, ctx: commands.Context) -> None:
         raise NotImplementedError()
 
-    @abstractmethod
-    async def _check(self, ctx: commands.Context, user: discord.User) -> bool:
-        raise NotImplementedError()
+    # @abstractmethod
+    # async def _save_token(self, user: discord.User, token: OAuthToken) -> None:
+    #     raise NotImplementedError()
 
-    @abstractmethod
-    async def ask_for_auth(self, ctx: commands.Context, user: discord.User) -> None:
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def save_token(self, user: discord.User, token: OAuthToken) -> None:
-        raise NotImplementedError()
+    # @abstractmethod
+    # async def _refresh_and_save_token(self, user: discord.User) -> None:
+    #     raise NotImplementedError()
 
     @abstractmethod
     async def get_client(
-        self, ctx: commands.Context, user: discord.User = None
+        self,
+        ctx: commands.Context,
+        user: Optional[discord.User] = None,
+        *,
+        send_check: bool = True,
+        use_token: bool = True,
     ) -> Optional[aiosu.v2.Client]:
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_profile_callback(self, interaction: discord.Interaction, user: discord.Member):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def on_red_api_tokens_update(
-        self, service_name: str, api_tokens: Mapping[str, str]
-    ) -> None:
-        raise NotImplementedError()
-
-    # Commands
-
-    @abstractmethod
-    async def osu(self, ctx: commands.Context):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_link(self, ctx: commands.Context):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_unlink(self, ctx: commands.Context):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_profile(self, ctx: commands.Context, user: str = None, query_type: str = None):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def query_type_autocomplete(self, interaction: discord.Interaction, current: str):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_card(self, ctx: commands.Context, user: str = None):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_avatar(self, ctx: commands.Context, user: str = None):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def osu_set(self, ctx: commands.Context):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_creds(self, ctx: commands.Context):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_auth_timeout(self, ctx: commands.Context, timeout: int):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_menu_timeout(self, ctx: commands.Context, timeout: int):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_scopes(self, ctx: commands.Context, *scopes: str):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_mode_emoji(self, ctx: commands.Context, mode: Mode, *, emoji: Emoji = None):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def set_rank_emoji(self, ctx: commands.Context, rank: Rank, *, emoji: Emoji = None):
         raise NotImplementedError()
