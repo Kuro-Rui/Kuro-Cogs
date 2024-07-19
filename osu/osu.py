@@ -113,12 +113,12 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
         await self._config.user_from_id(user_id).clear()
 
     async def _check(self, author: discord.User) -> bool:
-        if not all(self._tokens) or author.id in self.authenticating_users:
+        if not self._tokens or not all(self._tokens) or author.id in self.authenticating_users:
             return False
         return True
 
     async def _send_check(self, ctx: commands.Context) -> None:
-        if not all(self._tokens):
+        if not self._tokens or not all(self._tokens):
             content = (
                 "The bot owner needs to set osu! credentials before this command can be used."
             )
