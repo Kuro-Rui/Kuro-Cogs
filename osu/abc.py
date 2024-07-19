@@ -41,36 +41,20 @@ class OsuMixin(ABC):
     def __init__(self, *_args) -> None:
         super().__init__(*_args)
         self.bot: Red
-        self._config: Config
-        self._log: RedTraceLogger
-        self.authenticating_users: Set[int]
         self._client_storage: aiosu.v2.ClientStorage
-        self._tokens = Tuple[str]
+        self._config: Config
+        self._tokens: Tuple[str]
+
+        self.authenticating_users: Set[int]
         self.profile_ctx: app_commands.ContextMenu
 
     @abstractmethod
     async def _init_tokens(self):
         raise NotImplementedError()
 
-    # @abstractmethod
-    # async def _check(self, author: discord.User, *, authenticating: bool = True) -> bool:
-    #     raise NotImplementedError()
-
-    # @abstractmethod
-    # async def _send_check(self, ctx: commands.Context, *, authenticating: bool = True) -> None:
-    #     raise NotImplementedError()
-
     @abstractmethod
     async def ask_for_auth(self, ctx: commands.Context) -> None:
         raise NotImplementedError()
-
-    # @abstractmethod
-    # async def _save_token(self, user: discord.User, token: OAuthToken) -> None:
-    #     raise NotImplementedError()
-
-    # @abstractmethod
-    # async def _refresh_and_save_token(self, user: discord.User) -> None:
-    #     raise NotImplementedError()
 
     @abstractmethod
     async def get_client(
