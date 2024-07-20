@@ -44,7 +44,7 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
     """Commands for interacting with osu!"""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.1"
+    __version__ = "0.1.2"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -79,7 +79,7 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
             tokens.get("client_secret"),
             tokens.get("redirect_uri", "http://localhost/"),
         )
-        if not tokens:
+        if not all(self._tokens):
             return
         self._client_storage = aiosu.v2.ClientStorage(
             client_id=self._tokens[0], client_secret=self._tokens[1]
