@@ -74,13 +74,13 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
 
     async def _init_tokens(self):
         tokens = await self.bot.get_shared_api_tokens("osu")
-        if not tokens:
-            return
         self._tokens = (
             tokens.get("client_id"),
             tokens.get("client_secret"),
             tokens.get("redirect_uri", "http://localhost/"),
         )
+        if not tokens:
+            return
         self._client_storage = aiosu.v2.ClientStorage(
             client_id=self._tokens[0], client_secret=self._tokens[1]
         )
@@ -113,12 +113,12 @@ class Osu(kuroutils.Cog, Commands, Events, metaclass=CompositeMetaClass):
         await self._config.user_from_id(user_id).clear()
 
     async def _check(self, author: discord.User) -> bool:
-        if not self._tokens or not all(self._tokens) or author.id in self.authenticating_users:
+        if not all(self._tokens) or author.id in self.authenticating_users:
             return False
         return True
 
     async def _send_check(self, ctx: commands.Context) -> None:
-        if not self._tokens or not all(self._tokens):
+        if not all(self._tokens):
             content = (
                 "The bot owner needs to set osu! credentials before this command can be used."
             )
