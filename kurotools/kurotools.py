@@ -27,15 +27,13 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-import aiohttp
 import discord
 import kuroutils
 from redbot.cogs.downloader.repo_manager import Repo
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.data_manager import cog_data_path
-from redbot.core.utils.chat_formatting import escape, humanize_list, humanize_timedelta, inline
-from redbot.core.utils.views import ConfirmView
+from redbot.core.utils.chat_formatting import escape, humanize_timedelta, inline
 
 
 class KuroTools(kuroutils.Cog):
@@ -46,11 +44,6 @@ class KuroTools(kuroutils.Cog):
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
-        self.session = aiohttp.ClientSession()
-
-    async def cog_unload(self) -> None:
-        super().cog_unload()
-        await self.session.close()
 
     @commands.is_owner()
     @commands.group()
