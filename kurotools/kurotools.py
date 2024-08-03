@@ -42,7 +42,7 @@ class KuroTools(kuroutils.Cog):
     """Just some (maybe) useful tools made by Kuro."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.1.0"
+    __version__ = "0.1.1"
 
     def __init__(self, bot: Red) -> None:
         super().__init__(bot)
@@ -109,33 +109,6 @@ class KuroTools(kuroutils.Cog):
                 await ctx.send("Cannot send an empty message.")
                 return
             await ctx.send(escape(message.content, mass_mentions=True, formatting=True))
-
-    # Thanks AAA3A!
-    @commands.is_owner()
-    @commands.command()
-    async def reloadmodule(self, ctx: commands.Context, module: str):
-        """
-        Force reload a module from `sys.modules`.
-
-        Please only use this if you know what you're doing :p
-        """
-        modules = sorted([m for m in sys.modules if m.split(".")[0] == module], reverse=True)
-        if not modules:
-            await ctx.send("I couldn't find a module with that name.")
-            return
-        formatted = humanize_list([inline(m) for m in modules])
-        view = ConfirmView(ctx.author)
-        view.message = await ctx.send(f"Are you sure you want to reload {formatted}?", view=view)
-        await view.wait()
-        if view.result:
-            for module in modules:
-                importlib.reload(sys.modules[module])
-            content = f"Reloaded {formatted}."
-        else:
-            content = f"Cancelled."
-        message = await kuroutils.edit_message(view.message, content=content)
-        if not message:
-            await ctx.send(content)
 
     @commands.command()
     async def timediff(self, ctx: commands.Context, id1: int, id2: int):

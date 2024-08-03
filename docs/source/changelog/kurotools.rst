@@ -5,6 +5,14 @@ KuroTools
 *********
 
 =============
+Version 0.1.1
+=============
+
+2024-08-03
+
+- Remove reloadmodule command (use AAA3A's devutils instead)
+
+=============
 Version 0.1.0
 =============
 

@@ -28,21 +28,6 @@ raw
 
 ----
 
-------------
-reloadmodule
-------------
-
-.. code-block:: yaml
-
-    Syntax: [p]reloadmodule <module>
-
-**Description:** Force reload a module from `sys.modules`.
-
-.. warning::
-    Please only use this command only if advised to or you know what you're doing.
-
-----
-
 ---------
 kuroutils
 ---------
