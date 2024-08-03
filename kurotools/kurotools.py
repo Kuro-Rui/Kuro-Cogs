@@ -111,10 +111,10 @@ class KuroTools(kuroutils.Cog):
             await ctx.send(escape(message.content, mass_mentions=True, formatting=True))
 
     @commands.command()
-    async def timediff(self, ctx: commands.Context, id1: int, id2: int):
+    async def timediff(self, ctx: commands.Context, id_1: int, id_2: int):
         """Get the time difference between 2 Discord object IDs."""
-        obj1, obj2 = discord.Object(id1), discord.Object(id2)
-        timedelta = abs(obj1.created_at - obj2.created_at)
+        obj_1, obj_2 = discord.Object(id_1), discord.Object(id_2)
+        timedelta = abs(obj_1.created_at - obj_2.created_at)
         await ctx.send(humanize_timedelta(timedelta=timedelta))
 
     @commands.command(usage="<id>")
