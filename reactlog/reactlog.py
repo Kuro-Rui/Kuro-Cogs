@@ -24,7 +24,8 @@ SOFTWARE.
 
 import copy
 import re
-from typing import Optional, Union
+from collections import defaultdict
+from typing import DefaultDict, List, Optional, Union
 
 import discord
 import kuroutils
@@ -41,7 +42,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.2.0"
+    __version__ = "0.2.1"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -55,7 +56,7 @@ class ReactLog(kuroutils.Cog):
             react_add=False,
             react_remove=False,
         )
-        self.cache = kuroutils.DefaultDict([])
+        self.cache: DefaultDict[int, List[discord.Embed]] = defaultdict(lambda: [])
         self.send_grouped_reaction_embeds.start()
 
     @tasks.loop(seconds=10)
@@ -66,7 +67,6 @@ class ReactLog(kuroutils.Cog):
         # Since we can't assign to the dictionary while being iterated, we have to copy it.
         for guild_id, embeds in self.cache.copy().items():
             if not embeds:
-                del self.cache[guild_id]
                 continue
             if not (guild := self.bot.get_guild(guild_id)):
                 del self.cache[guild_id]
@@ -75,9 +75,8 @@ class ReactLog(kuroutils.Cog):
                 continue
             if not (channel := guild.get_channel_or_thread(channel_id)):
                 continue
-            embeds = self.cache[guild_id][:10]
+            await channel.send(embeds=self.cache[guild_id][:10])
             self.cache[guild_id] = self.cache[guild_id][10:]
-            await channel.send(embeds=embeds)
 
     @send_grouped_reaction_embeds.before_loop
     async def before_send_grouped_embeds(self):
@@ -96,7 +95,6 @@ class ReactLog(kuroutils.Cog):
 
     @commands.is_owner()
     @reactlog.command(with_app_command=False)
-    @app_commands.describe(time="The time in seconds to group reactions.")
     async def grouped(self, ctx: commands.Context, toggle: Optional[bool] = None):
         """
         Set whether to group reaction logging embeds.
@@ -316,8 +314,7 @@ class ReactLog(kuroutils.Cog):
                 f"Channel or Thread with ID {log_channel} not found in {guild} (ID: {guild.id}), ignoring."
             )
             return False
-        channel = message.channel
-        if channel.id in config["ignored"]:
+        if message.channel.id in config["ignored"]:
             return False
         if user.id in config["blacklist"]:
             return False
