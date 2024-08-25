@@ -22,10 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import copy
-import re
 from collections import defaultdict
-from typing import DefaultDict, List, Optional, Union
+from typing import DefaultDict, List, Optional, Tuple, Union
 
 import discord
 import kuroutils
@@ -42,7 +40,7 @@ class ReactLog(kuroutils.Cog):
     """Log when reactions are added or removed."""
 
     __author__ = ["Kuro"]
-    __version__ = "0.2.1"
+    __version__ = "0.2.2"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -115,13 +113,6 @@ class ReactLog(kuroutils.Cog):
     @reactlog.group(aliases=["bl"], invoke_without_command=True)
     async def blacklist(self, ctx: commands.Context):
         """Add/remove a member from reactlog blacklist."""
-        embed = discord.Embed(title="Reactlog Blacklist", color=await ctx.embed_color())
-        embed.set_footer(
-            text=(
-                "To add/remove member from blacklist, "
-                f"run {ctx.clean_prefix}reactlog blacklist add/remove <member>"
-            )
-        )
         blacklist = await self._config.guild(ctx.guild).blacklist()
         if not blacklist:
             description = "No member is being blacklisted."
@@ -129,11 +120,19 @@ class ReactLog(kuroutils.Cog):
             description = "\n".join(
                 f"{self.bot.get_user(member_id).mention}" for member_id in blacklist
             )
+
         embeds = []
         for page in pagify(description, page_length=1024):
-            e = copy.deepcopy(embed)
-            e.description = page
-            embeds.append(e)
+            embed = discord.Embed(
+                color=await ctx.embed_color(), title="Reactlog Blacklist", description=page
+            )
+            embed.set_footer(
+                text=(
+                    "To add/remove member from blacklist, "
+                    f"run {ctx.clean_prefix}reactlog blacklist add/remove <member>"
+                )
+            )
+            embeds.append(embed)
         await menu(ctx, embeds, timeout=60)
 
     @blacklist.command(name="add")
@@ -179,13 +178,6 @@ class ReactLog(kuroutils.Cog):
     @reactlog.group(invoke_without_command=True)
     async def ignore(self, ctx: commands.Context):
         """Add/remove a channel from reactlog ignore list."""
-        embed = discord.Embed(title="ReactLog Ignore List", color=await ctx.embed_color())
-        embed.set_footer(
-            text=(
-                "To add/remove a channel from ignore list, "
-                f"run {ctx.clean_prefix}reactlog ignore add/remove <channel>"
-            )
-        )
         ignored = await self._config.guild(ctx.guild).ignored()
         if not ignored:
             description = "No channel is being ignored."
@@ -194,11 +186,19 @@ class ReactLog(kuroutils.Cog):
                 f"{self.bot.get_channel(channel_id).mention} (ID: {channel_id})"
                 for channel_id in ignored
             )
+
         embeds = []
         for page in pagify(description, page_length=1024):
-            e = copy.deepcopy(embed)
-            e.description = page
-            embeds.append(e)
+            embed = discord.Embed(
+                color=await ctx.embed_color(), title="ReactLog Ignore List", description=page
+            )
+            embed.set_footer(
+                text=(
+                    "To add/remove a channel from ignore list, "
+                    f"run {ctx.clean_prefix}reactlog ignore add/remove <channel>"
+                )
+            )
+            embeds.append(embed)
         await menu(ctx, embeds, timeout=60)
 
     @ignore.command(name="add")
@@ -302,42 +302,54 @@ class ReactLog(kuroutils.Cog):
                 f"Log All Reactions: {config['log_all']}"
             )
 
-    async def _check(self, user: discord.Member, message: discord.Message) -> bool:
+    async def _check(self, user: discord.Member, channel: Channel) -> bool:
         if user.bot:
             return False
-        guild = message.guild
+        guild = channel.guild
         config = await self._config.guild(guild).all()
         if not (log_channel := config["channel"]):
             return False
         if not guild.get_channel_or_thread(log_channel):
-            self._log.info(
-                f"Channel or Thread with ID {log_channel} not found in {guild} (ID: {guild.id}), ignoring."
-            )
             return False
-        if message.channel.id in config["ignored"]:
+        if channel.id in config["ignored"]:
             return False
         if user.id in config["blacklist"]:
             return False
         return True
 
-    async def make_reaction_embed(
-        self, emoji: str, message: discord.Message, user: discord.Member, *, added: bool
+    async def _get_reaction_and_user(
+        self, payload: discord.RawReactionActionEvent
+    ) -> Tuple[Optional[discord.Reaction], Optional[discord.Member]]:
+        channel = self.bot.get_channel(payload.channel_id)
+        if not channel:
+            return None, None
+        message = await channel.fetch_message(payload.message_id)
+        if not message:
+            return None, None
+        reaction = discord.utils.find(
+            lambda e: str(e.emoji) == str(payload.emoji), message.reactions
+        )
+        return reaction, channel.guild.get_member(payload.user_id)
+
+    async def make_embed(
+        self,
+        emoji: discord.PartialEmoji,
+        message: discord.Message,
+        user: discord.Member,
+        *,
+        added: bool,
     ) -> None:
-        if ce_match := re.match(r"<a?:([a-zA-Z0-9\_]{1,32}):([0-9]{15,20})>", emoji):
+        if emoji.is_custom_emoji():
             description = (
                 f"**Channel:** {message.channel.mention}\n"
-                f"**Emoji:** {ce_match.group(1)} (ID: {ce_match.group(2)})"
+                f"**Emoji:** {emoji.name} (ID: {emoji.id})"
             )
-            url = f"https://cdn.discordapp.com/emojis/{ce_match.group(2)}"
-            url += ".gif" if emoji.startswith("<a") else ".png"
-        else:  # Default Emoji
-            description = f"**Channel:** {message.channel.mention}\n**Emoji:** {emoji.strip(':')}"
+            url = emoji.url
+        else:
+            description = f"**Channel:** {message.channel.mention}\n**Emoji:** {emoji}"
             # https://github.com/flapjax/FlapJack-Cogs/blob/red-v3-rewrites/bigmoji/bigmoji.py#L69-L93
-            chars = [str(hex(ord(c)))[2:] for c in emoji]
-            if len(chars) == 2:
-                if "fe0f" in chars:
-                    chars.remove("fe0f")
-            if "20e3" in chars:
+            chars = [str(hex(ord(c)))[2:] for c in str(emoji)]
+            if len(chars) == 2 and "fe0f" in chars or "20e3" in chars:
                 chars.remove("fe0f")
             url = f"https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{'-'.join(chars)}.png"
 
@@ -364,29 +376,38 @@ class ReactLog(kuroutils.Cog):
         await channel.send(embed=embed, view=view)
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction: discord.Reaction, user: discord.Member):
-        message = reaction.message
-        if not (guild := message.guild):
+    async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
+        if not (guild_id := payload.guild_id):
             return
-        config = await self._config.guild(guild).all()
-        if (
-            not config["react_add"]
-            or not await self._check(user, message)
-            or not (config["log_all"] or reaction.count == 1)
+        reaction, user = await self._get_reaction_and_user(payload)
+        if not all((reaction, user)):
+            return
+        config = await self._config.guild_from_id(guild_id).all()
+        if not (
+            config["react_add"]
+            and await self._check(user, reaction.message.channel)
+            and (config["log_all"] or reaction.count == 1)
         ):
             return
-        await self.make_reaction_embed(str(reaction.emoji), message, user, added=True)
+        await self.make_embed(payload.emoji, reaction.message, user, added=True)
 
     @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction: discord.Reaction, user: discord.Member):
-        message = reaction.message
-        if not (guild := message.guild):
+    async def on_raw_reaction_remove(self, payload: discord.RawReactionActionEvent):
+        if not (guild_id := payload.guild_id):
             return
-        config = await self._config.guild(guild).all()
-        if (
-            not config["react_remove"]
-            or not await self._check(user, message)
-            or not (config["log_all"] or reaction.count == 0)
+        # If reaction is None, it means there are no reactions with that emoji (reaction.count == 0)
+        reaction, user = await self._get_reaction_and_user(payload)
+        if not user:
+            return
+        if not (channel := self.bot.get_channel(payload.channel_id)):
+            return
+        config = await self._config.guild_from_id(guild_id).all()
+        if not (
+            config["react_remove"]
+            and await self._check(user, channel)
+            and (config["log_all"] or not reaction)
         ):
             return
-        await self.make_reaction_embed(str(reaction.emoji), message, user, added=False)
+        if not (message := await channel.fetch_message(payload.message_id)):
+            return
+        await self.make_embed(payload.emoji, message, user, added=False)

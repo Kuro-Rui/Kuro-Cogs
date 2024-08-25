@@ -5,6 +5,14 @@ ReactLog
 ********
 
 =============
+Version 0.2.2
+=============
+
+2024-08-25
+
+- Fix reaction doesn't log for old messages
+
+=============
 Version 0.2.1
 =============
 
