@@ -55,7 +55,7 @@ class AuthenticationModal(discord.ui.Modal):
         )
         self.add_item(self.input)
 
-    async def on_submit(self, interaction: discord.Interaction) -> None:
+    async def on_submit(self, interaction: discord.Interaction[Red]) -> None:
         osu_tokens = await interaction.client.get_shared_api_tokens("osu")
         tokens = (
             osu_tokens.get("client_id"),

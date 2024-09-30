@@ -35,7 +35,7 @@ from .utils import is_owner
 class Sudo(kuroutils.Cog):
     """Allows dropping and elevating owner permissions!"""
 
-    __author__ = ["Kuro", "Draper", "jack1142 (Jackenmen#6607)"]
+    __author__ = ["Draper", "jack1142 (Jackenmen#6607)", "Kuro"]
     __version__ = "0.0.1"
 
     def __init__(self, bot: Red):

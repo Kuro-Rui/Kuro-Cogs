@@ -4,7 +4,7 @@
 Installation
 ************
 
-.. note::
+.. important::
     - Make sure Downloader is already loaded, if not load it with:
     .. code-block:: yaml
 
@@ -25,15 +25,18 @@ Adding The Repository
 Installing Cogs
 ===============
 
+.. warning::
+    Don't include the <> when installing cogs. <> only means that the argument is required.
+
 1. Install the cogs with:
     .. code-block:: yaml
 
-        [p]cog install kuro-cogs cogs...
+        [p]cog install kuro-cogs <cogs...>
 
 2. Load the installed cogs with:
     .. code-block:: yaml
 
-        [p]load cogs...
+        [p]load <cogs...>
 
 .. note::
     ``[p]`` is your prefix.

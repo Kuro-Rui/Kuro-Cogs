@@ -40,7 +40,7 @@ from redbot.core.data_manager import bundled_data_path
 class PetPet(kuroutils.Cog):
     """Make PetPet GIFs!"""
 
-    __author__ = ["PhenoM4n4n", "Kuro"]
+    __author__ = ["PhenoM4n4n", "Kuro", "Glas"]
     __version__ = "0.0.3"
 
     def __init__(self, bot: Red):

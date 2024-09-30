@@ -31,20 +31,7 @@
 </div>
 
 ## Installation
-<!-- So you can copy and paste it one by one :D -->
-```md
-[p]load downloader
-```
-```md
-[p]repo add kuro-cogs https://github.com/Kuro-Rui/Kuro-Cogs
-```
-```md
-[p]cog install kuro-cogs <cog_name>
-```
-```md
-[p]load <installed_cog>
-```
-***Note**: `[p] is your bot's prefix, so replace it!`
+Read [this](https://kuro-cogs.readthedocs.io/en/latest/getting_started/installation.html) for installation.
 
 ## Support
 **For support**, you can **find and ping me (@kuro.rui) in my support channel ([*#support_kuro-cogs*](https://discord.com/channels/240154543684321280/1127392093648728074)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
