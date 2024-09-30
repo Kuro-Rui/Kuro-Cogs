@@ -8,6 +8,6 @@ line_length = 99
 
 [tool.ruff]
 line-length = 99
+lint.select = ["E9", "F401", "F7", "F82"]
 output-format = "full"
-select = ["E9", "F401", "F7", "F82"]
 target-version = "py38"

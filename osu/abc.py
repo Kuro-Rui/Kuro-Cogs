@@ -23,12 +23,10 @@ SOFTWARE.
 """
 
 from abc import ABC, abstractmethod
-from typing import Literal, Mapping, Optional, Set, Tuple
+from typing import Optional, Set, Tuple
 
 import aiosu
 import discord
-from aiosu.models import OAuthToken
-from red_commons.logging import RedTraceLogger
 from redbot.core import Config, app_commands, commands
 from redbot.core.bot import Red
 
