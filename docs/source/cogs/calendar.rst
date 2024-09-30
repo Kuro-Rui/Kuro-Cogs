@@ -14,7 +14,9 @@ Commands
 ========
 
 .. warning::
-    Do not include the ``[`` and ``]`` when runnning a command. ``[argument]`` only means that **the argument is optional**.
+    Do not include the ``[`` and ``]`` when running a command.
+
+    ``[argument]`` only means that **the argument is optional**.
 
 --------
 calendar

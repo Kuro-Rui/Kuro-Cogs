@@ -17,7 +17,8 @@ Commands
     All commands of this cog is only available for the Bot Owner.
 
 .. warning::
-    Do not include the ``<`` and ``>`` or ``[`` and ``]`` when runnning a command.
+    Do not include the ``<`` and ``>`` or ``[`` and ``]`` when running a command.
+
     ``<argument>`` only means that **the argument is required** and
     ``[argument]`` only means that **the argument is optional**.
 

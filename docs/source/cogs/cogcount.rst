@@ -17,7 +17,8 @@ Commands
     All commands from this cog is only available for the Bot Owner.
 
 .. warning::
-    Do not include the ``[`` and ``]`` when runnning a command.
+    Do not include the ``[`` and ``]`` when running a command.
+
     ``[argument]`` only means that **the argument is optional**.
 
 -----
