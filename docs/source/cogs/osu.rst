@@ -7,11 +7,16 @@ Osu
 
 .. important::
     To use this cog, you will need to install and load it first.
-    See the :ref:`Getting Started<getting_started>` page.
+    See the :ref:`Installation<installation>` page.
 
 ========
 Commands
 ========
+
+.. warning::
+    Do not include the ``<`` and ``>`` or ``[`` and ``]`` when runnning a command.
+    ``<argument>`` only means that **the argument is required** and
+    ``[argument]`` only means that **the argument is optional**.
 
 .. note::
     All the ``user`` argument defaults to you if not passed

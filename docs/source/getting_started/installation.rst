@@ -26,7 +26,8 @@ Installing Cogs
 ===============
 
 .. warning::
-    Don't include the ``<`` and ``>`` when installing cogs. ``<argument>`` only means that **the argument is required**.
+    Do not include the ``<`` and ``>`` when installing cogs.
+    ``<argument>`` only means that **the argument is required**.
 
 1. Install the cogs with:
     .. code-block:: yaml
