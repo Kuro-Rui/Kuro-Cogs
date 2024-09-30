@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Kuro-Cogs"
-copyright = "2021, Kuro-Rui"
+copyright = "2021—present, Kuro-Rui"
 author = "Kuro-Rui"
 
 # -- General configuration ---------------------------------------------------
