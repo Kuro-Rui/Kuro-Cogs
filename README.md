@@ -33,26 +33,14 @@
 ## Installation
 Read [this](https://kuro-cogs.readthedocs.io/en/latest/getting_started/installation.html) for installation.
 
-## Support
-**For support**, you can **find and ping me (@kuro.rui) in my support channel ([*#support_kuro-cogs*](https://discord.com/channels/240154543684321280/1127392093648728074)) in [Red - Cog Support](https://discord.gg/GET4DVk)**
-
 ## Cogs List
-|   Name    | Description                                           |          Author          |
-|:---------:|-------------------------------------------------------|:------------------------:|
-| Calendar  | See the calendar on Discord!                          |           Kuro           |
-|  Chairs   | Play the game of chairs!                              |           Kuro           |
-| CogCount  | A cog that shows how many commands/cogs the bot has.  |           Kuro           |
-| DankUtils | Dank Memer related commands and utilities!            |           Kuro           |
-|  FakeMod  | Fake moderation commands made for fun!                |           Kuro           |
-|   Fumo    | Generates a random Fumo image from an API.            |       Kuro & Glas        |
-|    Osu    | Commands for interacting with osu!                    |           Kuro           |
-| ReactLog  | Log when reactions were added/removed!                |           Kuro           |
-|   Sudo    | Allows dropping and elevating your owner permissions! | Kuro, Draper & Jackenmen |
-| Translate | Translates the given text with commands or flags!     |           Kuro           |
+To view the list of my cogs, click [here](https://kuro-cogs.readthedocs.io/en/latest/getting_started/cogs_list.html).
+
+## Support
+Read [this](https://kuro-cogs.readthedocs.io/en/latest/getting_started/support.html) for information about how to get support for my cogs.
 
 ## Credits
 **Special Thanks** to:
 - **[Draper](https://github.com/Drapersniper) and [Jack](https://github.com/jack1142)** for some base of [Sudo](sudo) cog.
-- **[Fixator](https://github.com/fixator10)** for helping me with the lib of [Translate](translate) cog.
 - **[Trusty](https://github.com/TrustyJAID)** for the languages from each country of [Translate](translate) cog.
 - **Some nice peeps from [Red Community](https://discord.gg/red)** that helps me figure stuffs out and inspiring me to make cogs.
