@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Set Up Python 3.8
+      - name: Set Up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "3.9"
       - name: Install Black
         run: python -m pip install -U black
       - name: Run Style Checks
@@ -24,10 +24,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Set Up Python 3.8
+      - name: Set Up Python 3.9
         uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "3.9"
       - name: Install Isort
         run: python -m pip install -U isort[colors]
       - name: Run Style Checks

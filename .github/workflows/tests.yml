@@ -17,14 +17,10 @@ jobs:
       strategy:
         matrix:
           python_version:
-            - "3.8"
             - "3.9"
             - "3.10"
             - "3.11"
           include:
-            - tox_env: py38
-              python_version: "3.8"
-              friendly_name: Python 3.8
             - tox_env: py39
               python_version: "3.9"
               friendly_name: Python 3.9

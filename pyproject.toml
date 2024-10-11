@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 99
-target-version = ["py38"]
+target-version = ["py39"]
 
 [tool.isort]
 profile = "black"
@@ -10,4 +10,4 @@ line_length = 99
 line-length = 99
 lint.select = ["E9", "F401", "F7", "F82"]
 output-format = "full"
-target-version = "py38"
+target-version = "py39"
