@@ -56,6 +56,7 @@ class TypeRacer(kuroutils.Cog):
         self._font = None
 
     async def cog_unload(self) -> None:
+        super().cog_unload()
         await self.session.close()
 
     @property

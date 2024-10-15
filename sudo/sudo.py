@@ -44,7 +44,7 @@ class Sudo(kuroutils.Cog):
         self.bot.owner_ids.clear()
 
     async def cog_unload(self):
-        await super().cog_unload()
+        super().cog_unload()
         self.bot.owner_ids.update(copy(self.all_owner_ids))
         self.all_owner_ids.clear()
 
