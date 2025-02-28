@@ -5,6 +5,16 @@ Fumo
 ****
 
 =============
+Version 0.1.2
+=============
+
+2025-02-28
+
+- Change API link to the new one
+- Reduce the frequency of the loop for fetching fumos
+- More proper error handling
+
+=============
 Version 0.1.1
 =============
 

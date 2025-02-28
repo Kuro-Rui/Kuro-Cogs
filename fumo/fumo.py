@@ -42,7 +42,7 @@ class Fumo(kuroutils.Cog):
     """Fumo Fumo. Fumo? Fumo! ᗜˬᗜ"""
 
     __author__ = ["Kuro", "Glas"]
-    __version__ = "0.1.1"
+    __version__ = "0.1.2"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -58,12 +58,13 @@ class Fumo(kuroutils.Cog):
         self.fetch_fumos_loop.stop()
         await self.session.close()
 
-    @tasks.loop(hours=1)
+    # 10 loops a day is enough imo :p
+    @tasks.loop(hours=2.4)
     async def fetch_fumos_loop(self):
         await self.fetch_fumos()
 
     async def fetch_fumos(self):
-        async with self.session.get("https://kuro-rui.github.io/api/fumo/all.json") as resp:
+        async with self.session.get("https://kuro-rui.github.io/API/fumo/all.json") as resp:
             if resp.status != 200:
                 self._log.debug("Failed to fetch Fumos.")
                 return
@@ -105,8 +106,14 @@ class Fumo(kuroutils.Cog):
         self,
         ctx: commands.Context,
         fumo_type: Literal["all", "friday", "gif", "image", "video"] = "all",
-    ):
+    ) -> None:
         """Summon a Fumo."""
+        if not self.fumos:
+            message = "Fumos are not available at the moment. Please try again later."
+            if await self.bot.is_owner(ctx.author):
+                message += "\nPlease contact the cog author if this issue persists."
+            await ctx.send(message)
+            return
         url = random.choice(getattr(self.fumos, fumo_type))
         title = "Here's a Random Fumo! ᗜˬᗜ"
         if fumo_type != "all":
