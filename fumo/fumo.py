@@ -42,7 +42,7 @@ class Fumo(kuroutils.Cog):
     """Fumo Fumo. Fumo? Fumo! ᗜˬᗜ"""
 
     __author__ = ["Kuro", "Glas"]
-    __version__ = "0.1.2"
+    __version__ = "0.1.3"
 
     def __init__(self, bot: Red):
         super().__init__(bot)
@@ -64,7 +64,7 @@ class Fumo(kuroutils.Cog):
         await self.fetch_fumos()
 
     async def fetch_fumos(self):
-        async with self.session.get("https://kuro-rui.github.io/API/fumo/all.json") as resp:
+        async with self.session.get("https://api.kurui.moe/fumo/all.json") as resp:
             if resp.status != 200:
                 self._log.debug("Failed to fetch Fumos.")
                 return
